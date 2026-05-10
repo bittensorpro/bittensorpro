@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Aprende Básico · Bittensor Pro — Curso desde cero</title>
-<meta name="description" content="Curso básico de Bittensor en español para quien empieza desde cero. Sin conocimientos previos requeridos." />
+<title>Aprende Básico · Bittensor Pro — 8 módulos para empezar desde cero</title>
+<meta name="description" content="Curso básico de Bittensor en español. 8 módulos progresivos, 30 horas. Sin prerequisitos. Empieza desde lo más básico hasta tener tu primera wallet." />
 <link rel="canonical" href="https://bittensor.pro/aprende-basico.html" />
 <meta property="og:title" content="Aprende Básico · Bittensor Pro" />
-<meta property="og:description" content="Curso desde cero · Sin conocimientos previos · En español." />
+<meta property="og:description" content="8 módulos · 30 horas · Sin prerequisitos." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="es_ES" />
 <meta property="og:url" content="https://bittensor.pro/aprende-basico.html" />
@@ -25,392 +25,849 @@
   :root {
     --bg: #05060a;
     --bg-2: #0d0f17;
+    --bg-3: #141826;
     --border: rgba(0, 240, 255, 0.10);
     --border-2: rgba(0, 240, 255, 0.22);
     --text: #e8f0f5;
     --text-muted: #a8b2c0;
+    --text-dim: #6b7385;
     --text-faint: #4a5263;
     --cyan: #00f0ff;
     --magenta: #ff2bd6;
     --green: #22d87a;
-    --accent: #22d87a;
     --max-width: 920px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
   body {
     background: var(--bg);
     color: var(--text);
     font-family: 'Chakra Petch', system-ui, sans-serif;
-    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    overflow-x: hidden;
   }
-  a { color: var(--cyan); text-decoration: none; }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0, 240, 255, 0.08), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255, 43, 214, 0.04), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-  /* Topbar */
+  /* TOPBAR */
   .topbar {
     position: sticky;
     top: 0;
-    z-index: 100;
-    background: rgba(5, 6, 10, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: env(safe-area-inset-top) 0 0;
-  }
-  .topbar-inner {
-    max-width: var(--max-width);
-    margin: 0 auto;
+    z-index: 50;
     padding: 12px 20px;
+    padding-top: calc(12px + env(safe-area-inset-top));
+    background: rgba(5, 6, 10, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
-    gap: 14px;
+    justify-content: space-between;
+    gap: 12px;
   }
-  .logo {
-    width: 38px; height: 38px;
-    border: 1px solid var(--cyan);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    color: var(--cyan);
-    box-shadow: 0 0 16px rgba(0, 240, 255, 0.18);
-  }
-  .brand { flex: 1; }
-  .brand-name {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 17px;
-    line-height: 1;
-  }
-  .brand-name em {
-    font-style: italic;
-    color: var(--magenta);
-    font-weight: 700;
-  }
-  .brand-sub {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    color: var(--text-faint);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-top: 3px;
-  }
-  .nav { display: flex; gap: 8px; }
-  .nav a {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    padding: 6px 10px;
-    border: 1px solid transparent;
-    border-radius: 6px;
-    text-transform: uppercase;
-  }
-  .nav a:hover { color: var(--cyan); border-color: var(--border-2); }
-
-  @media (max-width: 600px) {
-    .nav a:not(.active){display:none}
-    .brand-sub { display: none; }
-  }
-
-  /* Back */
-  .back-bar {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 18px 20px 0;
-  }
-  .back-link {
-    display: inline-flex;
+  .brand {
+    display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .brand-mark {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(0,240,255,0.12), rgba(255,43,214,0.10));
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    display: grid; place-items: center;
+    color: #fff;
+    font-family: 'Orbitron', serif;
+    font-weight: 900;
+    font-size: 18px;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
+  }
+  .brand-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: #f4faff;
+  }
+  .brand-title .pro {
+    color: var(--magenta);
+    font-style: italic;
+    margin-left: 3px;
+    text-shadow: 0 0 8px rgba(255, 43, 214, 0.5);
+  }
+  .nav {
+    display: flex;
+    gap: 16px;
     font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
-    color: var(--cyan);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 6px 0;
   }
-  .back-link:hover { opacity: 0.8; }
+  .nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color 0.15s;
+  }
+  .nav a.active { color: var(--cyan); text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); }
+  .nav a:hover { color: var(--text); }
 
-  /* Hero */
+  /* HERO */
   .hero {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 30px 20px 30px;
+    position: relative;
+    z-index: 1;
+    padding: 70px 20px 50px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
   }
-  .level-tag {
+  .hero-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.18em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    padding: 5px 12px;
-    border: 1px solid var(--accent);
-    background: rgba(34, 216, 122, 0.06);
-    border-radius: 14px;
-    margin-bottom: 20px;
+    color: var(--cyan);
+    padding: 6px 14px;
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    border-radius: 100px;
+    margin-bottom: 28px;
+    background: rgba(0, 240, 255, 0.04);
   }
-  .level-tag .dot {
+  .hero-eyebrow .dot {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    animation: pulse 1.6s ease-in-out infinite;
   }
-  .hero h1 {
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  h1 {
     font-family: 'Fraunces', serif;
-    font-style: italic;
     font-weight: 600;
-    font-size: clamp(34px, 6vw, 52px);
-    color: var(--text);
+    font-size: clamp(36px, 6vw, 56px);
     line-height: 1.1;
-    margin-bottom: 14px;
     letter-spacing: -0.02em;
+    margin-bottom: 22px;
+    max-width: 18ch;
+    margin-left: auto;
+    margin-right: auto;
   }
-  .hero h1 strong {
-    font-style: normal;
-    color: var(--accent);
-    text-shadow: 0 0 18px rgba(34, 216, 122, 0.4);
+  h1 .highlight {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--cyan), var(--magenta));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
-  .hero p {
+  .hero-subtitle {
+    font-size: 17px;
     color: var(--text-muted);
-    font-size: 16px;
-    max-width: 580px;
-    line-height: 1.7;
+    max-width: 60ch;
+    margin: 0 auto 36px;
+    line-height: 1.55;
+  }
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding-top: 24px;
+    border-top: 1px dashed var(--border);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .hero-meta-item { text-align: center; }
+  .hero-meta-value {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--cyan);
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  }
+  .hero-meta-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-top: 6px;
   }
 
-  /* Coming soon */
-  .coming-soon {
+  /* INTRO BOX */
+  .intro {
     max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 40px 20px 60px;
-    text-align: center;
+    margin: 50px auto 30px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
   }
-  .coming-soon-card {
+  .intro-box {
     background: var(--bg-2);
     border: 1px solid var(--border-2);
-    border-left: 3px solid var(--accent);
     border-radius: 12px;
-    padding: 50px 30px;
+    padding: 28px 32px;
   }
-  .coming-soon-icon {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 56px;
-    color: var(--accent);
-    text-shadow: 0 0 24px rgba(34, 216, 122, 0.4);
-    margin-bottom: 18px;
-    letter-spacing: 0.1em;
-  }
-  .coming-soon h2 {
-    font-family: 'Orbitron', sans-serif;
+  .intro-box h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
     font-size: 22px;
-    color: var(--text);
+    color: #fff;
     margin-bottom: 14px;
-    letter-spacing: 0.02em;
   }
-  .coming-soon p {
+  .intro-box p {
     color: var(--text-muted);
-    font-size: 15px;
-    line-height: 1.7;
-    max-width: 560px;
-    margin: 0 auto 22px;
+    margin-bottom: 12px;
+    font-size: 15.5px;
   }
-  .coming-soon-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    color: var(--cyan);
-    letter-spacing: 0.12em;
-    padding: 10px 18px;
-    border: 1px solid var(--cyan);
-    background: rgba(0, 240, 255, 0.05);
-    border-radius: 8px;
-    text-transform: uppercase;
-    transition: all 0.2s;
-  }
-  .coming-soon-cta:hover {
-    background: rgba(0, 240, 255, 0.1);
-    box-shadow: 0 0 18px rgba(0, 240, 255, 0.25);
-  }
+  .intro-box p:last-child { margin-bottom: 0; }
 
-  /* Roadmap (preview de los módulos planeados) */
-  .roadmap {
+  /* DURATION TABLE */
+  .duration-table {
     max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 20px 60px;
+    margin: 0 auto 50px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
   }
-  .roadmap-title {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--text-faint);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-  }
-  .module-list {
+  .duration-grid {
     display: grid;
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
-  .module-item {
-    display: grid;
-    grid-template-columns: 50px 1fr auto;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
+  .duration-card {
     background: var(--bg-2);
     border: 1px solid var(--border);
     border-radius: 10px;
-    opacity: 0.6;
+    padding: 18px;
+    text-align: center;
   }
-  .module-num {
+  .duration-card-name {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 14px;
-    color: var(--accent);
-    font-weight: 700;
-    letter-spacing: 0.04em;
-  }
-  .module-title {
-    font-family: 'Chakra Petch', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    color: var(--text-muted);
-  }
-  .module-status {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 9px;
-    color: var(--text-faint);
-    letter-spacing: 0.14em;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--cyan);
     text-transform: uppercase;
-    padding: 3px 8px;
-    border: 1px solid var(--text-faint);
-    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+  .duration-card-pace {
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .duration-card-time {
+    font-family: 'Orbitron', monospace;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 700;
   }
 
-  .footer-info {
+  /* MODULES SECTION */
+  .modules-section {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 30px 20px 50px;
-    text-align: center;
-    border-top: 1px solid var(--border);
+    padding: 30px 20px 60px;
+    position: relative;
+    z-index: 1;
   }
-  .footer-info p {
-    color: var(--text-faint);
+  .modules-title {
     font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .modules-title::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--cyan);
+    box-shadow: 0 0 6px var(--cyan);
+  }
+  .modules-heading {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 32px;
+  }
+  .modules-heading em {
+    font-style: italic;
+    color: var(--cyan);
+  }
+
+  /* MODULE CARDS */
+  .module-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-2);
+  }
+  .module-card {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 18px;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s, padding-left 0.15s;
+  }
+  .module-card:last-child { border-bottom: none; }
+  .module-card:hover {
+    background: rgba(0, 240, 255, 0.03);
+    padding-left: 26px;
+  }
+  .module-card.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .module-card.locked:hover {
+    background: transparent;
+    padding-left: 22px;
+  }
+  .module-num {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    text-align: center;
+  }
+  .module-info { min-width: 0; }
+  .module-name {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .module-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .module-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .module-hours {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .module-level {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid;
+    white-space: nowrap;
   }
-  .footer-info p a { color: var(--cyan); }
+  .module-level.inicial {
+    color: var(--green);
+    border-color: rgba(34, 216, 122, 0.4);
+    background: rgba(34, 216, 122, 0.06);
+  }
+  .module-level.intermedio {
+    color: var(--cyan);
+    border-color: rgba(0, 240, 255, 0.4);
+    background: rgba(0, 240, 255, 0.06);
+  }
+  .module-level.avanzado {
+    color: var(--magenta);
+    border-color: rgba(255, 43, 214, 0.4);
+    background: rgba(255, 43, 214, 0.06);
+  }
+  .module-arrow {
+    color: var(--cyan);
+    font-size: 18px;
+    transition: transform 0.15s;
+  }
+  .module-card:hover .module-arrow { transform: translateX(4px); }
+  .module-card.locked .module-arrow {
+    color: var(--text-faint);
+    font-size: 13px;
+  }
+
+  /* CTA */
+  .cta-section {
+    border-top: 1px solid var(--border);
+    padding: 50px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(22px, 4vw, 30px);
+    margin-bottom: 12px;
+  }
+  .cta-section p {
+    color: var(--text-muted);
+    margin-bottom: 26px;
+    font-size: 15px;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    text-decoration: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid var(--cyan);
+    color: var(--text);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.15);
+    transition: all 0.2s;
+  }
+  .cta-btn:hover {
+    background: rgba(0, 240, 255, 0.12);
+    box-shadow: 0 0 24px rgba(0, 240, 255, 0.4);
+    transform: translateY(-1px);
+  }
+  .cta-btn .arrow {
+    color: var(--magenta);
+    text-shadow: 0 0 6px rgba(255, 43, 214, 0.6);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 20px calc(30px + env(safe-area-inset-bottom));
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+  footer a { color: var(--cyan); text-decoration: none; }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .hero { padding: 50px 16px 40px; }
+    .hero-meta { gap: 20px; }
+    .hero-meta-value { font-size: 18px; }
+    .intro { padding: 0 16px; margin: 30px auto 24px; }
+    .intro-box { padding: 22px; }
+    .duration-table { padding: 0 16px; margin-bottom: 36px; }
+    .duration-grid { grid-template-columns: 1fr; }
+    .modules-section { padding: 20px 16px 50px; }
+    .modules-heading { font-size: 26px; margin-bottom: 24px; }
+    .module-card {
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      padding: 16px;
+    }
+    .module-card:hover { padding-left: 16px; }
+    .module-num { font-size: 18px; }
+    .module-name { font-size: 15px; }
+    .module-desc { font-size: 12px; }
+    .module-meta {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      margin-left: 58px;
+      gap: 10px;
+    }
+    .module-arrow { display: none; }
+    .nav a:not(.active):not(.nav-tao){display:none}
+    .nav-tao{padding:3px 7px;font-size:10px;gap:5px}
+    .nav-tao .nt-arrow{font-size:11px}
+    .nav-tao .nt-change{display:none}
+  }
+
+
+
+  /* ===== TAO INLINE IN NAV ===== */
+  .nav-tao {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 6px;
+    background: rgba(0, 240, 255, 0.04);
+    text-decoration: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: #e8f0f5;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+  .nav-tao:hover {
+    background: rgba(0, 240, 255, 0.10);
+    border-color: rgba(0, 240, 255, 0.55);
+    color: #fff;
+  }
+  .nav-tao .nt-price {
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  .nav-tao .nt-change {
+    font-variant-numeric: tabular-nums;
+    font-size: 10px;
+  }
+  .nav-tao .nt-change.pos { color: #22d87a; }
+  .nav-tao .nt-change.neg { color: #ff4d5e; }
+  .nav-tao .nt-change.zero { color: #6b7385; }
+  .nav-tao .nt-arrow {
+    color: #00f0ff;
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+  .nav-tao:hover .nt-arrow {
+    transform: translateX(2px);
+  }
+  .nav-tao .nt-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: #00f0ff;
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    border-radius: 4px;
+    padding: 3px 5px;
+    margin-right: 4px;
+    line-height: 1;
+    text-shadow: 0 0 4px rgba(0, 240, 255, 0.6);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+  }
+  @media (max-width: 600px) {
+    .nav-tao .nt-change { display: none; }
+    .nav-tao { padding: 3px 8px; font-size: 10px; gap: 5px; }
+    .nav-tao .nt-arrow { font-size: 11px; }
+  }
+
+
+  /* === NIVEL BÁSICO: acento verde === */
+  .hero h1 .highlight,
+  .hero-meta-value {
+    color: #22d87a !important;
+  }
+  .module-card {
+    border-left-color: rgba(34, 216, 122, 0.3) !important;
+  }
+  .module-card:hover {
+    border-left-color: #22d87a !important;
+  }
+  .nav a.active {
+    color: #22d87a !important;
+  }
+  .hero-eyebrow .dot {
+    background: #22d87a !important;
+    box-shadow: 0 0 8px #22d87a !important;
+  }
+  .duration-card-name {
+    color: #22d87a !important;
+  }
+
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <div class="topbar-inner">
-    <div class="logo">τ</div>
-    <div class="brand">
-      <div class="brand-name">Bittensor <em>Pro</em></div>
-      <div class="brand-sub">Aprende · Básico</div>
-    </div>
-    <nav class="nav">
-      <a href="market.html">Market</a>
-      <a href="aprende.html">Aprende</a>
-    </nav>
-  </div>
+  <a href="index.html" class="brand">
+    <div class="brand-mark">τ</div>
+    <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
+  </a>
+  <nav class="nav">
+    <a href="aprende.html" class="active">Aprende</a>
+    <a href="market.html">Market</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a><a href="index.html">Inicio</a>
+  </nav>
 </header>
 
-<div class="back-bar">
-  <a href="aprende.html" class="back-link">← Volver a niveles</a>
-</div>
-
 <section class="hero">
-  <span class="level-tag"><span class="dot"></span>Nivel Básico</span>
-  <h1>Empieza <strong>desde cero</strong></h1>
-  <p>Te explicamos Bittensor sin dar nada por sabido. Conceptos básicos de criptomonedas, blockchain e inteligencia artificial descentralizada para quien empieza desde el principio.</p>
-</section>
-
-<section class="coming-soon">
-  <div class="coming-soon-card">
-    <div class="coming-soon-icon">SOON</div>
-    <h2>Curso en preparación</h2>
-    <p>Estamos preparando el curso básico de Bittensor en español. Mientras tanto, puedes leer la guía introductoria o consultar el manual técnico avanzado si tienes conocimientos previos.</p>
-    <a href="que-es-bittensor.html" class="coming-soon-cta">
-      Leer la guía introductoria →
-    </a>
+  <div class="hero-eyebrow">
+    <span class="dot"></span>
+    Curso desde cero · Edición mayo 2026
   </div>
-</section>
-
-<section class="roadmap">
-  <div class="roadmap-title">// Módulos planeados</div>
-  <div class="module-list">
-    <div class="module-item">
-      <div class="module-num">01</div>
-      <div class="module-title">¿Qué es una criptomoneda?</div>
-      <div class="module-status">Próximamente</div>
+  <h1>Empieza con <span class="highlight">Bittensor</span> desde cero</h1>
+  <p class="hero-subtitle">
+    Curso básico en español. 8 módulos pensados para alguien que parte de cero: qué es el dinero digital, cómo funciona una blockchain, qué es Bittensor y cómo crear tu primera wallet. Sin tecnicismos.
+  </p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="hero-meta-value">8</div>
+      <div class="hero-meta-label">Módulos</div>
     </div>
-    <div class="module-item">
-      <div class="module-num">02</div>
-      <div class="module-title">¿Qué es la blockchain?</div>
-      <div class="module-status">Próximamente</div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-value">≈ 30h</div>
+      <div class="hero-meta-label">Duración</div>
     </div>
-    <div class="module-item">
-      <div class="module-num">03</div>
-      <div class="module-title">Bitcoin: el primer caso de uso</div>
-      <div class="module-status">Próximamente</div>
-    </div>
-    <div class="module-item">
-      <div class="module-num">04</div>
-      <div class="module-title">¿Qué es la inteligencia artificial?</div>
-      <div class="module-status">Próximamente</div>
-    </div>
-    <div class="module-item">
-      <div class="module-num">05</div>
-      <div class="module-title">¿Qué es la IA descentralizada?</div>
-      <div class="module-status">Próximamente</div>
-    </div>
-    <div class="module-item">
-      <div class="module-num">06</div>
-      <div class="module-title">Por qué Bittensor importa</div>
-      <div class="module-status">Próximamente</div>
-    </div>
-    <div class="module-item">
-      <div class="module-num">07</div>
-      <div class="module-title">Primeros pasos: tu primer wallet</div>
-      <div class="module-status">Próximamente</div>
-    </div>
-    <div class="module-item">
-      <div class="module-num">08</div>
-      <div class="module-title">Cómo comprar tu primer TAO</div>
-      <div class="module-status">Próximamente</div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-value">0€</div>
+      <div class="hero-meta-label">Coste</div>
     </div>
   </div>
 </section>
 
-<div class="footer-info">
-  <p>Bittensor Pro · 2026 · <a href="aprende.html">Niveles</a> · <a href="market.html">Market</a></p>
+<div class="intro">
+  <div class="intro-box">
+    <h2>Sobre este manual</h2>
+    <p>
+      Este curso está pensado para alguien que <strong>nunca ha tocado cripto</strong>. No asume conocimientos previos de blockchain, programación ni IA. Empezamos por el principio (qué es el dinero digital) y terminamos con tu primera wallet de Bittensor lista para usar.
+    </p>
+    <p>
+      La estructura es <strong>progresiva</strong>: cada módulo se apoya en el anterior. Si alguien no sabe qué es una blockchain, no tiene sentido que aprenda Yuma Consensus. Los conceptos se introducen en el momento exacto en que hacen falta.
+    </p>
+    <p>
+      Cada módulo incluye <strong>objetivos claros</strong>, secciones explicadas con analogías del mundo real, glosario, ejercicios prácticos y referencias para profundizar. Cuando termines, estarás listo para el <a href="aprende-avanzado.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor">Nivel Avanzado</a>.
+    </p>
+  </div>
 </div>
+
+<div class="duration-table">
+  <div class="duration-grid">
+    <div class="duration-card">
+      <div class="duration-card-name">Intensivo</div>
+      <div class="duration-card-pace">3 h/día (lun-vie)</div>
+      <div class="duration-card-time">≈ 2 semanas</div>
+    </div>
+    <div class="duration-card">
+      <div class="duration-card-name">Estándar</div>
+      <div class="duration-card-pace">1,5 h/día (lun-vie)</div>
+      <div class="duration-card-time">≈ 4 semanas</div>
+    </div>
+    <div class="duration-card">
+      <div class="duration-card-name">Pausado</div>
+      <div class="duration-card-pace">30 min/día (lun-dom)</div>
+      <div class="duration-card-time">≈ 2 meses</div>
+    </div>
+  </div>
+</div>
+
+<section class="modules-section">
+  <div class="modules-title">// Plan de estudio</div>
+  <h2 class="modules-heading">Los <em>8 módulos</em></h2>
+
+    <div class="module-list">
+
+    <a href="aprende-basico-modulo-01.html" class="module-card">
+      <div class="module-num">01</div>
+      <div class="module-info">
+        <div class="module-name">¿Qué es el dinero digital?</div>
+        <div class="module-desc">Bitcoin, criptomonedas, exchanges y wallets. Por qué existe el dinero digital y qué problema resuelve.</div>
+      </div>
+      <div class="module-meta">
+        <span class="module-hours">3h</span>
+        <span class="module-level inicial">Inicial</span>
+        <span class="module-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="aprende-basico-modulo-02.html" class="module-card">
+      <div class="module-num">02</div>
+      <div class="module-info">
+        <div class="module-name">Cómo funciona una blockchain</div>
+        <div class="module-desc">Bloques, hashes, nodos y consenso. Proof of Work vs Proof of Stake. Sobre qué tecnología opera Bittensor.</div>
+      </div>
+      <div class="module-meta">
+        <span class="module-hours">4h</span>
+        <span class="module-level inicial">Inicial</span>
+        <span class="module-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="aprende-basico-modulo-03.html" class="module-card">
+      <div class="module-num">03</div>
+      <div class="module-info">
+        <div class="module-name">Inteligencia Artificial descentralizada</div>
+        <div class="module-desc">Qué es la IA, por qué la controlan unas pocas empresas y por qué la blockchain hace posible descentralizarla.</div>
+      </div>
+      <div class="module-meta">
+        <span class="module-hours">3h</span>
+        <span class="module-level inicial">Inicial</span>
+        <span class="module-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="aprende-basico-modulo-04.html" class="module-card">
+      <div class="module-num">04</div>
+      <div class="module-info">
+        <div class="module-name">Bittensor: la red de IA</div>
+        <div class="module-desc">Subredes, mineros, validadores y Yuma Consensus. Cómo se distribuyen las recompensas en TAO.</div>
+      </div>
+      <div class="module-meta">
+        <span class="module-hours">4h</span>
+        <span class="module-level inicial">Inicial</span>
+        <span class="module-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="aprende-basico-modulo-05.html" class="module-card">
+      <div class="module-num">05</div>
+      <div class="module-info">
+        <div class="module-name">El token TAO</div>
+        <div class="module-desc">Supply de 21M, halvings, distribución 18/41/41, alpha tokens y dónde se compra TAO.</div>
+      </div>
+      <div class="module-meta">
+        <span class="module-hours">3h</span>
+        <span class="module-level inicial">Inicial</span>
+        <span class="module-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="aprende-basico-modulo-06.html" class="module-card">
+      <div class="module-num">06</div>
+      <div class="module-info">
+        <div class="module-name">Tu primera wallet</div>
+        <div class="module-desc">Coldkey vs hotkey, instalación de btcli, creación paso a paso de tu wallet y reglas de oro de seguridad.</div>
+      </div>
+      <div class="module-meta">
+        <span class="module-hours">5h</span>
+        <span class="module-level inicial">Inicial</span>
+        <span class="module-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="aprende-basico-modulo-07.html" class="module-card">
+      <div class="module-num">07</div>
+      <div class="module-info">
+        <div class="module-name">Explorar el ecosistema</div>
+        <div class="module-desc">Taostats, las subredes que importan, la comunidad oficial (Discord, X) y el mapa completo del ecosistema.</div>
+      </div>
+      <div class="module-meta">
+        <span class="module-hours">4h</span>
+        <span class="module-level inicial">Inicial</span>
+        <span class="module-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="aprende-basico-modulo-08.html" class="module-card">
+      <div class="module-num">08</div>
+      <div class="module-info">
+        <div class="module-name">¿Y ahora qué?</div>
+        <div class="module-desc">Repaso del nivel, los 4 caminos en Bittensor (minero/validador/dev/inversor), plan de 4 semanas y siguiente paso.</div>
+      </div>
+      <div class="module-meta">
+        <span class="module-hours">4h</span>
+        <span class="module-level inicial">Cierre</span>
+        <span class="module-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+</section>
+
+<section class="cta-section">
+  <h2>Empieza por el primero</h2>
+  <p>El Módulo 1 te explica el problema que Bittensor intenta resolver y por qué importa.</p>
+  <a href="aprende-modulo-01.html" class="cta-btn">
+    Empezar Módulo 01
+    <span class="arrow">→</span>
+  </a>
+</section>
+
+<footer>
+  <a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero
+</footer>
+
+
 
 <script>
+(async function loadNavTao(){
+  const API_BASE = 'https://tao360.qrchd889gj.workers.dev';
+  function fmtUSD(n){
+    if(!n && n !== 0) return '—';
+    if(n < 1) return '$' + n.toFixed(3);
+    if(n < 100) return '$' + n.toFixed(2);
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+  function fmtPct(v){
+    if(v === null || v === undefined || isNaN(v)) return '—';
+    return (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+  }
+  function pctClass(v){
+    if(v > 0.001) return 'pos';
+    if(v < -0.001) return 'neg';
+    return 'zero';
+  }
+  try{
+    const r = await fetch(`${API_BASE}/api/price/latest/v1?asset=tao`);
+    const j = await r.json();
+    if(j && j.data && j.data[0]){
+      const price = parseFloat(j.data[0].price) || 0;
+      const change = parseFloat(j.data[0].percent_change_24h) || 0;
+      const p = document.getElementById('nav-tao-price');
+      const c = document.getElementById('nav-tao-change');
+      if(p) p.textContent = fmtUSD(price);
+      if(c){
+        c.textContent = fmtPct(change);
+        c.className = 'nt-change ' + pctClass(change);
+      }
+    }
+  }catch(e){
+    console.error('nav-tao load failed', e);
+  }
+})();
+</script>
+
+
+<script>
+// Guardar esta página en sessionStorage para el botón "Volver" inteligente
 (function(){
   function savePage(){
     try {
-      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      const here = window.location.pathname.split('/').pop() || 'index.html';
       sessionStorage.setItem('lastPage', here);
     } catch(e){}
   }
   window.addEventListener('beforeunload', savePage);
-  document.addEventListener('visibilitychange', () => {
+  document.addEventListener('visibilitychange', function(){
     if(document.visibilityState === 'hidden') savePage();
   });
-  document.addEventListener('click', e => {
-    const a = e.target.closest('a');
-    if(a && a.href && a.host === location.host) savePage();
-  });
+  // También guardar cuando hacen click en cualquier link interno
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href]');
+    if(a && a.getAttribute('href') && !a.getAttribute('href').startsWith('http')){
+      savePage();
+    }
+  }, true);
 })();
 </script>
 

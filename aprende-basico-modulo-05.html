@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo 05 Básico: El token TAO — Bittensor Pro</title>
+<meta name="description" content="Qué es TAO, su modelo de emisión (21M supply, halvings), las tres funciones del token, alpha tokens de subred y cómo adquirirlo." />
+<link rel="canonical" href="https://bittensor.pro/aprende-basico-modulo-05.html" />
+<meta property="og:title" content="Módulo 05 Básico: El token TAO" />
+<meta property="og:description" content="Tokenomía, alpha tokens y dónde comprar TAO. 3 horas. Nivel inicial." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#22d87a;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,216,122,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a:first-child{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(34,216,122,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(34,216,122,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(34,216,122,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(34,216,122,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700}
+.ejercicios a{color:var(--magenta)}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(34,216,122,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.glosario-term{font-size:11px}.glosario-def{font-size:13px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html">Niveles</a>
+    <a href="aprende-basico.html">Básico</a>
+    <a href="market.html">Market</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-basico.html" class="back-link">← Volver al curso básico</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO 05</div>
+  <h1>El token <strong>TAO</strong></h1>
+  <p class="hero-sub">Por qué TAO no es solo una criptomoneda especulativa. Cómo se emite, cómo se distribuye y por qué cada subred tiene ahora su propio alpha token.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span>Nivel Básico</span>
+    <span class="meta-tag neutral">3 horas</span>
+    <span class="meta-tag neutral">Módulo 04</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender qué es TAO y por qué no es simplemente una criptomoneda especulativa.</li>
+      <li>Conocer el modelo de emisión de TAO: supply máximo, halvings y distribución.</li>
+      <li>Comprender las tres funciones de TAO: incentivo, gobernanza y staking.</li>
+      <li>Saber cómo y dónde se puede adquirir TAO.</li>
+      <li>Entender la diferencia entre TAO y alpha tokens (tao de subred).</li>
+      <li>Conocer los riesgos y la volatilidad del token.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>Qué es TAO</h2>
+
+    <h3>1.1. Más que una criptomoneda</h3>
+    <p><strong>TAO</strong> (símbolo: τ) es el token nativo de la red Bittensor. A diferencia de Bitcoin (diseñado para ser dinero) o las stablecoins (diseñadas para mantener valor estable), TAO es un <strong>token de utilidad</strong> con tres funciones específicas dentro del protocolo:</p>
+    <ul>
+      <li><strong>Incentivo:</strong> recompensa a los mineros por ofrecer capacidad de IA y a los validadores por evaluar la calidad del trabajo.</li>
+      <li><strong>Gobernanza:</strong> los holders de TAO pueden votar propuestas que afectan al protocolo (nuevas subredes, cambios de parámetros).</li>
+      <li><strong>Staking:</strong> los validadores deben bloquear TAO como garantía de comportamiento honesto. Los nominadores delegan TAO para obtener parte de las recompensas.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>TAO <strong>no representa una empresa ni promete dividendos</strong>. Su valor proviene de ser el único medio de recompensa y participación en la red de IA más grande del mundo. Cuanto más útil sea la red, más demanda de TAO.</p>
+    </div>
+
+    <h3>1.2. El símbolo τ</h3>
+    <p>TAO se escribe con la letra griega <strong>τ</strong> (tau). Esta elección no es casual: la tau también se usa en matemáticas y física para representar constantes fundamentales. El nombre hace referencia al <strong>Tao (道)</strong> de la filosofía china: el principio universal que subyace a todas las cosas. El proyecto aspira a ser la infraestructura fundamental de la inteligencia artificial global.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Modelo de emisión y supply</h2>
+
+    <h3>2.1. Supply máximo de 21 millones</h3>
+    <p>Como Bitcoin, TAO tiene un supply máximo absoluto de <strong>21 millones de unidades</strong>. Nunca podrán existir más de 21 millones de TAO. Este límite está programado en el código del protocolo y no puede cambiarse sin el consenso de la comunidad.</p>
+    <p>A diferencia del dinero fiat (que los bancos centrales pueden crear en cantidades ilimitadas), la escasez de TAO está garantizada matemáticamente. Esto lo convierte en un <strong>activo deflacionario a largo plazo</strong>: con el tiempo, menos TAO nuevo se emite mientras la demanda puede crecer.</p>
+
+    <h3>2.2. Halvings</h3>
+    <p>Bittensor sigue el mismo modelo de halvings que Bitcoin. Cada cierto número de bloques (aproximadamente cada 10,5 meses), la cantidad de TAO emitida por bloque se reduce a la mitad:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Periodo</th><th>Emisión por bloque</th><th>TAO emitido aprox.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Año 1 (inicio)</strong></td><td>1 TAO cada ~12 s</td><td>~2,6M TAO</td></tr>
+          <tr><td><strong>Halving 1</strong></td><td>0,5 TAO por bloque</td><td>~1,3M TAO</td></tr>
+          <tr><td><strong>Halving 2</strong></td><td>0,25 TAO por bloque</td><td>~650K TAO</td></tr>
+          <tr><td><strong>Halvings sucesivos</strong></td><td>Se reduce a la mitad</td><td>Decreciente hasta 0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>En Bitcoin, los halvings han coincidido históricamente con grandes movimientos de precio al alza. La lógica: si la demanda se mantiene estable y la oferta nueva disminuye, el precio tiende a subir. <strong>Sin embargo, el pasado no garantiza el futuro.</strong></p>
+
+    <h3>2.3. Distribución de las emisiones</h3>
+    <p>Cada TAO emitido en un bloque se distribuye de la siguiente manera:</p>
+    <ul>
+      <li><strong>18% para el subnet owner:</strong> el creador de la subred recibe el 18% de las emisiones como incentivo para construir y mantener buenas subredes.</li>
+      <li><strong>41% para los validadores:</strong> repartido entre los validadores en proporción a su stake y la calidad de sus evaluaciones.</li>
+      <li><strong>41% para los mineros:</strong> repartido entre los mineros en proporción a las puntuaciones que reciben de los validadores.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Esta distribución asegura que el <strong>82% de las nuevas emisiones</strong> va directamente a los participantes activos que aportan valor a la red (mineros y validadores), no a especuladores ni a la empresa desarrolladora.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Alpha tokens: los tokens de subred</h2>
+
+    <h3>3.1. Qué son los alpha tokens</h3>
+    <p>Con la llegada de la versión <strong>'Dynamic TAO'</strong> (Bittensor v7+), cada subred tiene su propio token interno llamado <strong>alpha token</strong> (representado como α seguido del número de subred, por ejemplo α1 para la Subred 1).</p>
+    <p>Los alpha tokens funcionan como <strong>acciones de la subred</strong>: cuando alguien invierte TAO en una subred específica, recibe alpha tokens de esa subred. El valor del alpha token sube si la subred crece en calidad y uso, y baja si decrece.</p>
+    <ul>
+      <li><strong>Para los mineros y validadores:</strong> sus recompensas se pagan en alpha tokens de la subred donde operan, que luego pueden convertir a TAO.</li>
+      <li><strong>Para los inversores:</strong> pueden hacer staking de TAO en la subred que consideren más prometedora y recibir alpha tokens de esa subred.</li>
+    </ul>
+
+    <h3>3.2. El mercado entre TAO y alpha tokens</h3>
+    <p>Existe un mecanismo de intercambio automático (<strong>AMM</strong>, similar a Uniswap) entre TAO y cada alpha token. Esto crea un precio de mercado para cada subred, reflejando cuánto confía el mercado en su valor futuro.</p>
+    <p>Esta mecánica es más avanzada y la estudiaremos en profundidad en el nivel Intermedio. Por ahora, lo importante es saber que <strong>TAO sigue siendo la moneda base</strong> de toda la red, mientras que los alpha tokens son la exposición específica a cada subred.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>Cómo adquirir TAO</h2>
+
+    <h3>4.1. Exchanges donde cotiza TAO</h3>
+    <p>TAO cotiza en varios exchanges tanto centralizados como descentralizados:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Exchange</th><th>Tipo</th><th>Ventaja</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Coinbase</strong></td><td>CEX</td><td>Fácil de usar, regulado en EE.UU., accesible desde España</td></tr>
+          <tr><td><strong>Kraken</strong></td><td>CEX</td><td>Popular en Europa, buena seguridad</td></tr>
+          <tr><td><strong>MEXC</strong></td><td>CEX</td><td>Uno de los primeros en listar TAO, alto volumen</td></tr>
+          <tr><td><strong>Uniswap (wTAO)</strong></td><td>DEX</td><td>No custodial, versión wrapped de TAO en Ethereum</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><em>Nota: wTAO es una versión de TAO envuelta en la red Ethereum para poder usarse en DEX. Para participar activamente en Bittensor (minería, validación, staking), necesitas TAO nativo en la red Subtensor, no wTAO.</em></p>
+
+    <h3>4.2. Del exchange a tu wallet nativa</h3>
+    <p>Para participar en la red Bittensor necesitas mover tus TAO del exchange a tu wallet Bittensor nativa. Este proceso requiere:</p>
+    <ul>
+      <li>Tener una <strong>wallet Bittensor (coldkey)</strong> creada. Lo veremos en el Módulo 06.</li>
+      <li>Retirar los TAO del exchange a tu dirección de coldkey (comienza por '5' en el formato SS58 de Substrate).</li>
+      <li>Las transferencias suelen tardar unos minutos y tienen una comisión pequeña.</li>
+    </ul>
+
+    <h3>4.3. Riesgos y consideraciones</h3>
+    <ul>
+      <li><strong>Volatilidad:</strong> TAO es un activo de alto riesgo. Su precio ha subido de menos de 50$ a más de 700$ y ha vuelto a caer en los mismos ciclos. <strong>No inviertas más de lo que puedas perder completamente.</strong></li>
+      <li><strong>Liquidez:</strong> comparado con Bitcoin o Ethereum, TAO tiene menos liquidez. Las órdenes grandes pueden mover el precio significativamente.</li>
+      <li><strong>Regulación:</strong> el entorno regulatorio de los criptoactivos sigue cambiando en Europa y el mundo. Consulta las normativas de tu país antes de invertir.</li>
+      <li><strong>No es consejo de inversión:</strong> este módulo es educativo. La decisión de comprar o no TAO es personal y requiere investigación propia.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-num">// 05</div>
+    <h2>TAO vs otras criptomonedas</h2>
+
+    <h3>5.1. Tabla comparativa</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Propiedad</th><th>Bitcoin</th><th>Ethereum</th><th>TAO</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Supply máximo</strong></td><td>21M BTC</td><td>Sin límite fijo</td><td>21M TAO</td></tr>
+          <tr><td><strong>Función principal</strong></td><td>Reserva de valor</td><td>Plataforma de dApps</td><td>Incentivo de red de IA</td></tr>
+          <tr><td><strong>Mecanismo consenso</strong></td><td>Proof of Work</td><td>Proof of Stake</td><td>NPoS (Substrate)</td></tr>
+          <tr><td><strong>Velocidad bloque</strong></td><td>~10 minutos</td><td>~12 segundos</td><td>~12 segundos</td></tr>
+          <tr><td><strong>Caso de uso</strong></td><td>Digital gold</td><td>Contratos inteligentes</td><td>Mercado de IA</td></tr>
+          <tr><td><strong>Emisión actual</strong></td><td>Post-halving 2024</td><td>2M ETH/año aprox.</td><td>Reduce cada halving</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>5.2. ¿Es TAO buena inversión?</h3>
+    <p>Esta es la pregunta que muchos hacen y la respuesta honesta es: <strong>depende de si Bittensor cumple su visión</strong> de ser la infraestructura de la IA descentralizada. Si lo consigue, TAO como token de utilidad fundamental de esa red tendría enorme demanda. Si el proyecto no despega, tiene competidores o la regulación lo impide, el valor podría decrecer.</p>
+    <p>Lo que sí podemos decir con certeza es que TAO es <strong>el único token que permite participar activamente</strong> en la red: sin TAO no puedes hacer staking, no puedes ser validador y no puedes crear subredes. Este caso de uso intrínseco lo diferencia de muchos proyectos puramente especulativos.</p>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">TAO (τ)</div><div class="glosario-def">Token nativo de Bittensor, usado para incentivos, gobernanza y staking.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Supply máximo</div><div class="glosario-def">Cantidad total máxima de un token que puede existir (21M para TAO y Bitcoin).</div></div>
+    <div class="glosario-item"><div class="glosario-term">Halving</div><div class="glosario-def">Reducción a la mitad de las emisiones de nuevo token, ocurre periódicamente.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Emisión</div><div class="glosario-def">Nuevos tokens creados con cada bloque y distribuidos entre participantes activos.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Subnet owner</div><div class="glosario-def">Creador de una subred, recibe el 18% de las emisiones de esa subred.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Alpha token</div><div class="glosario-def">Token nativo de cada subred en Bittensor v7+, equivale a 'acciones' de la subred.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Dynamic TAO</div><div class="glosario-def">Versión actualizada del protocolo que introduce alpha tokens por subred.</div></div>
+    <div class="glosario-item"><div class="glosario-term">wTAO</div><div class="glosario-def">Versión de TAO envuelta en Ethereum para usar en exchanges descentralizados.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Staking</div><div class="glosario-def">Bloquear tokens como garantía o para obtener recompensas.</div></div>
+    <div class="glosario-item"><div class="glosario-term">AMM</div><div class="glosario-def">Automated Market Maker: mecanismo automático de intercambio entre tokens.</div></div>
+    <div class="glosario-item"><div class="glosario-term">CEX</div><div class="glosario-def">Exchange centralizado (ej. Coinbase, Kraken).</div></div>
+    <div class="glosario-item"><div class="glosario-term">DEX</div><div class="glosario-def">Exchange descentralizado (ej. Uniswap).</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title">// Ejercicios</div>
+    <ol>
+      <li>Calcula: si hoy hay 9 millones de TAO en circulación y el supply máximo es 21 millones, ¿cuánto TAO queda por emitir? ¿Qué porcentaje representa?</li>
+      <li>Busca el precio actual de TAO en <a href="https://coinmarketcap.com" target="_blank" rel="noopener">coinmarketcap.com</a>. ¿Cuál es su capitalización de mercado total? ¿Y la diluted?</li>
+      <li>Compara la distribución de emisiones de TAO (18/41/41) con la de Bitcoin (100% para mineros). ¿Qué dice cada modelo sobre sus prioridades?</li>
+      <li>¿Por qué un validador necesita tener TAO en staking para participar? ¿Qué pasaría si no hubiera ningún coste de entrada?</li>
+      <li>Explica con tus palabras la diferencia entre TAO nativo y wTAO. ¿En qué situación usarías cada uno?</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title">// Vídeos y referencias</div>
+    <ul>
+      <li><a href="https://coinmarketcap.com/currencies/bittensor" target="_blank" rel="noopener">coinmarketcap.com/currencies/bittensor</a> — estadísticas en tiempo real de TAO.</li>
+      <li><a href="https://taostats.io/token" target="_blank" rel="noopener">Taostats.io/token</a> — detalles de emisión y distribución del token.</li>
+      <li><strong>Bittensor docs</strong> — 'TAO token economics': <a href="https://docs.bittensor.com/learn/tokenomics" target="_blank" rel="noopener">docs.bittensor.com/learn/tokenomics</a></li>
+      <li><strong>'Understanding TAO tokenomics'</strong> — artículos en el blog de la Opentensor Foundation.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-basico-modulo-06.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo 06</div>
+      <div class="siguiente-title">Tu primera wallet</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · Nivel Básico · Módulo 05 · Mayo 2026 · <a href="aprende-basico.html">Volver al curso</a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

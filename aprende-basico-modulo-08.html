@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo 08 Básico: ¿Y ahora qué? — Bittensor Pro</title>
+<meta name="description" content="Cierre del Nivel Básico. Repaso, los cuatro caminos en Bittensor (minero, validador, subnet owner, inversor), plan de primeros pasos y qué te espera en el Nivel Intermedio." />
+<link rel="canonical" href="https://bittensor.pro/aprende-basico-modulo-08.html" />
+<meta property="og:title" content="Módulo 08 Básico: ¿Y ahora qué?" />
+<meta property="og:description" content="Cierre del nivel. Tu camino en Bittensor. 4 horas." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#22d87a;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,216,122,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a:first-child{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(34,216,122,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(34,216,122,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(34,216,122,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(34,216,122,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700}
+.ejercicios a{color:var(--magenta)}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(34,216,122,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.glosario-term{font-size:11px}.glosario-def{font-size:13px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html">Niveles</a>
+    <a href="aprende-basico.html">Básico</a>
+    <a href="market.html">Market</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-basico.html" class="back-link">← Volver al curso básico</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO 08</div>
+  <h1>¿Y ahora <strong>qué</strong>?</h1>
+  <p class="hero-sub">Cierre del Nivel Básico. Repaso, los cuatro caminos para participar en Bittensor y un plan claro para empezar las próximas 4 semanas.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span>Nivel Básico</span>
+    <span class="meta-tag neutral">4 horas</span>
+    <span class="meta-tag neutral">Cierre del Básico</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Consolidar todo lo aprendido en el nivel básico con un repaso estructurado.</li>
+      <li>Identificar tu perfil dentro del ecosistema Bittensor: minero, validador, desarrollador o inversor.</li>
+      <li>Conocer el camino de aprendizaje del nivel intermedio y qué habilidades desarrollarás.</li>
+      <li>Definir un plan de primeros pasos concretos para entrar en el ecosistema.</li>
+      <li>Entender qué preguntas hacerse antes de invertir tiempo o dinero en Bittensor.</li>
+      <li>Salir con una hoja de ruta clara para los próximos meses.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>Repaso del nivel básico</h2>
+
+    <h3>1.1. Lo que has aprendido</h3>
+    <p>En estos 8 módulos has construido una base sólida para entender Bittensor y el ecosistema en el que opera. Repasemos los conceptos clave:</p>
+    <ul>
+      <li><strong>Dinero digital (M01):</strong> el dinero bancario tiene problemas estructurales de centralización. Bitcoin los resolvió con una blockchain pública. Las criptomonedas son activos digitales sobre redes descentralizadas. Las wallets guardan claves, no monedas.</li>
+      <li><strong>Blockchain (M02):</strong> cadena de bloques distribuida e inmutable. Los hashes garantizan la integridad. Los mecanismos de consenso (PoW, PoS) coordinan a miles de participantes sin autoridad central.</li>
+      <li><strong>IA descentralizada (M03):</strong> la IA actual está centralizada en pocas empresas, lo que genera problemas de censura, dependencia y extracción de valor. Descentralizarla requiere un mecanismo de coordinación y evaluación.</li>
+      <li><strong>Bittensor (M04):</strong> el primer mercado descentralizado de IA. Mineros ofrecen modelos, validadores los evalúan con Yuma Consensus, y las recompensas en TAO se distribuyen según calidad.</li>
+      <li><strong>Token TAO (M05):</strong> supply máximo de 21M, halvings periódicos, distribuido entre subnet owners, validadores y mineros. Funciona como incentivo, gobernanza y staking.</li>
+      <li><strong>Primera wallet (M06):</strong> el sistema coldkey/hotkey de Bittensor. La coldkey guarda fondos, la hotkey opera en la red. La frase semilla es la clave maestra que nunca debes perder.</li>
+      <li><strong>Ecosistema (M07):</strong> Taostats es el explorador principal. Las subredes cubren desde LLMs hasta biología computacional. La comunidad vive en Discord y Twitter.</li>
+    </ul>
+
+    <h3>1.2. El marco mental más importante</h3>
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Bittensor hace con la <strong>Inteligencia Artificial</strong> lo que <strong>Bitcoin</strong> hizo con el dinero: crea un sistema donde las reglas son transparentes, nadie tiene el control exclusivo y los que contribuyen valor son recompensados de forma automática. Si entiendes Bitcoin, entiendes por qué Bittensor importa.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Los cuatro caminos en Bittensor</h2>
+
+    <h3>2.1. ¿Cuál es tu perfil?</h3>
+    <p>No hay un único camino para participar en Bittensor. Dependiendo de tus recursos, habilidades e intereses, tu rol puede ser muy diferente.</p>
+
+    <h3>Camino 1: Minero de IA</h3>
+    <p>Ofreces capacidad computacional y modelos de IA a una subred. Recibes TAO en proporción a la calidad de tu trabajo.</p>
+    <ul>
+      <li><strong>Requiere:</strong> GPU de al menos 24GB VRAM (para las subredes más competitivas), conocimiento de Python y modelos de IA, servidor estable conectado a internet.</li>
+      <li><strong>Ideal para:</strong> ingenieros de ML, personas con acceso a hardware de IA, entusiastas técnicos.</li>
+      <li><strong>Ventaja:</strong> participación directa en la red, recompensas proporcionales al esfuerzo técnico.</li>
+      <li><strong>Desventaja:</strong> alta inversión inicial en hardware, curva de aprendizaje técnica.</li>
+    </ul>
+
+    <h3>Camino 2: Validador</h3>
+    <p>Evalúas la calidad del trabajo de los mineros y distribuyes las recompensas. Requieres stake de TAO como garantía.</p>
+    <ul>
+      <li><strong>Requiere:</strong> stake de TAO (mínimo varía por subred, puede ser de cientos a miles de TAO), conocimiento del criterio de evaluación de la subred, servidor para el proceso de validación.</li>
+      <li><strong>Ideal para:</strong> personas con capital en TAO que entienden bien el ecosistema y quieren participar activamente.</li>
+      <li><strong>Ventaja:</strong> recompensas estables, contribuyes a la integridad de la red.</li>
+      <li><strong>Desventaja:</strong> requiere capital inicial significativo, responsabilidad de actuar honestamente.</li>
+    </ul>
+
+    <h3>Camino 3: Desarrollador / Subnet owner</h3>
+    <p>Creas nuevas subredes especializadas en tareas de IA donde ves una oportunidad. Defines las reglas de evaluación y recibes el 18% de las emisiones.</p>
+    <ul>
+      <li><strong>Requiere:</strong> conocimiento profundo de un dominio de IA, habilidades de desarrollo en Python, capacidad para construir y mantener la infraestructura de la subred.</li>
+      <li><strong>Ideal para:</strong> investigadores de IA, equipos técnicos, empresas que quieren monetizar capacidades de IA.</li>
+      <li><strong>Ventaja:</strong> potencial de ingresos muy alto si la subred tiene éxito, construyes infraestructura real.</li>
+      <li><strong>Desventaja:</strong> máxima complejidad técnica, hay que competir por la aprobación de la comunidad.</li>
+    </ul>
+
+    <h3>Camino 4: Inversor / Nominador</h3>
+    <p>Compras TAO y/o haces staking delegando a validadores. Participas del crecimiento del ecosistema sin operar hardware.</p>
+    <ul>
+      <li><strong>Requiere:</strong> capital para adquirir TAO, comprensión del riesgo de mercado.</li>
+      <li><strong>Ideal para:</strong> personas que creen en el proyecto pero no tienen tiempo/habilidades para participar técnicamente.</li>
+      <li><strong>Ventaja:</strong> entrada más fácil, sin gestión de hardware ni servidores.</li>
+      <li><strong>Desventaja:</strong> exposición pura al precio de TAO (alta volatilidad), ingresos pasivos del staking variables.</li>
+    </ul>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Perfil</th><th>Capital</th><th>Técnica</th><th>Tiempo</th><th>Recompensa</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Minero</strong></td><td>Medio (GPU)</td><td>Alta</td><td>Alto</td><td>Variable por calidad</td></tr>
+          <tr><td><strong>Validador</strong></td><td>Alto (TAO)</td><td>Media</td><td>Medio</td><td>Estable por stake</td></tr>
+          <tr><td><strong>Subnet owner</strong></td><td>Medio-alto</td><td>Muy alta</td><td>Muy alto</td><td>18% emisiones</td></tr>
+          <tr><td><strong>Inversor</strong></td><td>Cualquiera</td><td>Baja</td><td>Bajo</td><td>Precio TAO + staking APY</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Qué aprenderás en el nivel Intermedio</h2>
+
+    <h3>3.1. De qué trata el nivel Intermedio</h3>
+    <p>El nivel Intermedio está diseñado para quienes ya entienden los fundamentos y quieren <strong>profundizar en los aspectos técnicos y prácticos</strong> del ecosistema. Estos son los 12 módulos que lo componen:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Módulo</th><th>Título</th><th>Duración</th><th>Enfoque</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>I-01</strong></td><td>Subtensor: la blockchain de Bittensor</td><td>5h</td><td>Técnico</td></tr>
+          <tr><td><strong>I-02</strong></td><td>Dynamic TAO y el sistema de alpha tokens</td><td>4h</td><td>Tokenomía</td></tr>
+          <tr><td><strong>I-03</strong></td><td>Yuma Consensus en profundidad</td><td>5h</td><td>Protocolo</td></tr>
+          <tr><td><strong>I-04</strong></td><td>Configurar un nodo minero</td><td>6h</td><td>Práctico</td></tr>
+          <tr><td><strong>I-05</strong></td><td>Estrategias de minería por subred</td><td>5h</td><td>Práctico</td></tr>
+          <tr><td><strong>I-06</strong></td><td>Ser validador: staking y gestión de weights</td><td>6h</td><td>Práctico</td></tr>
+          <tr><td><strong>I-07</strong></td><td>Crear y gestionar una subred</td><td>8h</td><td>Avanzado</td></tr>
+          <tr><td><strong>I-08</strong></td><td>DeFi y TAO: liquidez y bridges</td><td>4h</td><td>Finanzas</td></tr>
+          <tr><td><strong>I-09</strong></td><td>Seguridad avanzada: wallets y OpSec</td><td>4h</td><td>Seguridad</td></tr>
+          <tr><td><strong>I-10</strong></td><td>Gobernanza: propuestas y votaciones</td><td>4h</td><td>Gobernanza</td></tr>
+          <tr><td><strong>I-11</strong></td><td>Métricas y análisis del ecosistema</td><td>4h</td><td>Análisis</td></tr>
+          <tr><td><strong>I-12</strong></td><td>Construir sobre Bittensor: APIs y SDK</td><td>6h</td><td>Desarrollo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>3.2. Qué habilidades desarrollarás</h3>
+    <p>Al terminar el nivel Intermedio serás capaz de:</p>
+    <ul>
+      <li>Configurar y operar un nodo minero en una subred real de Bittensor.</li>
+      <li>Entender el sistema Dynamic TAO con alpha tokens por subred.</li>
+      <li>Evaluar la rentabilidad de diferentes estrategias de participación.</li>
+      <li>Participar en la gobernanza del protocolo.</li>
+      <li>Usar las APIs y el SDK de Bittensor para construir aplicaciones.</li>
+      <li>Gestionar tu seguridad operacional como participante activo.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>Primeros pasos recomendados</h2>
+
+    <h3>4.1. Plan de acción de las próximas 4 semanas</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Semana</th><th>Acciones</th><th>Objetivo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Semana 1</strong></td><td>Instalar btcli. Crear coldkey y hotkey en testnet. Explorar Taostats.</td><td>Familiarizarte con las herramientas</td></tr>
+          <tr><td><strong>Semana 2</strong></td><td>Elegir una subred que te interese. Estudiar su documentación. Unirte al canal de Discord de esa subred.</td><td>Entender en qué subred participarás</td></tr>
+          <tr><td><strong>Semana 3</strong></td><td>Si eres técnico: intentar registrar una hotkey en la subred elegida en testnet. Si eres inversor: abrir cuenta en un exchange y entender el proceso de compra.</td><td>Primera participación real</td></tr>
+          <tr><td><strong>Semana 4</strong></td><td>Conectar con la comunidad. Hacer preguntas en Discord. Leer los módulos del nivel Intermedio que correspondan a tu camino.</td><td>Integración en el ecosistema</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4.2. Las preguntas que debes hacerte antes de invertir</h3>
+    <ul>
+      <li><strong>¿Entiendes lo que estás comprando?</strong> Si no puedes explicar a otra persona cómo funciona TAO y por qué tiene valor, no estás listo para invertir en él.</li>
+      <li><strong>¿Puedes permitirte perderlo todo?</strong> Los criptoactivos son activos de alto riesgo. Solo invierte capital del que puedas prescindir completamente.</li>
+      <li><strong>¿Tienes un plan?</strong> ¿Eres inversor a largo plazo? ¿Quieres ser minero? ¿Validador? Cada camino requiere una estrategia diferente.</li>
+      <li><strong>¿Tienes la wallet segura?</strong> Antes de mover fondos reales, asegúrate de que tu coldkey está correctamente creada y la frase semilla guardada en papel.</li>
+      <li><strong>¿Seguirás la red?</strong> Bittensor es un protocolo en desarrollo activo. Los halvings, las nuevas subredes y los cambios de protocolo afectan la rentabilidad. Necesitas estar informado.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>El mayor error en el ecosistema cripto es <strong>entrar por el precio sin entender el proyecto</strong>. Has dedicado tiempo a entender Bittensor: eso ya te pone por delante del 90% de los participantes del mercado.</p>
+    </div>
+
+    <h3>4.3. Recursos para seguir aprendiendo</h3>
+    <ul>
+      <li><strong>Este manual — Nivel Intermedio:</strong> el siguiente paso natural. Disponible en <a href="aprende.html">bittensor.pro/aprende</a>.</li>
+      <li><a href="https://docs.bittensor.com" target="_blank" rel="noopener">docs.bittensor.com</a>: documentación técnica oficial. Sección 'Learn' para conceptos, 'Build' para desarrollo.</li>
+      <li><strong>Discord de Bittensor:</strong> la comunidad más activa. Preguntas técnicas, debates de gobernanza, anuncios.</li>
+      <li><a href="https://taostats.io" target="_blank" rel="noopener">Taostats.io</a>: sigue las métricas de la red semanalmente para entender cómo evoluciona.</li>
+      <li><strong>GitHub opentensor:</strong> si tienes habilidades técnicas, seguir el repositorio te mantiene al día de los cambios del protocolo.</li>
+    </ul>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">Blockchain</div><div class="glosario-def">Base de datos distribuida e inmutable: cadena de bloques con hash propio y del anterior.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Bittensor</div><div class="glosario-def">Protocolo descentralizado que crea un mercado de IA con incentivos en TAO.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Bitcoin</div><div class="glosario-def">Primera criptomoneda descentralizada (2009). Supply fijo de 21M, Proof of Work.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Coldkey</div><div class="glosario-def">Clave principal de Bittensor. Guarda fondos TAO. Debe mantenerse offline.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Criptomoneda</div><div class="glosario-def">Activo digital sobre red descentralizada usando criptografía.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Frase semilla</div><div class="glosario-def">12-24 palabras que permiten recuperar una wallet. La clave maestra.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Halving</div><div class="glosario-def">Reducción a la mitad de las emisiones del token, periódica y programada.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Hash</div><div class="glosario-def">Huella digital única de un dato, generada por función matemática unidireccional.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Hotkey</div><div class="glosario-def">Clave operativa vinculada a coldkey. Usada para operaciones frecuentes en la red.</div></div>
+    <div class="glosario-item"><div class="glosario-term">LLM</div><div class="glosario-def">Large Language Model: modelo de IA especializado en texto (GPT, Claude, Gemini).</div></div>
+    <div class="glosario-item"><div class="glosario-term">Minero</div><div class="glosario-def">Participante que ofrece capacidad de IA a la red y recibe TAO según su calidad.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Validador</div><div class="glosario-def">Participante que evalúa a los mineros, requiere stake de TAO como garantía.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Yuma Consensus</div><div class="glosario-def">Mecanismo de Bittensor para llegar a acuerdo sobre puntuaciones de mineros.</div></div>
+    <div class="glosario-item"><div class="glosario-term">TAO (τ)</div><div class="glosario-def">Token nativo de Bittensor: incentivo, gobernanza y staking.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Subred</div><div class="glosario-def">Mercado especializado dentro de Bittensor enfocado en un tipo de tarea de IA.</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title">// Ejercicios</div>
+    <ol>
+      <li>Identifica honestamente cuál de los 4 caminos (minero, validador, subnet owner, inversor) encaja mejor con tu perfil. Justifica tu elección con 3 razones.</li>
+      <li>Escribe en una página tu plan personal para las próximas 4 semanas, adaptado a tu camino elegido y a tu disponibilidad real de tiempo.</li>
+      <li>Sin abrir el manual, intenta explicar Bittensor a una persona de tu entorno en menos de 3 minutos. Pídele que te haga preguntas y anota las que no sepas responder.</li>
+      <li>Lista las 5 dudas técnicas que más te preocupen del nivel Intermedio. Esto te servirá como guía cuando empieces ese nivel.</li>
+      <li>Investiga el precio actual de TAO y haz un cálculo realista: si quisieras dedicar 1.000 € al ecosistema, ¿cómo los repartirías entre comprar TAO, invertir en hardware o pagar formación adicional?</li>
+      <li>Visita el Discord oficial y haz una pregunta concreta en el canal apropiado. El primer paso para integrarte en la comunidad es romper el silencio.</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>Nivel Intermedio</strong> — el siguiente nivel del curso, ya disponible en <a href="aprende.html">bittensor.pro/aprende</a>.</li>
+      <li><a href="https://docs.bittensor.com" target="_blank" rel="noopener">docs.bittensor.com</a> — documentación oficial. Empieza por la sección 'Learn'.</li>
+      <li><a href="https://taostats.io" target="_blank" rel="noopener">Taostats.io</a> — explorador en tiempo real para seguir las métricas de la red.</li>
+      <li><a href="https://discord.gg/bittensor" target="_blank" rel="noopener">Discord oficial de Bittensor</a> — la comunidad más activa.</li>
+      <li><strong>Bittensor.pro</strong> — recursos en español, esta plataforma misma.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-intermedio.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente nivel · Intermedio</div>
+      <div class="siguiente-title">Profundiza en lo técnico y práctico</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · Nivel Básico · Módulo 08 · Mayo 2026 · <a href="aprende-basico.html">Volver al curso</a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

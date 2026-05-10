@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo 04 Básico: Bittensor, la red de IA — Bittensor Pro</title>
+<meta name="description" content="Qué es Bittensor, su arquitectura (subredes, mineros, validadores), ciclo de incentivos, Yuma Consensus y el ecosistema actual." />
+<link rel="canonical" href="https://bittensor.pro/aprende-basico-modulo-04.html" />
+<meta property="og:title" content="Módulo 04 Básico: Bittensor, la red de IA" />
+<meta property="og:description" content="Subredes, mineros, validadores y Yuma Consensus. 4 horas. Nivel inicial." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#22d87a;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,216,122,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a:first-child{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(34,216,122,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(34,216,122,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(34,216,122,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(34,216,122,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700}
+.ejercicios a{color:var(--magenta)}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(34,216,122,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.glosario-term{font-size:11px}.glosario-def{font-size:13px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html">Niveles</a>
+    <a href="aprende-basico.html">Básico</a>
+    <a href="market.html">Market</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-basico.html" class="back-link">← Volver al curso básico</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO 04</div>
+  <h1>Bittensor: <strong>la red de IA</strong></h1>
+  <p class="hero-sub">Qué es Bittensor, cómo funciona su arquitectura de subredes con mineros y validadores, y por qué Yuma Consensus permite poner precio a la calidad de la IA.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span>Nivel Básico</span>
+    <span class="meta-tag neutral">4 horas</span>
+    <span class="meta-tag neutral">Módulo 03</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender qué es Bittensor y qué lo diferencia de una blockchain convencional.</li>
+      <li>Comprender la arquitectura de Bittensor: subredes, mineros y validadores.</li>
+      <li>Saber cómo funciona el ciclo de incentivos y cómo se distribuyen las recompensas.</li>
+      <li>Entender el concepto de Yuma Consensus y por qué es clave para evaluar IA.</li>
+      <li>Conocer las subredes más importantes del ecosistema.</li>
+      <li>Ser capaz de explicar Bittensor a alguien sin conocimientos técnicos.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>Qué es Bittensor</h2>
+
+    <h3>1.1. La definición más simple</h3>
+    <p><strong>Bittensor</strong> es un protocolo de red descentralizado que crea un mercado de inteligencia artificial. En lugar de que unas pocas empresas controlen los mejores modelos de IA, Bittensor permite que cualquier persona del mundo contribuya con capacidad de IA a la red y sea recompensada en proporción a la calidad de su contribución.</p>
+    <p>Se lanzó en 2021 por <strong>Jacob Robert Steeves</strong> y <strong>Ala Shaabana</strong>, investigadores de IA. La idea central venía de una pregunta: <em>¿y si la inteligencia artificial se organizara como Bitcoin, con reglas transparentes, sin dueño central y con recompensas para los que contribuyen valor?</em></p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Bittensor = <strong>blockchain propia</strong> (Subtensor) + <strong>token de incentivo</strong> (TAO) + <strong>protocolo de evaluación de IA</strong> (Yuma Consensus). Estos tres elementos juntos crean el primer mercado descentralizado de inteligencia artificial.</p>
+    </div>
+
+    <h3>1.2. Qué no es Bittensor</h3>
+    <p>Es importante aclarar lo que Bittensor no es:</p>
+    <ul>
+      <li><strong>No es un modelo de IA.</strong> Bittensor no tiene su propio modelo de lenguaje. Es la infraestructura que coordina a miles de modelos que pertenecen a distintos participantes.</li>
+      <li><strong>No es una empresa.</strong> No hay ninguna empresa central que controle el protocolo. La Opentensor Foundation financia el desarrollo, pero no puede cambiar las reglas del protocolo unilateralmente.</li>
+      <li><strong>No es un exchange de criptomonedas.</strong> TAO es un token de utilidad, no simplemente una moneda especulativa. Su función principal es coordinar y recompensar trabajo de IA.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Arquitectura de la red</h2>
+
+    <h3>2.1. La metared y las subredes</h3>
+    <p>Bittensor se organiza en <strong>subredes</strong> (subnets). Cada subred es un mercado especializado en un tipo concreto de tarea de IA:</p>
+    <ul>
+      <li><strong>Subred 1 (Apex):</strong> modelos de lenguaje general, el equivalente a ChatGPT pero descentralizado.</li>
+      <li><strong>Subred 4:</strong> capacidad computacional distribuida para entrenamiento de modelos.</li>
+      <li><strong>Subred 8:</strong> detección de texto generado por IA.</li>
+      <li><strong>Subred 18:</strong> modelos de imágenes y generación visual.</li>
+      <li>Y decenas más, con nuevas subredes aprobadas regularmente por la comunidad.</li>
+    </ul>
+    <p>Cada subred tiene sus propias reglas de evaluación, definidas por el creador (el <strong>'subnet owner'</strong>). Los mineros y validadores de cada subred están especializados en esa tarea concreta.</p>
+
+    <h3>2.2. Mineros</h3>
+    <p>Los <strong>mineros</strong> son los proveedores de inteligencia de la red. Cada minero:</p>
+    <ul>
+      <li>Corre un servidor que recibe consultas de la subred.</li>
+      <li>Procesa la consulta con su modelo de IA y devuelve una respuesta.</li>
+      <li>Es evaluado constantemente por los validadores de su subred.</li>
+      <li>Recibe TAO en proporción a su puntuación. Los mejores mineros ganan más.</li>
+    </ul>
+    <p>Cualquier persona con una GPU suficiente puede ser minero en Bittensor. El coste de entrada varía según la subred: algunas requieren hardware muy potente (Subred 4), otras son más accesibles.</p>
+
+    <h3>2.3. Validadores</h3>
+    <p>Los <strong>validadores</strong> son los jueces de calidad de la red. Cada validador:</p>
+    <ul>
+      <li>Envía consultas de prueba a los mineros de su subred.</li>
+      <li>Evalúa la calidad de las respuestas según los criterios de esa subred.</li>
+      <li>Asigna puntuaciones (<strong>weights</strong>) a cada minero.</li>
+      <li>Hace staking de TAO como garantía de comportamiento honesto.</li>
+    </ul>
+    <p>Los validadores se coordinan mediante el <strong>Yuma Consensus</strong> para llegar a un acuerdo sobre las puntuaciones. Si un validador intenta manipular los resultados, pierde su stake.</p>
+
+    <h3>2.4. La jerarquía de la red</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Rol</th><th>Función</th><th>Requiere</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Subnet owner</strong></td><td>Define las reglas de evaluación de la subred y recibe el 18% de las emisiones</td><td>Propuesta aprobada por la comunidad</td></tr>
+          <tr><td><strong>Validador</strong></td><td>Evalúa a los mineros y distribuye puntuaciones</td><td>Stake de TAO (mínimo según subred)</td></tr>
+          <tr><td><strong>Minero</strong></td><td>Ofrece respuestas de IA a la red</td><td>Hardware de IA (GPU), registro en subred</td></tr>
+          <tr><td><strong>Nominador</strong></td><td>Delega TAO a validadores confiables</td><td>Solo tokens TAO</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>El ciclo de incentivos</h2>
+
+    <h3>3.1. Cómo se emiten los TAO</h3>
+    <p>La blockchain Subtensor emite nuevos TAO con cada bloque (aproximadamente cada 12 segundos). El supply máximo de TAO es de <strong>21 millones</strong>, igual que Bitcoin. Las emisiones se reducen a la mitad periódicamente (<strong>halvings</strong>).</p>
+    <p>Esas emisiones se distribuyen entre todas las subredes activas en proporción a su peso en la metared (determinado también por los validadores raíz). Dentro de cada subred, las emisiones se reparten entre validadores y mineros según las puntuaciones.</p>
+
+    <h3>3.2. El flujo de valor</h3>
+    <ul>
+      <li><strong>Paso 1 — Consulta:</strong> un validador envía una pregunta de prueba a todos los mineros de su subred.</li>
+      <li><strong>Paso 2 — Respuesta:</strong> cada minero procesa la consulta y devuelve su respuesta.</li>
+      <li><strong>Paso 3 — Evaluación:</strong> el validador compara las respuestas y asigna puntuaciones a cada minero.</li>
+      <li><strong>Paso 4 — Consenso:</strong> mediante Yuma Consensus, los validadores se ponen de acuerdo sobre las puntuaciones finales.</li>
+      <li><strong>Paso 5 — Recompensa:</strong> los TAO emitidos en ese bloque se reparten entre los mineros y validadores según sus puntuaciones.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>El resultado es un sistema donde <strong>el mercado determina qué modelos de IA son más valiosos</strong>. Los mejores modelos atraen más recompensas, lo que incentiva mejoras constantes. No hay ninguna empresa decidiendo cuál es el mejor modelo.</p>
+    </div>
+
+    <h3>3.3. Yuma Consensus: el mecanismo de evaluación</h3>
+    <p>El mayor reto de Bittensor es llegar a un consenso sobre qué modelos de IA son mejores cuando la calidad es subjetiva. Yuma Consensus resuelve esto de la siguiente manera:</p>
+    <ul>
+      <li>Cada validador asigna pesos (<strong>weights</strong>) a los mineros: 0 a 1, donde 1 es la puntuación máxima.</li>
+      <li>El consenso calcula el promedio ponderado de todos los validadores, dando más peso a los validadores con más stake.</li>
+      <li>Un minero solo se beneficia si <strong>varios validadores independientes</strong> le dan puntuaciones altas.</li>
+      <li>Si un validador asigna puntuaciones que se desvían mucho del consenso, pierde parte de sus recompensas.</li>
+    </ul>
+    <p>Este mecanismo hace que manipular el sistema sea costoso: un validador malicioso pierde stake, y un minero que solo engaña a un validador no llega a un consenso favorable.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>El ecosistema en cifras</h2>
+
+    <h3>4.1. Estado actual</h3>
+    <p>A fecha de 2025, Bittensor cuenta con:</p>
+    <ul>
+      <li>Más de <strong>40 subredes activas</strong>, con nuevas subredes aprobándose regularmente.</li>
+      <li>Miles de mineros activos en todo el mundo.</li>
+      <li>Un supply circulante aproximado de 8–10 millones de TAO.</li>
+      <li>El precio de TAO ha variado entre 50 y 750 dólares en el último ciclo.</li>
+    </ul>
+    <p>El ecosistema crece rápidamente. Cada mes aparecen nuevas subredes especializadas en tareas como síntesis de voz, trading algorítmico, análisis de datos o modelos de código.</p>
+
+    <h3>4.2. Comparación con la competencia</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Proyecto</th><th>Enfoque</th><th>Token</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Bittensor</strong></td><td>Mercado descentralizado de IA con subredes especializadas</td><td>TAO</td><td>Mainnet activa</td></tr>
+          <tr><td><strong>Akash Network</strong></td><td>Mercado descentralizado de computación en la nube</td><td>AKT</td><td>Activo</td></tr>
+          <tr><td><strong>Fetch.ai</strong></td><td>Agentes autónomos de IA en blockchain</td><td>FET</td><td>Activo</td></tr>
+          <tr><td><strong>Ocean Protocol</strong></td><td>Mercado de datos para IA</td><td>OCEAN</td><td>Activo</td></tr>
+          <tr><td><strong>Numerai</strong></td><td>Torneo de predicción financiera con IA</td><td>NMR</td><td>Activo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4.3. Por qué Bittensor es diferente</h3>
+    <p>Mientras otros proyectos se centran en computación (Akash), datos (Ocean) o tipos específicos de IA, Bittensor es un <strong>mercado general de inteligencia</strong>: cualquier tipo de capacidad cognitiva puede ser añadida como subred y recompensada con TAO. Es la infraestructura de base para la economía de la IA descentralizada.</p>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">Bittensor</div><div class="glosario-def">Protocolo descentralizado que crea un mercado de inteligencia artificial.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Subtensor</div><div class="glosario-def">La blockchain de Bittensor, basada en Substrate (Polkadot).</div></div>
+    <div class="glosario-item"><div class="glosario-term">Subred (subnet)</div><div class="glosario-def">Grupo especializado de mineros y validadores dentro de Bittensor, centrado en un tipo de tarea.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Minero</div><div class="glosario-def">Participante que ofrece respuestas de IA a la red y recibe TAO según su calidad.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Validador</div><div class="glosario-def">Participante que evalúa a los mineros y distribuye puntuaciones; requiere stake de TAO.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Yuma Consensus</div><div class="glosario-def">Mecanismo de Bittensor para llegar a acuerdo sobre las puntuaciones de los mineros.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Weights (pesos)</div><div class="glosario-def">Puntuaciones que los validadores asignan a los mineros (0 a 1).</div></div>
+    <div class="glosario-item"><div class="glosario-term">Subnet owner</div><div class="glosario-def">Entidad que diseña las reglas de evaluación de una subred y recibe el 18% de sus emisiones.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Nominador</div><div class="glosario-def">Participante que delega su TAO a un validador para obtener parte de sus recompensas.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Emisiones</div><div class="glosario-def">Nuevos TAO creados con cada bloque y distribuidos entre participantes activos.</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title">// Ejercicios</div>
+    <ol>
+      <li>Explica en tus propias palabras cómo funciona el ciclo de incentivos de Bittensor (sin usar los términos técnicos del módulo).</li>
+      <li>¿Por qué el Yuma Consensus hace difícil que un solo validador manipule las recompensas? ¿Qué tendría que hacer para intentarlo?</li>
+      <li>Visita <a href="https://taostats.io" target="_blank" rel="noopener">taostats.io</a> y busca las 5 subredes con mayor peso en la metared. ¿En qué tareas están especializadas?</li>
+      <li>Compara el rol de un minero en Bitcoin con el de un minero en Bittensor. ¿Qué tienen en común? ¿Qué es diferente?</li>
+      <li>¿Por qué Bittensor tiene un supply máximo de 21 millones, igual que Bitcoin? ¿Qué ventaja da ese límite?</li>
+      <li>Elige una subred de Bittensor y describe qué tipo de IA ofrece, cómo se evalúa la calidad y qué hardware necesitaría un minero.</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>Bittensor Whitepaper:</strong> <a href="https://bittensor.org/whitepaper.pdf" target="_blank" rel="noopener">bittensor.org/whitepaper.pdf</a> — lectura obligatoria para entender el diseño original.</li>
+      <li><a href="https://taostats.io" target="_blank" rel="noopener">Taostats.io</a> — estadísticas en tiempo real de subredes, validadores y emisiones.</li>
+      <li><strong>Bittensor Wiki</strong> — <a href="https://wiki.bittensor.com" target="_blank" rel="noopener">wiki.bittensor.com</a>: documentación técnica de la red.</li>
+      <li>Canal de YouTube de la Opentensor Foundation: explicaciones oficiales del protocolo.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-basico-modulo-05.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo 05</div>
+      <div class="siguiente-title">El token TAO</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · Nivel Básico · Módulo 04 · Mayo 2026 · <a href="aprende-basico.html">Volver al curso</a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

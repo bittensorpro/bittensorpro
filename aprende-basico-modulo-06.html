@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo 06 Básico: Tu primera wallet — Bittensor Pro</title>
+<meta name="description" content="El sistema coldkey/hotkey de Bittensor, instalación de btcli, creación de tu primera wallet, frase semilla y reglas de seguridad." />
+<link rel="canonical" href="https://bittensor.pro/aprende-basico-modulo-06.html" />
+<meta property="og:title" content="Módulo 06 Básico: Tu primera wallet" />
+<meta property="og:description" content="Coldkey, hotkey, btcli y seguridad. 5 horas. Nivel inicial." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#22d87a;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,216,122,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a:first-child{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(34,216,122,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(34,216,122,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(34,216,122,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(34,216,122,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700}
+.ejercicios a{color:var(--magenta)}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(34,216,122,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.glosario-term{font-size:11px}.glosario-def{font-size:13px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html">Niveles</a>
+    <a href="aprende-basico.html">Básico</a>
+    <a href="market.html">Market</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-basico.html" class="back-link">← Volver al curso básico</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO 06</div>
+  <h1>Tu primera <strong>wallet</strong></h1>
+  <p class="hero-sub">El sistema coldkey/hotkey de Bittensor, instalación del CLI, creación paso a paso de tu primera wallet y las 5 reglas de oro de la seguridad.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span>Nivel Básico</span>
+    <span class="meta-tag neutral">5 horas</span>
+    <span class="meta-tag neutral">Módulo 05</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender el sistema de claves coldkey/hotkey específico de Bittensor.</li>
+      <li>Saber instalar el CLI de Bittensor en tu sistema operativo.</li>
+      <li>Crear tu primera coldkey de forma segura.</li>
+      <li>Crear una hotkey asociada a tu coldkey.</li>
+      <li>Entender la frase semilla (mnemonic) y por qué es lo más importante que guardarás.</li>
+      <li>Conocer las mejores prácticas de seguridad para proteger tus fondos.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>El sistema de claves de Bittensor</h2>
+
+    <h3>1.1. Coldkey y hotkey: la arquitectura dual</h3>
+    <p>Bittensor usa un sistema de dos tipos de claves diseñado para separar <strong>seguridad</strong> y <strong>operatividad</strong>:</p>
+    <ul>
+      <li><strong>Coldkey</strong> (clave fría): es tu identidad principal en la red y guarda tus fondos. <strong>NUNCA</strong> debe estar conectada a internet durante uso normal. Es el equivalente a tu cuenta bancaria principal: la usas poco, pero es donde guardas el dinero real.</li>
+      <li><strong>Hotkey</strong> (clave caliente): es una clave secundaria vinculada a tu coldkey. Se usa para operaciones frecuentes como registrarse en una subred, enviar consultas o recibir recompensas diarias. Está conectada a internet. Si se compromete, los fondos de la coldkey siguen seguros.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>La separación coldkey/hotkey es una <strong>innovación de seguridad de Bittensor</strong>. Los fondos TAO viven en la coldkey. La hotkey opera en la red pero no puede mover esos fondos sin la autorización de la coldkey. Aunque te hackeen la hotkey, no pueden robar tu TAO.</p>
+    </div>
+
+    <h3>1.2. Cómo se relacionan</h3>
+    <p>La relación es jerárquica:</p>
+    <ul>
+      <li>Una coldkey puede tener <strong>múltiples hotkeys</strong> asociadas.</li>
+      <li>Una hotkey siempre pertenece a una sola coldkey.</li>
+      <li>Las recompensas se acumulan en la hotkey pero puedes transferirlas a la coldkey periódicamente.</li>
+      <li>Para hacer staking o transferir fondos grandes, necesitas la coldkey.</li>
+      <li>Para registrarte en una subred o minar, solo necesitas la hotkey.</li>
+    </ul>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Clave</th><th>Función</th><th>Seguridad</th><th>Conectada</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Coldkey</strong></td><td>Guarda fondos TAO, firma transferencias y staking grandes</td><td>Máxima</td><td>Nunca (idealmente)</td></tr>
+          <tr><td><strong>Hotkey</strong></td><td>Opera en subredes, recibe recompensas diarias</td><td>Alta</td><td>Sí (servidor)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Instalación del CLI de Bittensor</h2>
+
+    <h3>2.1. Requisitos previos</h3>
+    <p>El CLI de Bittensor (<strong>btcli</strong>) se instala con Python. Necesitas:</p>
+    <ul>
+      <li><strong>Python 3.9</strong> o superior instalado en tu sistema.</li>
+      <li><strong>pip</strong> (el gestor de paquetes de Python), que viene incluido con Python 3.</li>
+      <li>Un <strong>terminal</strong> (Terminal en Mac/Linux, PowerShell o CMD en Windows).</li>
+      <li>Conexión a internet.</li>
+    </ul>
+
+    <h3>2.2. Instalación en Linux/Mac</h3>
+    <p>Abre el terminal y ejecuta los siguientes comandos:</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Comandos en orden</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px;line-height:1.7"># Crear un entorno virtual (recomendado)<br>python3 -m venv bittensor-env<br>source bittensor-env/bin/activate<br><br># Instalar bittensor<br>pip install bittensor<br><br># Verificar la instalación<br>btcli --version</p>
+    </div>
+
+    <h3>2.3. Instalación en Windows</h3>
+    <p>En Windows, usa <strong>PowerShell como administrador</strong>:</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Comandos en orden</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px;line-height:1.7"># Crear entorno virtual<br>python -m venv bittensor-env<br>.\bittensor-env\Scripts\Activate.ps1<br><br># Instalar bittensor<br>pip install bittensor<br><br># Verificar<br>btcli --version</p>
+    </div>
+
+    <p>Si ves un número de versión (ej. 8.x.x), la instalación fue correcta. Si hay errores, revisa que Python está en el PATH del sistema.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Crear tu coldkey</h2>
+
+    <h3>3.1. El comando de creación</h3>
+    <p>Con el CLI instalado, crear una coldkey es un solo comando:</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Comando</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px">btcli wallet new_coldkey --wallet.name mi-wallet</p>
+    </div>
+
+    <p>El CLI te pedirá una <strong>contraseña</strong> para cifrar la coldkey localmente. Esta contraseña protege el archivo en tu ordenador. Elige una contraseña fuerte que recuerdes.</p>
+
+    <h3>3.2. La frase semilla (mnemonic)</h3>
+    <p>Después de crear la coldkey, el CLI te mostrará una frase semilla de <strong>12 o 24 palabras</strong>, similar a:</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Ejemplo (NO uses estas palabras)</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px">abandon ability able about above absent<br>access accident account accuse achieve acid</p>
+    </div>
+
+    <div class="key-concept" style="border-color:var(--magenta);background:linear-gradient(135deg,rgba(255,43,214,0.08),rgba(255,43,214,0.02))">
+      <div class="key-concept-label" style="color:var(--magenta)">⚠ IMPORTANTE</div>
+      <p><strong>NUNCA</strong> muestres tu frase semilla a nadie. <strong>NUNCA</strong> la almacenes en texto digital (email, Notion, Google Drive, fotos). Escríbela en papel y guárdala en un lugar seguro. Esta frase <strong>ES tu wallet</strong>. Con ella puedes recuperar todos tus fondos en cualquier ordenador del mundo. Sin ella, si pierdes el ordenador, pierdes todo.</p>
+    </div>
+
+    <h3>3.3. Dónde se guarda la coldkey</h3>
+    <p>El CLI crea los archivos de la wallet en:</p>
+    <ul>
+      <li><strong>Linux/Mac:</strong> <code style="font-family:'JetBrains Mono',monospace;color:var(--cyan)">~/.bittensor/wallets/mi-wallet/coldkey</code></li>
+      <li><strong>Windows:</strong> <code style="font-family:'JetBrains Mono',monospace;color:var(--cyan)">C:\Users\TuUsuario\.bittensor\wallets\mi-wallet\coldkey</code></li>
+    </ul>
+    <p>Estos archivos están cifrados con tu contraseña. Puedes hacer una copia de seguridad de la carpeta <code style="font-family:'JetBrains Mono',monospace;color:var(--cyan)">~/.bittensor/wallets</code>, pero la copia más importante es siempre la <strong>frase semilla en papel</strong>.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>Crear tu hotkey</h2>
+
+    <h3>4.1. El comando de creación</h3>
+    <p>Con la coldkey creada, ahora puedes crear una hotkey asociada:</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Comando</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px">btcli wallet new_hotkey --wallet.name mi-wallet --wallet.hotkey mi-hotkey</p>
+    </div>
+
+    <p>La hotkey tiene su propia frase semilla, separada de la coldkey. Guárdala también en papel, aunque con menor prioridad que la coldkey (recuerda: los fondos están en la coldkey, no en la hotkey).</p>
+
+    <h3>4.2. Ver tus wallets</h3>
+    <p>Para ver todas tus wallets creadas y su estado:</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Comando</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px">btcli wallet list</p>
+    </div>
+
+    <p>Para ver el balance de tu wallet:</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Comando</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px">btcli wallet balance --wallet.name mi-wallet</p>
+    </div>
+
+    <h3>4.3. Tu dirección pública</h3>
+    <p>Para ver tu dirección pública de coldkey (la que das a otros para recibir TAO):</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Comando</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px">btcli wallet inspect --wallet.name mi-wallet</p>
+    </div>
+
+    <p>La dirección tiene el formato <strong>SS58</strong> de Substrate, empezando por '5': algo como <code style="font-family:'JetBrains Mono',monospace;color:var(--cyan)">5FHneLTW...</code>. Esta dirección es <strong>pública</strong>: puedes compartirla con quien quiera enviarte TAO, sin riesgo.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 05</div>
+    <h2>Seguridad: las reglas de oro</h2>
+
+    <h3>5.1. Las 5 reglas fundamentales</h3>
+    <ul>
+      <li><strong>Regla 1 — Frase semilla en papel:</strong> escribe las palabras a mano en papel. Nunca en digital. Guarda al menos dos copias en lugares físicos diferentes.</li>
+      <li><strong>Regla 2 — Contraseña fuerte:</strong> usa una contraseña larga y única para cifrar tu coldkey. No uses la misma que en otras cuentas.</li>
+      <li><strong>Regla 3 — No en el portapapeles:</strong> nunca copies tu frase semilla o clave privada al portapapeles. Puede quedar accesible a malware.</li>
+      <li><strong>Regla 4 — Verifica las URLs:</strong> antes de conectar tu wallet a cualquier web, verifica que la URL es correcta. Los ataques de phishing son frecuentes.</li>
+      <li><strong>Regla 5 — Hardware wallet para cantidades grandes:</strong> si tienes cantidades significativas de TAO, considera usar una Ledger u otro hardware wallet para custodiar la coldkey offline.</li>
+    </ul>
+
+    <h3>5.2. Qué hacer si pierdes tu contraseña</h3>
+    <p>Si olvidas la contraseña de tu coldkey pero tienes la frase semilla, puedes recuperar la wallet con:</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Comando de recuperación</div>
+      <p style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13.5px">btcli wallet regen_coldkey --wallet.name mi-wallet-recuperada<br># El CLI te pedirá las 12/24 palabras de tu frase semilla</p>
+    </div>
+
+    <h3>5.3. Verificar la wallet en el explorador</h3>
+    <p>Una vez creada tu wallet y depositado TAO, puedes verificar tu saldo en:</p>
+    <ul>
+      <li><a href="https://taostats.io" target="_blank" rel="noopener" style="color:var(--cyan)">taostats.io</a> — buscando tu dirección SS58.</li>
+      <li>La dirección es pública: cualquiera puede ver el saldo, pero <strong>nadie puede mover fondos sin tu clave privada</strong>.</li>
+    </ul>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">Coldkey</div><div class="glosario-def">Clave principal de Bittensor donde se guardan los fondos TAO. Debe mantenerse offline.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Hotkey</div><div class="glosario-def">Clave operativa vinculada a la coldkey. Se usa para operaciones frecuentes en la red.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Frase semilla</div><div class="glosario-def">12 o 24 palabras que permiten recuperar una wallet en cualquier ordenador. Es la clave maestra.</div></div>
+    <div class="glosario-item"><div class="glosario-term">btcli</div><div class="glosario-def">CLI oficial de Bittensor para gestionar wallets, stakes y operaciones en la red.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Formato SS58</div><div class="glosario-def">Formato de dirección pública usado en Substrate/Bittensor (empieza por '5').</div></div>
+    <div class="glosario-item"><div class="glosario-term">Cifrado local</div><div class="glosario-def">Protección del archivo de la wallet con una contraseña en el dispositivo local.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Mnemonic</div><div class="glosario-def">Otro nombre para la frase semilla. Estándar BIP39 usado en la mayoría de wallets cripto.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Hardware wallet</div><div class="glosario-def">Dispositivo físico (Ledger, Trezor) que guarda las claves privadas offline.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Phishing</div><div class="glosario-def">Ataque de ingeniería social que suplanta webs legítimas para robar claves o credenciales.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Balance</div><div class="glosario-def">Cantidad de TAO (u otros tokens) asociada a una dirección pública.</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title">// Ejercicios</div>
+    <ol>
+      <li>Instala btcli en tu ordenador siguiendo los pasos del módulo. Verifica la instalación con <code>btcli --version</code>.</li>
+      <li>Crea una coldkey de prueba llamada <code>prueba</code>. Escribe las palabras semilla en papel (esta es práctica, después puedes borrarla).</li>
+      <li>Crea una hotkey llamada <code>hotkey-prueba</code> asociada a la coldkey <code>prueba</code>. Ejecuta <code>btcli wallet list</code> y muestra el resultado.</li>
+      <li>Explica con tus palabras por qué la frase semilla es más importante que la contraseña local.</li>
+      <li>¿Qué diferencia hay entre perder la contraseña de tu coldkey y perder la frase semilla? ¿Cuál es recuperable?</li>
+      <li>Compara el sistema coldkey/hotkey de Bittensor con el sistema de cuentas de un banco. ¿Qué ventajas de seguridad tiene el sistema cripto?</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>Documentación oficial btcli:</strong> <a href="https://docs.bittensor.com/btcli" target="_blank" rel="noopener">docs.bittensor.com/btcli</a> — referencia completa de todos los comandos.</li>
+      <li><strong>BIP39 wordlist:</strong> el estándar de frases semilla de 2048 palabras usado por Bittensor y la mayoría de wallets.</li>
+      <li><a href="https://ledger.com" target="_blank" rel="noopener">Ledger.com</a> — hardware wallet compatible con TAO a través de la app Bittensor.</li>
+      <li><a href="https://taostats.io" target="_blank" rel="noopener">Taostats.io</a> — para verificar balances y transacciones de tu dirección pública.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-basico-modulo-07.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo 07</div>
+      <div class="siguiente-title">Explorar el ecosistema</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · Nivel Básico · Módulo 06 · Mayo 2026 · <a href="aprende-basico.html">Volver al curso</a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>
