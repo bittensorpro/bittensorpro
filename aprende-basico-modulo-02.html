@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo 02 Básico: Cómo funciona una blockchain — Bittensor Pro</title>
+<meta name="description" content="Aprende qué es una blockchain, los bloques, hashes, nodos, mecanismos de consenso (Proof of Work y Proof of Stake) y cómo Bittensor opera sobre Subtensor." />
+<link rel="canonical" href="https://bittensor.pro/aprende-basico-modulo-02.html" />
+<meta property="og:title" content="Módulo 02 Básico: Cómo funciona una blockchain" />
+<meta property="og:description" content="Bloques, hashes, nodos y consenso. 4 horas. Nivel inicial." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#22d87a;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,216,122,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a:first-child{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(34,216,122,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(34,216,122,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(34,216,122,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(34,216,122,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700}
+.ejercicios a{color:var(--magenta)}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(34,216,122,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.glosario-term{font-size:11px}.glosario-def{font-size:13px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html">Niveles</a>
+    <a href="aprende-basico.html">Básico</a>
+    <a href="market.html">Market</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-basico.html" class="back-link">← Volver al curso básico</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO 02</div>
+  <h1>Cómo funciona una <strong>blockchain</strong></h1>
+  <p class="hero-sub">Bloques, hashes, nodos y consenso. Cómo miles de ordenadores se ponen de acuerdo sin confiar en nadie y por qué Bittensor opera sobre Subtensor.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span>Nivel Básico</span>
+    <span class="meta-tag neutral">4 horas</span>
+    <span class="meta-tag neutral">Módulo 01</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender qué es una blockchain y qué problema resuelve respecto a una base de datos central.</li>
+      <li>Comprender la estructura de un bloque: datos, hash y referencia al bloque anterior.</li>
+      <li>Saber qué es un hash y por qué garantiza la integridad de los datos.</li>
+      <li>Conocer qué son los nodos y cómo validan las transacciones.</li>
+      <li>Distinguir los dos mecanismos de consenso principales: Proof of Work y Proof of Stake.</li>
+      <li>Saber sobre qué tecnología blockchain opera Bittensor y qué la hace especial.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>Del libro de cuentas a la blockchain</h2>
+
+    <h3>1.1. El problema del libro central</h3>
+    <p>En el Módulo 01 vimos que el dinero bancario no es más que un número en una base de datos que el banco administra. Esa base de datos es un <strong>libro central</strong>: solo existe en un lugar, solo el banco puede escribir en él, y tienes que confiar en que no lo manipula.</p>
+    <p>El punto débil de cualquier sistema de este tipo es claro: <strong>quien controla el libro, controla el dinero</strong>. Puede modificar registros, bloquear cuentas o simplemente negar el acceso. ¿Qué pasaría si ese libro estuviera copiado en miles de sitios al mismo tiempo y nadie tuviera autoridad exclusiva sobre él?</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Una <strong>blockchain</strong> es exactamente eso: un libro de cuentas que no existe en un solo lugar, sino replicado en miles de ordenadores (nodos) de todo el mundo. Ninguno de ellos tiene autoridad especial. Todos guardan la misma copia y todos verifican que sea correcta.</p>
+    </div>
+
+    <h3>1.2. Por qué es difícil falsificar un libro distribuido</h3>
+    <p>Si alguien quisiera falsificar una transacción en el libro del banco, solo tendría que hackear un servidor central. En una blockchain, tendría que modificar la misma entrada en más de la mitad de todos los nodos del mundo al mismo tiempo. Cuantos más nodos hay, más imposible resulta.</p>
+    <p>Esta propiedad se llama <strong>resistencia a la censura</strong>: no existe un punto único que atacar. Es la base de la seguridad de Bitcoin, Ethereum y Bittensor.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Anatomía de un bloque</h2>
+
+    <h3>2.1. Qué hay dentro de un bloque</h3>
+    <p>Una blockchain se compone de bloques encadenados. Cada bloque contiene tres partes esenciales:</p>
+    <ul>
+      <li><strong>Datos:</strong> el contenido del bloque. En Bitcoin son transacciones (Alice envió 0,5 BTC a Bob). En Ethereum pueden ser transacciones o la ejecución de contratos inteligentes.</li>
+      <li><strong>Hash del bloque:</strong> una huella digital única generada a partir de los datos del bloque. Cambia cualquier dato, aunque sea un punto, y el hash cambia por completo.</li>
+      <li><strong>Hash del bloque anterior:</strong> el enlace que forma la cadena. Cada bloque sabe quién era su predecesor. Si alguien modifica un bloque antiguo, rompe todos los hashes que vienen después.</li>
+    </ul>
+
+    <h3>2.2. El hash: la huella digital</h3>
+    <p>Un <strong>hash</strong> es el resultado de pasar cualquier dato por una función matemática especial (SHA-256 en Bitcoin). Tiene propiedades únicas:</p>
+    <ul>
+      <li><strong>Determinista:</strong> el mismo dato siempre produce el mismo hash.</li>
+      <li><strong>Irreversible:</strong> es imposible reconstruir el dato original a partir del hash.</li>
+      <li><strong>Efecto avalancha:</strong> cambiar una sola letra cambia el hash completamente.</li>
+      <li><strong>Longitud fija:</strong> sin importar si el dato es 1 byte o 1 GB, el hash siempre tiene el mismo tamaño.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Ejemplo real: la palabra <strong>'hola'</strong> en SHA-256 produce siempre el mismo código de 64 caracteres hexadecimales. Si cambias 'hola' por 'Hola' (mayúscula), el resultado es completamente diferente. No existe ninguna forma de adivinar cuál era la entrada a partir del hash.</p>
+    </div>
+
+    <h3>2.3. La cadena: por qué no se puede falsificar la historia</h3>
+    <p>Imagina que la blockchain tiene 500.000 bloques. Si alguien quisiera cambiar una transacción del bloque número 100, tendría que:</p>
+    <ul>
+      <li>Recalcular el hash del bloque 100 con los datos modificados.</li>
+      <li>Recalcular el hash del bloque 101, que ya no coincide porque apuntaba al hash original del 100.</li>
+      <li>Repetir el proceso para cada uno de los 499.900 bloques siguientes.</li>
+      <li>Y hacerlo todo más rápido que el resto de la red sigue añadiendo bloques nuevos.</li>
+    </ul>
+    <p>En la práctica, esto es <strong>computacionalmente imposible</strong>. La historia en una blockchain está sellada para siempre.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Cómo se validan las transacciones</h2>
+
+    <h3>3.1. Los nodos</h3>
+    <p>Un <strong>nodo</strong> es cualquier ordenador que participa en la red de la blockchain. Hay varios tipos:</p>
+    <ul>
+      <li><strong>Nodos completos</strong> (full nodes): guardan una copia completa de toda la blockchain desde el primer bloque. Verifican de forma independiente que todas las transacciones y bloques son correctos.</li>
+      <li><strong>Nodos ligeros</strong> (light nodes): solo descargan las cabeceras de los bloques. Dependen de los nodos completos para verificar datos. Son suficientes para usuarios normales.</li>
+      <li><strong>Mineros/validadores:</strong> nodos especiales que proponen los nuevos bloques y los añaden a la cadena a cambio de una recompensa.</li>
+    </ul>
+
+    <h3>3.2. El ciclo de vida de una transacción</h3>
+    <p>Cuando realizas una transacción en una blockchain, esto es lo que ocurre:</p>
+    <ul>
+      <li><strong>Paso 1 — Creación:</strong> firmas digitalmente la transacción con tu clave privada. Esta firma demuestra que eres el propietario de los fondos sin revelar tu clave.</li>
+      <li><strong>Paso 2 — Difusión:</strong> la transacción se envía a la red y se propaga de nodo en nodo (como un mensaje de WhatsApp que se reenvía). Entra en la 'mempool' (área de espera).</li>
+      <li><strong>Paso 3 — Validación:</strong> los mineros/validadores recogen transacciones de la mempool, verifican que los fondos existen y que la firma es correcta, y las incluyen en el siguiente bloque.</li>
+      <li><strong>Paso 4 — Confirmación:</strong> el bloque se añade a la cadena. Cuantos más bloques se añaden encima, más confirmaciones tiene la transacción y más irreversible resulta.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Una transacción con <strong>6 confirmaciones</strong> en Bitcoin se considera prácticamente irreversible. En Bittensor, las confirmaciones se producen cada ~12 segundos.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>Mecanismos de consenso</h2>
+
+    <h3>4.1. El problema del consenso</h3>
+    <p>Si miles de nodos tienen copias del libro, ¿quién decide cuál es el siguiente bloque válido? No puede haber votaciones normales porque cualquiera puede crear identidades falsas. La solución son los <strong>mecanismos de consenso</strong>: reglas que obligan a los participantes a demostrar que tienen algo que perder si intentan hacer trampa.</p>
+
+    <h3>4.2. Proof of Work (Prueba de Trabajo)</h3>
+    <p>Es el mecanismo de Bitcoin. Los mineros compiten para resolver un puzzle matemático muy difícil. El primero en resolverlo tiene derecho a añadir el siguiente bloque y recibe una recompensa en Bitcoin.</p>
+    <p>El puzzle consiste en encontrar un número (llamado <strong>nonce</strong>) que, añadido al bloque, hace que el hash resultante empiece con un número determinado de ceros. No hay atajo: hay que probar billones de combinaciones. Esto requiere electricidad y hardware, lo que hace que atacar la red sea prohibitivamente caro.</p>
+    <ul>
+      <li><strong>Ventaja:</strong> extremadamente seguro y probado (Bitcoin lleva funcionando desde 2009 sin interrupciones).</li>
+      <li><strong>Desventaja:</strong> consume mucha energía. La red de Bitcoin consume tanta electricidad como algunos países pequeños.</li>
+    </ul>
+
+    <h3>4.3. Proof of Stake (Prueba de Participación)</h3>
+    <p>Es el mecanismo de Ethereum (desde 2022) y muchas blockchains modernas. En lugar de competir con poder computacional, los validadores bloquean (hacen <strong>staking</strong> de) una cantidad de criptomonedas como garantía. Si intentan hacer trampa, pierden esa garantía (<strong>slashing</strong>).</p>
+    <ul>
+      <li><strong>Ventaja:</strong> consume un 99,95% menos de energía que Proof of Work.</li>
+      <li><strong>Desventaja:</strong> los que tienen más tokens tienen más poder de validación, lo que puede llevar a cierta centralización.</li>
+    </ul>
+
+    <h3>4.4. El mecanismo de Bittensor</h3>
+    <p>Bittensor opera sobre la blockchain <strong>Subtensor</strong>, basada en el framework Substrate (la misma tecnología de Polkadot). Utiliza un mecanismo híbrido basado en <strong>Nominated Proof of Stake (NPoS)</strong>: los validadores hacen staking de TAO para participar en la validación.</p>
+    <p>Pero añade algo único: los validadores no solo validan transacciones, sino que también <strong>evalúan la calidad del trabajo de los mineros de IA</strong>. La recompensa en TAO está ligada tanto a la validación de bloques como a la evaluación de la calidad de los modelos. Esto lo veremos en detalle en el Módulo 04.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Mecanismo</th><th>Cómo funciona</th><th>Usado en</th><th>Energía</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Proof of Work</strong></td><td>Resolver puzzle matemático con hardware</td><td>Bitcoin</td><td>Muy alta</td></tr>
+          <tr><td><strong>Proof of Stake</strong></td><td>Bloquear tokens como garantía</td><td>Ethereum, Cardano</td><td>Muy baja</td></tr>
+          <tr><td><strong>NPoS (Substrate)</strong></td><td>PoS con nominadores que delegan stake</td><td>Bittensor, Polkadot</td><td>Muy baja</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 05</div>
+    <h2>Propiedades fundamentales de la blockchain</h2>
+
+    <h3>5.1. Inmutabilidad</h3>
+    <p>Una vez que un bloque se añade a la cadena y recibe confirmaciones suficientes, los datos que contiene <strong>no pueden modificarse</strong> sin rehacer todo el trabajo posterior. La historia está sellada permanentemente.</p>
+
+    <h3>5.2. Transparencia</h3>
+    <p>En una blockchain pública como Bitcoin, Ethereum o Bittensor, cualquier persona puede ver todas las transacciones que han ocurrido desde el primer bloque. Los <strong>exploradores de bloques</strong> (como etherscan.io o taostats.io) permiten buscar cualquier transacción o dirección.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>La transparencia <strong>no implica falta de privacidad</strong>. Las transacciones son públicas, pero las direcciones son seudónimas: ves que la dirección '5FHneLT...' recibió 10 TAO, pero no sabes de quién es esa dirección a menos que alguien lo revele.</p>
+    </div>
+
+    <h3>5.3. Descentralización</h3>
+    <p>No existe ningún servidor central. La red funciona mientras exista al menos un nodo activo en el mundo. Cuantos más nodos, más resistente y segura es la red. Esta propiedad es lo que hace a la blockchain resistente a la censura y a los ataques.</p>
+
+    <h3>5.4. Finalidad</h3>
+    <p>Cada nueva confirmación hace que una transacción sea más difícil de revertir. Con suficientes confirmaciones, la transacción se considera <strong>final</strong>. En Bittensor, la finalidad se alcanza en segundos, no en horas como en Bitcoin.</p>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">Blockchain</div><div class="glosario-def">Cadena de bloques distribuida e inmutable que registra transacciones.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Bloque</div><div class="glosario-def">Unidad de datos que contiene transacciones, un hash propio y el hash del bloque anterior.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Hash</div><div class="glosario-def">Huella digital única de un dato, generada por una función matemática unidireccional.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Nodo</div><div class="glosario-def">Ordenador que participa en la red guardando y/o verificando la blockchain.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Mempool</div><div class="glosario-def">Área de espera donde las transacciones aguardan a ser incluidas en un bloque.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Proof of Work</div><div class="glosario-def">Mecanismo de consenso que requiere resolver puzzles computacionalmente caros.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Proof of Stake</div><div class="glosario-def">Mecanismo de consenso donde los validadores bloquean tokens como garantía.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Validador</div><div class="glosario-def">Nodo que propone y verifica nuevos bloques a cambio de recompensas.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Confirmación</div><div class="glosario-def">Cada bloque añadido encima de una transacción que aumenta su irreversibilidad.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Subtensor</div><div class="glosario-def">La blockchain sobre la que opera Bittensor, basada en el framework Substrate.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Nonce</div><div class="glosario-def">Número que los mineros ajustan para encontrar un hash válido en Proof of Work.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Slashing</div><div class="glosario-def">Penalización que quita stake a un validador que actúa deshonestamente.</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title">// Ejercicios</div>
+    <ol>
+      <li>Dibuja en papel la estructura de 3 bloques encadenados: muestra los campos 'datos', 'hash propio' y 'hash anterior'.</li>
+      <li>¿Por qué modificar el bloque número 100 obligaría a recalcular todos los bloques posteriores? Explícalo con tus palabras.</li>
+      <li>Visita <a href="https://btcscan.org" target="_blank" rel="noopener">btcscan.org</a> o <a href="https://blockchain.info" target="_blank" rel="noopener">blockchain.info</a> y busca el bloque número 840.000 de Bitcoin. ¿Cuántas transacciones contiene? ¿Cuál es su hash?</li>
+      <li>Compara Proof of Work y Proof of Stake: ¿cuál es más seguro? ¿Cuál es más sostenible? ¿Cuál preferirías para una red financiera global?</li>
+      <li>¿Qué diferencia hay entre la blockchain que usa Bitcoin y la que usa Bittensor? Busca 'Subtensor' en <a href="https://taostats.io" target="_blank" rel="noopener">taostats.io</a>.</li>
+      <li>Explica con una analogía del mundo físico qué es un hash. (Pista: piensa en una huella dactilar o un código de barras.)</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>'But how does bitcoin actually work?'</strong> — 3Blue1Brown (YouTube, ~26 min): la mejor explicación visual de hashes y blockchain.</li>
+      <li><strong>'Blockchain demo'</strong> — Anders Brownworth: <a href="https://andersbrownworth.com/blockchain" target="_blank" rel="noopener">andersbrownworth.com/blockchain</a>: simulador interactivo para ver cómo funciona el hashing y la cadena.</li>
+      <li><a href="https://ethereum.org/es" target="_blank" rel="noopener">Ethereum.org/es</a> — sección 'Qué es una blockchain': explicación oficial en español.</li>
+      <li><a href="https://taostats.io" target="_blank" rel="noopener">Taostats.io</a> — explorador de bloques de Bittensor. Explora bloques y transacciones en tiempo real.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-basico-modulo-03.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo 03</div>
+      <div class="siguiente-title">Inteligencia Artificial descentralizada</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · Nivel Básico · Módulo 02 · Mayo 2026 · <a href="aprende-basico.html">Volver al curso</a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo 01 Básico: ¿Qué es el dinero digital? — Bittensor Pro</title>
+<meta name="description" content="Primer módulo del nivel básico. Aprende qué es el dinero digital, qué es Bitcoin, los tipos de criptomonedas, exchanges y wallets." />
+<link rel="canonical" href="https://bittensor.pro/aprende-basico-modulo-01.html" />
+<meta property="og:title" content="Módulo 01 Básico: ¿Qué es el dinero digital?" />
+<meta property="og:description" content="Empieza desde cero. 3 horas. Nivel inicial." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#22d87a;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,216,122,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a:first-child{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(34,216,122,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(34,216,122,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(34,216,122,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(34,216,122,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700}
+.ejercicios a{color:var(--magenta)}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(34,216,122,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.glosario-term{font-size:11px}.glosario-def{font-size:13px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html">Niveles</a>
+    <a href="aprende-basico.html">Básico</a>
+    <a href="market.html">Market</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-basico.html" class="back-link">← Volver al curso básico</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO 01</div>
+  <h1>¿Qué es el <strong>dinero digital</strong>?</h1>
+  <p class="hero-sub">Por qué existe, qué problema resuelve, cómo aparece Bitcoin y de dónde viene Bittensor. Sin dar nada por sabido.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span>Nivel Básico</span>
+    <span class="meta-tag neutral">3 horas</span>
+    <span class="meta-tag neutral">Sin prerequisitos</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender por qué existe el dinero digital y qué problema resuelve.</li>
+      <li>Conocer qué es Bitcoin y por qué fue un hito histórico.</li>
+      <li>Diferenciar los tipos de criptomonedas: pago, plataformas, stablecoins y tokens de utilidad.</li>
+      <li>Aprender qué es un exchange y qué es una wallet.</li>
+      <li>Comprender el concepto de auto-custodia y por qué es fundamental.</li>
+      <li>Entender la conexión entre todo lo anterior y Bittensor.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>El problema del dinero tradicional</h2>
+
+    <h3>1.1. Cómo funciona el dinero que usas hoy</h3>
+    <p>Cuando tienes dinero en el banco, en realidad <strong>no tienes dinero físico</strong>. Tienes un número en una base de datos que el banco administra. Ese número representa una promesa: el banco dice que te devolverá esa cantidad en efectivo si lo pides.</p>
+    <p>Esto funciona la mayor parte del tiempo. Pero tiene problemas estructurales importantes:</p>
+    <ul>
+      <li><strong>Dependencia de intermediarios.</strong> Para mover dinero necesitas un banco, un procesador de pagos (Visa, Mastercard) y en muchos casos varios intermediarios más. Cada uno cobra comisiones y puede bloquear la operación.</li>
+      <li><strong>Control centralizado.</strong> Un gobierno puede ordenar congelar cuentas. Un banco puede quebrar. Un país puede sufrir hiperinflación. Argentina, Venezuela y Zimbabwe son ejemplos recientes.</li>
+      <li><strong>Exclusión financiera.</strong> Más de 1.400 millones de personas no tienen acceso a una cuenta bancaria porque los bancos no operan en sus zonas o imponen requisitos que no pueden cumplir.</li>
+      <li><strong>Lentitud y coste internacional.</strong> Enviar dinero de España a México puede costar entre un 5 % y un 10 % de comisión y tardar varios días. El dinero viaja más lento que un correo electrónico.</li>
+    </ul>
+
+    <h3>1.2. La pregunta que lo cambió todo</h3>
+    <p>En 2008, alguien bajo el seudónimo <strong>Satoshi Nakamoto</strong> publicó un documento de 9 páginas con una pregunta implícita: <em>¿Es posible crear un sistema de pago electrónico que funcione sin que ninguna entidad central lo controle?</em></p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>La respuesta fue <strong>Bitcoin</strong>. Era la primera solución al problema del doble gasto — cómo evitar que alguien envíe el mismo dinero dos veces — sin necesidad de una autoridad central que lleve el registro.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Bitcoin: el primer dinero digital descentralizado</h2>
+
+    <h3>2.1. Qué es Bitcoin</h3>
+    <p>Bitcoin es una moneda digital con propiedades que no existían antes de 2009:</p>
+    <ul>
+      <li><strong>No tiene dueño.</strong> No hay empresa, gobierno ni persona que lo controle. Es un protocolo abierto, como el correo electrónico o internet.</li>
+      <li><strong>Red distribuida.</strong> Funciona en miles de ordenadores por todo el mundo. Para detenerlo habría que apagarlos todos simultáneamente.</li>
+      <li><strong>Supply fijo de 21 millones de unidades.</strong> Nadie puede crear más. Esto lo hace resistente a la inflación de las monedas tradicionales.</li>
+      <li><strong>Transacciones públicas y verificables.</strong> Cualquier persona puede ver cualquier movimiento en la red. Nadie puede falsificar una transacción.</li>
+    </ul>
+
+    <h3>2.2. Cómo funciona (sin tecnicismos)</h3>
+    <p>Imagina un libro de cuentas gigante que registra todas las transacciones desde el primer día. Ese libro está copiado en miles de ordenadores al mismo tiempo. Cuando alguien quiere hacer una transacción, se anuncia a toda la red, y los ordenadores verifican que la persona tiene los fondos antes de escribirla en el libro.</p>
+    <p>Ese libro de cuentas compartido y público es lo que se llama <strong>blockchain</strong> (cadena de bloques). Lo veremos en detalle en el Módulo 02.</p>
+
+    <h3>2.3. Por qué fue revolucionario</h3>
+    <p>Antes de Bitcoin, si Alice quería enviar dinero a Bob sin intermediarios, el problema era: <em>¿cómo evitar que Alice envíe el mismo dinero dos veces?</em> Los bancos resuelven esto porque llevan ellos el registro central. Bitcoin lo resuelve <strong>sin banco</strong>: la red entera verifica y registra cada transacción.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Aspecto</th><th>Dinero bancario</th><th>Bitcoin</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Control</strong></td><td>Banco / gobierno</td><td>Ninguna entidad central</td></tr>
+          <tr><td><strong>Registro</strong></td><td>Base de datos privada</td><td>Blockchain pública y auditable</td></tr>
+          <tr><td><strong>Supply</strong></td><td>Ilimitado (banco central)</td><td>21 millones fijo, nunca más</td></tr>
+          <tr><td><strong>Censura</strong></td><td>Posible (cuenta congelada)</td><td>Técnicamente imposible</td></tr>
+          <tr><td><strong>Acceso</strong></td><td>Requiere cuenta bancaria</td><td>Solo necesitas internet</td></tr>
+          <tr><td><strong>Transferencias internacionales</strong></td><td>3–5 días, 5–10 % de comisión</td><td>Minutos, comisión mínima</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Qué son las criptomonedas</h2>
+
+    <h3>3.1. Más allá de Bitcoin</h3>
+    <p>Bitcoin demostró que era posible crear dinero digital descentralizado. A partir de ahí aparecieron miles de proyectos usando la misma idea básica para construir otras cosas. El término <strong>criptomoneda</strong> engloba todos los activos digitales que operan sobre redes descentralizadas usando criptografía, sin depender de un banco central.</p>
+
+    <h3>3.2. Tipos principales</h3>
+    <ul>
+      <li><strong>Monedas de pago</strong> (Bitcoin, Litecoin): diseñadas para ser medio de intercambio y reserva de valor, replicando las funciones del dinero tradicional pero sin intermediarios.</li>
+      <li><strong>Plataformas de contratos inteligentes</strong> (Ethereum): no solo registran transacciones, sino que ejecutan programas automáticos (contratos inteligentes) que permiten crear aplicaciones descentralizadas.</li>
+      <li><strong>Stablecoins</strong> (USDC, USDT): criptomonedas cuyo valor está anclado al dólar u otra moneda. Útiles para evitar la volatilidad mientras se opera en el ecosistema cripto.</li>
+      <li><strong>Tokens de utilidad:</strong> activos cuya función es dar acceso o derechos dentro de un protocolo específico. El token <strong>TAO</strong> de Bittensor entra aquí: coordina y recompensa a los participantes de la red de IA.</li>
+    </ul>
+
+    <h3>3.3. La volatilidad: qué es y por qué existe</h3>
+    <p>Si has oído hablar de criptomonedas, probablemente has oído que «suben y bajan mucho». El precio de Bitcoin ha caído un 80 % en algunos periodos y multiplicado por 20 en otros. Esto ocurre porque son mercados pequeños comparados con acciones o divisas, el sentimiento del mercado impacta mucho, y muchos proyectos tienen valor especulativo.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>La volatilidad <strong>no significa que sean inútiles</strong>. Significa que hay que entender lo que se tiene y no invertir más de lo que se puede permitir perder.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>Exchanges y wallets</h2>
+
+    <h3>4.1. Qué es un exchange</h3>
+    <p>Un <strong>exchange</strong> (o casa de cambio) es una plataforma donde puedes comprar, vender e intercambiar criptomonedas. Los más conocidos son Binance, Coinbase y Kraken.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tipo</th><th>Descripción</th><th>Riesgo principal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>CEX</strong> (centralizado)</td><td>Empresa que custodia tus activos. Fácil de usar para principiantes.</td><td>Si la empresa quiebra pierdes fondos (ej. FTX 2022)</td></tr>
+          <tr><td><strong>DEX</strong> (descentralizado)</td><td>Opera sobre blockchain. Intercambio directo entre wallets sin empresa.</td><td>Mayor complejidad técnica para el usuario</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4.2. Qué es una wallet</h3>
+    <p>Una <strong>wallet</strong> (cartera) no guarda tus criptomonedas. Guarda tus <strong>claves privadas</strong>, que son las que te dan acceso y control sobre tus fondos en la blockchain.</p>
+    <p>Analogía: la blockchain es como una caja fuerte pública que todos pueden ver pero nadie puede abrir sin la llave correcta. Tu wallet guarda esa llave.</p>
+    <ul>
+      <li><strong>Wallets de custodia:</strong> el exchange guarda las claves por ti. Si la empresa cierra, pierdes el acceso.</li>
+      <li><strong>Wallets de auto-custodia:</strong> tú controlas tus propias claves. Nadie más tiene acceso. Máxima responsabilidad y máxima seguridad.</li>
+      <li><strong>Wallets de software</strong> (MetaMask, Phantom): aplicaciones en móvil u ordenador. Convenientes pero vulnerables si el dispositivo se infecta.</li>
+      <li><strong>Wallets de hardware</strong> (Ledger, Trezor): dispositivos físicos que guardan las claves offline. Las más seguras. Recomendadas para cantidades significativas.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p><strong>"Not your keys, not your coins."</strong> Si no tienes las claves privadas, no tienes realmente las criptomonedas: solo tienes la promesa de que otra empresa te las devolverá.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 05</div>
+    <h2>Por qué importa todo esto</h2>
+
+    <h3>5.1. La propiedad digital verdadera</h3>
+    <p>La innovación fundamental no es solo la velocidad o el coste. Es la <strong>propiedad real</strong>. Por primera vez, puedes tener algo digital que nadie te puede quitar sin tu permiso. Con criptomonedas en auto-custodia, nadie puede mover tus fondos sin tu clave privada.</p>
+
+    <h3>5.2. Programabilidad del dinero</h3>
+    <p>Con plataformas como Ethereum, el dinero puede tener condiciones programadas. Un contrato inteligente puede decir: <em>«paga a Bob solo si entrega el producto antes del 15 de enero»</em>. Sin notarios, sin abogados. El código ejecuta el acuerdo automáticamente.</p>
+
+    <h3>5.3. La conexión con Bittensor</h3>
+    <p>Bittensor usa todo lo que hemos visto como infraestructura: tiene su propio token (<strong>TAO</strong>) con supply limitado como Bitcoin, opera sobre una blockchain propia (<strong>Subtensor</strong>), y usa wallets con claves criptográficas para identificar a los participantes.</p>
+    <p>Pero va más allá: en lugar de mover valor monetario, usa esa infraestructura para coordinar <strong>trabajo de Inteligencia Artificial</strong>. Los mineros ofrecen modelos de IA, los validadores evalúan la calidad, y la red recompensa con TAO a los mejores.</p>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">Blockchain</div><div class="glosario-def">Base de datos distribuida e inmutable que registra transacciones.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Bitcoin</div><div class="glosario-def">Primera criptomoneda descentralizada, creada en 2009 por Satoshi Nakamoto.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Criptomoneda</div><div class="glosario-def">Activo digital sobre una red descentralizada usando criptografía.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Exchange (CEX)</div><div class="glosario-def">Plataforma centralizada para comprar y vender criptomonedas.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Exchange (DEX)</div><div class="glosario-def">Plataforma descentralizada para intercambiar activos directamente entre wallets.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Wallet</div><div class="glosario-def">Software o hardware que almacena las claves privadas de tus fondos.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Clave privada</div><div class="glosario-def">Código secreto que prueba la propiedad. Si se pierde, se pierden los fondos.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Doble gasto</div><div class="glosario-def">Problema de gastar la misma moneda digital dos veces. Bitcoin lo resolvió.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Stablecoin</div><div class="glosario-def">Criptomoneda anclada a una moneda tradicional (ej. dólar).</div></div>
+    <div class="glosario-item"><div class="glosario-term">Token de utilidad</div><div class="glosario-def">Activo que da acceso o derechos dentro de un protocolo (ej. TAO).</div></div>
+    <div class="glosario-item"><div class="glosario-term">Auto-custodia</div><div class="glosario-def">Guardar tus propias claves privadas sin depender de un tercero.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Smart contract</div><div class="glosario-def">Programa que se ejecuta automáticamente sobre una blockchain.</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title">// Ejercicios</div>
+    <ol>
+      <li>Escribe con tus palabras los tres problemas principales del dinero bancario tradicional (máximo un párrafo por problema).</li>
+      <li>Explica qué es el «problema del doble gasto» y cómo lo resolvió Bitcoin sin necesitar un banco.</li>
+      <li>¿Cuál es la diferencia entre un exchange centralizado y uno descentralizado? Pon un ejemplo de cada uno.</li>
+      <li>Explica qué significa «not your keys, not your coins» y por qué es importante para participar en Bittensor.</li>
+      <li>Enumera los cuatro tipos de criptomonedas vistos en el módulo y clasifica: Bitcoin, USDC, Ethereum y TAO.</li>
+      <li>Entra en <a href="https://coinmarketcap.com" target="_blank" rel="noopener">coinmarketcap.com</a> y busca el precio actual de Bitcoin y de TAO. ¿Cuántos TAO equivalen a 100 € hoy?</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>Bitcoin Whitepaper original</strong> (Satoshi Nakamoto, 2008): <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">bitcoin.org/bitcoin.pdf</a></li>
+      <li><strong>'But how does bitcoin actually work?'</strong> — 3Blue1Brown (YouTube, ~26 min): explicación visual del funcionamiento de la blockchain.</li>
+      <li><a href="https://coinmarketcap.com" target="_blank" rel="noopener">Coinmarketcap.com</a> — para ver precios y capitalización de mercado en tiempo real.</li>
+      <li>Documentación oficial Bittensor (para módulos posteriores): <a href="https://docs.bittensor.com" target="_blank" rel="noopener">docs.bittensor.com</a></li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-basico-modulo-02.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo 02</div>
+      <div class="siguiente-title">Cómo funciona una blockchain</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · Nivel Básico · Módulo 01 · Mayo 2026 · <a href="aprende-basico.html">Volver al curso</a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>
