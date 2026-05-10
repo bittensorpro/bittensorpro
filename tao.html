@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>TAO — Precio, Mcap, Histórico · Bittensor Pro</title>
+<meta name="description" content="Precio de TAO en tiempo real, histórico hasta 1 año, market cap, supply, exchanges donde comprar y sentimiento del ecosistema Bittensor." />
+<link rel="canonical" href="https://bittensor.pro/tao.html" />
+
+<meta property="og:title" content="TAO — Precio, Mcap, Histórico · Bittensor Pro" />
+<meta property="og:description" content="Precio de TAO en tiempo real, histórico, exchanges y sentimiento del ecosistema Bittensor en español." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_ES" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+:root{
+  --bg:#05060a;--bg-2:#0d0f17;--bg-3:#141826;
+  --border:rgba(0,240,255,.10);--border-2:rgba(0,240,255,.22);
+  --text:#e8f0f5;--text-muted:#a8b2c0;--text-dim:#6b7385;--text-faint:#4a5263;
+  --cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--red:#ff4d5e;
+  --amber:#ffaa3a;
+  --max-width:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Chakra Petch',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.65;
+  overflow-x:hidden;min-height:100vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,.06),transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 100%,rgba(255,43,214,.03),transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* TOPBAR */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));
+  background:rgba(5,6,10,.85);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-mark{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,rgba(0,240,255,.12),rgba(255,43,214,.10));
+  border:1px solid rgba(0,240,255,.4);
+  display:grid;place-items:center;color:#fff;
+  font-family:'Orbitron',serif;font-weight:900;font-size:18px;
+  box-shadow:0 0 12px rgba(0,240,255,.3);
+  text-shadow:0 0 8px rgba(0,240,255,.7);
+}
+.brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;color:#f4faff}
+.brand-title .pro{color:var(--magenta);font-style:italic;margin-left:3px;text-shadow:0 0 8px rgba(255,43,214,.5)}
+.nav{display:flex;gap:16px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.nav a{color:var(--text-muted);text-decoration:none;padding:4px 0;transition:color .15s}
+.nav a.active{color:var(--cyan);text-shadow:0 0 8px rgba(0,240,255,.5)}
+.nav a:hover{color:var(--text)}
+
+/* CONTAINER */
+.container{
+  max-width:var(--max-width);margin:0 auto;
+  padding:24px 20px 60px;position:relative;z-index:1;
+}
+
+/* BREADCRUMB */
+.breadcrumb{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:.12em;color:var(--text-faint);
+  text-transform:uppercase;margin-bottom:24px;
+}
+.breadcrumb a{color:var(--cyan);text-decoration:none}
+.breadcrumb a:hover{color:var(--text)}
+
+/* HERO */
+.hero{margin-bottom:32px}
+.tao-name{
+  font-family:'Orbitron',sans-serif;font-weight:900;
+  font-size:56px;line-height:1;letter-spacing:.02em;
+  color:#fff;margin-bottom:6px;
+  text-shadow:0 0 30px rgba(0,240,255,.25);
+}
+.tao-subtitle{
+  font-family:'Fraunces',serif;font-weight:400;
+  font-style:italic;font-size:15px;
+  color:var(--text-muted);margin-bottom:24px;
+}
+.price-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.price-big{
+  font-family:'Orbitron',sans-serif;font-weight:700;
+  font-size:42px;color:#fff;letter-spacing:.01em;
+  font-variant-numeric:tabular-nums;
+}
+.price-change{
+  font-family:'Share Tech Mono',monospace;
+  font-size:18px;font-weight:500;
+  font-variant-numeric:tabular-nums;
+}
+.price-change.pos{color:var(--green)}
+.price-change.neg{color:var(--red)}
+.price-change.zero{color:var(--text-dim)}
+.price-change-label{
+  font-family:'Share Tech Mono',monospace;
+  font-size:12px;color:var(--text-faint);
+  letter-spacing:.16em;text-transform:uppercase;
+}
+
+/* SECTION LABELS */
+.section-label{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:.22em;color:var(--cyan);
+  text-transform:uppercase;margin-bottom:14px;
+}
+
+/* CHART AREA */
+.chart-section{margin-bottom:36px}
+.chart-controls{display:flex;justify-content:flex-end;gap:0;margin-bottom:16px}
+.tf-toggle{
+  display:inline-flex;background:var(--bg-2);
+  border:1px solid var(--border);border-radius:8px;padding:2px;
+}
+.tf-toggle button{
+  background:transparent;border:none;
+  color:var(--text-dim);padding:6px 14px;border-radius:6px;
+  font-family:'Share Tech Mono',monospace;font-size:12px;font-weight:500;
+  cursor:pointer;transition:all .15s;min-width:40px;
+}
+.tf-toggle button.active{
+  background:rgba(0,240,255,.1);color:var(--cyan);
+  text-shadow:0 0 6px rgba(0,240,255,.5);
+}
+.chart-wrap{
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+  height:340px;position:relative;
+}
+.chart-wrap canvas{max-width:100%;max-height:100%}
+.chart-empty{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:13px;
+}
+
+/* STATS GRID */
+.stats-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;margin-bottom:36px;
+}
+.stat-cell{background:var(--bg-2);padding:16px 20px}
+.stat-label{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  letter-spacing:.16em;color:var(--text-faint);
+  text-transform:uppercase;margin-bottom:6px;
+}
+.stat-value{
+  font-family:'Orbitron',sans-serif;font-weight:600;
+  font-size:18px;color:var(--text);font-variant-numeric:tabular-nums;
+}
+.stat-value.pos{color:var(--green)}
+.stat-value.neg{color:var(--red)}
+.stat-sub{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  color:var(--text-dim);margin-top:4px;
+}
+
+/* FEAR & GREED */
+.fg-section{margin-bottom:36px}
+.fg-card{
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:12px;padding:28px 24px;
+}
+.fg-value-row{
+  display:flex;align-items:baseline;gap:14px;margin-bottom:10px;
+}
+.fg-value{
+  font-family:'Orbitron',sans-serif;font-weight:900;
+  font-size:48px;color:#fff;letter-spacing:.02em;
+}
+.fg-label{
+  font-family:'Share Tech Mono',monospace;font-size:14px;
+  letter-spacing:.18em;text-transform:uppercase;font-weight:500;
+}
+.fg-bar-wrap{margin-top:18px;margin-bottom:14px}
+.fg-bar{
+  position:relative;height:10px;border-radius:5px;
+  background:linear-gradient(to right,
+    #ff4d5e 0%, #ff4d5e 25%,
+    #ff7e5e 25%, #ff7e5e 45%,
+    #b0b0b0 45%, #b0b0b0 55%,
+    #7adb95 55%, #7adb95 75%,
+    #22d87a 75%, #22d87a 100%);
+  overflow:visible;
+}
+.fg-marker{
+  position:absolute;top:-7px;width:24px;height:24px;
+  border-radius:50%;background:#fff;
+  border:3px solid #05060a;
+  transform:translateX(-50%);
+  box-shadow:0 0 14px rgba(255,255,255,.5);
+  transition:left .6s ease-out;
+}
+.fg-scale{
+  display:flex;justify-content:space-between;
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  color:var(--text-faint);letter-spacing:.12em;
+  text-transform:uppercase;margin-top:6px;
+}
+.fg-explain{
+  font-size:13px;color:var(--text-muted);
+  margin-top:14px;line-height:1.6;
+}
+
+/* EXCHANGES */
+.exchanges-section{margin-bottom:36px}
+.exchanges-list{
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+}
+.exchange-row{
+  display:grid;
+  grid-template-columns:32px 1fr 1fr auto;
+  gap:14px;align-items:center;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  text-decoration:none;color:inherit;
+  transition:background .15s;
+}
+.exchange-row:last-child{border-bottom:none}
+.exchange-row:hover{background:rgba(0,240,255,.04)}
+.exchange-rank{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  color:var(--text-faint);text-align:center;
+}
+.exchange-name{
+  font-family:'Chakra Petch',sans-serif;font-weight:600;
+  font-size:15px;color:var(--text);
+}
+.exchange-pair{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  color:var(--text-dim);margin-top:2px;
+}
+.exchange-vol{
+  font-family:'Share Tech Mono',monospace;font-size:13px;
+  color:var(--text-muted);text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.exchange-vol-label{
+  font-size:9px;color:var(--text-faint);
+  letter-spacing:.14em;text-transform:uppercase;margin-top:2px;
+}
+.exchange-arrow{
+  color:var(--cyan);font-size:14px;font-family:monospace;
+}
+
+.warn-box{
+  background:rgba(255,170,58,.06);
+  border:1px solid rgba(255,170,58,.3);
+  border-radius:10px;padding:16px 18px;
+  margin-top:18px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.warn-icon{
+  font-size:18px;flex-shrink:0;
+}
+.warn-text{
+  font-size:13.5px;line-height:1.6;
+  color:var(--text-muted);
+}
+.warn-text strong{color:var(--amber)}
+
+/* CTA BUTTONS */
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 20px;border-radius:10px;
+  font-family:'Share Tech Mono',monospace;font-size:12px;
+  letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;border:1px solid var(--border-2);
+  background:rgba(0,240,255,.04);color:var(--cyan);
+  transition:all .15s;
+}
+.btn:hover{
+  background:rgba(0,240,255,.1);
+  border-color:var(--cyan);
+}
+.btn.magenta{
+  border-color:rgba(255,43,214,.3);
+  background:rgba(255,43,214,.04);color:var(--magenta);
+}
+.btn.magenta:hover{
+  background:rgba(255,43,214,.1);
+  border-color:var(--magenta);
+}
+
+/* LOADING / ERROR */
+.loading-state{
+  text-align:center;padding:60px 20px;
+  color:var(--text-dim);font-family:'Share Tech Mono',monospace;
+  font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+}
+.loading-dot{
+  display:inline-block;width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);margin-right:8px;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:.3;transform:scale(.8)}
+  50%{opacity:1;transform:scale(1)}
+}
+.error-state{text-align:center;padding:60px 20px}
+.error-state h2{
+  font-family:'Fraunces',serif;font-weight:600;
+  font-size:24px;color:#fff;margin-bottom:12px;
+}
+.error-state p{color:var(--text-muted);margin-bottom:24px}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);
+  padding:30px 20px calc(30px + env(safe-area-inset-bottom));
+  text-align:center;font-family:'Share Tech Mono',monospace;
+  font-size:10px;letter-spacing:.2em;color:var(--text-faint);
+  text-transform:uppercase;position:relative;z-index:1;
+}
+footer a{color:var(--cyan);text-decoration:none}
+
+/* MOBILE */
+@media(max-width:600px){
+  .container{padding:20px 16px 40px}
+  .tao-name{font-size:44px}
+  .price-big{font-size:32px}
+  .price-change{font-size:16px}
+  .chart-wrap{height:280px;padding:14px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-value{font-size:16px}
+  .fg-value{font-size:36px}
+  .fg-label{font-size:12px}
+  .nav a:not(.active){display:none}
+  .actions .btn{flex:1;justify-content:center}
+  .exchange-row{grid-template-columns:24px 1fr 1fr auto;gap:10px;padding:12px 14px}
+  .exchange-name{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-mark">τ</div>
+    <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
+  </a>
+  <nav class="nav">
+    <a href="aprende.html">Aprende</a>
+    <a href="market.html">Market</a>
+    <a href="tao.html" class="active">TAO</a>
+    <a href="index.html">Inicio</a>
+  </nav>
+</header>
+
+<div class="container" id="content">
+  <div class="loading-state">
+    <span class="loading-dot"></span>Cargando datos…
+  </div>
+</div>
+
+<footer>
+  <a href="index.html">Bittensor Pro</a> · 2026 · No es consejo financiero
+</footer>
+
+<script>
+/* =========================================================================
+   CONFIGURACIÓN
+   ========================================================================= */
+const API_BASE = 'https://tao360.qrchd889gj.workers.dev';
+const CG_BASE = 'https://api.coingecko.com/api/v3/coins/bittensor';
+const RAO = 1_000_000_000;
+
+const STATE = {
+  cg: null,           // CoinGecko data principal
+  history: null,      // CoinGecko histórico
+  exchanges: [],      // CoinGecko tickers
+  fearGreed: null,    // promedio de top 10 subnets
+  fearGreedCount: 0,
+  timeframe: 7,       // días por defecto (7d)
+  chart: null,
+};
+
+/* =========================================================================
+   FORMATTERS
+   ========================================================================= */
+function fmtPrice(usd){
+  if(!usd && usd !== 0) return '—';
+  if(usd < 0.01) return '$' + usd.toFixed(5);
+  if(usd < 1)    return '$' + usd.toFixed(4);
+  if(usd < 100)  return '$' + usd.toFixed(2);
+  return '$' + usd.toLocaleString('en-US',{maximumFractionDigits:2});
+}
+function fmtMoney(usd){
+  if(!usd && usd !== 0) return '—';
+  if(usd >= 1e9) return '$' + (usd/1e9).toFixed(2) + 'B';
+  if(usd >= 1e6) return '$' + (usd/1e6).toFixed(2) + 'M';
+  if(usd >= 1e3) return '$' + (usd/1e3).toFixed(2) + 'K';
+  return '$' + usd.toFixed(2);
+}
+function fmtSupply(num){
+  if(!num && num !== 0) return '—';
+  if(num >= 1e6) return (num/1e6).toFixed(2) + 'M';
+  if(num >= 1e3) return (num/1e3).toFixed(2) + 'K';
+  return num.toFixed(0);
+}
+function fmtPct(v){
+  if(v === null || v === undefined || isNaN(v)) return '—';
+  const sign = v > 0 ? '+' : '';
+  return sign + v.toFixed(2) + '%';
+}
+function pctClass(v){
+  if(v > 0.001) return 'pos';
+  if(v < -0.001) return 'neg';
+  return 'zero';
+}
+function escapeHtml(str){
+  if(!str) return '';
+  return String(str).replace(/[&<>"']/g,c=>(
+    {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
+  ));
+}
+
+/* =========================================================================
+   FEAR & GREED CATEGORIZATION
+   ========================================================================= */
+function fgCategory(value){
+  if(value === null || value === undefined) return { label: '—', color: '#6b7385' };
+  if(value < 25) return { label: 'Extreme Fear',   color: '#ff4d5e' };
+  if(value < 45) return { label: 'Fear',            color: '#ff7e5e' };
+  if(value < 56) return { label: 'Neutral',         color: '#b0b0b0' };
+  if(value < 75) return { label: 'Greed',           color: '#7adb95' };
+  return { label: 'Extreme Greed', color: '#22d87a' };
+}
+
+/* =========================================================================
+   CARGA DE DATOS
+   ========================================================================= */
+async function fetchCoinGecko(){
+  try{
+    const url = `${CG_BASE}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false`;
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('CoinGecko coin failed');
+    return await r.json();
+  }catch(e){
+    console.error(e);
+    return null;
+  }
+}
+
+async function fetchHistory(days){
+  try{
+    const url = `${CG_BASE}/market_chart?vs_currency=usd&days=${days}`;
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('CoinGecko history failed');
+    return await r.json();
+  }catch(e){
+    console.error(e);
+    return null;
+  }
+}
+
+async function fetchFearGreed(){
+  // Tomar top 10 subnets por mcap y promediar fear_and_greed_index
+  try{
+    const [r1, r2] = await Promise.all([
+      fetch(`${API_BASE}/api/dtao/pool/latest/v1?page=1&limit=100`),
+      fetch(`${API_BASE}/api/dtao/pool/latest/v1?page=2&limit=100`),
+    ]);
+    const j1 = await r1.json();
+    const j2 = await r2.json();
+    const list = [
+      ...(j1.data || []),
+      ...(j2.data || []),
+    ];
+
+    // Filtrar las que tienen fear_and_greed_index y mcap válidos
+    const valid = list.filter(s =>
+      s.fear_and_greed_index !== null &&
+      s.fear_and_greed_index !== undefined &&
+      parseFloat(s.market_cap) > 0
+    );
+
+    if(valid.length === 0) return { value: null, count: 0 };
+
+    // Ordenar por mcap descendente y coger top 10
+    valid.sort((a, b) => parseFloat(b.market_cap) - parseFloat(a.market_cap));
+    const top10 = valid.slice(0, 10);
+
+    // Promediar
+    const sum = top10.reduce((acc, s) => acc + parseFloat(s.fear_and_greed_index), 0);
+    const avg = sum / top10.length;
+
+    return { value: Math.round(avg), count: top10.length };
+  }catch(e){
+    console.error('Fear & Greed error', e);
+    return { value: null, count: 0 };
+  }
+}
+
+/* =========================================================================
+   RENDER
+   ========================================================================= */
+function renderError(msg){
+  document.getElementById('content').innerHTML = `
+    <div class="error-state">
+      <h2>Error cargando datos</h2>
+      <p>${escapeHtml(msg)}</p>
+      <a href="javascript:location.reload()" class="btn">Reintentar</a>
+    </div>
+  `;
+}
+
+function renderPage(){
+  const cg = STATE.cg;
+  if(!cg || !cg.market_data){
+    renderError('No se pudieron cargar los datos de TAO desde CoinGecko. Inténtalo más tarde.');
+    return;
+  }
+
+  const md = cg.market_data;
+  const price = md.current_price?.usd || 0;
+  const change24h = md.price_change_percentage_24h || 0;
+
+  const stats = {
+    mcap:      md.market_cap?.usd || 0,
+    vol24h:    md.total_volume?.usd || 0,
+    supply:    md.circulating_supply || 0,
+    maxSupply: md.max_supply || 21_000_000,
+    ath:       md.ath?.usd || 0,
+    athChange: md.ath_change_percentage?.usd || 0,
+    change1h:  md.price_change_percentage_1h_in_currency?.usd || 0,
+    change7d:  md.price_change_percentage_7d || 0,
+    change30d: md.price_change_percentage_30d || 0,
+    change1y:  md.price_change_percentage_1y || 0,
+  };
+
+  const minedPct = (stats.supply / stats.maxSupply) * 100;
+
+  // Fear & Greed
+  const fg = STATE.fearGreed;
+  let fgSection = '';
+  if(fg && fg.value !== null){
+    const cat = fgCategory(fg.value);
+    const markerLeft = Math.max(0, Math.min(100, fg.value));
+    fgSection = `
+      <div class="fg-section">
+        <div class="section-label">// Sentimiento del ecosistema</div>
+        <div class="fg-card">
+          <div class="fg-value-row">
+            <div class="fg-value">${fg.value}</div>
+            <div class="fg-label" style="color:${cat.color}">${cat.label}</div>
+          </div>
+          <div class="fg-bar-wrap">
+            <div class="fg-bar">
+              <div class="fg-marker" style="left:${markerLeft}%"></div>
+            </div>
+            <div class="fg-scale">
+              <span>Extreme Fear</span>
+              <span>Neutral</span>
+              <span>Extreme Greed</span>
+            </div>
+          </div>
+          <div class="fg-explain">
+            Promedio del Fear &amp; Greed Index de las ${fg.count} subnets de mayor capitalización del ecosistema Bittensor. 0 = Extreme Fear, 100 = Extreme Greed.
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Exchanges
+  let exchangesSection = '';
+  if(STATE.exchanges.length > 0){
+    const rows = STATE.exchanges.map((ex, i) => `
+      <a href="${escapeHtml(ex.tradeUrl)}" target="_blank" rel="noopener" class="exchange-row">
+        <div class="exchange-rank">${i + 1}</div>
+        <div>
+          <div class="exchange-name">${escapeHtml(ex.name)}</div>
+          <div class="exchange-pair">${escapeHtml(ex.pair)}</div>
+        </div>
+        <div>
+          <div class="exchange-vol">${fmtMoney(ex.volume)}</div>
+          <div class="exchange-vol-label">Vol 24h</div>
+        </div>
+        <div class="exchange-arrow">→</div>
+      </a>
+    `).join('');
+    exchangesSection = `
+      <div class="exchanges-section">
+        <div class="section-label">// Dónde comprar TAO</div>
+        <div class="exchanges-list">${rows}</div>
+        <div class="warn-box">
+          <div class="warn-icon">⚠️</div>
+          <div class="warn-text">
+            <strong>Tras comprar TAO, transfiérelo a tu propia coldkey.</strong> No mantengas TAO en el exchange salvo el necesario para trading. Los exchanges pueden ser hackeados, congelar fondos o quebrar. Tu coldkey personal es soberana y a prueba de censura.
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // HTML completo
+  const html = `
+    <div class="breadcrumb">
+      <a href="market.html" id="back-link">← Volver</a>
+    </div>
+
+    <section class="hero">
+      <h1 class="tao-name">TAO</h1>
+      <div class="tao-subtitle">El token nativo de Bittensor</div>
+      <div class="price-row">
+        <div class="price-big">${fmtPrice(price)}</div>
+        <div class="price-change ${pctClass(change24h)}">${fmtPct(change24h)}</div>
+        <div class="price-change-label">24h</div>
+      </div>
+    </section>
+
+    <section class="chart-section">
+      <div class="chart-controls">
+        <div class="tf-toggle" id="tf-toggle">
+          <button data-tf="1">24h</button>
+          <button data-tf="7" class="active">7d</button>
+          <button data-tf="30">30d</button>
+          <button data-tf="365">1a</button>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="price-chart"></canvas>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label">// Estadísticas</div>
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <div class="stat-label">Market Cap</div>
+          <div class="stat-value">${fmtMoney(stats.mcap)}</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Volumen 24h</div>
+          <div class="stat-value">${fmtMoney(stats.vol24h)}</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Supply circulante</div>
+          <div class="stat-value">${fmtSupply(stats.supply)} TAO</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Supply máximo</div>
+          <div class="stat-value">${fmtSupply(stats.maxSupply)} TAO</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">% minado</div>
+          <div class="stat-value">${minedPct.toFixed(1)}%</div>
+          <div class="stat-sub">Quedan ${fmtSupply(stats.maxSupply - stats.supply)} TAO</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">All-Time High</div>
+          <div class="stat-value">${fmtPrice(stats.ath)}</div>
+          <div class="stat-sub">${fmtPct(stats.athChange)} desde ATH</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Cambio 1h</div>
+          <div class="stat-value ${pctClass(stats.change1h)}">${fmtPct(stats.change1h)}</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Cambio 7d</div>
+          <div class="stat-value ${pctClass(stats.change7d)}">${fmtPct(stats.change7d)}</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Cambio 30d</div>
+          <div class="stat-value ${pctClass(stats.change30d)}">${fmtPct(stats.change30d)}</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Cambio 1 año</div>
+          <div class="stat-value ${pctClass(stats.change1y)}">${fmtPct(stats.change1y)}</div>
+        </div>
+      </div>
+    </section>
+
+    ${fgSection}
+
+    ${exchangesSection}
+
+    <div class="actions">
+      <a href="aprende-modulo-03.html" class="btn">Aprende sobre TAO →</a>
+      <a href="market.html" class="btn magenta">Ver Subnet Market →</a>
+    </div>
+  `;
+
+  document.getElementById('content').innerHTML = html;
+
+  // Listener del toggle de timeframe
+  document.getElementById('tf-toggle').addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    document.querySelectorAll('#tf-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    STATE.timeframe = parseInt(btn.dataset.tf, 10);
+    loadHistoryAndRenderChart();
+  });
+
+  // Renderizar la gráfica con el histórico actual
+  renderChart();
+}
+
+async function loadHistoryAndRenderChart(){
+  STATE.history = await fetchHistory(STATE.timeframe);
+  renderChart();
+}
+
+function renderChart(){
+  if(!STATE.history || !STATE.history.prices || STATE.history.prices.length === 0) return;
+
+  const canvas = document.getElementById('price-chart');
+  if(!canvas) return;
+
+  if(STATE.chart){
+    STATE.chart.destroy();
+    STATE.chart = null;
+  }
+
+  // CoinGecko devuelve [[timestamp_ms, price], ...]
+  const points = STATE.history.prices;
+  const dataUSD = points.map(p => p[1]);
+  const times = points.map(p => new Date(p[0]));
+
+  // Labels según timeframe
+  const labels = times.map(t => {
+    if(STATE.timeframe === 1){
+      return t.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    }
+    if(STATE.timeframe <= 30){
+      return t.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+    }
+    return t.toLocaleDateString('es-ES', { month: 'short', year: '2-digit' });
+  });
+
+  // Color según tendencia
+  const isPositive = dataUSD[dataUSD.length - 1] >= dataUSD[0];
+  const lineColor = isPositive ? '#22d87a' : '#ff4d5e';
+  const fillColor = isPositive ? 'rgba(34,216,122,0.08)' : 'rgba(255,77,94,0.08)';
+
+  const ctx = canvas.getContext('2d');
+  STATE.chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: dataUSD,
+        borderColor: lineColor,
+        backgroundColor: fillColor,
+        borderWidth: 2,
+        fill: true,
+        tension: 0.25,
+        pointRadius: 0,
+        pointHoverRadius: 6,
+        pointHoverBackgroundColor: lineColor,
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(13,15,23,0.95)',
+          titleColor: '#a8b2c0',
+          bodyColor: '#fff',
+          borderColor: 'rgba(0,240,255,0.3)',
+          borderWidth: 1,
+          padding: 12,
+          titleFont: { family: "'Share Tech Mono', monospace", size: 11 },
+          bodyFont: { family: "'Orbitron', sans-serif", size: 14, weight: '600' },
+          displayColors: false,
+          callbacks: {
+            title: (items) => {
+              if(!items.length) return '';
+              const i = items[0].dataIndex;
+              const t = times[i];
+              if(!t) return items[0].label;
+              if(STATE.timeframe === 1){
+                return t.toLocaleString('es-ES', {
+                  day: 'numeric', month: 'short',
+                  hour: '2-digit', minute: '2-digit'
+                });
+              }
+              return t.toLocaleDateString('es-ES', {
+                day: 'numeric', month: 'short', year: 'numeric'
+              });
+            },
+            label: (ctx) => {
+              const v = ctx.parsed.y;
+              if(v < 1) return '$' + v.toFixed(4);
+              if(v < 100) return '$' + v.toFixed(2);
+              return '$' + v.toLocaleString('en-US', { maximumFractionDigits: 2 });
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            color: '#6b7385',
+            font: { family: "'Share Tech Mono', monospace", size: 10 },
+            maxRotation: 0, autoSkip: true, maxTicksLimit: 6,
+          },
+          border: { color: 'rgba(0,240,255,0.10)' }
+        },
+        y: {
+          grid: { color: 'rgba(0,240,255,0.05)', drawBorder: false },
+          ticks: {
+            color: '#6b7385',
+            font: { family: "'Share Tech Mono', monospace", size: 10 },
+            callback: (v) => {
+              if(v < 1) return '$' + v.toFixed(2);
+              if(v < 100) return '$' + v.toFixed(0);
+              return '$' + Math.round(v).toLocaleString('en-US');
+            }
+          },
+          border: { display: false }
+        }
+      }
+    }
+  });
+}
+
+/* =========================================================================
+   PARSEO DE EXCHANGES (CoinGecko tickers)
+   ========================================================================= */
+function parseExchanges(cg){
+  if(!cg || !cg.tickers) return [];
+
+  // Filtrar y normalizar
+  const VALID_TARGETS = ['USDT', 'USD', 'USDC', 'BUSD', 'EUR'];
+  const filtered = cg.tickers
+    .filter(t =>
+      t.target && VALID_TARGETS.includes(t.target.toUpperCase()) &&
+      t.trust_score !== 'red' &&
+      t.converted_volume?.usd > 0
+    )
+    .map(t => ({
+      name: t.market?.name || 'Unknown',
+      pair: `TAO/${t.target.toUpperCase()}`,
+      volume: t.converted_volume.usd,
+      tradeUrl: t.trade_url || '#',
+    }));
+
+  // Deduplicar por exchange (nos quedamos con el de mayor volumen)
+  const byExchange = {};
+  for(const ex of filtered){
+    if(!byExchange[ex.name] || byExchange[ex.name].volume < ex.volume){
+      byExchange[ex.name] = ex;
+    }
+  }
+
+  // Ordenar por volumen descendente y top 10
+  return Object.values(byExchange)
+    .sort((a, b) => b.volume - a.volume)
+    .slice(0, 10);
+}
+
+/* =========================================================================
+   MAIN
+   ========================================================================= */
+async function init(){
+  // Cargar todo en paralelo
+  const [cg, history, fg] = await Promise.all([
+    fetchCoinGecko(),
+    fetchHistory(STATE.timeframe),
+    fetchFearGreed(),
+  ]);
+
+  if(!cg){
+    renderError('No se pudieron cargar los datos. Es posible que CoinGecko esté limitando peticiones. Inténtalo en unos segundos.');
+    return;
+  }
+
+  STATE.cg = cg;
+  STATE.history = history;
+  STATE.exchanges = parseExchanges(cg);
+  STATE.fearGreed = fg;
+
+  renderPage();
+}
+
+init();
+
+// Botón "Volver" inteligente: usa history.back() siempre que sea posible
+(function setupSmartBack(){
+  const link = document.getElementById('back-link');
+  if(!link) return;
+
+  // Detectar de dónde viene mediante varias fuentes
+  let fromPath = '';
+
+  // Método 1: sessionStorage (lo guardó la página anterior antes de salir)
+  try {
+    fromPath = sessionStorage.getItem('lastPage') || '';
+  } catch(e){}
+
+  // Método 2: document.referrer como fallback (a veces funciona)
+  if(!fromPath && document.referrer){
+    try {
+      const refUrl = new URL(document.referrer);
+      if(refUrl.origin === window.location.origin){
+        fromPath = refUrl.pathname.split('/').pop() || 'index.html';
+      }
+    } catch(e){}
+  }
+
+  // Construir el texto del botón según de dónde viene
+  const labels = {
+    'market.html':           '← Volver al Market',
+    'aprende.html':          '← Volver a Aprende',
+    'index.html':            '← Volver al inicio',
+    '':                      '← Volver al inicio',
+    'que-es-bittensor.html': '← Volver a la guía',
+    'subnet.html':           '← Volver a la subnet',
+  };
+  if(fromPath.startsWith('aprende-modulo-')){
+    link.textContent = '← Volver al módulo';
+  } else if(labels[fromPath] !== undefined){
+    link.textContent = labels[fromPath];
+  } else if(fromPath){
+    link.textContent = '← Volver';
+  }
+  // Si fromPath está vacío, dejamos el texto por defecto del HTML
+
+  // El click siempre intenta history.back() primero
+  link.addEventListener('click', function(e){
+    // Si tenemos historial real Y venimos del mismo sitio, usamos back
+    if(fromPath && window.history.length > 1){
+      e.preventDefault();
+      window.history.back();
+    }
+    // Si no, dejamos que el href haga su trabajo (market.html como fallback)
+  });
+})();
+
+// Antes de salir de esta página, guardar dónde estamos para que la próxima sepa
+window.addEventListener('beforeunload', function(){
+  try {
+    const here = window.location.pathname.split('/').pop() || 'index.html';
+    sessionStorage.setItem('lastPage', here);
+  } catch(e){}
+});
+
+// También al cambiar de visibilidad (iOS dispara esto antes de unload)
+document.addEventListener('visibilitychange', function(){
+  if(document.visibilityState === 'hidden'){
+    try {
+      const here = window.location.pathname.split('/').pop() || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+});
+</script>
+</body>
+</html>

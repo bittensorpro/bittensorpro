@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Aprende Intermedio · Bittensor Pro — Profundiza en Bittensor</title>
+<meta name="description" content="Curso intermedio de Bittensor en español. Para quien entiende cripto pero no es programador. Subnets, dTAO, validadores y staking explicados." />
+<link rel="canonical" href="https://bittensor.pro/aprende-intermedio.html" />
+<meta property="og:title" content="Aprende Intermedio · Bittensor Pro" />
+<meta property="og:description" content="Profundiza en Bittensor · Sin programación · En español." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:url" content="https://bittensor.pro/aprende-intermedio.html" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #05060a;
+    --bg-2: #0d0f17;
+    --border: rgba(0, 240, 255, 0.10);
+    --border-2: rgba(0, 240, 255, 0.22);
+    --text: #e8f0f5;
+    --text-muted: #a8b2c0;
+    --text-faint: #4a5263;
+    --cyan: #00f0ff;
+    --magenta: #ff2bd6;
+    --green: #22d87a;
+    --accent: #00f0ff;
+    --max-width: 920px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Chakra Petch', system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+
+  /* Topbar */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 6, 10, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: env(safe-area-inset-top) 0 0;
+  }
+  .topbar-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo {
+    width: 38px; height: 38px;
+    border: 1px solid var(--cyan);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    color: var(--cyan);
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.18);
+  }
+  .brand { flex: 1; }
+  .brand-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1;
+  }
+  .brand-name em {
+    font-style: italic;
+    color: var(--magenta);
+    font-weight: 700;
+  }
+  .brand-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .nav { display: flex; gap: 8px; }
+  .nav a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    text-transform: uppercase;
+  }
+  .nav a:hover { color: var(--cyan); border-color: var(--border-2); }
+
+  @media (max-width: 600px) {
+    .nav a:not(.active){display:none}
+    .brand-sub { display: none; }
+  }
+
+  /* Back */
+  .back-bar {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 18px 20px 0;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 0;
+  }
+  .back-link:hover { opacity: 0.8; }
+
+  /* Hero */
+  .hero {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 30px 20px 30px;
+  }
+  .level-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--accent);
+    background: rgba(0, 240, 255, 0.06);
+    border-radius: 14px;
+    margin-bottom: 20px;
+  }
+  .level-tag .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(34px, 6vw, 52px);
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 strong {
+    font-style: normal;
+    color: var(--accent);
+    text-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 580px;
+    line-height: 1.7;
+  }
+
+  /* Coming soon */
+  .coming-soon {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+    text-align: center;
+  }
+  .coming-soon-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border-2);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 50px 30px;
+  }
+  .coming-soon-icon {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 56px;
+    color: var(--accent);
+    text-shadow: 0 0 24px rgba(0, 240, 255, 0.4);
+    margin-bottom: 18px;
+    letter-spacing: 0.1em;
+  }
+  .coming-soon h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 14px;
+    letter-spacing: 0.02em;
+  }
+  .coming-soon p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0 auto 22px;
+  }
+  .coming-soon-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    letter-spacing: 0.12em;
+    padding: 10px 18px;
+    border: 1px solid var(--cyan);
+    background: rgba(0, 240, 255, 0.05);
+    border-radius: 8px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .coming-soon-cta:hover {
+    background: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.25);
+  }
+
+  /* Roadmap (preview de los módulos planeados) */
+  .roadmap {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+  .roadmap-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .module-list {
+    display: grid;
+    gap: 10px;
+  }
+  .module-item {
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    opacity: 0.6;
+  }
+  .module-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .module-title {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .module-status {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--text-faint);
+    border-radius: 10px;
+  }
+
+  .footer-info {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 30px 20px 50px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .footer-info p {
+    color: var(--text-faint);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .footer-info p a { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">τ</div>
+    <div class="brand">
+      <div class="brand-name">Bittensor <em>Pro</em></div>
+      <div class="brand-sub">Aprende · Intermedio</div>
+    </div>
+    <nav class="nav">
+      <a href="market.html">Market</a>
+      <a href="aprende.html">Aprende</a>
+    </nav>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende.html" class="back-link">← Volver a niveles</a>
+</div>
+
+<section class="hero">
+  <span class="level-tag"><span class="dot"></span>Nivel Intermedio</span>
+  <h1>Profundiza tu <strong>conocimiento</strong></h1>
+  <p>Para quien ya entiende Bitcoin y blockchain pero quiere dominar cómo funciona Bittensor por dentro: subnets, dTAO, validadores, mineros, staking y emisiones — sin necesidad de programar.</p>
+</section>
+
+<section class="coming-soon">
+  <div class="coming-soon-card">
+    <div class="coming-soon-icon">SOON</div>
+    <h2>Curso en preparación</h2>
+    <p>Estamos preparando el curso intermedio de Bittensor en español. Mientras tanto, puedes empezar con la guía introductoria o pasar directamente al manual técnico avanzado si tienes conocimientos de programación.</p>
+    <a href="que-es-bittensor.html" class="coming-soon-cta">
+      Leer la guía introductoria →
+    </a>
+  </div>
+</section>
+
+<section class="roadmap">
+  <div class="roadmap-title">// Módulos planeados</div>
+  <div class="module-list">
+    <div class="module-item">
+      <div class="module-num">01</div>
+      <div class="module-title">Cómo funciona Bittensor en 10 minutos</div>
+      <div class="module-status">Próximamente</div>
+    </div>
+    <div class="module-item">
+      <div class="module-num">02</div>
+      <div class="module-title">Subnets: redes especializadas de IA</div>
+      <div class="module-status">Próximamente</div>
+    </div>
+    <div class="module-item">
+      <div class="module-num">03</div>
+      <div class="module-title">Validadores y mineros explicados</div>
+      <div class="module-status">Próximamente</div>
+    </div>
+    <div class="module-item">
+      <div class="module-num">04</div>
+      <div class="module-title">Qué es dTAO y los tokens alpha</div>
+      <div class="module-status">Próximamente</div>
+    </div>
+    <div class="module-item">
+      <div class="module-num">05</div>
+      <div class="module-title">Staking: cómo funciona y cómo hacerlo</div>
+      <div class="module-status">Próximamente</div>
+    </div>
+    <div class="module-item">
+      <div class="module-num">06</div>
+      <div class="module-title">Emisiones de TAO y Yuma Consensus</div>
+      <div class="module-status">Próximamente</div>
+    </div>
+    <div class="module-item">
+      <div class="module-num">07</div>
+      <div class="module-title">Cómo elegir una buena subnet</div>
+      <div class="module-status">Próximamente</div>
+    </div>
+    <div class="module-item">
+      <div class="module-num">08</div>
+      <div class="module-title">Riesgos y buenas prácticas</div>
+      <div class="module-status">Próximamente</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-info">
+  <p>Bittensor Pro · 2026 · <a href="aprende.html">Niveles</a> · <a href="market.html">Market</a></p>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

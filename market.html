@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Subnet Market — Bittensor Pro</title>
+<meta name="description" content="Mercado de subnets de Bittensor en tiempo real. Precios, market cap, cambio 24h y volumen de las 128 subnets. Datos actualizados cada minuto." />
+<link rel="canonical" href="https://bittensor.pro/market.html" />
+<meta property="og:title" content="Subnet Market — Bittensor Pro" />
+<meta property="og:description" content="Mercado de subnets de Bittensor en tiempo real. Precios y datos de las 128 subnets." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:url" content="https://bittensor.pro/market.html" />
+<meta property="og:site_name" content="Bittensor Pro" />
+
+<!-- PWA / iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Bittensor Pro" />
+<meta name="theme-color" content="#05060a" />
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #05060a;
+    --bg-2: #0d0f17;
+    --border: rgba(0, 240, 255, 0.10);
+    --text: #e8f6ff;
+    --text-dim: #8a95a8;
+    --text-faint: #5a6273;
+    --green: #22d87a;
+    --red: #ff4d5e;
+    --cyan: #00f0ff;
+    --magenta: #ff2bd6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Chakra Petch', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Glow sutil en el fondo */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 240, 255, 0.06), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255, 43, 214, 0.04), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== HEADER ===== */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 14px 16px;
+    padding-top: calc(14px + env(safe-area-inset-top));
+    background: rgba(5, 6, 10, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+  }
+  .brand-mark {
+    width: 36px; height: 36px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: linear-gradient(135deg, rgba(0,240,255,0.12), rgba(255,43,214,0.10));
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-family: 'Orbitron', serif;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 1;
+    box-shadow:
+      0 0 14px rgba(0, 240, 255, 0.3),
+      0 0 24px rgba(255, 43, 214, 0.15);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    min-width: 0;
+  }
+  .brand-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    color: #f4faff;
+    white-space: nowrap;
+  }
+  .brand-title .pro {
+    color: var(--magenta);
+    font-style: italic;
+    margin-left: 3px;
+    text-shadow: 0 0 8px rgba(255, 43, 214, 0.6);
+  }
+  .brand-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* TAO ticker compacto - mismo estilo que .nav-tao en el resto del sitio */
+  .tao-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 6px;
+    background: rgba(0, 240, 255, 0.04);
+    text-decoration: none;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .tao-info:hover {
+    background: rgba(0, 240, 255, 0.10);
+    border-color: rgba(0, 240, 255, 0.55);
+  }
+  .tao-info:active {
+    transform: scale(0.97);
+  }
+  .tao-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: #00f0ff;
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    border-radius: 4px;
+    padding: 3px 5px;
+    line-height: 1;
+    text-shadow: 0 0 4px rgba(0, 240, 255, 0.6);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+  }
+  .tao-price {
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  .tao-arrow {
+    color: #00f0ff;
+    font-size: 12px;
+    text-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
+    transition: transform 0.2s;
+  }
+  .tao-info:hover .tao-arrow {
+    transform: translateX(2px);
+  }
+
+  /* Botón Aprender en header — discreto, coherente con .tao-info */
+  .learn-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 6px;
+    background: rgba(0, 240, 255, 0.04);
+    transition: all 0.15s;
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+  .learn-btn:hover {
+    border-color: rgba(0, 240, 255, 0.55);
+    background: rgba(0, 240, 255, 0.10);
+  }
+  @media (max-width: 600px) {
+    .learn-btn { font-size: 9px; padding: 4px 8px; letter-spacing: 0.10em; }
+  }
+  @media (max-width: 380px) {
+    .learn-btn { display: none; }
+  }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .stat-label {
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .stat-value {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ===== CONTROLS BAR ===== */
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(13, 15, 23, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toggle {
+    display: inline-flex;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2px;
+  }
+  .toggle button {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    min-width: 36px;
+  }
+  .toggle button.active {
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--cyan);
+    text-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
+  }
+  /* En el toggle de timeframe, los botones son más estrechos */
+  #tf-toggle button {
+    padding: 6px 10px;
+    min-width: 32px;
+    font-size: 12px;
+  }
+
+  .search {
+    flex: 1;
+    position: relative;
+  }
+  .search input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 13px;
+    padding: 8px 12px 8px 32px;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search input::placeholder { color: var(--text-faint); }
+  .search input:focus { border-color: var(--cyan); }
+  .search::before {
+    content: "⌕";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cyan);
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  /* ===== LIST (tabla con scroll horizontal en móvil) ===== */
+  .list-wrap {
+    position: relative;
+    z-index: 1;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .list {
+    min-width: 600px; /* fuerza scroll en móvil */
+  }
+
+  /* 6 columnas: # | Subnet | Precio | Mcap | Volumen | Var% */
+  .list-row, .list-header {
+    display: grid;
+    grid-template-columns:
+      44px              /* # */
+      minmax(140px, 1.4fr) /* nombre */
+      90px              /* precio */
+      110px             /* mcap */
+      100px             /* volumen */
+      80px;             /* var */
+    gap: 0;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .list-header {
+    background: rgba(13, 15, 23, 0.6);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-2);
+  }
+  .list-header > div {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: color 0.15s;
+    white-space: nowrap;
+  }
+  .list-header > div:hover {
+    color: var(--text-muted);
+  }
+  .list-header > div.active {
+    color: var(--cyan);
+    text-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
+  }
+  .list-header .sort-arrow {
+    margin-left: 4px;
+    font-size: 10px;
+    opacity: 0.35;
+    transition: opacity 0.15s;
+  }
+  .list-header > div:hover .sort-arrow {
+    opacity: 0.7;
+  }
+  .list-header > div.active .sort-arrow {
+    opacity: 1;
+    font-size: 11px;
+  }
+  .list-header .num,
+  .list-row .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .list-header .num-center,
+  .list-row .num-center {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .list-row {
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .list-row:active { background: rgba(0, 240, 255, 0.04); }
+  @media (hover: hover) {
+    .list-row:hover { background: rgba(0, 240, 255, 0.04); }
+  }
+
+  .rank {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    text-align: center;
+  }
+  .subnet-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .subnet-symbol {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .subnet-meta {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .price, .vol, .mcap {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    padding-right: 8px;
+  }
+  .vol, .mcap { color: var(--text-muted); }
+  .change {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    white-space: nowrap;
+    padding-right: 8px;
+  }
+  .change.pos { color: var(--green); }
+  .change.neg { color: var(--red); }
+  .change.zero { color: var(--text-dim); }
+
+  /* Sticky en móvil: # y nombre se quedan fijos al scrollear horizontal */
+  @media (max-width: 760px) {
+    .list-row .rank, .list-header .col-rank {
+      position: sticky;
+      left: 0;
+      background: var(--bg);
+      z-index: 2;
+    }
+    .list-row .subnet-info, .list-header .col-name {
+      position: sticky;
+      left: 44px;
+      background: var(--bg);
+      z-index: 2;
+    }
+    .list-header .col-rank, .list-header .col-name {
+      background: rgba(13, 15, 23, 0.98);
+    }
+    .list-row:hover .rank, .list-row:hover .subnet-info,
+    .list-row:active .rank, .list-row:active .subnet-info {
+      background: #0e1119;
+    }
+  }
+
+  /* Estado de carga / vacío */
+  .empty-state {
+    padding: 40px 16px;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--text-faint);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .loading-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan);
+    margin-right: 8px;
+    animation: pulse 1.4s ease-in-out infinite;
+    vertical-align: middle;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Footer */
+  .footer {
+    padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .footer .live-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    margin-right: 6px;
+    animation: pulse 1.6s ease-in-out infinite;
+    vertical-align: middle;
+  }
+  .footer a {
+    color: var(--cyan);
+    text-decoration: none;
+  }
+
+  /* Pequeñas pantallas */
+  @media (max-width: 380px) {
+    .topbar { padding: 12px 12px; }
+    .stats-bar { padding: 10px 12px; }
+    .controls { padding: 10px 12px; }
+    .list-row { padding: 12px 12px; gap: 8px; }
+    .brand-title { font-size: 14px; }
+    .tao-info { padding: 3px 7px; gap: 5px; font-size: 11px; }
+    .stat-value { font-size: 12px; }
+    .toggle button { padding: 6px 10px; font-size: 12px; min-width: 30px; }
+    #tf-toggle button { padding: 6px 7px; font-size: 11px; min-width: 26px; }
+  }
+  /* ===== HIGHLIGHTS (Most Traded + Top Gainers) ===== */
+  .highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 12px 20px 16px;
+  }
+  .highlight-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 14px 10px;
+  }
+  .highlight-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .highlight-icon {
+    color: var(--cyan);
+    font-size: 11px;
+  }
+  .highlight-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .highlight-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 4px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .highlight-row:hover {
+    background: rgba(0, 240, 255, 0.06);
+  }
+  .highlight-avatar {
+    background: rgba(0, 240, 255, 0.10);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    color: var(--cyan);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 3px 5px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  .highlight-name {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .highlight-value {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+  }
+  .highlight-value.pos { color: var(--green); }
+  .highlight-empty {
+    color: var(--text-faint);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 4px 0;
+  }
+
+  /* ===== TAG FILTERS ===== */
+  .tag-filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 20px 14px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tag-filters::-webkit-scrollbar { display: none; }
+  .tag-filter {
+    flex-shrink: 0;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 6px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tag-filter:hover {
+    border-color: rgba(0, 240, 255, 0.4);
+    color: var(--text);
+  }
+  .tag-filter.active {
+    background: rgba(0, 240, 255, 0.10);
+    border-color: var(--cyan);
+    color: var(--cyan);
+    text-shadow: 0 0 6px rgba(0, 240, 255, 0.4);
+  }
+  .tag-count {
+    font-size: 9px;
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+  .tag-filter.active .tag-count {
+    color: var(--cyan);
+    opacity: 0.7;
+  }
+
+  /* ===== SORT BAR ===== */
+  .sort-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 20px 14px;
+    gap: 12px;
+  }
+  .sort-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .sort-select {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 7px 30px 7px 12px;
+    border-radius: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2300f0ff' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+  .sort-select:focus {
+    outline: none;
+    border-color: var(--cyan);
+  }
+
+  /* ===== SUBNET CARDS ===== */
+  .sub-card {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s;
+  }
+  .sub-card:hover {
+    border-color: rgba(0, 240, 255, 0.4);
+    background: rgba(0, 240, 255, 0.03);
+    transform: translateX(2px);
+  }
+  .sub-avatar {
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    color: var(--cyan);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.10);
+    flex-shrink: 0;
+  }
+  .sub-main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+  .sub-row1 {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sub-name {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .sub-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+  }
+  .sub-arrow {
+    margin-left: auto;
+    color: var(--text-faint);
+    font-size: 18px;
+    transition: color 0.15s, transform 0.15s;
+  }
+  .sub-card:hover .sub-arrow {
+    color: var(--cyan);
+    transform: translateX(2px);
+  }
+  .sub-row2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+  }
+  .sub-tag {
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    color: var(--cyan);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+  }
+  .tag-ai       { background: rgba(178, 0, 255, 0.10); border-color: rgba(178, 0, 255, 0.30); color: #c366ff; }
+  .tag-compute  { background: rgba(0, 240, 255, 0.08); border-color: rgba(0, 240, 255, 0.25); color: var(--cyan); }
+  .tag-data     { background: rgba(255, 200, 0, 0.08); border-color: rgba(255, 200, 0, 0.25); color: #ffd966; }
+  .tag-trading  { background: rgba(255, 43, 214, 0.08); border-color: rgba(255, 43, 214, 0.25); color: var(--magenta); }
+  .tag-science  { background: rgba(122, 219, 149, 0.08); border-color: rgba(122, 219, 149, 0.30); color: #9aedb5; }
+  .tag-social   { background: rgba(255, 159, 100, 0.08); border-color: rgba(255, 159, 100, 0.30); color: #ffb280; }
+  .tag-security { background: rgba(255, 77, 94, 0.08); border-color: rgba(255, 77, 94, 0.25); color: #ff8a96; }
+  .tag-defi     { background: rgba(34, 216, 122, 0.08); border-color: rgba(34, 216, 122, 0.30); color: var(--green); }
+  .tag-gaming   { background: rgba(180, 110, 255, 0.08); border-color: rgba(180, 110, 255, 0.30); color: #c89dff; }
+  .tag-infra    { background: rgba(150, 170, 200, 0.08); border-color: rgba(150, 170, 200, 0.30); color: #b8c5d4; }
+  .tag-other    { background: rgba(150, 150, 150, 0.08); border-color: rgba(150, 150, 150, 0.20); color: var(--text-muted); }
+
+  .sub-price {
+    color: var(--text);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  .sub-change {
+    font-variant-numeric: tabular-nums;
+    font-size: 11px;
+  }
+  .sub-change.pos  { color: var(--green); }
+  .sub-change.neg  { color: var(--red);   }
+  .sub-change.zero { color: var(--text-dim); }
+  .sub-change-7d {
+    font-size: 10px;
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .sub-change-7d.pos  { color: var(--green); opacity: 0.75; }
+  .sub-change-7d.neg  { color: var(--red); opacity: 0.75; }
+
+  .sub-row3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+  .sub-metric { display: flex; flex-direction: column; gap: 2px; }
+  .sub-metric-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 8px;
+    color: var(--text-faint);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .sub-metric-value {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== FAQ ===== */
+  .faq-section {
+    padding: 30px 20px 40px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .faq-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .faq-item {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 18px;
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--text);
+    position: relative;
+    padding-right: 40px;
+    transition: color 0.15s;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cyan);
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform 0.2s;
+  }
+  .faq-item[open] summary::after {
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .faq-item summary:hover { color: var(--cyan); }
+  .faq-body {
+    padding: 0 18px 18px;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .faq-body strong { color: var(--text); }
+  .faq-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--cyan);
+    text-decoration: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+    padding-bottom: 1px;
+    transition: border-color 0.15s;
+  }
+  .faq-link:hover { border-color: var(--cyan); }
+
+  /* ===== FOOTER MEJORADO ===== */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 20px 30px;
+    background: var(--bg-2);
+    margin-top: 30px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 760px;
+    margin: 0 auto 30px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .footer-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .footer-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+  .footer-link:hover { color: var(--cyan); }
+  .footer-bottom {
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .footer-bottom .live-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-right: 6px;
+    box-shadow: 0 0 8px rgba(34, 216, 122, 0.6);
+  }
+  .footer-bottom a {
+    color: var(--cyan);
+    text-decoration: none;
+  }
+
+  /* ===== Mobile responsive ===== */
+  @media (max-width: 600px) {
+    .highlights { grid-template-columns: 1fr; }
+    .highlight-name { font-size: 12px; }
+    .sub-card { padding: 12px 12px; gap: 10px; grid-template-columns: 42px 1fr; }
+    .sub-avatar { width: 42px; height: 42px; font-size: 11px; }
+    .sub-name { font-size: 14px; }
+    .sub-row3 { gap: 6px; }
+    .sub-metric-value { font-size: 11px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .faq-section { padding: 24px 16px 30px; }
+    .faq-title { font-size: 22px; }
+    .faq-item summary { font-size: 14px; padding: 14px 14px; padding-right: 36px; }
+    .faq-body { padding: 0 14px 16px; font-size: 13px; }
+  }
+  @media (max-width: 400px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-mark">τ</div>
+    <div class="brand-text">
+      <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
+      <span class="brand-sub">Subnet Market</span>
+    </div>
+  </a>
+  <a href="aprende.html" class="learn-btn" title="Academia Bittensor">Aprender</a>
+  <a href="tao.html" class="tao-info" title="Ver página de TAO">
+    <span class="tao-symbol">TAO</span>
+    <span class="tao-price" id="tao-price">—</span>
+    <span class="tao-arrow">→</span>
+  </a>
+</header>
+
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-label">Subnets</span>
+    <span class="stat-value" id="stat-count">—</span>
+  </div>
+  <div class="stat" style="text-align: center;">
+    <span class="stat-label">Total Mcap</span>
+    <span class="stat-value" id="stat-mcap">—</span>
+  </div>
+  <div class="stat" style="text-align: right;">
+    <span class="stat-label">Volume 24h</span>
+    <span class="stat-value" id="stat-vol">—</span>
+  </div>
+</div>
+
+<!-- Most Traded + Top Gainers -->
+<div class="highlights">
+  <div class="highlight-card">
+    <div class="highlight-title">
+      <span class="highlight-icon">▲</span>
+      Más volumen
+    </div>
+    <div class="highlight-list" id="most-traded">
+      <div class="highlight-empty">—</div>
+    </div>
+  </div>
+  <div class="highlight-card">
+    <div class="highlight-title">
+      <span class="highlight-icon">↗</span>
+      Top ganadoras 24h
+    </div>
+    <div class="highlight-list" id="top-gainers">
+      <div class="highlight-empty">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="toggle" id="cur-toggle">
+    <button data-cur="USD" class="active">$</button>
+    <button data-cur="TAO">τ</button>
+  </div>
+  <div class="toggle" id="tf-toggle">
+    <button data-tf="change1h">1h</button>
+    <button data-tf="change24h" class="active">24h</button>
+    <button data-tf="change7d">7d</button>
+    <button data-tf="change30d">30d</button>
+  </div>
+  <div class="search">
+    <input type="text" id="search" placeholder="Buscar..." />
+  </div>
+</div>
+
+<!-- Filtros por categoría -->
+<div class="tag-filters" id="tag-filters">
+  <!-- generado por JS -->
+</div>
+
+<!-- Selector de ordenación -->
+<div class="sort-bar">
+  <span class="sort-count" id="sort-count">— subnets</span>
+  <select class="sort-select" id="sort-select">
+    <option value="marketCap-desc">Mcap: Alto → Bajo</option>
+    <option value="marketCap-asc">Mcap: Bajo → Alto</option>
+    <option value="price-desc">Precio: Alto → Bajo</option>
+    <option value="price-asc">Precio: Bajo → Alto</option>
+    <option value="change24h-desc">24h %: Alto → Bajo</option>
+    <option value="change24h-asc">24h %: Bajo → Alto</option>
+    <option value="change7d-desc">7d %: Alto → Bajo</option>
+    <option value="change7d-asc">7d %: Bajo → Alto</option>
+    <option value="volume-desc">Volumen: Alto → Bajo</option>
+    <option value="volume-asc">Volumen: Bajo → Alto</option>
+    <option value="id-asc">Subnet ID: Bajo → Alto</option>
+    <option value="id-desc">Subnet ID: Alto → Bajo</option>
+    <option value="name-asc">Nombre: A → Z</option>
+    <option value="name-desc">Nombre: Z → A</option>
+  </select>
+</div>
+
+<div class="list-wrap">
+  <div id="rows-container">
+    <div class="empty-state">
+      <span class="loading-dot"></span>Cargando datos…
+    </div>
+  </div>
+</div>
+
+<!-- Preguntas frecuentes -->
+<section class="faq-section">
+  <h2 class="faq-title">Preguntas frecuentes</h2>
+
+  <details class="faq-item">
+    <summary>¿Qué son las subnets de Bittensor?</summary>
+    <div class="faq-body">
+      Las subnets son redes especializadas dentro del ecosistema Bittensor. Cada subnet es un mercado de competición incentivado donde los <strong>mineros</strong> producen un servicio (inferencia de IA, datos, predicciones, almacenamiento, etc.) y los <strong>validadores</strong> evalúan la calidad de ese trabajo. Cada subnet tiene su propio token (alpha) y sus propias reglas de incentivos.
+      <a href="aprende-modulo-04.html" class="faq-link">Aprende más en el módulo 04 de la academia →</a>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>¿Qué es dTAO y cómo funciona?</summary>
+    <div class="faq-body">
+      dTAO (decentralized TAO) es el sistema de tokens propios de cada subnet. Cuando haces stake de TAO en una subnet, recibes <strong>tokens alpha</strong> de esa subnet a través de un AMM (Automated Market Maker). El precio del alpha refleja la valoración del mercado sobre la contribución de esa subnet a la red. Si la subnet rinde bien, su alpha sube de precio.
+      <a href="aprende-modulo-03.html" class="faq-link">Profundiza sobre TAO y dTAO →</a>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>¿Cómo invierto en una subnet?</summary>
+    <div class="faq-body">
+      Puedes hacer <strong>stake</strong> de TAO en cualquier subnet a través de su pool dTAO. A cambio recibes tokens alpha de esa subnet. Si la subnet atrae más capital y mejora su rendimiento, el precio del alpha sube. Puedes deshacer el stake en cualquier momento para volver a TAO. Antes de invertir, compara las subnets por precio, volumen, market cap y actividad de desarrollo.
+      <a href="aprende-modulo-13.html" class="faq-link">Guía completa de staking →</a>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>¿Cómo se distribuyen las emisiones de TAO?</summary>
+    <div class="faq-body">
+      Las emisiones se reparten proporcionalmente entre subnets según el TAO total stakeado en cada pool dTAO. Las subnets con más TAO stakeado reciben más emisiones, que se reparten entre sus mineros y validadores en función de su rendimiento. El sistema se llama <strong>Yuma Consensus</strong> y es lo que coordina la red sin un controlador central.
+      <a href="aprende-modulo-06.html" class="faq-link">Aprende sobre Yuma Consensus →</a>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>¿Cómo elijo una buena subnet para invertir?</summary>
+    <div class="faq-body">
+      No hay receta mágica, pero los criterios habituales son: <strong>(1)</strong> equipo y proyecto detrás (¿es serio? ¿está activo en GitHub?), <strong>(2)</strong> métricas on-chain (mcap, volumen, número de validadores y mineros), <strong>(3)</strong> propuesta de valor (¿el problema que resuelve es real? ¿tiene clientes/usuarios?), y <strong>(4)</strong> tracción (¿está creciendo o decreciendo?). Diversifica entre varias subnets y nunca inviertas más de lo que puedes permitirte perder.
+      <a href="aprende-modulo-18.html" class="faq-link">Análisis de subnets paso a paso →</a>
+    </div>
+  </details>
+</section>
+
+<div class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-title">Explora</div>
+      <a href="market.html" class="footer-link">Subnet Market</a>
+      <a href="tao.html" class="footer-link">Página de TAO</a>
+      <a href="index.html" class="footer-link">Inicio</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-title">Aprende</div>
+      <a href="que-es-bittensor.html" class="footer-link">¿Qué es Bittensor?</a>
+      <a href="aprende.html" class="footer-link">Academia · 18 módulos</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-title">Recursos</div>
+      <a href="https://taostats.io" target="_blank" rel="noopener" class="footer-link">Taostats ↗</a>
+      <a href="https://docs.learnbittensor.org" target="_blank" rel="noopener" class="footer-link">Docs oficial ↗</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="live-dot"></span>
+    Live · <a href="index.html">Bittensor Pro</a> · Datos: Taostats · 2026
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   CONFIG
+   ========================================================================= */
+const API_BASE = 'https://tao360.qrchd889gj.workers.dev';
+const RAO = 1_000_000_000;
+
+/* =========================================================================
+   DICCIONARIO DE SUBNETS (nombres legibles cuando Taostats no los da bien)
+   ========================================================================= */
+const SUBNET_DEFS = {
+  1:  { symbol: 'APEX',     name: 'Apex' , tag: 'ai' },
+  2:  { symbol: 'OMRON',    name: 'Omron' , tag: 'security' },
+  3:  { symbol: 'TEMPLAR',  name: 'Templar' , tag: 'ai' },
+  4:  { symbol: 'TARGON',   name: 'Targon' , tag: 'compute' },
+  5:  { symbol: 'KAITO',    name: 'Open Kaito' , tag: 'social' },
+  6:  { symbol: 'INFINITE', name: 'Infinite Games' , tag: 'gaming' },
+  7:  { symbol: 'SUBVTX',   name: 'Subvortex' , tag: 'infra' },
+  8:  { symbol: 'PTN',      name: 'Proprietary Trading Network' , tag: 'trading' },
+  9:  { symbol: 'PRE',      name: 'Pretraining' , tag: 'ai' },
+  10: { symbol: 'STURDY',   name: 'Sturdy' , tag: 'defi' },
+  11: { symbol: 'DIPPY',    name: 'Dippy Roleplay' , tag: 'ai' },
+  12: { symbol: 'HORDE',    name: 'Horde' , tag: 'ai' },
+  13: { symbol: 'DATA',     name: 'Data Universe' , tag: 'data' },
+  14: { symbol: 'VSTORE',   name: 'VectorStore' , tag: 'data' },
+  15: { symbol: 'DEVAL',    name: 'De-Val' , tag: 'ai' },
+  16: { symbol: 'BITADS',   name: 'BitAds' , tag: 'social' },
+  17: { symbol: '3GEN',     name: 'Three Gen' , tag: 'ai' },
+  18: { symbol: 'CORTEX',   name: 'Cortex.t' , tag: 'ai' },
+  19: { symbol: 'NINETN',   name: 'Nineteen' , tag: 'ai' },
+  20: { symbol: 'BITAGT',   name: 'BitAgent' , tag: 'ai' },
+  21: { symbol: 'A2A',      name: 'Omega Any-to-any' , tag: 'ai' },
+  22: { symbol: 'DSEARCH',  name: 'Desearch' , tag: 'social' },
+  23: { symbol: 'SOCIAL',   name: 'SocialTensor' , tag: 'social' },
+  24: { symbol: 'OMEGA',    name: 'Omega' , tag: 'ai' },
+  25: { symbol: 'FOLD',     name: 'Protein Folding' , tag: 'science' },
+  27: { symbol: 'NICOMP',   name: 'NI Compute' , tag: 'compute' },
+  28: { symbol: 'LOL',      name: 'LOL' , tag: 'gaming' },
+  29: { symbol: 'COLDINT',  name: 'Coldint' , tag: 'ai' },
+  30: { symbol: 'BET',      name: 'Bettensor' , tag: 'trading' },
+  31: { symbol: 'NAS',      name: 'NAS Chain' , tag: 'data' },
+  32: { symbol: 'ITSAI',    name: "It's AI" },
+  33: { symbol: 'READY',    name: 'ReadyAI' , tag: 'data' },
+  34: { symbol: 'BITMIND',  name: 'BitMind' , tag: 'security' },
+  35: { symbol: 'LOGIC',    name: 'LogicNet' , tag: 'ai' },
+  36: { symbol: 'WEBAGT',   name: 'Web Agents - Autoppia' , tag: 'ai' },
+  37: { symbol: 'FT',       name: 'Finetuning' , tag: 'ai' },
+  38: { symbol: 'DT',       name: 'Distributed Training' , tag: 'ai' },
+  39: { symbol: 'EDGE',     name: 'EdgeMaxxing' , tag: 'compute' },
+  40: { symbol: 'CHUNK',    name: 'Chunking' , tag: 'data' },
+  41: { symbol: 'SPORT',    name: 'Sportstensor' , tag: 'trading' },
+  42: { symbol: 'MASA',     name: 'Real-Time Data by Masa' , tag: 'data' },
+  43: { symbol: 'GRAPH',    name: 'Graphite' , tag: 'science' },
+  44: { symbol: 'SCORE',    name: 'Score' , tag: 'ai' },
+  45: { symbol: 'SWE',      name: 'SWE - Rizzo' , tag: 'ai' },
+  46: { symbol: 'NEUR3D',   name: 'Neural3D' , tag: 'ai' },
+  47: { symbol: 'COND',     name: 'Condense AI' , tag: 'ai' },
+  48: { symbol: 'NEXT',     name: 'Nextplace AI' , tag: 'trading' },
+  49: { symbol: 'HIVE',     name: 'Hivetrain' , tag: 'ai' },
+  50: { symbol: 'SYNTH',    name: 'Synth' , tag: 'trading' },
+  51: { symbol: 'CELIUM',   name: 'Compute Subnet' , tag: 'compute' },
+  52: { symbol: 'DOJO',     name: 'Dojo' , tag: 'ai' },
+  53: { symbol: 'EF',       name: 'Efficient Frontier' , tag: 'trading' },
+  54: { symbol: 'WGENIE',   name: 'WebGenieAI' , tag: 'ai' },
+  55: { symbol: 'PRECOG',   name: 'Precog' , tag: 'trading' },
+  56: { symbol: 'GRAD',     name: 'Gradients' , tag: 'ai' },
+  57: { symbol: 'GAIA',     name: 'Gaia' , tag: 'science' },
+  58: { symbol: 'SPEECH',   name: 'Dippy Speech' , tag: 'ai' },
+  59: { symbol: 'ARENA',    name: 'Agent Arena by Masa' , tag: 'social' },
+  60: { symbol: 'BITSEC',   name: 'Bitsec' , tag: 'security' },
+  61: { symbol: 'RED',      name: 'Red Team' , tag: 'security' },
+  62: { symbol: 'AGT',      name: 'AgenTao' , tag: 'ai' },
+  64: { symbol: 'CHUTES',   name: 'Chutes' , tag: 'compute' },
+  65: { symbol: 'TPN',      name: 'TAO Private Network' , tag: 'infra' },
+  66: { symbol: 'FAKEN',    name: 'FakeNews' , tag: 'security' },
+  68: { symbol: 'NOVA',     name: 'Nova' , tag: 'ai' },
+};
+
+/* =========================================================================
+   ESTADO
+   ========================================================================= */
+const STATE = {
+  data: [],
+  currency: 'USD',
+  search: '',
+  taoUsd: 0,
+  taoChange: 0,
+  sortBy: 'marketCap',    // por defecto: market cap descendente (como bittensor.ai)
+  sortDir: 'desc',
+  timeframe: 'change24h', // 1h | 24h | 7d | 30d
+  activeTag: 'all',       // filtro por categoría: all | ai | compute | data | trading | science | etc
+};
+
+/* Mapa de tags con sus etiquetas legibles */
+const TAG_LABELS = {
+  all:      'Todos',
+  ai:       'AI',
+  compute:  'Compute',
+  data:     'Datos',
+  trading:  'Trading',
+  science:  'Ciencia',
+  social:   'Social',
+  security: 'Seguridad',
+  defi:     'DeFi',
+  gaming:   'Gaming',
+  infra:    'Infra',
+  other:    'Otros',
+};
+
+/* =========================================================================
+   FORMATTERS
+   ========================================================================= */
+function fmtPriceUSD(taoPrice) {
+  const usd = taoPrice * STATE.taoUsd;
+  if (usd === 0) return '—';
+  if (usd < 0.01) return '$' + usd.toFixed(5);
+  if (usd < 1) return '$' + usd.toFixed(3);
+  if (usd < 100) return '$' + usd.toFixed(2);
+  return '$' + usd.toFixed(1);
+}
+function fmtPriceTAO(p) {
+  if (p === 0) return '—';
+  if (p < 0.001) return p.toExponential(2) + 'τ';
+  if (p < 1) return p.toFixed(4) + 'τ';
+  return p.toFixed(3) + 'τ';
+}
+function fmtPrice(p) {
+  return STATE.currency === 'USD' ? fmtPriceUSD(p) : fmtPriceTAO(p);
+}
+
+function fmtMoneyUSD(taoVal) {
+  const usd = taoVal * STATE.taoUsd;
+  if (usd >= 1e9) return '$' + (usd / 1e9).toFixed(2) + 'B';
+  if (usd >= 1e6) return '$' + (usd / 1e6).toFixed(2) + 'M';
+  if (usd >= 1e3) return '$' + (usd / 1e3).toFixed(1) + 'K';
+  return '$' + usd.toFixed(0);
+}
+function fmtMoneyTAO(v) {
+  if (v >= 1e6) return (v / 1e6).toFixed(2) + 'Mτ';
+  if (v >= 1e3) return (v / 1e3).toFixed(1) + 'Kτ';
+  return v.toFixed(0) + 'τ';
+}
+function fmtMoney(v) {
+  return STATE.currency === 'USD' ? fmtMoneyUSD(v) : fmtMoneyTAO(v);
+}
+
+function fmtPct(v) {
+  if (v === 0 || v === null || v === undefined || isNaN(v)) return '0.00%';
+  const sign = v >= 0 ? '+' : '';
+  return sign + v.toFixed(2) + '%';
+}
+
+function pctClass(v) {
+  if (!v || isNaN(v)) return 'zero';
+  if (Math.abs(v) < 0.01) return 'zero';
+  return v >= 0 ? 'pos' : 'neg';
+}
+
+/* =========================================================================
+   MAPEO TAOSTATS → MODELO INTERNO
+   ========================================================================= */
+function mapSubnet(raw) {
+  const id = raw.netuid;
+  const def = SUBNET_DEFS[id];
+
+  // Símbolo: priorizar nuestro diccionario sobre símbolos unicode raros (ش, ת...)
+  let symbol;
+  if (def && def.symbol) {
+    symbol = def.symbol;
+  } else if (raw.symbol && /^[A-Za-z0-9]{2,8}$/.test(raw.symbol.trim())) {
+    symbol = raw.symbol.trim().toUpperCase();
+  } else {
+    symbol = `SN${id}`;
+  }
+
+  // Nombre
+  let name;
+  if (raw.name && raw.name !== 'Unknown' && raw.name.trim()) {
+    name = raw.name.trim();
+  } else if (def && def.name) {
+    name = def.name;
+  } else {
+    name = `Subnet ${id}`;
+  }
+
+  return {
+    id,
+    symbol,
+    name,
+    tag: (def && def.tag) || 'other',
+    price: parseFloat(raw.price) || 0,
+    marketCap: (parseFloat(raw.market_cap) || 0) / RAO,
+    volume: (parseFloat(raw.tao_volume_24_hr) || 0) / RAO,
+    change1h:  parseFloat(raw.price_change_1_hour)  || 0,
+    change24h: parseFloat(raw.price_change_1_day)   || 0,
+    change7d:  parseFloat(raw.price_change_1_week)  || 0,
+    change30d: parseFloat(raw.price_change_1_month) || 0,
+  };
+}
+
+/* =========================================================================
+   RENDERIZADO
+   ========================================================================= */
+function renderHeader() {
+  const priceEl = document.getElementById('tao-price');
+
+  if (STATE.taoUsd > 0) {
+    priceEl.textContent = STATE.currency === 'USD'
+      ? '$' + STATE.taoUsd.toFixed(2)
+      : '1.00 τ';
+  }
+}
+
+function renderStats(filteredData) {
+  document.getElementById('stat-count').textContent = filteredData.length;
+
+  const totalMcap = filteredData.reduce((s, d) => s + d.marketCap, 0);
+  const totalVol = filteredData.reduce((s, d) => s + d.volume, 0);
+
+  document.getElementById('stat-mcap').textContent = fmtMoney(totalMcap);
+  document.getElementById('stat-vol').textContent = fmtMoney(totalVol);
+}
+
+function renderList() {
+  const rowsEl = document.getElementById('rows-container');
+
+  // Filtrar por búsqueda y por tag activo
+  const q = STATE.search.trim().toLowerCase();
+  let filtered = STATE.data;
+
+  if (STATE.activeTag && STATE.activeTag !== 'all') {
+    filtered = filtered.filter(d => d.tag === STATE.activeTag);
+  }
+
+  if (q) {
+    filtered = filtered.filter(d =>
+      d.symbol.toLowerCase().includes(q) ||
+      d.name.toLowerCase().includes(q) ||
+      String(d.id) === q
+    );
+  }
+
+  // Resolver clave de ordenación
+  let sortKey = STATE.sortBy;
+  if (sortKey === 'change') sortKey = STATE.timeframe;
+  const dir = STATE.sortDir === 'asc' ? 1 : -1;
+
+  filtered = [...filtered].sort((a, b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (sortKey === 'name') {
+      av = (av || '').toLowerCase();
+      bv = (bv || '').toLowerCase();
+      if (av < bv) return -1 * dir;
+      if (av > bv) return  1 * dir;
+      return 0;
+    }
+    av = Number(av) || 0;
+    bv = Number(bv) || 0;
+    return (av - bv) * dir;
+  });
+
+  renderStats(filtered);
+  renderHighlights();
+  updateSortCount(filtered.length);
+
+  if (filtered.length === 0) {
+    rowsEl.innerHTML = '<div class="empty-state">Sin resultados</div>';
+    return;
+  }
+
+  // Construir HTML como cards
+  const tfKey = STATE.timeframe;
+  const tfLabels = {
+    change1h: '1h',
+    change24h: '24h',
+    change7d: '7d',
+    change30d: '30d',
+  };
+  const tfLabel = tfLabels[tfKey] || '24h';
+  // Para mostrar 7d como secundario salvo cuando 7d ya es el principal
+  const secondaryKey = (tfKey === 'change7d') ? 'change30d' : 'change7d';
+  const secondaryLabel = (tfKey === 'change7d') ? '30d' : '7d';
+
+  const html = filtered.map(d => {
+    const changeMain = d[tfKey] || 0;
+    const changeSecondary = d[secondaryKey] || 0;
+    const tagLabel = TAG_LABELS[d.tag] || d.tag;
+    return `
+    <a class="sub-card" href="subnet.html?id=${d.id}" data-id="${d.id}">
+      <div class="sub-avatar">SN${d.id}</div>
+      <div class="sub-main">
+        <div class="sub-row1">
+          <span class="sub-name">${escapeHtml(d.name)}</span>
+          <span class="sub-meta">${escapeHtml(d.symbol)} · SN${d.id}</span>
+          <span class="sub-arrow">›</span>
+        </div>
+        <div class="sub-row2">
+          <span class="sub-tag tag-${d.tag}">${escapeHtml(tagLabel)}</span>
+          <span class="sub-price">${fmtPrice(d.price)}</span>
+          <span class="sub-change ${pctClass(changeMain)}">${tfLabel} ${fmtPct(changeMain)}</span>
+          <span class="sub-change-7d ${pctClass(changeSecondary)}">${secondaryLabel} ${fmtPct(changeSecondary)}</span>
+        </div>
+        <div class="sub-row3">
+          <div class="sub-metric">
+            <div class="sub-metric-label">MCAP</div>
+            <div class="sub-metric-value">${fmtMoney(d.marketCap)}</div>
+          </div>
+          <div class="sub-metric">
+            <div class="sub-metric-label">VOL 24H</div>
+            <div class="sub-metric-value">${fmtMoney(d.volume)}</div>
+          </div>
+          <div class="sub-metric">
+            <div class="sub-metric-label">EMISIÓN</div>
+            <div class="sub-metric-value">#${d.emissionRank || '—'}</div>
+          </div>
+        </div>
+      </div>
+    </a>
+    `;
+  }).join('');
+
+  rowsEl.innerHTML = html;
+}
+
+function updateSortCount(n) {
+  const el = document.getElementById('sort-count');
+  if (el) el.textContent = `${n} ${n === 1 ? 'subnet' : 'subnets'}`;
+}
+
+/* =========================================================================
+   HIGHLIGHTS: Most Traded + Top Gainers
+   ========================================================================= */
+function renderHighlights() {
+  if (!STATE.data || STATE.data.length === 0) return;
+
+  // Most traded: top 3 por volumen
+  const traded = [...STATE.data]
+    .sort((a, b) => (b.volume || 0) - (a.volume || 0))
+    .slice(0, 3);
+
+  // Top gainers: top 3 por change24h positivo
+  const gainers = [...STATE.data]
+    .filter(d => (d.change24h || 0) > 0)
+    .sort((a, b) => (b.change24h || 0) - (a.change24h || 0))
+    .slice(0, 3);
+
+  document.getElementById('most-traded').innerHTML = traded.map(d => `
+    <a class="highlight-row" href="subnet.html?id=${d.id}">
+      <span class="highlight-avatar">SN${d.id}</span>
+      <span class="highlight-name">${escapeHtml(d.name)}</span>
+      <span class="highlight-value">${fmtMoney(d.volume)}</span>
+    </a>
+  `).join('');
+
+  document.getElementById('top-gainers').innerHTML = gainers.length > 0 ? gainers.map(d => `
+    <a class="highlight-row" href="subnet.html?id=${d.id}">
+      <span class="highlight-avatar">SN${d.id}</span>
+      <span class="highlight-name">${escapeHtml(d.name)}</span>
+      <span class="highlight-value pos">${fmtPct(d.change24h)}</span>
+    </a>
+  `).join('') : '<div class="highlight-empty">Sin ganadoras hoy</div>';
+}
+
+/* =========================================================================
+   FILTROS POR TAG
+   ========================================================================= */
+function renderTagFilters() {
+  const el = document.getElementById('tag-filters');
+  if (!el) return;
+
+  // Contar cuántas subnets hay por tag
+  const counts = { all: STATE.data.length };
+  for (const d of STATE.data) {
+    counts[d.tag] = (counts[d.tag] || 0) + 1;
+  }
+
+  // Orden de tags: todos primero, luego los más comunes
+  const tagsOrder = ['all', 'ai', 'compute', 'data', 'trading', 'science', 'social', 'security', 'defi', 'gaming', 'infra', 'other'];
+  const tagsToShow = tagsOrder.filter(t => t === 'all' || (counts[t] && counts[t] > 0));
+
+  el.innerHTML = tagsToShow.map(tag => {
+    const label = TAG_LABELS[tag] || tag;
+    const count = counts[tag] || 0;
+    const isActive = STATE.activeTag === tag;
+    return `<button class="tag-filter ${isActive ? 'active' : ''}" data-tag="${tag}">
+      ${escapeHtml(label)} <span class="tag-count">${count}</span>
+    </button>`;
+  }).join('');
+
+  // Event listeners
+  el.querySelectorAll('.tag-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      STATE.activeTag = btn.dataset.tag;
+      renderTagFilters();
+      renderList();
+    });
+  });
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/* =========================================================================
+   FETCH DEL PROXY
+   ========================================================================= */
+async function loadData() {
+  // Función helper: fetch con timeout y reintento
+  async function fetchWithRetry(url, retries = 2, timeoutMs = 10000) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const controller = new AbortController();
+        const tid = setTimeout(() => controller.abort(), timeoutMs);
+        const r = await fetch(url, { signal: controller.signal });
+        clearTimeout(tid);
+        if (r.ok) {
+          return await r.json();
+        }
+      } catch (e) {
+        console.warn(`[bittensor-pro] fetch attempt ${attempt+1} failed for ${url}:`, e.message);
+      }
+      if (attempt < retries) {
+        await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+      }
+    }
+    return null;
+  }
+
+  try {
+    // Cargar TAO price + las 2 primeras páginas en paralelo (suficientes para 200 subnets)
+    const [priceJson, p1Json, p2Json] = await Promise.all([
+      fetchWithRetry(`${API_BASE}/api/price/latest/v1?asset=tao`),
+      fetchWithRetry(`${API_BASE}/api/dtao/pool/latest/v1?page=1&limit=100`),
+      fetchWithRetry(`${API_BASE}/api/dtao/pool/latest/v1?page=2&limit=100`),
+    ]);
+
+    // TAO price (no bloquea si falla)
+    if (priceJson?.data?.[0]) {
+      STATE.taoUsd = parseFloat(priceJson.data[0].price) || 0;
+      STATE.taoChange = parseFloat(priceJson.data[0].percent_change_24h) || 0;
+    }
+
+    // Subnets: combinar lo que hayamos obtenido (aunque una página falle)
+    const raw = [
+      ...(p1Json?.data || []),
+      ...(p2Json?.data || []),
+    ];
+
+    if (raw.length === 0) {
+      // Reintento automático tras 3s
+      console.warn('[bittensor-pro] sin datos, reintentando en 3s...');
+      const cont = document.getElementById('rows-container');
+      if (cont && STATE.data.length === 0) {
+        cont.innerHTML = '<div class="empty-state"><span class="loading-dot"></span>Cargando datos…</div>';
+      }
+      setTimeout(loadData, 3000);
+      return;
+    }
+
+    STATE.data = raw
+      .filter(s => s.netuid > 0)
+      .map(mapSubnet);
+
+    // Asignar emissionRank: ordenar por emisión (volumen) descendente
+    const ranked = [...STATE.data].sort((a, b) => (b.volume || 0) - (a.volume || 0));
+    ranked.forEach((d, i) => { d.emissionRank = i + 1; });
+
+    renderHeader();
+    renderTagFilters();
+    renderList();
+
+    console.log(`[bittensor-pro] ${STATE.data.length} subnets cargadas, TAO=$${STATE.taoUsd.toFixed(2)}`);
+  } catch (err) {
+    console.error('[bittensor-pro] error cargando datos:', err);
+    if (STATE.data.length === 0) {
+      const cont = document.getElementById('rows-container');
+      if (cont) cont.innerHTML = '<div class="empty-state"><span class="loading-dot"></span>Cargando datos…</div>';
+      // Reintento automático
+      setTimeout(loadData, 5000);
+    }
+  }
+}
+
+/* =========================================================================
+   EVENTOS
+   ========================================================================= */
+document.getElementById('cur-toggle').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  document.querySelectorAll('#cur-toggle button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  STATE.currency = btn.dataset.cur;
+  renderHeader();
+  renderList();
+});
+
+document.getElementById('tf-toggle').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  document.querySelectorAll('#tf-toggle button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  STATE.timeframe = btn.dataset.tf;
+  renderList();
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  STATE.search = e.target.value;
+  renderList();
+});
+
+// Sort select dropdown
+document.getElementById('sort-select').addEventListener('change', e => {
+  const val = e.target.value;
+  const lastDash = val.lastIndexOf('-');
+  STATE.sortBy = val.substring(0, lastDash);
+  STATE.sortDir = val.substring(lastDash + 1);
+  renderList();
+});
+
+/* =========================================================================
+   BOOT
+   ========================================================================= */
+loadData();
+setInterval(loadData, 60_000);  // refresh cada minuto
+</script>
+
+
+<script>
+// Guardar esta página en sessionStorage para el botón "Volver" inteligente
+(function(){
+  function savePage(){
+    try {
+      const here = window.location.pathname.split('/').pop() || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', function(){
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  // También guardar cuando hacen click en cualquier link interno
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href]');
+    if(a && a.getAttribute('href') && !a.getAttribute('href').startsWith('http')){
+      savePage();
+    }
+  }, true);
+})();
+</script>
+
+</body>
+</html>

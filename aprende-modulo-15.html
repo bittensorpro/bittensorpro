@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo 15: Bittensor EVM — Bittensor Pro</title>
+<meta name="description" content="Módulo 15 del manual técnico de Bittensor. EVM compatibility, precompiles, vTAO bridging y conversión h160 ↔ SS58." />
+<link rel="canonical" href="https://bittensor.pro/aprende-modulo-15.html" />
+<meta property="og:title" content="Módulo 15: Bittensor EVM" />
+<meta property="og:description" content="Módulo 15 del manual técnico de Bittensor. EVM compatibility, precompiles, vTAO bridging y conversión h160 ↔ SS58." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>:root{--bg:#05060a;--bg-2:#0d0f17;--bg-3:#141826;--border:rgba(0,240,255,.10);--border-2:rgba(0,240,255,.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-dim:#6b7385;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,.06),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(255,43,214,.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,rgba(0,240,255,.12),rgba(255,43,214,.10));border:1px solid rgba(0,240,255,.4);display:grid;place-items:center;color:#fff;font-family:'Orbitron',serif;font-weight:900;font-size:18px;box-shadow:0 0 12px rgba(0,240,255,.3);text-shadow:0 0 8px rgba(0,240,255,.7)}
+.brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;color:#f4faff}
+.brand-title .pro{color:var(--magenta);font-style:italic;margin-left:3px;text-shadow:0 0 8px rgba(255,43,214,.5)}
+.nav{display:flex;gap:16px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.nav a{color:var(--text-muted);text-decoration:none;padding:4px 0;transition:color .15s}
+.nav a.active{color:var(--cyan);text-shadow:0 0 8px rgba(0,240,255,.5)}.nav a:hover{color:var(--text)}
+.breadcrumb{max-width:var(--max-width);margin:0 auto;padding:24px 20px 0;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--text-faint);text-transform:uppercase;position:relative;z-index:1}
+.breadcrumb a{color:var(--cyan);text-decoration:none}.breadcrumb a:hover{color:var(--text)}
+.breadcrumb-sep{margin:0 10px;color:var(--text-faint)}
+.banner{max-width:var(--max-width);margin:24px auto 0;padding:0 20px;position:relative;z-index:1}
+.banner-inner{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center}
+.banner-num{font-family:'Orbitron',monospace;font-weight:900;font-size:48px;color:var(--cyan);line-height:1;text-shadow:0 0 16px rgba(0,240,255,.4)}
+.banner-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--text-faint);text-transform:uppercase;margin-bottom:4px}
+.banner-title{font-family:'Fraunces',serif;font-weight:600;font-size:24px;color:#fff;line-height:1.15}
+.banner-meta{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.banner-hours{font-family:'Orbitron',monospace;font-weight:700;font-size:18px;color:#fff}
+.level-i{color:var(--green);border:1px solid rgba(34,216,122,.4);background:rgba(34,216,122,.06)}
+.level-int{color:var(--cyan);border:1px solid rgba(0,240,255,.4);background:rgba(0,240,255,.06)}
+.level-a{color:var(--magenta);border:1px solid rgba(255,43,214,.4);background:rgba(255,43,214,.06)}
+.banner-level{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:3px}
+.objectives{max-width:var(--max-width);margin:30px auto 0;padding:0 20px;position:relative;z-index:1}
+.objectives-box{background:rgba(0,240,255,.03);border:1px solid var(--border-2);border-radius:12px;padding:22px 26px}
+.objectives-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px}
+.objectives-list{list-style:none}
+.objectives-list li{color:var(--text-muted);padding:6px 0 6px 22px;position:relative;font-size:15px}
+.objectives-list li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:700}
+article{max-width:var(--max-width);margin:0 auto;padding:50px 20px 20px;position:relative;z-index:1}
+.section{margin-bottom:48px;scroll-margin-top:80px}
+.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;margin-bottom:10px}
+h2{font-family:'Fraunces',serif;font-weight:600;font-size:28px;line-height:1.2;letter-spacing:-.01em;margin-bottom:22px;color:#fff}
+h2 em{font-style:italic;color:var(--cyan);font-weight:600}
+h3{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:18px;margin-top:28px;margin-bottom:12px;color:#fff}
+article p{font-size:16px;color:var(--text-muted);margin-bottom:16px;line-height:1.7}
+article p strong{color:var(--text);font-weight:600}
+article a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,.3)}
+article a:hover{border-bottom-color:var(--cyan)}
+article ul{list-style:none;padding-left:0;margin-bottom:16px}
+article ul li{padding:5px 0 5px 22px;position:relative;color:var(--text-muted);font-size:15.5px}
+article ul li::before{content:"•";position:absolute;left:6px;color:var(--cyan);font-weight:700}
+code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:var(--cyan);background:rgba(0,240,255,.06);padding:1px 6px;border-radius:3px;border:1px solid rgba(0,240,255,.15)}
+pre{background:var(--bg-3);border:1px solid var(--border-2);border-left:3px solid var(--cyan);border-radius:8px;padding:16px 20px;margin:20px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);line-height:1.55}
+pre code{background:transparent;border:none;padding:0;color:var(--text);font-size:13px}
+.callout{border:1px solid var(--border-2);background:rgba(0,240,255,.03);border-radius:10px;padding:18px 22px;margin:24px 0}
+.callout.warn{border-color:rgba(255,77,94,.3);background:rgba(255,77,94,.04)}
+.callout.warn .callout-label{color:#ff4d5e}
+.callout-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+.callout p{font-size:15px;margin-bottom:0;color:var(--text)}
+.table-wrap{margin:24px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:10px;background:var(--bg-2)}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+thead th{background:rgba(0,240,255,.04);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border-2);white-space:nowrap}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-muted);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody td:first-child{color:var(--text);font-weight:600}
+.exercises{background:rgba(34,216,122,.04);border:1px solid rgba(34,216,122,.25);border-radius:12px;overflow:hidden;margin:32px 0}
+.exercises-toggle{width:100%;background:transparent;border:none;padding:16px 22px;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;color:inherit;font-family:inherit}
+.exercises-toggle:hover{background:rgba(34,216,122,.06)}
+.exercises-toggle-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:10px}
+.exercises-toggle-icon{color:var(--green);font-size:16px;transition:transform .2s}
+.exercises.open .exercises-toggle-icon{transform:rotate(45deg)}
+.exercises-content{display:none;padding:0 22px 22px}
+.exercises.open .exercises-content{display:block}
+.exercises ol{list-style:none;counter-reset:ex;padding-left:0}
+.exercises li{counter-increment:ex;padding:10px 0 10px 36px;position:relative;color:var(--text-muted);font-size:15px;line-height:1.6;border-bottom:1px dashed rgba(34,216,122,.15)}
+.exercises li:last-child{border-bottom:none}
+.exercises li::before{content:counter(ex,decimal-leading-zero);position:absolute;left:0;top:12px;font-family:'Orbitron',monospace;font-weight:700;font-size:13px;color:var(--green);width:28px}
+.refs{background:rgba(255,43,214,.04);border:1px solid rgba(255,43,214,.25);border-radius:12px;padding:22px;margin:32px 0}
+.refs-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--magenta);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.refs ul{padding-left:0}
+.refs ul li{padding:6px 0 6px 22px;color:var(--text-muted);font-size:14.5px}
+.refs ul li::before{content:"▸";color:var(--magenta)}
+.refs a{color:var(--magenta);border-bottom-color:rgba(255,43,214,.3)}
+.refs a:hover{border-bottom-color:var(--magenta)}
+.module-nav{max-width:var(--max-width);margin:40px auto 60px;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative;z-index:1}
+.nav-btn{padding:18px 22px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:inherit;transition:all .15s}
+.nav-btn:hover{border-color:var(--cyan);background:rgba(0,240,255,.04)}
+.nav-btn-label{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+.nav-btn-title{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:15px;color:var(--text)}
+.nav-btn.next{text-align:right}
+.nav-btn.disabled{opacity:.4;pointer-events:none}
+footer{border-top:1px solid var(--border);padding:30px 20px calc(30px + env(safe-area-inset-bottom));text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--text-faint);text-transform:uppercase;position:relative;z-index:1}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:600px){.breadcrumb{padding:16px 16px 0}.banner{padding:0 16px}.banner-inner{grid-template-columns:auto 1fr;grid-template-rows:auto auto;padding:18px 20px;gap:14px}.banner-num{font-size:36px}.banner-title{font-size:18px}.banner-meta{grid-column:1/-1;flex-direction:row;align-items:center;gap:10px;align-self:start}.objectives{padding:0 16px;margin:24px auto 0}.objectives-box{padding:18px 20px}article{padding:36px 16px 16px}.section{margin-bottom:36px}h2{font-size:24px}article p{font-size:15.5px}.module-nav{grid-template-columns:1fr;padding:0 16px}.nav a:not(.active):not(.nav-tao){display:none}
+    .nav-tao{padding:3px 7px;font-size:10px;gap:5px}
+    .nav-tao .nt-arrow{font-size:11px}
+    .nav-tao .nt-change{display:none}pre{font-size:11.5px;padding:14px 16px}}
+
+
+
+  /* ===== TAO INLINE IN NAV ===== */
+  .nav-tao {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 6px;
+    background: rgba(0, 240, 255, 0.04);
+    text-decoration: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: #e8f0f5;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+  .nav-tao:hover {
+    background: rgba(0, 240, 255, 0.10);
+    border-color: rgba(0, 240, 255, 0.55);
+    color: #fff;
+  }
+  .nav-tao .nt-price {
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  .nav-tao .nt-change {
+    font-variant-numeric: tabular-nums;
+    font-size: 10px;
+  }
+  .nav-tao .nt-change.pos { color: #22d87a; }
+  .nav-tao .nt-change.neg { color: #ff4d5e; }
+  .nav-tao .nt-change.zero { color: #6b7385; }
+  .nav-tao .nt-arrow {
+    color: #00f0ff;
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+  .nav-tao:hover .nt-arrow {
+    transform: translateX(2px);
+  }
+  .nav-tao .nt-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: #00f0ff;
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    border-radius: 4px;
+    padding: 3px 5px;
+    margin-right: 4px;
+    line-height: 1;
+    text-shadow: 0 0 4px rgba(0, 240, 255, 0.6);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+  }
+  @media (max-width: 600px) {
+    .nav-tao .nt-change { display: none; }
+    .nav-tao { padding: 3px 8px; font-size: 10px; gap: 5px; }
+    .nav-tao .nt-arrow { font-size: 11px; }
+  }
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a href="index.html" class="brand"><div class="brand-mark">τ</div><span class="brand-title">Bittensor<span class="pro">Pro</span></span></a>
+  <nav class="nav"><a href="aprende.html" class="active">Aprende</a><a href="market.html">Market</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a><a href="index.html">Inicio</a></nav>
+</header>
+<div class="breadcrumb"><a href="index.html">Inicio</a><span class="breadcrumb-sep">/</span><a href="aprende.html">Aprende</a><span class="breadcrumb-sep">/</span>Módulo 15</div>
+<div class="banner"><div class="banner-inner">
+  <div class="banner-num">15</div>
+  <div class="banner-info"><div class="banner-label">Módulo 15</div><div class="banner-title">Bittensor EVM</div></div>
+  <div class="banner-meta"><div class="banner-hours">4h</div><div class="banner-level level-a">Avanzado</div></div>
+</div></div>
+<div class="objectives"><div class="objectives-box">
+  <div class="objectives-label">// Objetivos del módulo</div>
+  <ul class="objectives-list">
+    <li>Entender qué es Bittensor EVM y por qué se añadió.</li>
+    <li>Conocer los precompiles disponibles.</li>
+    <li>Hacer el bridging entre TAO y wTAO/vTAO.</li>
+    <li>Convertir entre direcciones h160 (Ethereum) y SS58 (Substrate).</li>
+  </ul>
+</div></div>
+<article>
+  <section class="section"><div class="section-num">Sección 15.2</div>
+    <h2>¿Qué es <em>Bittensor EVM</em>?</h2>
+    <p>A finales de 2024 Bittensor implementó compatibilidad EVM (Ethereum Virtual Machine), permitiendo desplegar smart contracts en Solidity sobre Subtensor. El objetivo:</p>
+    <ul>
+      <li>Atraer la enorme base de desarrolladores Ethereum.</li>
+      <li>Permitir composición DeFi nativa.</li>
+      <li>Habilitar contratos como auctions, lending, derivados sobre TAO/alpha.</li>
+    </ul>
+  </section>
+  <section class="section"><div class="section-num">Sección 15.3</div>
+    <h2>Direcciones y <em>formatos</em></h2>
+    <p>Bittensor combina dos sistemas de direcciones:</p>
+    <ul>
+      <li><strong>SS58:</strong> formato Substrate/Polkadot. Empieza por <code>5...</code> Ej: <code>5DFZTw2pDfWuDz...</code></li>
+      <li><strong>h160:</strong> formato Ethereum. Empieza por <code>0x...</code> Ej: <code>0x742d35Cc...</code></li>
+    </ul>
+    <p>La doc oficial provee un tutorial: <a href="https://docs.learnbittensor.org/evm-tutorials/convert-h160-to-ss58" target="_blank" rel="noopener">docs.learnbittensor.org/evm-tutorials/convert-h160-to-ss58</a>. Se puede convertir entre ambos formatos siempre que se conozca la clave pública.</p>
+  </section>
+  <section class="section"><div class="section-num">Sección 15.4</div>
+    <h2>Token bridging: <em>vTAO</em></h2>
+    <p>vTAO es la <strong>representación EVM-nativa de TAO</strong>. Permite usar TAO en contratos Solidity. La doc oficial describe el proceso de bridging:</p>
+    <ul>
+      <li>Bridge desde Substrate a EVM (TAO → vTAO).</li>
+      <li>Bridge inverso (vTAO → TAO).</li>
+      <li>Mantenimiento de paridad 1:1.</li>
+    </ul>
+  </section>
+  <section class="section"><div class="section-num">Sección 15.5</div>
+    <h2>Precompiles</h2>
+    <p>Los precompiles son funciones nativas de Subtensor accesibles desde contratos EVM:</p>
+    <ul>
+      <li><strong>Staking:</strong> stakear TAO desde un contrato Solidity.</li>
+      <li><strong>Unstaking:</strong> lo contrario.</li>
+      <li><strong>Subnet info:</strong> leer estado del metagraph.</li>
+      <li><strong>Set weights</strong> (con permisos).</li>
+    </ul>
+    <p>Ejemplo conceptual de uso:</p>
+    <pre><code>// Solidity (pseudo-código)
+interface IBittensorStaking {
+    function addStake(
+        bytes32 hotkey,
+        uint16 netuid,
+        uint256 amount
+    ) external returns (bool);
+}
+
+contract MyStaker {
+    IBittensorStaking constant STAKING =
+        IBittensorStaking(0x0000000000000000000000000000000000000801);
+
+    function stake(bytes32 hk, uint16 netuid) external payable {
+        STAKING.addStake(hk, netuid, msg.value);
+    }
+}</code></pre>
+  </section>
+  <section class="section"><div class="section-num">Sección 15.6</div>
+    <h2>Casos de uso <em>emergentes</em></h2>
+    <ul>
+      <li><strong>Subnet 106 (Void AI):</strong> puente TAO/alpha a Solana y Ethereum.</li>
+      <li><strong>Tokenización de subnets</strong> en plataformas como Taofu.</li>
+      <li><strong>DeFi:</strong> lending de TAO, AMMs alternativos.</li>
+      <li><strong>Liquid staking derivatives</strong> sobre stake en validadores.</li>
+    </ul>
+  </section>
+</article>
+<div style="max-width:760px;margin:0 auto;padding:0 20px;position:relative;z-index:1"><div class="exercises">
+  <button class="exercises-toggle" onclick="this.parentElement.classList.toggle('open')">
+    <span class="exercises-toggle-label">// Ejercicios del módulo (5 prácticas)</span><span class="exercises-toggle-icon">+</span>
+  </button>
+  <div class="exercises-content"><ol>
+    <li>Sigue el tutorial de conversión h160 ↔ SS58 en la doc oficial.</li>
+    <li>Lee los smart contract examples de docs.learnbittensor.org/evm-tutorials/examples y entiende uno.</li>
+    <li>Despliega un contrato Solidity 'hello world' en testnet de Subtensor.</li>
+    <li>Investiga vTAO: ¿en qué subnet se basa el bridge? ¿Qué riesgos asume el holder de vTAO?</li>
+    <li>Razona: ¿Para qué casos preferirías SDK Python sobre EVM, y viceversa?</li>
+  </ol></div>
+</div></div>
+<div style="max-width:760px;margin:0 auto;padding:0 20px;position:relative;z-index:1"><div class="refs"><div class="refs-label">// Vídeos y referencias</div>
+  <ul>
+    <li>Doc oficial: <a href="https://docs.learnbittensor.org/evm-tutorials" target="_blank" rel="noopener">docs.learnbittensor.org/evm-tutorials</a></li>
+    <li>Doc oficial: 'Token Bridging' (vTAO)</li>
+    <li>Doc oficial: 'Convert h160 to SS58'</li>
+    <li>Bittensor EVM examples: docs.learnbittensor.org/evm-tutorials/examples</li>
+  </ul>
+</div></div>
+<nav class="module-nav">
+  <a href="aprende-modulo-14.html" class="nav-btn"><div class="nav-btn-label">← Módulo anterior</div><div class="nav-btn-title">14 · BTCLI y SDK</div></a>
+  <a href="aprende-modulo-16.html" class="nav-btn next"><div class="nav-btn-label">Módulo siguiente →</div><div class="nav-btn-title">16 · Análisis de subnets</div></a>
+</nav>
+<footer><a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero</footer>
+
+
+<script>
+(async function loadNavTao(){
+  const API_BASE = 'https://tao360.qrchd889gj.workers.dev';
+  function fmtUSD(n){
+    if(!n && n !== 0) return '—';
+    if(n < 1) return '$' + n.toFixed(3);
+    if(n < 100) return '$' + n.toFixed(2);
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+  function fmtPct(v){
+    if(v === null || v === undefined || isNaN(v)) return '—';
+    return (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+  }
+  function pctClass(v){
+    if(v > 0.001) return 'pos';
+    if(v < -0.001) return 'neg';
+    return 'zero';
+  }
+  try{
+    const r = await fetch(`${API_BASE}/api/price/latest/v1?asset=tao`);
+    const j = await r.json();
+    if(j && j.data && j.data[0]){
+      const price = parseFloat(j.data[0].price) || 0;
+      const change = parseFloat(j.data[0].percent_change_24h) || 0;
+      const p = document.getElementById('nav-tao-price');
+      const c = document.getElementById('nav-tao-change');
+      if(p) p.textContent = fmtUSD(price);
+      if(c){
+        c.textContent = fmtPct(change);
+        c.className = 'nt-change ' + pctClass(change);
+      }
+    }
+  }catch(e){
+    console.error('nav-tao load failed', e);
+  }
+})();
+</script>
+
+
+<script>
+// Guardar esta página en sessionStorage para el botón "Volver" inteligente
+(function(){
+  function savePage(){
+    try {
+      const here = window.location.pathname.split('/').pop() || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', function(){
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  // También guardar cuando hacen click en cualquier link interno
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a[href]');
+    if(a && a.getAttribute('href') && !a.getAttribute('href').startsWith('http')){
+      savePage();
+    }
+  }, true);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#2a1147"/>
+      <stop offset="60%" stop-color="#0a0817"/>
+      <stop offset="100%" stop-color="#03030a"/>
+    </radialGradient>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b1"/>
+      <feFlood flood-color="#00f0ff" flood-opacity="0.9"/>
+      <feComposite in2="b1" operator="in" result="cyan"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b2"/>
+      <feFlood flood-color="#ff2bd6" flood-opacity="0.7"/>
+      <feComposite in2="b2" operator="in" result="magenta"/>
+      <feMerge>
+        <feMergeNode in="magenta"/>
+        <feMergeNode in="cyan"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="256" height="256" rx="48" fill="url(#bg)"/>
+
+  <!-- HUD esquinas -->
+  <g stroke="#00f0ff" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M 24 36 L 24 24 L 36 24"/>
+    <path d="M 220 24 L 232 24 L 232 36"/>
+    <path d="M 232 220 L 232 232 L 220 232"/>
+    <path d="M 36 232 L 24 232 L 24 220"/>
+  </g>
+
+  <!-- τ -->
+  <g filter="url(#glow)" transform="translate(128, 128)">
+    <g transform="translate(3, 0)" opacity="0.55" fill="#ff2bd6">
+      <rect x="-65" y="-58" width="130" height="18" rx="1.5"/>
+      <rect x="-12" y="-40" width="24" height="108" rx="1.5"/>
+    </g>
+    <g transform="translate(-3, 0)" opacity="0.55" fill="#00f0ff">
+      <rect x="-65" y="-58" width="130" height="18" rx="1.5"/>
+      <rect x="-12" y="-40" width="24" height="108" rx="1.5"/>
+    </g>
+    <g fill="#ffffff">
+      <rect x="-65" y="-58" width="130" height="18" rx="1.5"/>
+      <rect x="-12" y="-40" width="24" height="108" rx="1.5"/>
+      <rect x="-69" y="-60" width="4" height="22" fill="#00f0ff"/>
+      <rect x="65" y="-60" width="4" height="22" fill="#ff2bd6"/>
+    </g>
+  </g>
+</svg>

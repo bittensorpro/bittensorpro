@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Aprende con Bittensor Pro — Cursos en español por nivel</title>
+<meta name="description" content="Aprende Bittensor desde cero o profundiza tu conocimiento. Tres niveles: Básico, Intermedio y Avanzado. Gratis y en español." />
+<link rel="canonical" href="https://bittensor.pro/aprende.html" />
+<meta property="og:title" content="Aprende con Bittensor Pro" />
+<meta property="og:description" content="Tres niveles · Básico, Intermedio, Avanzado · Gratis y en español." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:url" content="https://bittensor.pro/aprende.html" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #05060a;
+    --bg-2: #0d0f17;
+    --border: rgba(0, 240, 255, 0.10);
+    --border-2: rgba(0, 240, 255, 0.22);
+    --text: #e8f0f5;
+    --text-muted: #a8b2c0;
+    --text-dim: #6b7385;
+    --text-faint: #4a5263;
+    --cyan: #00f0ff;
+    --magenta: #ff2bd6;
+    --green: #22d87a;
+    --max-width: 920px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Chakra Petch', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--cyan); text-decoration: none; }
+
+  /* Topbar */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 6, 10, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: env(safe-area-inset-top) 0 0;
+  }
+  .topbar-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo {
+    width: 38px; height: 38px;
+    border: 1px solid var(--cyan);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    color: var(--cyan);
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.18);
+    flex-shrink: 0;
+  }
+  .brand { flex: 1; min-width: 0; }
+  .brand-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .brand-name em {
+    font-style: italic;
+    color: var(--magenta);
+    font-weight: 700;
+  }
+  .brand-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .nav { display: flex; gap: 8px; align-items: center; }
+  .nav a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    text-transform: uppercase;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .nav a:hover { color: var(--cyan); border-color: var(--border-2); }
+  .nav a.active { color: var(--cyan); border-color: var(--cyan); }
+  .nav-tao {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid var(--border-2);
+  }
+  .nt-symbol {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    color: var(--cyan);
+    padding: 3px 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 6px rgba(0, 240, 255, 0.25);
+    line-height: 1;
+  }
+  .nt-price {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .nt-arrow {
+    color: var(--text-faint);
+    font-size: 11px;
+    transition: color 0.15s;
+  }
+  .nav-tao:hover .nt-arrow { color: var(--cyan); }
+
+  @media (max-width: 600px) {
+    .nav a:not(.active):not(.nav-tao){display:none}
+    .brand-sub { display: none; }
+  }
+
+  /* Hero */
+  .hero {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 60px 20px 30px;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--cyan);
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    background: rgba(0, 240, 255, 0.05);
+    border-radius: 16px;
+    margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(34px, 6vw, 56px);
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 strong {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--cyan);
+    text-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+  }
+  .hero p {
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Cards de niveles */
+  .levels {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 20px 20px 60px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .level-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background: var(--bg-2);
+    border: 1px solid var(--border-2);
+    border-radius: 14px;
+    padding: 26px 24px 24px;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .level-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent, var(--cyan));
+    opacity: 0.6;
+    transition: opacity 0.2s, height 0.2s;
+  }
+  .level-card:hover {
+    border-color: var(--accent, var(--cyan));
+    background: rgba(0, 240, 255, 0.03);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 240, 255, 0.10);
+  }
+  .level-card:hover::before { opacity: 1; height: 4px; }
+
+  .level-card.basic    { --accent: #22d87a; }
+  .level-card.medium   { --accent: #00f0ff; }
+  .level-card.advanced { --accent: #ff2bd6; }
+
+  .level-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .level-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border: 1px solid var(--accent);
+    background: rgba(0, 240, 255, 0.04);
+    border-radius: 12px;
+  }
+  .level-card.basic .level-badge    { background: rgba(34, 216, 122, 0.06); }
+  .level-card.advanced .level-badge { background: rgba(255, 43, 214, 0.06); }
+  .level-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .level-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .level-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 3vw, 26px);
+    color: var(--text);
+    line-height: 1.18;
+    margin-bottom: 12px;
+    letter-spacing: 0.01em;
+  }
+  .level-who {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 14px;
+    line-height: 1.45;
+  }
+  .level-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .level-points {
+    list-style: none;
+    margin-bottom: 22px;
+    flex: 1;
+  }
+  .level-points li {
+    position: relative;
+    padding-left: 18px;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .level-points li::before {
+    content: '›';
+    position: absolute;
+    left: 4px;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .level-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 10px 16px;
+    border: 1px solid var(--accent);
+    background: rgba(0, 240, 255, 0.04);
+    border-radius: 8px;
+    transition: all 0.2s;
+    align-self: flex-start;
+  }
+  .level-card.basic .level-cta    { background: rgba(34, 216, 122, 0.06); }
+  .level-card.advanced .level-cta { background: rgba(255, 43, 214, 0.06); }
+  .level-card:hover .level-cta {
+    box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .level-cta-arrow { transition: transform 0.2s; }
+  .level-card:hover .level-cta-arrow { transform: translateX(4px); }
+
+  /* Footer */
+  .footer-info {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 30px 20px 50px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .footer-info p {
+    color: var(--text-faint);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .footer-info p a { color: var(--cyan); }
+
+  @media (min-width: 760px) {
+    .levels {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .level-card { padding: 22px 20px 22px; }
+    .level-points li { font-size: 12px; line-height: 1.7; }
+    .level-desc { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">τ</div>
+    <div class="brand">
+      <div class="brand-name">Bittensor <em>Pro</em></div>
+      <div class="brand-sub">Aprende</div>
+    </div>
+    <nav class="nav">
+      <a href="market.html">Market</a>
+      <a href="tao.html" class="nav-tao">
+        <span class="nt-symbol">TAO</span>
+        <span class="nt-price" id="nav-tao-price">—</span>
+        <span class="nt-arrow">→</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="hero-tag">Tres niveles · Empieza por el tuyo</span>
+  <h1><strong>Aprende</strong> Bittensor</h1>
+  <p>Elige el curso según tu punto de partida. Desde cero o nivel avanzado, todo en español y gratis.</p>
+</section>
+
+<section class="levels">
+
+  <a href="aprende-basico.html" class="level-card basic">
+    <div class="level-header">
+      <span class="level-badge"><span class="dot"></span>Básico</span>
+      <span class="level-meta">Próximamente</span>
+    </div>
+    <h2 class="level-title">Empieza desde cero</h2>
+    <p class="level-who">Para quien no sabe qué es una blockchain ni cómo funciona Bitcoin.</p>
+    <p class="level-desc">Te explicamos lo esencial sin dar nada por sabido. Conceptos básicos de cripto, qué es Bitcoin, qué es la IA descentralizada y por qué Bittensor importa.</p>
+    <ul class="level-points">
+      <li>¿Qué es una criptomoneda?</li>
+      <li>¿Qué es la blockchain?</li>
+      <li>¿Qué es la IA descentralizada?</li>
+      <li>Primeros pasos en Bittensor</li>
+    </ul>
+    <span class="level-cta">
+      Empezar
+      <span class="level-cta-arrow">→</span>
+    </span>
+  </a>
+
+  <a href="aprende-intermedio.html" class="level-card medium">
+    <div class="level-header">
+      <span class="level-badge"><span class="dot"></span>Intermedio</span>
+      <span class="level-meta">Próximamente</span>
+    </div>
+    <h2 class="level-title">Profundiza tu conocimiento</h2>
+    <p class="level-who">Para quien entiende Bitcoin y blockchain pero no es técnico ni programador.</p>
+    <p class="level-desc">Cómo funciona Bittensor por dentro: subnets, dTAO, validadores, mineros, staking, emisiones... sin necesitar saber programar ni matemáticas avanzadas.</p>
+    <ul class="level-points">
+      <li>Cómo funcionan las subnets</li>
+      <li>Qué es dTAO y el staking</li>
+      <li>Validadores y mineros explicados</li>
+      <li>Cómo invertir y elegir subnets</li>
+    </ul>
+    <span class="level-cta">
+      Continuar
+      <span class="level-cta-arrow">→</span>
+    </span>
+  </a>
+
+  <a href="aprende-avanzado.html" class="level-card advanced">
+    <div class="level-header">
+      <span class="level-badge"><span class="dot"></span>Avanzado</span>
+      <span class="level-meta">18 módulos · 105h</span>
+    </div>
+    <h2 class="level-title">Manual técnico completo</h2>
+    <p class="level-who">Para programadores y usuarios web3 que quieren dominar Bittensor.</p>
+    <p class="level-desc">Manual técnico completo: protocolo, Yuma Consensus, dTAO matemático, código de subnets, validadores, mineros y despliegue en producción.</p>
+    <ul class="level-points">
+      <li>Protocolo Bittensor en profundidad</li>
+      <li>Yuma Consensus matemático</li>
+      <li>Crear y desplegar tu subnet</li>
+      <li>Validadores y mineros avanzados</li>
+    </ul>
+    <span class="level-cta">
+      Acceder
+      <span class="level-cta-arrow">→</span>
+    </span>
+  </a>
+
+</section>
+
+<div class="footer-info">
+  <p>Bittensor Pro · 2026 · <a href="index.html">Inicio</a> · <a href="market.html">Market</a></p>
+</div>
+
+<script>
+(async function loadNavTao(){
+  try {
+    const r = await fetch('https://tao360.qrchd889gj.workers.dev/api/price/latest/v1?asset=tao');
+    const j = await r.json();
+    const p = parseFloat(j?.data?.[0]?.price);
+    if(p && document.getElementById('nav-tao-price')){
+      document.getElementById('nav-tao-price').textContent = '$' + p.toFixed(0);
+    }
+  } catch(e){}
+})();
+
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>
