@@ -606,8 +606,7 @@
 
   <div class="bg"></div>
   <canvas id="bg-network"></canvas>
-  <div class="floor"></div>
-
+  
   <!-- HUD esquinas -->
   <div class="hud-corner tl"></div>
   <div class="hud-corner tr"></div>
@@ -794,7 +793,6 @@
       });
       // Limitar la cadena activa para no saturar
       if(blocks.length > 8){
-        // Cuando hay muchos, los más antiguos ya estarán fuera de pantalla
         blocks = blocks.filter(b => b.x > -size * 2);
       }
     }
@@ -804,6 +802,7 @@
       if(!running){ return; }
       ctx.clearRect(0, 0, w, h);
 
+      // ===== CAPA 1: Red neuronal cyan =====
       // Update nodes
       for(const n of nodes){
         n.x += n.vx;
@@ -838,6 +837,7 @@
         ctx.fill();
       }
 
+      // ===== CAPA 2: Bloques blockchain magenta =====
       // Add new block periodically
       if(now - lastBlockTime > BLOCK_INTERVAL_MS){
         createBlock();
