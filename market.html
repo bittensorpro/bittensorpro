@@ -211,8 +211,28 @@
     border-color: rgba(0, 240, 255, 0.55);
     background: rgba(0, 240, 255, 0.10);
   }
+  /* Botón Herramientas — color ámbar */
+  .tools-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffb84d;
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid rgba(255, 184, 77, 0.30);
+    border-radius: 6px;
+    background: rgba(255, 184, 77, 0.05);
+    transition: all 0.15s;
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+  .tools-btn:hover {
+    border-color: rgba(255, 184, 77, 0.60);
+    background: rgba(255, 184, 77, 0.12);
+  }
   @media (max-width: 600px) {
-    .learn-btn { font-size: 9px; padding: 4px 8px; letter-spacing: 0.10em; }
+    .learn-btn, .tools-btn { font-size: 9px; padding: 4px 8px; letter-spacing: 0.10em; }
   }
   @media (max-width: 380px) {
     .learn-btn { display: none; }
@@ -1016,6 +1036,7 @@
     </div>
   </a>
   <a href="aprende.html" class="learn-btn" title="Academia Bittensor">Aprender</a>
+  <a href="herramientas.html" class="tools-btn" title="Herramientas y calculadoras">Herramientas</a>
   <a href="tao.html" class="tao-info" title="Ver página de TAO">
     <span class="tao-symbol">TAO</span>
     <span class="tao-price" id="tao-price">—</span>
