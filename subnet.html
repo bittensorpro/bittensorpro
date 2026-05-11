@@ -341,6 +341,179 @@ footer a{color:var(--cyan);text-decoration:none}
     .nav-tao .nt-arrow { font-size: 11px; }
   }
 
+
+/* ===== TABLAS DE VALIDADORES / MINEROS ===== */
+.neuron-section {
+  margin-top: 50px;
+}
+.neuron-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.neuron-section h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 3vw, 26px);
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+.neuron-section-sub {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.05em;
+}
+.neuron-table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border-2);
+  background: var(--bg-2);
+  -webkit-overflow-scrolling: touch;
+}
+table.neuron-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+table.neuron-table th {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--cyan);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-2);
+  background: rgba(0, 240, 255, 0.04);
+  white-space: nowrap;
+  font-weight: 400;
+}
+table.neuron-table th.num {
+  text-align: right;
+}
+table.neuron-table td {
+  padding: 12px 14px;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  font-variant-numeric: tabular-nums;
+}
+table.neuron-table td.num {
+  text-align: right;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+}
+table.neuron-table tr:last-child td {
+  border-bottom: none;
+}
+table.neuron-table tr:hover td {
+  background: rgba(0, 240, 255, 0.025);
+}
+table.neuron-table td.rank {
+  color: var(--cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  width: 50px;
+}
+table.neuron-table td.addr {
+  font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+table.neuron-table td.addr a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(0, 240, 255, 0.25);
+}
+table.neuron-table td.addr a:hover {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+}
+table.neuron-table td.name {
+  color: var(--text);
+  font-weight: 500;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+table.neuron-table td.apy {
+  color: var(--green);
+  font-weight: 600;
+}
+.neuron-empty {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--text-faint);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.neuron-loading {
+  padding: 24px 20px;
+  text-align: center;
+  color: var(--text-faint);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.badge-verified {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.badge-immune {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--magenta);
+  color: var(--magenta);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+  table.neuron-table th,
+  table.neuron-table td {
+    font-size: 12px;
+    padding: 10px 10px;
+  }
+  table.neuron-table td.addr {
+    font-size: 11px;
+    max-width: 110px;
+  }
+  table.neuron-table td.name {
+    max-width: 120px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -451,6 +624,8 @@ const STATE = {
   netuid: null,
   subnet: null,        // datos del pool
   info: null,          // datos del JSON oficial GitHub
+  validators: [],      // validadores con APY
+  miners: [],          // mineros del metagraph
   taoUsd: 0,
   currency: 'USD',
   timeframe: '7d',     // 7d por defecto (más datos)
@@ -556,6 +731,45 @@ async function fetchSubnetInfo(){
   }catch(e){
     console.error('Error fetching subnet info JSON', e);
     return null;
+  }
+}
+
+async function fetchValidators(netuid){
+  // Validadores con APYs (yield endpoint). No es crítico, si falla seguimos sin él.
+  try{
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 8000);
+    const r = await fetch(`${API_BASE}/api/dtao/validator/yield/latest/v1?netuid=${netuid}&limit=20&order=seven_day_apy_desc`, {
+      signal: controller.signal
+    });
+    clearTimeout(tid);
+    if(!r.ok) return [];
+    const j = await r.json();
+    const list = (j && j.data) ? j.data : (Array.isArray(j) ? j : []);
+    return list;
+  }catch(e){
+    console.error('Error fetching validators', e);
+    return [];
+  }
+}
+
+async function fetchMetagraph(netuid){
+  // Metagraph: trae todos los neurons (mineros + validadores).
+  // Filtramos los mineros (validator_permit=false) y ordenamos por incentive desc.
+  try{
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 10000);
+    const r = await fetch(`${API_BASE}/api/dtao/metagraph/latest/v1?netuid=${netuid}&limit=256&order=incentive_desc`, {
+      signal: controller.signal
+    });
+    clearTimeout(tid);
+    if(!r.ok) return [];
+    const j = await r.json();
+    const list = (j && j.data) ? j.data : (Array.isArray(j) ? j : []);
+    return list;
+  }catch(e){
+    console.error('Error fetching metagraph', e);
+    return [];
   }
 }
 
@@ -741,6 +955,32 @@ function renderPage(){
 
     ${descriptionSection}
 
+    <!-- VALIDADORES -->
+    <section class="neuron-section" id="validators-section">
+      <div class="neuron-section-header">
+        <div>
+          <h2>Validadores</h2>
+          <div class="neuron-section-sub">// Top 15 por APY 7d</div>
+        </div>
+      </div>
+      <div id="validators-content">
+        <div class="neuron-loading">▸ Cargando validadores…</div>
+      </div>
+    </section>
+
+    <!-- MINEROS -->
+    <section class="neuron-section" id="miners-section">
+      <div class="neuron-section-header">
+        <div>
+          <h2>Mineros</h2>
+          <div class="neuron-section-sub">// Top 15 por incentive</div>
+        </div>
+      </div>
+      <div id="miners-content">
+        <div class="neuron-loading">▸ Cargando mineros…</div>
+      </div>
+    </section>
+
     <div class="actions">${actions}</div>
   `;
 
@@ -762,6 +1002,166 @@ function renderPage(){
 
   // Renderizar la gráfica
   renderChart();
+}
+
+/* =========================================================================
+   RENDER VALIDADORES
+   ========================================================================= */
+function shortAddr(addr){
+  if(!addr) return '—';
+  if(addr.length <= 12) return addr;
+  return addr.slice(0, 6) + '…' + addr.slice(-4);
+}
+
+function fmtTAO(rawValue){
+  // Los valores de stake suelen venir en RAO (10^9). Si parecen demasiado grandes, dividimos.
+  let v = parseFloat(rawValue) || 0;
+  if(v > 1e12) v = v / 1e9; // viene en rao
+  if(v >= 1e6) return (v/1e6).toFixed(2) + 'M τ';
+  if(v >= 1e3) return (v/1e3).toFixed(2) + 'K τ';
+  if(v >= 1)   return v.toFixed(2) + ' τ';
+  if(v > 0)    return v.toFixed(4) + ' τ';
+  return '—';
+}
+
+function fmtAPY(val){
+  // Algunos endpoints devuelven 0.124 (12.4%), otros 12.4. Detectamos.
+  let v = parseFloat(val);
+  if(isNaN(v) || v === 0) return '—';
+  if(Math.abs(v) < 5) v = v * 100; // venía en decimal
+  return v.toFixed(1) + '%';
+}
+
+function renderValidators(){
+  const container = document.getElementById('validators-content');
+  if(!container) return;
+
+  const validators = STATE.validators || [];
+  if(validators.length === 0){
+    container.innerHTML = '<div class="neuron-empty">No hay datos de validadores disponibles para esta subnet</div>';
+    return;
+  }
+
+  // Ordenar por APY 7d desc (por si el endpoint no lo hace ya)
+  const sorted = [...validators]
+    .sort((a, b) => (parseFloat(b.seven_day_apy) || 0) - (parseFloat(a.seven_day_apy) || 0))
+    .slice(0, 15);
+
+  const rows = sorted.map((v, i) => {
+    const hotkey = v.hotkey?.ss58 || v.hotkey || v.ss58 || '';
+    const name = v.name || v.validator_name || v.label || shortAddr(hotkey);
+    const stake = v.total_alpha_stake || v.alpha_stake || v.stake || v.total_stake || 0;
+    const apy7d = fmtAPY(v.seven_day_apy);
+    const apy30d = fmtAPY(v.thirty_day_apy);
+    const take = v.take !== undefined ? (parseFloat(v.take) * 100).toFixed(1) + '%' : '—';
+    const vtrust = v.vtrust !== undefined ? (parseFloat(v.vtrust)).toFixed(3) : '—';
+    const verified = v.verified === true || v.is_verified === true;
+    const taostatsUrl = hotkey ? `https://taostats.io/hotkey/${hotkey}` : null;
+
+    return `
+      <tr>
+        <td class="rank">#${i+1}</td>
+        <td class="name">${escapeHtml(name)}${verified ? '<span class="badge-verified">VER</span>' : ''}</td>
+        <td class="addr">${taostatsUrl ? `<a href="${taostatsUrl}" target="_blank" rel="noopener">${shortAddr(hotkey)}</a>` : shortAddr(hotkey)}</td>
+        <td class="num apy">${apy7d}</td>
+        <td class="num">${apy30d}</td>
+        <td class="num">${fmtTAO(stake)}</td>
+        <td class="num">${take}</td>
+        <td class="num">${vtrust}</td>
+      </tr>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="neuron-table-wrap">
+      <table class="neuron-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Hotkey</th>
+            <th class="num">APY 7d</th>
+            <th class="num">APY 30d</th>
+            <th class="num">Stake</th>
+            <th class="num">Take</th>
+            <th class="num">VTrust</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+/* =========================================================================
+   RENDER MINEROS
+   ========================================================================= */
+function renderMiners(){
+  const container = document.getElementById('miners-content');
+  if(!container) return;
+
+  const miners = STATE.miners || [];
+  if(miners.length === 0){
+    container.innerHTML = '<div class="neuron-empty">No hay datos de mineros disponibles para esta subnet</div>';
+    return;
+  }
+
+  // Filtrar solo mineros (sin validator_permit) y ordenar por incentive desc
+  // Si no podemos distinguir, mostramos los top por incentive
+  let onlyMiners = miners.filter(n => {
+    const perm = n.validator_permit;
+    return perm === false || perm === 'false' || perm === 0;
+  });
+  // Si el filtro deja vacío (porque el campo no viene), usar todos
+  if(onlyMiners.length === 0) onlyMiners = miners;
+
+  const sorted = [...onlyMiners]
+    .sort((a, b) => (parseFloat(b.incentive) || 0) - (parseFloat(a.incentive) || 0))
+    .slice(0, 15);
+
+  const rows = sorted.map((m, i) => {
+    const hotkey = m.hotkey?.ss58 || m.hotkey || m.ss58 || '';
+    const uid = m.uid !== undefined ? `UID ${m.uid}` : '—';
+    const incentive = m.incentive !== undefined ? (parseFloat(m.incentive)).toFixed(4) : '—';
+    const trust = m.trust !== undefined ? (parseFloat(m.trust)).toFixed(3) : '—';
+    const dailyReward = m.daily_reward !== undefined ? fmtTAO(m.daily_reward) :
+                       (m.daily_mining_alpha !== undefined ? fmtTAO(m.daily_mining_alpha) : '—');
+    const emission = m.emission !== undefined ? parseFloat(m.emission).toFixed(6) : '—';
+    const isImmune = m.is_immunity_period === true || m.is_immune === true;
+    const inDanger = m.in_danger === true;
+    const taostatsUrl = hotkey ? `https://taostats.io/hotkey/${hotkey}` : null;
+
+    return `
+      <tr>
+        <td class="rank">#${i+1}</td>
+        <td class="num">${uid}</td>
+        <td class="addr">${taostatsUrl ? `<a href="${taostatsUrl}" target="_blank" rel="noopener">${shortAddr(hotkey)}</a>` : shortAddr(hotkey)}${isImmune ? '<span class="badge-immune">IMMUNE</span>' : ''}</td>
+        <td class="num">${incentive}</td>
+        <td class="num">${trust}</td>
+        <td class="num">${emission}</td>
+        <td class="num">${dailyReward}</td>
+      </tr>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="neuron-table-wrap">
+      <table class="neuron-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th class="num">UID</th>
+            <th>Hotkey</th>
+            <th class="num">Incentive</th>
+            <th class="num">Trust</th>
+            <th class="num">Emisión</th>
+            <th class="num">Diario</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
 }
 
 function updatePriceChange(){
@@ -975,6 +1375,24 @@ async function init(){
   STATE.rawData = raw;
   STATE.subnet = parseSubnet(raw);
   renderPage();
+
+  // Cargar validadores y mineros DESPUÉS del render principal,
+  // para que la página aparezca rápida y las tablas se rellenen progresivamente
+  loadNeurons();
+}
+
+async function loadNeurons(){
+  // Lanzamos las dos llamadas en paralelo
+  const [validators, metagraph] = await Promise.all([
+    fetchValidators(STATE.netuid),
+    fetchMetagraph(STATE.netuid),
+  ]);
+
+  STATE.validators = validators || [];
+  STATE.miners = metagraph || [];
+
+  renderValidators();
+  renderMiners();
 }
 
 init();
