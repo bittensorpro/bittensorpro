@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Halvings de TAO · Bittensor Pro — Countdown al próximo halving en vivo</title>
+<meta name="description" content="Countdown en vivo al próximo halving de Bittensor TAO. Calendario completo de halvings, supply emitido en tiempo real y curva de emisiones hasta llegar a los 21M." />
+<link rel="canonical" href="https://bittensor.pro/halvings.html" />
+<meta property="og:title" content="Halvings de TAO · Countdown en vivo" />
+<meta property="og:description" content="Cuánto falta para el próximo halving de TAO. Calendario completo y curva de emisiones." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:url" content="https://bittensor.pro/halvings.html" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a;--bg-2:#0d0f17;--bg-3:#141826;
+  --border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);
+  --text:#e8f0f5;--text-muted:#a8b2c0;--text-dim:#6b7385;--text-faint:#4a5263;
+  --cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--red:#ff4d5e;--amber:#ffb84d;
+  --max-width:1000px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Chakra Petch',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.6;
+  overflow-x:hidden;min-height:100vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,184,77,0.07), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(0,240,255,0.03), transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+.topbar{
+  position:sticky;top:0;z-index:50;padding:12px 20px;
+  padding-top:calc(12px + env(safe-area-inset-top));
+  background:rgba(5,6,10,0.85);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--amber);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--amber);border-color:rgba(255,184,77,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:0.22em;color:var(--amber);
+  text-transform:uppercase;margin-bottom:14px;
+  padding:5px 12px;border:1px solid var(--amber);
+  background:rgba(255,184,77,0.06);border-radius:14px;
+}
+.eyebrow .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--amber);box-shadow:0 0 8px var(--amber);
+  animation:pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:0.5;transform:scale(0.85)}
+  50%{opacity:1;transform:scale(1.1)}
+}
+h1{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:600;
+  font-size:clamp(34px,5.5vw,48px);line-height:1.1;
+  letter-spacing:-0.02em;margin-bottom:12px;
+}
+h1 strong{font-style:normal;color:var(--amber);text-shadow:0 0 24px rgba(255,184,77,0.35)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.6;max-width:600px}
+
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 60px;position:relative;z-index:2}
+
+/* COUNTDOWN BIG */
+.countdown-section{
+  background:linear-gradient(135deg,rgba(255,184,77,0.10),rgba(0,240,255,0.03));
+  border:1px solid var(--amber);border-radius:16px;
+  padding:32px 28px;margin-bottom:34px;position:relative;overflow:hidden;
+}
+.countdown-section::before{
+  content:"";position:absolute;top:-50%;right:-30%;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,184,77,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.countdown-label{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:0.22em;color:var(--amber);
+  text-transform:uppercase;margin-bottom:10px;position:relative;
+}
+.countdown-title{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:600;
+  font-size:clamp(24px,3.5vw,30px);color:var(--text);
+  line-height:1.2;margin-bottom:24px;position:relative;
+}
+.countdown-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  position:relative;margin-bottom:24px;
+}
+@media (max-width:540px){
+  .countdown-grid{gap:8px}
+}
+.countdown-cell{
+  background:rgba(5,6,10,0.6);border:1px solid rgba(255,184,77,0.25);
+  border-radius:10px;padding:18px 8px;text-align:center;
+}
+.countdown-cell-value{
+  font-family:'Orbitron',sans-serif;font-weight:900;
+  font-size:clamp(28px,5.5vw,44px);color:var(--amber);
+  line-height:1;font-variant-numeric:tabular-nums;
+  text-shadow:0 0 20px rgba(255,184,77,0.3);
+}
+.countdown-cell-label{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  letter-spacing:0.18em;color:var(--text-muted);
+  text-transform:uppercase;margin-top:8px;
+}
+.countdown-eta{
+  font-family:'Share Tech Mono',monospace;font-size:13px;
+  color:var(--text-muted);letter-spacing:0.06em;
+  margin-bottom:18px;position:relative;
+}
+.countdown-eta strong{color:var(--text);font-weight:500}
+
+.countdown-progress{position:relative;margin-top:10px}
+.progress-info{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:0.08em;color:var(--text-muted);margin-bottom:8px;
+}
+.progress-info strong{color:var(--text);font-weight:500}
+.progress-bar-outer{
+  height:8px;background:rgba(0,240,255,0.06);
+  border-radius:4px;overflow:hidden;border:1px solid var(--border);
+}
+.progress-bar-fill{
+  height:100%;background:linear-gradient(90deg,var(--amber),var(--cyan));
+  border-radius:4px;transition:width 0.8s ease;
+}
+
+/* SECTION HEADER */
+.section-label{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  letter-spacing:0.22em;color:var(--text-faint);
+  text-transform:uppercase;margin:32px 0 14px;
+}
+.section-title{
+  font-family:'Orbitron',sans-serif;font-weight:700;
+  font-size:clamp(20px,2.8vw,24px);color:var(--text);
+  margin-bottom:16px;letter-spacing:0.01em;
+}
+
+/* TIMELINE TABLE */
+.timeline-wrap{
+  overflow-x:auto;border-radius:12px;
+  border:1px solid var(--border-2);background:var(--bg-2);
+  -webkit-overflow-scrolling:touch;
+}
+table.timeline-table{
+  width:100%;border-collapse:collapse;min-width:560px;
+}
+table.timeline-table th{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  color:var(--amber);letter-spacing:0.18em;text-transform:uppercase;
+  padding:14px 16px;text-align:left;font-weight:400;
+  border-bottom:1px solid var(--border-2);
+  background:rgba(255,184,77,0.04);white-space:nowrap;
+}
+table.timeline-table th.num{text-align:right}
+table.timeline-table td{
+  padding:14px 16px;color:var(--text-muted);font-size:13.5px;
+  line-height:1.4;border-bottom:1px solid var(--border);
+  vertical-align:middle;font-variant-numeric:tabular-nums;
+}
+table.timeline-table td.num{text-align:right;font-family:'Share Tech Mono',monospace;font-size:13px}
+table.timeline-table tr:last-child td{border-bottom:none}
+table.timeline-table tr.past{opacity:0.6}
+table.timeline-table tr.next td{background:rgba(255,184,77,0.04)}
+table.timeline-table tr.next .status{color:var(--amber)}
+.status{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  letter-spacing:0.14em;text-transform:uppercase;
+}
+.status.done{color:var(--green)}
+.status.future{color:var(--text-faint)}
+.status.next{color:var(--amber);font-weight:600}
+
+/* INFO CARDS */
+.info-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+@media (min-width:700px){.info-grid{grid-template-columns:1fr 1fr}}
+.info-card{
+  background:var(--bg-2);border:1px solid var(--border-2);
+  border-left:3px solid var(--amber);
+  border-radius:10px;padding:20px 22px;
+}
+.info-card.cyan{border-left-color:var(--cyan)}
+.info-card-label{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  letter-spacing:0.22em;color:var(--amber);
+  text-transform:uppercase;margin-bottom:10px;
+}
+.info-card.cyan .info-card-label{color:var(--cyan)}
+.info-card-title{
+  font-family:'Orbitron',sans-serif;font-weight:700;
+  font-size:16px;color:var(--text);margin-bottom:10px;
+}
+.info-card p{color:var(--text-muted);font-size:13.5px;line-height:1.65}
+.info-card a{color:var(--cyan);text-decoration:none}
+
+/* STATES */
+.loading{padding:40px 20px;text-align:center;color:var(--text-faint);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:0.16em;text-transform:uppercase}
+.loading .ld{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--amber);margin-right:8px;animation:pulse 1.5s ease-in-out infinite}
+
+footer{
+  border-top:1px solid var(--border);
+  padding:30px 20px calc(30px + env(safe-area-inset-bottom));
+  text-align:center;font-family:'Share Tech Mono',monospace;
+  font-size:10px;letter-spacing:0.2em;color:var(--text-faint);
+  text-transform:uppercase;position:relative;z-index:2;margin-top:40px;
+}
+footer a{color:var(--amber);text-decoration:none}
+
+@media (max-width:600px){
+  .hero{padding:20px 16px 24px}
+  .content{padding:10px 16px 40px}
+  .countdown-section{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="market.html">Market</a>
+    <a href="aprende.html">Aprende</a>
+    <a href="herramientas.html" class="active">Herramientas</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="herramientas.html" class="back-link">← Volver a herramientas</a>
+</div>
+
+<section class="hero">
+  <div class="eyebrow"><span class="dot"></span>Countdown · En vivo</div>
+  <h1>Halvings de <strong>TAO</strong></h1>
+  <p class="hero-sub">Bittensor reduce sus emisiones a la mitad cada vez que se alcanza un umbral de supply. Aquí ves cuánto falta para el próximo, basado en la velocidad actual de emisión.</p>
+</section>
+
+<main class="content" id="content">
+  <div class="loading">
+    <span class="ld"></span>Calculando posición actual en la red…
+  </div>
+</main>
+
+<footer>
+  <a href="index.html">Bittensor Pro</a> · 2026 · No es consejo financiero
+</footer>
+
+<script>
+const API_BASE = 'https://tao360.qrchd889gj.workers.dev';
+const RAO = 1e9;
+
+// Halvings: thresholds en TAO, emisión por bloque DESPUÉS del halving
+const HALVINGS = [
+  { num: 0, threshold: 0,          rewardAfter: 1,      dailyAfter: 7200,   date: '2021-11-02', label: 'Génesis (Nakamoto)' },
+  { num: 1, threshold: 10_500_000, rewardAfter: 0.5,    dailyAfter: 3600,   date: '2025-12-14', label: 'Primer halving' },
+  { num: 2, threshold: 15_750_000, rewardAfter: 0.25,   dailyAfter: 1800,   date: null,         label: 'Segundo halving' },
+  { num: 3, threshold: 18_375_000, rewardAfter: 0.125,  dailyAfter: 900,    date: null,         label: 'Tercer halving' },
+  { num: 4, threshold: 19_687_500, rewardAfter: 0.0625, dailyAfter: 450,    date: null,         label: 'Cuarto halving' },
+  { num: 5, threshold: 20_343_750, rewardAfter: 0.03125,dailyAfter: 225,    date: null,         label: 'Quinto halving' },
+];
+
+const STATE = { issued: 0, blockNum: 0, blockTime: null };
+
+async function fetchStats(){
+  try {
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), 10000);
+    const r = await fetch(`${API_BASE}/api/stats/latest/v1`, { signal: ctrl.signal });
+    clearTimeout(tid);
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    return (j && j.data && j.data[0]) ? j.data[0] : null;
+  } catch(e){
+    console.error('Error fetching stats', e);
+    return null;
+  }
+}
+
+function fmtNum(n, decimals=0){
+  return Number(n).toLocaleString('es-ES', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
+
+function fmtDate(d){
+  if(!d) return '—';
+  const date = d instanceof Date ? d : new Date(d);
+  if(isNaN(date.getTime())) return '—';
+  return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function pad(n){ return String(n).padStart(2, '0'); }
+
+function getCurrentHalving(issuedTao){
+  // Encuentra el halving actual (último cuyo threshold ya se cruzó)
+  let current = HALVINGS[0];
+  for(const h of HALVINGS){
+    if(issuedTao >= h.threshold) current = h;
+    else break;
+  }
+  return current;
+}
+
+function getNextHalving(issuedTao){
+  for(const h of HALVINGS){
+    if(issuedTao < h.threshold) return h;
+  }
+  return null; // Ya pasaron todos
+}
+
+function estimateDate(taoRemaining, dailyEmission){
+  if(!dailyEmission || dailyEmission <= 0) return null;
+  const days = taoRemaining / dailyEmission;
+  const ms = days * 24 * 60 * 60 * 1000;
+  return new Date(Date.now() + ms);
+}
+
+function timeBreakdown(ms){
+  if(ms <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  const totalSeconds = Math.floor(ms / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return { days, hours, minutes, seconds };
+}
+
+function render(){
+  const issuedTao = STATE.issued / RAO;
+  const current = getCurrentHalving(issuedTao);
+  const next = getNextHalving(issuedTao);
+
+  let countdownHTML = '';
+  if(next){
+    const taoRemaining = next.threshold - issuedTao;
+    const eta = estimateDate(taoRemaining, current.dailyAfter);
+    const progressInCycle = ((issuedTao - current.threshold) / (next.threshold - current.threshold)) * 100;
+
+    countdownHTML = `
+      <div class="countdown-section">
+        <div class="countdown-label">// Próximo halving</div>
+        <div class="countdown-title">Halving #${next.num} · ${next.label}</div>
+
+        <div class="countdown-grid" id="countdown-grid" data-eta="${eta ? eta.toISOString() : ''}">
+          <div class="countdown-cell">
+            <div class="countdown-cell-value" id="cd-days">—</div>
+            <div class="countdown-cell-label">Días</div>
+          </div>
+          <div class="countdown-cell">
+            <div class="countdown-cell-value" id="cd-hours">—</div>
+            <div class="countdown-cell-label">Horas</div>
+          </div>
+          <div class="countdown-cell">
+            <div class="countdown-cell-value" id="cd-mins">—</div>
+            <div class="countdown-cell-label">Minutos</div>
+          </div>
+          <div class="countdown-cell">
+            <div class="countdown-cell-value" id="cd-secs">—</div>
+            <div class="countdown-cell-label">Segundos</div>
+          </div>
+        </div>
+
+        <div class="countdown-eta">
+          ETA estimada: <strong>${fmtDate(eta)}</strong> · al ritmo actual de ${fmtNum(current.dailyAfter)} τ/día
+        </div>
+
+        <div class="countdown-progress">
+          <div class="progress-info">
+            <span><strong>${fmtNum(issuedTao, 0)} τ</strong> emitidos</span>
+            <span>faltan <strong>${fmtNum(taoRemaining, 0)} τ</strong> para los ${fmtNum(next.threshold)} τ</span>
+          </div>
+          <div class="progress-bar-outer">
+            <div class="progress-bar-fill" style="width:${progressInCycle.toFixed(2)}%"></div>
+          </div>
+          <div class="progress-info" style="margin-top:6px">
+            <span>${progressInCycle.toFixed(2)}% del ciclo actual completado</span>
+            <span>Recompensa pasará a ${next.rewardAfter} τ/bloque</span>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    countdownHTML = `
+      <div class="countdown-section">
+        <div class="countdown-label">// Final del schedule</div>
+        <div class="countdown-title">Se han ejecutado todos los halvings programados</div>
+        <p style="color:var(--text-muted);font-size:14px">La emisión continúa a un ritmo mínimo hasta alcanzar los 21M τ.</p>
+      </div>
+    `;
+  }
+
+  // Tabla de halvings
+  const rows = HALVINGS.map(h => {
+    let status = 'future';
+    let statusLabel = 'Pendiente';
+    let estDate = h.date;
+
+    if(issuedTao >= h.threshold){
+      status = 'done';
+      statusLabel = 'Completado';
+    } else if(next && h.num === next.num){
+      status = 'next';
+      statusLabel = '› Siguiente';
+      const taoRem = h.threshold - issuedTao;
+      const eta = estimateDate(taoRem, current.dailyAfter);
+      estDate = eta ? eta.toISOString() : null;
+    } else if(h.num > (next ? next.num : 0)){
+      // Halvings posteriores: estimar a partir del anterior
+      const prev = HALVINGS[h.num - 1];
+      const tokensInCycle = h.threshold - prev.threshold;
+      const daysInCycle = tokensInCycle / prev.dailyAfter;
+      // Acumular desde el next
+      let totalDays = 0;
+      if(next){
+        const taoToNext = next.threshold - issuedTao;
+        totalDays += taoToNext / current.dailyAfter;
+        for(let i = next.num; i < h.num; i++){
+          const cycle = HALVINGS[i+1].threshold - HALVINGS[i].threshold;
+          totalDays += cycle / HALVINGS[i].dailyAfter;
+        }
+        const ms = totalDays * 86400 * 1000;
+        estDate = new Date(Date.now() + ms).toISOString();
+      }
+    }
+
+    return `
+      <tr class="${status}">
+        <td><strong style="color:var(--text)">#${h.num}</strong></td>
+        <td>${h.label}</td>
+        <td class="num">${fmtNum(h.threshold)} τ</td>
+        <td class="num">${h.rewardAfter} τ</td>
+        <td class="num">${fmtNum(h.dailyAfter)} τ</td>
+        <td>${fmtDate(estDate)}</td>
+        <td><span class="status ${status}">${statusLabel}</span></td>
+      </tr>
+    `;
+  }).join('');
+
+  document.getElementById('content').innerHTML = `
+    ${countdownHTML}
+
+    <div class="section-label">// Calendario completo</div>
+    <h2 class="section-title">Schedule de halvings</h2>
+    <div class="timeline-wrap">
+      <table class="timeline-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Evento</th>
+            <th class="num">Threshold</th>
+            <th class="num">Reward/bloque</th>
+            <th class="num">Emisión diaria</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-label">// Cómo se calcula</div>
+        <div class="info-card-title">No es por fecha, es por supply</div>
+        <p>A diferencia de Bitcoin (que halving cada 210.000 bloques), Bittensor activa el halving cuando el <strong>supply emitido</strong> alcanza un umbral. Por eso la fecha es solo una <strong>estimación</strong> basada en el ritmo actual de emisión. Si los bloques se ralentizan o se recicla TAO (por ejemplo, registros de subnet), la fecha se mueve.</p>
+      </div>
+      <div class="info-card cyan">
+        <div class="info-card-label">// ¿Y los alpha tokens?</div>
+        <div class="info-card-title">Cada subnet tiene su propio halving</div>
+        <p>Además del halving global de TAO, cada subnet tiene su propio <strong>alpha halving</strong> independiente, basado en el supply emitido del alpha token de esa subnet. Esto significa que distintas subnets pueden estar en distintas fases. <a href="aprende-basico-modulo-05.html">Aprende sobre TAO y alpha</a> en el módulo 5 del curso básico.</p>
+      </div>
+    </div>
+  `;
+
+  // Iniciar countdown si hay siguiente halving
+  if(next){
+    startCountdown();
+  }
+}
+
+let countdownInterval = null;
+function startCountdown(){
+  const grid = document.getElementById('countdown-grid');
+  if(!grid) return;
+  const etaIso = grid.dataset.eta;
+  if(!etaIso) return;
+  const etaTime = new Date(etaIso).getTime();
+
+  function tick(){
+    const remaining = etaTime - Date.now();
+    const t = timeBreakdown(remaining);
+    document.getElementById('cd-days').textContent = pad(t.days);
+    document.getElementById('cd-hours').textContent = pad(t.hours);
+    document.getElementById('cd-mins').textContent = pad(t.minutes);
+    document.getElementById('cd-secs').textContent = pad(t.seconds);
+  }
+  tick();
+  if(countdownInterval) clearInterval(countdownInterval);
+  countdownInterval = setInterval(tick, 1000);
+}
+
+(async function init(){
+  const stats = await fetchStats();
+  if(!stats){
+    document.getElementById('content').innerHTML =
+      '<div style="text-align:center;padding:40px;color:var(--red);font-family:Share Tech Mono,monospace">No se pudieron cargar los datos. Recarga la página.</div>';
+    return;
+  }
+  STATE.issued = parseFloat(stats.issued) || 0;
+  STATE.blockNum = parseInt(stats.block_number, 10) || 0;
+  STATE.blockTime = stats.timestamp;
+  render();
+})();
+
+// Smart back
+(function(){
+  function savePage(){
+    try { sessionStorage.setItem('lastPage', location.pathname.replace(/^\//,'') || 'index.html'); } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden') savePage(); });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>
