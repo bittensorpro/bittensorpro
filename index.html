@@ -465,6 +465,40 @@
     box-shadow: 0 0 24px rgba(0, 240, 255, 0.20), inset 0 0 16px rgba(0, 240, 255, 0.04);
     transform: translateY(-2px);
   }
+  /* Tile ámbar — Herramientas */
+  .tile.tile-tools {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: center;
+    gap: 14px;
+    min-height: 72px;
+    padding: 14px 20px;
+    border-color: rgba(255, 184, 77, 0.28);
+    background: rgba(20, 15, 5, 0.55);
+  }
+  .tile.tile-tools svg.tile-icon {
+    color: #ffb84d;
+    filter: drop-shadow(0 0 6px rgba(255, 184, 77, 0.4));
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .tile.tile-tools .tile-corner {
+    border-color: rgba(255, 184, 77, 0.4);
+  }
+  .tile.tile-tools:hover {
+    border-color: rgba(255, 184, 77, 0.85);
+    background: rgba(255, 184, 77, 0.06);
+    box-shadow: 0 0 24px rgba(255, 184, 77, 0.20), inset 0 0 16px rgba(255, 184, 77, 0.04);
+  }
+  .tile.tile-tools:hover svg.tile-icon {
+    filter: drop-shadow(0 0 10px rgba(255, 184, 77, 0.7));
+  }
+  .tile.tile-tools:hover .tile-corner {
+    border-color: #ffb84d;
+  }
+  .tile-tools-text { text-align: left; }
+  .tile-tools-text .tile-title { color: #ffb84d; text-shadow: 0 0 8px rgba(255, 184, 77, 0.3); }
+  .tile-tools-text .tile-sub { letter-spacing: 0.1em; }
   .tile:active {
     transform: translateY(0);
   }
@@ -678,6 +712,21 @@
         <div class="tile-title">Market</div>
         <div class="tile-sub">128 subnets en vivo</div>
         <div class="tile-live"><span class="tile-live-dot"></span>LIVE</div>
+        <div class="tile-corner tl"></div>
+        <div class="tile-corner tr"></div>
+        <div class="tile-corner bl"></div>
+        <div class="tile-corner br"></div>
+      </a>
+
+      <!-- Fila 3: Herramientas (ancho completo) -->
+      <a href="herramientas.html" class="tile tile-tools">
+        <svg class="tile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <div class="tile-tools-text">
+          <div class="tile-title">Herramientas</div>
+          <div class="tile-sub">Calculadora · Red · Halvings · Comparador</div>
+        </div>
         <div class="tile-corner tl"></div>
         <div class="tile-corner tr"></div>
         <div class="tile-corner bl"></div>
