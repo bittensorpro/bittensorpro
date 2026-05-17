@@ -472,6 +472,35 @@ table.neuron-table td.apy {
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+.neuron-lazy {
+  padding: 24px 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn-lazy {
+  background: transparent;
+  border: 1px solid var(--accent, #7ecff7);
+  color: var(--accent, #7ecff7);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-lazy:hover { background: var(--accent, #7ecff7); color: #000; }
+.btn-lazy:disabled { opacity: 0.4; cursor: default; }
+.neuron-lazy-note {
+  font-size: 10px;
+  color: var(--text-faint);
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.1em;
+}
 .badge-verified {
   display: inline-block;
   padding: 2px 6px;
@@ -754,21 +783,19 @@ async function fetchValidators(netuid){
 }
 
 async function fetchMetagraph(netuid){
-  // Metagraph: trae todos los neurons (mineros + validadores).
-  // Filtramos los mineros (validator_permit=false) y ordenamos por incentive desc.
+  // Metagraph desde el RPC público de Bittensor (gratis, sin límite de llamadas).
   try{
     const controller = new AbortController();
-    const tid = setTimeout(() => controller.abort(), 10000);
-    const r = await fetch(`${API_BASE}/api/dtao/metagraph/latest/v1?netuid=${netuid}&limit=256&order=incentive_desc`, {
+    const tid = setTimeout(() => controller.abort(), 15000);
+    const r = await fetch(`${API_BASE}/rpc/metagraph?netuid=${netuid}`, {
       signal: controller.signal
     });
     clearTimeout(tid);
     if(!r.ok) return [];
     const j = await r.json();
-    const list = (j && j.data) ? j.data : (Array.isArray(j) ? j : []);
-    return list;
+    return j.neurons || [];
   }catch(e){
-    console.error('Error fetching metagraph', e);
+    console.error('Error fetching metagraph from RPC', e);
     return [];
   }
 }
@@ -960,11 +987,14 @@ function renderPage(){
       <div class="neuron-section-header">
         <div>
           <h2>Validadores</h2>
-          <div class="neuron-section-sub">// Top 15 por APY 7d</div>
+          <div class="neuron-section-sub">// Top 15 por APY 7d · datos de Taostats</div>
         </div>
       </div>
       <div id="validators-content">
-        <div class="neuron-loading">▸ Cargando validadores…</div>
+        <div class="neuron-lazy">
+          <button id="load-validators-btn" class="btn-lazy" onclick="loadValidators()">▸ Ver validators con APY</button>
+          <span class="neuron-lazy-note">Usa 1 llamada a la API de Taostats</span>
+        </div>
       </div>
     </section>
 
@@ -1382,17 +1412,21 @@ async function init(){
 }
 
 async function loadNeurons(){
-  // Lanzamos las dos llamadas en paralelo
-  const [validators, metagraph] = await Promise.all([
-    fetchValidators(STATE.netuid),
-    fetchMetagraph(STATE.netuid),
-  ]);
-
-  STATE.validators = validators || [];
+  // Metagraph: gratis desde el RPC de Bittensor, se carga automáticamente.
+  // Validators (APY): solo Taostats lo tiene, se carga bajo demanda.
+  const metagraph = await fetchMetagraph(STATE.netuid);
   STATE.miners = metagraph || [];
-
-  renderValidators();
   renderMiners();
+}
+
+async function loadValidators(){
+  const btn = document.getElementById('load-validators-btn');
+  const container = document.getElementById('validators-content');
+  if(btn) btn.disabled = true;
+  if(container) container.innerHTML = '<div class="neuron-loading">▸ Cargando validators desde Taostats…</div>';
+  const validators = await fetchValidators(STATE.netuid);
+  STATE.validators = validators || [];
+  renderValidators();
 }
 
 init();

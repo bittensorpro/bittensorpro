@@ -274,6 +274,7 @@ footer a{color:var(--amber);text-decoration:none}
   .supply-card{padding:20px}
 }
 </style>
+<script src="/js/api-cache.js"></script>
 </head>
 <body>
 
@@ -338,8 +339,7 @@ async function fetchStats(){
 
 async function fetchTaoPrice(){
   try {
-    const r = await fetch(`${API_BASE}/api/price/latest/v1?asset=tao`);
-    const j = await r.json();
+    const j = await fetchTao('/api/price/latest/v1?asset=tao');
     return (j && j.data && j.data[0]) ? parseFloat(j.data[0].price) : 0;
   } catch(e){
     return 0;
