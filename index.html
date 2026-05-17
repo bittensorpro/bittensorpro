@@ -635,6 +635,7 @@
   }
 
 </style>
+<script src="/js/api-cache.js"></script>
 </head>
 <body>
 
@@ -747,7 +748,6 @@
   <script>
   // ===== Cargar precio TAO en el tile =====
   (async function loadTileTao(){
-    const API_BASE = 'https://tao360.qrchd889gj.workers.dev';
     function fmtUSD(n){
       if(!n && n !== 0) return '—';
       if(n < 1) return '$' + n.toFixed(3);
@@ -764,9 +764,8 @@
       return 'zero';
     }
     try{
-      const r = await fetch(`${API_BASE}/api/price/latest/v1?asset=tao`);
-      const j = await r.json();
-      if(j && j.data && j.data[0]){
+      const j = await fetchTao('/api/price/latest/v1?asset=tao');
+      if(j?.data?.[0]){
         const price = parseFloat(j.data[0].price) || 0;
         const change = parseFloat(j.data[0].percent_change_24h) || 0;
         const p = document.getElementById('tile-tao-price');
