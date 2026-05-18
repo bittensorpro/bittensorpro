@@ -25,7 +25,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-0: #05060a;
@@ -44,7 +44,7 @@
     overflow: hidden;
     background: var(--bg-0);
     color: #e8f6ff;
-    font-family: 'Chakra Petch', sans-serif;
+    font-family: 'Outfit', sans-serif;
   }
 
   body { cursor: crosshair; }
@@ -133,7 +133,7 @@
 
   /* Tag superior */
   .tag {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.4em;
     color: var(--neon-cyan);
@@ -201,7 +201,7 @@
 
   /* Título */
   .title {
-    font-family: 'Chakra Petch', sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: 700;
     font-size: clamp(28px, 6vw, 64px);
     letter-spacing: 0.12em;
@@ -227,7 +227,7 @@
   }
 
   .soon {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: clamp(13px, 1.8vw, 18px);
     letter-spacing: 0.6em;
     color: var(--neon-cyan);
@@ -262,7 +262,7 @@
     border-radius: 4px;
     color: #f4faff;
     text-decoration: none;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 13px;
     letter-spacing: 0.25em;
     text-transform: uppercase;
@@ -336,7 +336,7 @@
   /* Enlace secundario "Aprender" */
   .learn-link {
     margin-top: 6px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.18em;
     color: rgba(0, 240, 255, 0.7);
@@ -372,14 +372,42 @@
     bottom: 22px;
     left: 0; right: 0;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 0 30px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 9px;
     letter-spacing: 0.2em;
     color: rgba(0, 240, 255, 0.65);
     z-index: 4;
     text-transform: uppercase;
+  }
+  /* Switcher centrado arriba */
+  .btp-lang-slot {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+  }
+  .btp-lang-slot .btp-lang {
+    border-color: rgba(0, 240, 255, 0.45);
+    background: rgba(5, 6, 10, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 4px;
+    padding: 2px;
+    gap: 2px;
+    box-shadow: 0 0 14px rgba(0, 240, 255, 0.12), inset 0 0 8px rgba(0, 240, 255, 0.04);
+  }
+  .btp-lang-slot .btp-lang button {
+    font-size: 10px;
+    padding: 4px 12px;
+    letter-spacing: 0.18em;
+  }
+  .btp-lang-slot .btp-lang button.active {
+    background: rgba(0, 240, 255, 0.16);
+    box-shadow: inset 0 0 8px rgba(0, 240, 255, 0.2);
   }
 
   /* Animaciones */
@@ -544,7 +572,7 @@
     text-shadow: 0 0 8px rgba(0, 240, 255, 0.25);
   }
   .tile-sub {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 9px;
     letter-spacing: 0.12em;
     color: #a8b2c0;
@@ -557,7 +585,7 @@
     align-items: center;
     gap: 5px;
     margin-top: 6px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 8px;
     letter-spacing: 0.16em;
     color: #22d87a;
@@ -580,7 +608,7 @@
     align-items: baseline;
     justify-content: center;
     gap: 6px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-variant-numeric: tabular-nums;
     margin-top: 4px;
     width: 100%;
@@ -635,7 +663,8 @@
   }
 
 </style>
-<script src="/js/api-cache.js"></script>
+<script src="./js/i18n.js"></script>
+<script src="./js/api-cache.js"></script>
 </head>
 <body>
 
@@ -669,8 +698,8 @@
           <path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/>
           <path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/>
         </svg>
-        <div class="tile-title">Guía</div>
-        <div class="tile-sub">¿Qué es Bittensor?</div>
+        <div class="tile-title" data-i18n="home.guide">Guía</div>
+        <div class="tile-sub" data-i18n="home.guide_sub">¿Qué es Bittensor?</div>
         <div class="tile-corner tl"></div>
         <div class="tile-corner tr"></div>
         <div class="tile-corner bl"></div>
@@ -682,8 +711,8 @@
           <path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/>
           <path d="M22 10v6"/>
         </svg>
-        <div class="tile-title">Aprende</div>
-        <div class="tile-sub">18 módulos · 105h</div>
+        <div class="tile-title" data-i18n="home.learn">Aprende</div>
+        <div class="tile-sub" data-i18n="home.learn_sub">18 módulos · 105h</div>
         <div class="tile-corner tl"></div>
         <div class="tile-corner tr"></div>
         <div class="tile-corner bl"></div>
@@ -711,7 +740,7 @@
           <path d="M21 21V3"/>
         </svg>
         <div class="tile-title">Market</div>
-        <div class="tile-sub">128 subnets en vivo</div>
+        <div class="tile-sub" data-i18n="home.market_sub">128 subnets en vivo</div>
         <div class="tile-live"><span class="tile-live-dot"></span>LIVE</div>
         <div class="tile-corner tl"></div>
         <div class="tile-corner tr"></div>
@@ -725,8 +754,8 @@
           <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
         </svg>
         <div class="tile-tools-text">
-          <div class="tile-title">Herramientas</div>
-          <div class="tile-sub">Calculadora · Red · Halvings · Comparador</div>
+          <div class="tile-title" data-i18n="home.tools">Herramientas</div>
+          <div class="tile-sub" data-i18n="home.tools_sub">Calculadora · Red · Halvings · Comparador</div>
         </div>
         <div class="tile-corner tl"></div>
         <div class="tile-corner tr"></div>
@@ -740,9 +769,11 @@
   <div class="scanlines"></div>
   <div class="noise"></div>
 
+  <div class="btp-lang-slot"></div>
+
   <div class="hud">
     <span>v0.0.1 · build 2026.04</span>
-    <span>// decentralized intelligence</span>
+    <span data-i18n="home.tagline">// decentralized intelligence</span>
   </div>
 
   <script>
@@ -783,41 +814,34 @@
   </script>
 
   <script>
-  // ===== FONDO ANIMADO: red neuronal + bloques blockchain =====
+  // ===== FONDO ANIMADO: red neuronal + cadena blockchain lineal =====
   (function(){
     const canvas = document.getElementById('bg-network');
     if(!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    // ----- Configuración general -----
     const isMobile = window.innerWidth < 720;
     const NODE_COUNT = isMobile ? 28 : 55;
-    const CONNECTION_DIST = isMobile ? 130 : 160;
-    const BLOCK_INTERVAL_MS = isMobile ? 5000 : 3500;
+    const CONN_DIST  = isMobile ? 130 : 160;
 
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let w = 0, h = 0;
     let nodes = [];
-    let blocks = [];
-    let lastBlockTime = 0;
     let running = true;
 
-    // ----- Resize -----
     function resize(){
-      w = canvas.clientWidth = window.innerWidth;
+      w = canvas.clientWidth  = window.innerWidth;
       h = canvas.clientHeight = window.innerHeight;
       canvas.width  = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    // ----- Inicialización de nodos -----
     function initNodes(){
       nodes = [];
       for(let i = 0; i < NODE_COUNT; i++){
         nodes.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
+          x: Math.random() * w,  y: Math.random() * h,
           vx: (Math.random() - 0.5) * 0.18,
           vy: (Math.random() - 0.5) * 0.18,
           r: 1 + Math.random() * 1.2,
@@ -825,122 +849,42 @@
       }
     }
 
-    // ----- Crear bloque de blockchain -----
-    function createBlock(){
-      const size = 14 + Math.random() * 8;
-      const lane = Math.random() < 0.5 ? 'top' : 'bottom';
-      const yBase = lane === 'top' ? 60 + Math.random() * 80 : h - 100 - Math.random() * 80;
-      blocks.push({
-        x: w + size,
-        y: yBase,
-        size,
-        speed: 0.35 + Math.random() * 0.25,
-        opacity: 0,
-        targetOpacity: 0.45 + Math.random() * 0.25,
-        prev: blocks.length > 0 ? blocks[blocks.length - 1] : null,
-      });
-      // Limitar la cadena activa para no saturar
-      if(blocks.length > 8){
-        blocks = blocks.filter(b => b.x > -size * 2);
-      }
-    }
-
-    // ----- Update + Draw -----
-    function step(now){
-      if(!running){ return; }
+    function step(){
+      if(!running) return;
       ctx.clearRect(0, 0, w, h);
 
-      // ===== CAPA 1: Red neuronal cyan =====
-      // Update nodes
       for(const n of nodes){
-        n.x += n.vx;
-        n.y += n.vy;
+        n.x += n.vx; n.y += n.vy;
         if(n.x < 0 || n.x > w) n.vx *= -1;
         if(n.y < 0 || n.y > h) n.vy *= -1;
       }
 
-      // Draw connections (lines)
       ctx.lineWidth = 1;
       for(let i = 0; i < nodes.length; i++){
-        for(let j = i + 1; j < nodes.length; j++){
+        for(let j = i+1; j < nodes.length; j++){
           const a = nodes[i], b = nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < CONNECTION_DIST){
-            const opacity = (1 - dist / CONNECTION_DIST) * 0.25;
-            ctx.strokeStyle = `rgba(0, 240, 255, ${opacity})`;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
+          const d = Math.hypot(a.x-b.x, a.y-b.y);
+          if(d < CONN_DIST){
+            ctx.strokeStyle = `rgba(0,240,255,${(1-d/CONN_DIST)*0.25})`;
+            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
           }
         }
       }
 
-      // Draw nodes
+      ctx.fillStyle = 'rgba(0,240,255,0.55)';
       for(const n of nodes){
-        ctx.fillStyle = 'rgba(0, 240, 255, 0.55)';
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // ===== CAPA 2: Bloques blockchain magenta =====
-      // Add new block periodically
-      if(now - lastBlockTime > BLOCK_INTERVAL_MS){
-        createBlock();
-        lastBlockTime = now;
-      }
-
-      // Update + Draw blocks (chain)
-      for(let i = blocks.length - 1; i >= 0; i--){
-        const b = blocks[i];
-        b.x -= b.speed;
-        // Fade in
-        if(b.opacity < b.targetOpacity) b.opacity += 0.012;
-
-        // Línea conectando con el anterior (cadena)
-        if(b.prev && b.prev.x > -b.size && b.opacity > 0.05){
-          const lineOpacity = Math.min(b.opacity, b.prev.opacity || 0) * 0.6;
-          ctx.strokeStyle = `rgba(255, 43, 214, ${lineOpacity})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(b.x + b.size/2, b.y);
-          ctx.lineTo(b.prev.x - b.prev.size/2, b.prev.y);
-          ctx.stroke();
-        }
-
-        // El bloque (silueta vacía)
-        ctx.strokeStyle = `rgba(255, 43, 214, ${b.opacity})`;
-        ctx.lineWidth = 1.2;
-        ctx.strokeRect(b.x - b.size/2, b.y - b.size/2, b.size, b.size);
-
-        // Un punto pequeño en el centro (anclaje visual)
-        ctx.fillStyle = `rgba(255, 43, 214, ${b.opacity * 0.7})`;
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, 1.2, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Eliminar si está fuera de pantalla
-        if(b.x < -b.size * 2){
-          blocks.splice(i, 1);
-        }
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fill();
       }
 
       requestAnimationFrame(step);
     }
 
-    // ----- Pause cuando la pestaña no está visible -----
-    document.addEventListener('visibilitychange', function(){
-      running = (document.visibilityState === 'visible');
+    document.addEventListener('visibilitychange', () => {
+      running = document.visibilityState === 'visible';
       if(running) requestAnimationFrame(step);
     });
 
-    // ----- Iniciar -----
-    window.addEventListener('resize', () => {
-      resize();
-      initNodes();
-    });
+    window.addEventListener('resize', () => { resize(); initNodes(); });
 
     resize();
     initNodes();

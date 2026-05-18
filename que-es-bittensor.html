@@ -110,7 +110,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -135,7 +135,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Chakra Petch', system-ui, sans-serif;
+    font-family: 'Outfit', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
     overflow-x: hidden;
@@ -203,7 +203,7 @@
   .nav {
     display: flex;
     gap: 16px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -228,7 +228,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -293,7 +293,7 @@
     text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
   }
   .hero-stat-label {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 9.5px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -312,7 +312,7 @@
     margin: 0 auto;
   }
   .toc-label {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 10px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -339,7 +339,7 @@
   }
   .toc a::before {
     content: counter(toc, decimal-leading-zero);
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     color: var(--cyan);
     flex-shrink: 0;
@@ -358,7 +358,7 @@
     scroll-margin-top: 80px;
   }
   .section-num {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.22em;
     color: var(--cyan);
@@ -386,7 +386,7 @@
   }
   h2 em { font-style: italic; color: var(--cyan); font-weight: 600; }
   h3 {
-    font-family: 'Chakra Petch', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-weight: 600;
     font-size: 19px;
     margin-top: 36px;
@@ -438,7 +438,7 @@
     padding: 18px 20px;
   }
   .stat-box-label {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 10px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -466,7 +466,7 @@
     margin: 24px 0;
   }
   .callout-label {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -559,7 +559,7 @@
     gap: 10px;
     padding: 14px 22px;
     text-decoration: none;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 12px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -597,7 +597,7 @@
     border-top: 1px solid var(--border);
     padding: 30px 20px calc(30px + env(safe-area-inset-bottom));
     text-align: center;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 10px;
     letter-spacing: 0.2em;
     color: var(--text-faint);
@@ -637,7 +637,7 @@
     border-radius: 6px;
     background: rgba(0, 240, 255, 0.04);
     text-decoration: none;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.06em;
     color: #e8f0f5;
@@ -693,7 +693,8 @@
   }
 
 </style>
-<script src="/js/api-cache.js"></script>
+<script src="./js/i18n.js"></script>
+<script src="./js/api-cache.js"></script>
 </head>
 <body>
 
@@ -703,19 +704,19 @@
     <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
   </a>
   <nav class="nav">
-    <a href="que-es-bittensor.html" class="active">Guía</a>
-    <a href="aprende.html">Aprende</a>
-    <a href="market.html">Market</a><a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)">Herramientas</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a><a href="index.html">Inicio</a>
+    <a href="que-es-bittensor.html" class="active" data-i18n="nav.guide">Guía</a>
+    <a href="aprende.html" data-i18n="nav.learn">Aprende</a>
+    <a href="market.html" data-i18n="nav.market">Market</a><a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="hero-eyebrow">
     <span class="dot"></span>
-    Guía actualizada · Abril 2026
+    <span data-i18n="guide.eyebrow">Guía actualizada · Abril 2026</span>
   </div>
-  <h1>¿Qué es <span class="highlight">Bittensor</span>?</h1>
-  <p class="hero-subtitle">
+  <h1 data-i18n-html="guide.h1">¿Qué es <span class="highlight">Bittensor</span>?</h1>
+  <p class="hero-subtitle" data-i18n="guide.subtitle">
     Una red descentralizada que recompensa a quien produce inteligencia artificial útil.
     Esto es lo que hay detrás del token TAO, las 128 subnets y por qué Nvidia y Polychain
     han metido más de $600M.
@@ -723,31 +724,31 @@
   <div class="hero-stats">
     <div>
       <div class="hero-stat-value">128</div>
-      <div class="hero-stat-label">Subnets activas</div>
+      <div class="hero-stat-label" data-i18n="guide.stat.subnets">Subnets activas</div>
     </div>
     <div>
       <div class="hero-stat-value">21M</div>
-      <div class="hero-stat-label">Supply máximo TAO</div>
+      <div class="hero-stat-label" data-i18n="guide.stat.supply">Supply máximo TAO</div>
     </div>
     <div>
       <div class="hero-stat-value">$43M</div>
-      <div class="hero-stat-label">Revenue Q1 2026</div>
+      <div class="hero-stat-label" data-i18n="guide.stat.revenue">Revenue Q1 2026</div>
     </div>
   </div>
 </section>
 
 <div class="toc-wrap">
   <div class="toc">
-    <div class="toc-label">// Índice</div>
+    <div class="toc-label" data-i18n="guide.toc">// Índice</div>
     <ol>
-      <li><a href="#que-es">Qué es Bittensor</a></li>
-      <li><a href="#tao">El token TAO</a></li>
-      <li><a href="#subnets">Las subnets</a></li>
-      <li><a href="#dtao">El cambio de dTAO</a></li>
-      <li><a href="#funciona">Cómo funciona en práctica</a></li>
-      <li><a href="#por-que-importa">Por qué importa ahora</a></li>
-      <li><a href="#riesgos">Riesgos honestos</a></li>
-      <li><a href="#empezar">Cómo empezar</a></li>
+      <li><a href="#que-es" data-i18n="guide.toc.1">Qué es Bittensor</a></li>
+      <li><a href="#tao" data-i18n="guide.toc.2">El token TAO</a></li>
+      <li><a href="#subnets" data-i18n="guide.toc.3">Las subnets</a></li>
+      <li><a href="#dtao" data-i18n="guide.toc.4">El cambio de dTAO</a></li>
+      <li><a href="#funciona" data-i18n="guide.toc.5">Cómo funciona en práctica</a></li>
+      <li><a href="#por-que-importa" data-i18n="guide.toc.6">Por qué importa ahora</a></li>
+      <li><a href="#riesgos" data-i18n="guide.toc.7">Riesgos honestos</a></li>
+      <li><a href="#empezar" data-i18n="guide.toc.8">Cómo empezar</a></li>
     </ol>
   </div>
 </div>
@@ -755,30 +756,30 @@
 <article>
 
   <section class="section" id="que-es">
-    <div class="section-num">Sección 01 · Origen</div>
-    <h2>Una <em>red de redes</em> donde se entrena IA</h2>
-    <p>
+    <div class="section-num" data-i18n="guide.s1.num">Sección 01 · Origen</div>
+    <h2 data-i18n-html="guide.s1.h2">Una <em>red de redes</em> donde se entrena IA</h2>
+    <p data-i18n-html="guide.s1.p1">
       Bittensor es una blockchain, pero olvídate por un momento de blockchain.
       Lo importante es esto: es una red donde miles de ordenadores en todo el mundo
       compiten por <strong>producir inteligencia artificial útil</strong>, y los que la
       producen mejor ganan dinero.
     </p>
-    <p>
+    <p data-i18n-html="guide.s1.p2">
       Lo concibió <strong>Jacob Steeves</strong>, un ex-ingeniero de Google, en 2016.
       Su intuición era simple: si lo que mueve la economía digital son los modelos
       de IA, ¿por qué pertenecen todos a cinco empresas? Bittensor propone una
       alternativa: que cualquiera con conocimiento y hardware pueda contribuir
       modelos a una red abierta y ser pagado en proporción a su calidad.
     </p>
-    <p>
+    <p data-i18n-html="guide.s1.p3">
       Hoy, la red tiene <strong>128 mercados especializados</strong> —llamados subnets— que
       generan desde modelos de lenguaje hasta predicciones financieras, búsquedas
       web y plegamiento de proteínas. Cada uno funciona como una competición
       con sus propias reglas, pagada en TAO.
     </p>
     <div class="callout">
-      <div class="callout-label">// Una analogía</div>
-      <p>
+      <div class="callout-label" data-i18n="guide.s1.callout.lbl">// Una analogía</div>
+      <p data-i18n="guide.s1.callout">
         Si Ethereum convirtió el dinero en programable, Bittensor intenta hacer
         lo mismo con la inteligencia: convertirla en una commodity descentralizada,
         verificable y comerciable.
@@ -787,15 +788,15 @@
   </section>
 
   <section class="section" id="tao">
-    <div class="section-num">Sección 02 · Tokenomics</div>
-    <h2>TAO: <em>el dinero de la red</em></h2>
-    <p>
+    <div class="section-num" data-i18n="guide.s2.num">Sección 02 · Tokenomics</div>
+    <h2 data-i18n-html="guide.s2.h2">TAO: <em>el dinero de la red</em></h2>
+    <p data-i18n-html="guide.s2.p1">
       TAO es el token nativo. Tiene tres usos principales: <strong>se paga a los
       productores de IA</strong> como recompensa, <strong>se usa para registrar nuevas subnets</strong>
       (cuesta 2.500 TAO crear una) y <strong>se stakea para apoyar a las subnets que el
       mercado considera más valiosas</strong>.
     </p>
-    <p>
+    <p data-i18n-html="guide.s2.p2">
       Su supply máximo está capado en <strong>21 millones de tokens</strong>, igual que Bitcoin —no
       es casualidad: el modelo es deliberadamente escaso. Y como Bitcoin, sufre
       <strong>halvings</strong>: el último, en diciembre de 2025, redujo la emisión diaria de 7.200
@@ -803,114 +804,114 @@
     </p>
     <div class="stat-box">
       <div>
-        <div class="stat-box-label">Supply máximo</div>
+        <div class="stat-box-label" data-i18n="guide.s2.sb1.lbl">Supply máximo</div>
         <div class="stat-box-value">21M TAO</div>
-        <div class="stat-box-sub">Cap fijo, sin inflación infinita</div>
+        <div class="stat-box-sub" data-i18n="guide.s2.sb1.sub">Cap fijo, sin inflación infinita</div>
       </div>
       <div>
-        <div class="stat-box-label">Emisión diaria</div>
+        <div class="stat-box-label" data-i18n="guide.s2.sb2.lbl">Emisión diaria</div>
         <div class="stat-box-value">3.600 TAO</div>
-        <div class="stat-box-sub">Tras halving de diciembre 2025</div>
+        <div class="stat-box-sub" data-i18n="guide.s2.sb2.sub">Tras halving de diciembre 2025</div>
       </div>
     </div>
-    <p>
+    <p data-i18n-html="guide.s2.p3">
       A precios de abril 2026, la capitalización ronda los <strong>$3.700 millones</strong>, situando
       a Bittensor en torno al puesto 39 del ranking global de criptoactivos.
     </p>
   </section>
 
   <section class="section" id="subnets">
-    <div class="section-num">Sección 03 · Subnets</div>
-    <h2>Subnets: <em>128 mercados</em>, una red</h2>
-    <p>
+    <div class="section-num" data-i18n="guide.s3.num">Sección 03 · Subnets</div>
+    <h2 data-i18n-html="guide.s3.h2">Subnets: <em>128 mercados</em>, una red</h2>
+    <p data-i18n="guide.s3.p1">
       Cada subnet es una mini-economía dentro de Bittensor con su propia función.
       Una entrena modelos de lenguaje. Otra hace predicciones de mercado. Otra
       busca información en internet. Otra resuelve problemas de plegado de
       proteínas.
     </p>
-    <p>
+    <p data-i18n="guide.s3.p2">
       Dentro de cada subnet hay dos tipos de participantes:
     </p>
-    <h3>Miners</h3>
-    <p>
+    <h3 data-i18n="guide.s3.h3.miners">Miners</h3>
+    <p data-i18n="guide.s3.p.miners">
       Producen el output. Si la subnet es de generación de texto, los miners corren
       modelos que generan texto. Si la subnet es de imagen, generan imágenes.
       Compiten entre sí: el que produce mejor calidad se lleva más recompensa.
     </p>
-    <h3>Validators</h3>
-    <p>
+    <h3 data-i18n="guide.s3.h3.validators">Validators</h3>
+    <p data-i18n="guide.s3.p.validators">
       Evalúan a los miners. Tienen que decidir, ronda tras ronda, qué outputs
       son buenos y cuáles no. Su evaluación determina cómo se reparte el dinero
       entre los miners. Y a su vez, los validators son recompensados por evaluar
       bien.
     </p>
-    <p>
+    <p data-i18n-html="guide.s3.p3">
       <strong>Cada subnet tiene su propia recompensa pagada en TAO</strong>, distribuida en cada
       bloque (cada 12 segundos). La fórmula que reparte el TAO entre miners y
       validators se llama <em>incentive mechanism</em>, y es lo que define cómo se
       premia el trabajo en cada subnet.
     </p>
-    <div class="pullquote">
+    <div class="pullquote" data-i18n="guide.s3.pullquote">
       No todas las subnets son iguales. Algunas generan ingresos reales del mundo
       exterior. Otras existen para experimentar. El mercado decide.
     </div>
   </section>
 
   <section class="section" id="dtao">
-    <div class="section-num">Sección 04 · La revolución dTAO</div>
-    <h2>El cambio que lo <em>cambió todo</em>: dTAO</h2>
-    <p>
+    <div class="section-num" data-i18n="guide.s4.num">Sección 04 · La revolución dTAO</div>
+    <h2 data-i18n-html="guide.s4.h2">El cambio que lo <em>cambió todo</em>: dTAO</h2>
+    <p data-i18n-html="guide.s4.p1">
       Hasta principios de 2025, era un consejo de 64 validators el que decidía
       cuánto TAO recibía cada subnet. Funcionó al principio, pero quedó claro
       que centralizaba poder en pocas manos. La solución se llamó <strong>Dynamic TAO</strong>,
       o dTAO, y se desplegó en febrero de 2025.
     </p>
-    <p>
+    <p data-i18n-html="guide.s4.p2">
       La idea: en lugar de validators decidiendo, que <strong>el mercado decida</strong>.
       Cada subnet pasó a tener su propio token —llamado <em>alpha token</em>— y su propio
       pool de liquidez. Cuando alguien quiere apoyar una subnet, intercambia
       TAO por su alpha token en un mercado automatizado (AMM, como Uniswap).
     </p>
-    <h3>¿Cómo se traduce esto?</h3>
-    <p>
+    <h3 data-i18n="guide.s4.h3">¿Cómo se traduce esto?</h3>
+    <p data-i18n-html="guide.s4.p3">
       El precio del alpha token de cada subnet se convierte en su <strong>termómetro de
       mercado</strong>. Subnets con outputs útiles atraen stake → su alpha sube → reciben
       más emisiones de TAO. Subnets que no aportan se quedan sin liquidez y mueren.
     </p>
     <div class="callout">
-      <div class="callout-label">// El detalle clave</div>
-      <p>
+      <div class="callout-label" data-i18n="guide.s4.callout.lbl">// El detalle clave</div>
+      <p data-i18n-html="guide.s4.callout">
         Bajo dTAO, comprar el alpha token de una subnet es una <strong>apuesta apalancada
         sobre TAO y la subnet a la vez</strong>. Si la subnet rinde, el alpha sube más rápido
         que TAO. Si fracasa, cae más rápido. Esto es lo que ves cuando consultas
         Bittensor Pro.
       </p>
     </div>
-    <p>
+    <p data-i18n-html="guide.s4.p4">
       A marzo de 2026, el conjunto de alpha tokens supera los <strong>$1.100 millones</strong> en
       capitalización combinada, alrededor del 27% del market cap de TAO.
     </p>
   </section>
 
   <section class="section" id="funciona">
-    <div class="section-num">Sección 05 · En la práctica</div>
-    <h2>Y todo esto, <em>¿funciona?</em></h2>
-    <p>
+    <div class="section-num" data-i18n="guide.s5.num">Sección 05 · En la práctica</div>
+    <h2 data-i18n-html="guide.s5.h2">Y todo esto, <em>¿funciona?</em></h2>
+    <p data-i18n="guide.s5.p1">
       La crítica más recurrente a la IA descentralizada es que parecía un experimento
       académico. Hasta que un evento de marzo de 2026 cambió la conversación.
     </p>
-    <p>
+    <p data-i18n-html="guide.s5.p2">
       <strong>El 10 de marzo de 2026, la Subnet 3 (Templar) terminó de entrenar Covenant-72B</strong>:
       un modelo de lenguaje de 72 mil millones de parámetros, entrenado de forma
       completamente descentralizada por más de 70 nodos repartidos por el mundo.
       Sin whitelist, sin permiso. En el benchmark MMLU obtuvo 67.1, superando a
       LLaMA-2-70B de Meta.
     </p>
-    <p>
+    <p data-i18n-html="guide.s5.p3">
       La industria lo llamó <em>"el momento DeepSeek de Bittensor"</em>. TAO subió 46%
       en una semana. El alpha de Templar, 194%.
     </p>
-    <p>
+    <p data-i18n-html="guide.s5.p4">
       Y Templar no está sola. <strong>Chutes (Subnet 64)</strong> permite alquilar capacidad
       de cómputo para correr modelos open-source y ya genera ingresos reales.
       <strong>Targon (Subnet 4)</strong> sirve inferencia. <strong>Cortex (Subnet 18)</strong> hace
@@ -918,42 +919,42 @@
     </p>
     <div class="stat-box">
       <div>
-        <div class="stat-box-label">Revenue Q1 2026</div>
+        <div class="stat-box-label" data-i18n="guide.s5.sb1.lbl">Revenue Q1 2026</div>
         <div class="stat-box-value">$43M</div>
-        <div class="stat-box-sub">Ingresos reales por uso de IA</div>
+        <div class="stat-box-sub" data-i18n="guide.s5.sb1.sub">Ingresos reales por uso de IA</div>
       </div>
       <div>
-        <div class="stat-box-label">Inversión institucional</div>
+        <div class="stat-box-label" data-i18n="guide.s5.sb2.lbl">Inversión institucional</div>
         <div class="stat-box-value">$620M+</div>
-        <div class="stat-box-sub">Nvidia ($420M) + Polychain ($200M)</div>
+        <div class="stat-box-sub" data-i18n="guide.s5.sb2.sub">Nvidia ($420M) + Polychain ($200M)</div>
       </div>
     </div>
   </section>
 
   <section class="section" id="por-que-importa">
-    <div class="section-num">Sección 06 · Tesis</div>
-    <h2>Por qué <em>importa ahora</em></h2>
-    <p>
+    <div class="section-num" data-i18n="guide.s6.num">Sección 06 · Tesis</div>
+    <h2 data-i18n-html="guide.s6.h2">Por qué <em>importa ahora</em></h2>
+    <p data-i18n="guide.s6.p1">
       Tres factores se han alineado en los últimos doce meses, y por eso Bittensor
       ha pasado de ser un proyecto nicho a aparecer en presentaciones de fondos
       institucionales.
     </p>
-    <h3>1. Demanda real, no especulativa</h3>
-    <p>
+    <h3 data-i18n="guide.s6.h3.1">1. Demanda real, no especulativa</h3>
+    <p data-i18n="guide.s6.p2">
       Los $43M de revenue del Q1 son significativos: por primera vez, el ecosistema
       genera ingresos por uso real de IA, no por especulación. Subnets como Chutes
       facturan a clientes reales que quieren correr modelos sin depender de OpenAI
       o Anthropic.
     </p>
-    <h3>2. Validación institucional</h3>
-    <p>
+    <h3 data-i18n="guide.s6.h3.2">2. Validación institucional</h3>
+    <p data-i18n-html="guide.s6.p3">
       Nvidia invirtió $420M en TAO (con el 77% stakeado, no para vender en corto).
       Polychain Capital añadió $200M. Grayscale lanzó su <strong>GTAO Trust</strong> en NYSE en
       enero de 2026 y ha solicitado a la SEC convertirlo en ETF spot, con decisión
       esperada para finales de año. Bitwise tiene una solicitud paralela.
     </p>
-    <h3>3. Escasez programada</h3>
-    <p>
+    <h3 data-i18n="guide.s6.h3.3">3. Escasez programada</h3>
+    <p data-i18n="guide.s6.p4">
       El halving de diciembre 2025 redujo a la mitad las emisiones. La cap de
       21 millones está fijada. La expansión a 256 subnets prevista para 2026
       multiplicará la utilidad sin aumentar la oferta de TAO.
@@ -961,41 +962,41 @@
   </section>
 
   <section class="section" id="riesgos">
-    <div class="section-num">Sección 07 · El otro lado</div>
-    <h2>Riesgos <em>que nadie cuenta</em></h2>
-    <p>
+    <div class="section-num" data-i18n="guide.s7.num">Sección 07 · El otro lado</div>
+    <h2 data-i18n-html="guide.s7.h2">Riesgos <em>que nadie cuenta</em></h2>
+    <p data-i18n="guide.s7.p1">
       Una guía honesta no puede saltarse esto. Bittensor tiene problemas estructurales
       que todavía no están resueltos.
     </p>
-    <h3>Verificación de calidad</h3>
-    <p>
+    <h3 data-i18n="guide.s7.h3.1">Verificación de calidad</h3>
+    <p data-i18n-html="guide.s7.p2">
       Los validators puntúan a los miners, pero también cobran. Eso abre la puerta
       a colusión: un validator y varios miners coordinándose para extraer recompensas
       sin producir IA útil. Los <em>incentive mechanisms</em> de cada subnet intentan
       mitigarlo, pero no hay solución perfecta.
     </p>
-    <h3>Economía del hardware</h3>
-    <p>
+    <h3 data-i18n="guide.s7.h3.2">Economía del hardware</h3>
+    <p data-i18n="guide.s7.p3">
       Entrenar modelos competitivos requiere GPUs caras. Eso da ventaja estructural
       a quien puede pagarlas, lo que tiende a centralizar lo que se intenta
       descentralizar. Es la misma tensión que viven Bitcoin (mining centralizado en
       pocas farms) o Ethereum (validators concentrados en stakers grandes).
     </p>
-    <h3>Volatilidad de los alphas</h3>
-    <p>
+    <h3 data-i18n="guide.s7.h3.3">Volatilidad de los alphas</h3>
+    <p data-i18n-html="guide.s7.p4">
       Los alpha tokens son <strong>apuestas apalancadas</strong>. Cuando TAO sube 10%, un alpha
       bueno puede subir 30%. Cuando TAO baja, los alphas caen mucho más.
       No son un sustituto de TAO, son un instrumento de mayor riesgo.
     </p>
-    <h3>Subnets que mueren</h3>
-    <p>
+    <h3 data-i18n="guide.s7.h3.4">Subnets que mueren</h3>
+    <p data-i18n="guide.s7.p5">
       El cap de 128 significa que las subnets de menor rendimiento son reemplazadas.
       Si compraste el alpha de una subnet que cae al fondo del ranking y queda
       deregistrada, tu posición pierde casi todo el valor.
     </p>
     <div class="callout">
-      <div class="callout-label">// Aviso</div>
-      <p>
+      <div class="callout-label" data-i18n="guide.s7.callout.lbl">// Aviso</div>
+      <p data-i18n="guide.s7.callout">
         Esta guía es educativa. Nada de lo que lees aquí es consejo financiero.
         Bittensor sigue siendo un proyecto de alto riesgo: invierte solo lo que
         estés dispuesto a perder por completo.
@@ -1004,19 +1005,19 @@
   </section>
 
   <section class="section" id="empezar">
-    <div class="section-num">Sección 08 · Próximos pasos</div>
-    <h2>Cómo <em>empezar a moverte</em></h2>
-    <p>
+    <div class="section-num" data-i18n="guide.s8.num">Sección 08 · Próximos pasos</div>
+    <h2 data-i18n-html="guide.s8.h2">Cómo <em>empezar a moverte</em></h2>
+    <p data-i18n="guide.s8.p1">
       Si has llegado hasta aquí y quieres profundizar más, hay dos rutas naturales:
     </p>
-    <h3>Como inversor</h3>
-    <p>
+    <h3 data-i18n="guide.s8.h3.1">Como inversor</h3>
+    <p data-i18n="guide.s8.p2">
       Empieza simple: compra TAO en un exchange (Binance, Coinbase, MEXC) y guárdalo.
       Cuando entiendas mejor el ecosistema, puedes pasar a stakear TAO en validators
       o, ya con experiencia, comprar alpha tokens de subnets específicas.
     </p>
-    <h3>Como observador</h3>
-    <p>
+    <h3 data-i18n="guide.s8.h3.2">Como observador</h3>
+    <p data-i18n="guide.s8.p3">
       Sigue los movimientos del mercado de subnets en tiempo real. Bittensor Pro te
       muestra qué subnets suben, cuáles caen y dónde se concentra el capital.
       Es el primer paso para identificar oportunidades y entender cómo se mueve
@@ -1028,75 +1029,75 @@
 
 <section class="glossary">
   <div class="glossary-inner">
-    <h2>Glosario</h2>
-    <p class="glossary-intro">Términos clave para entender Bittensor sin jerga.</p>
+    <h2 data-i18n="guide.glossary.title">Glosario</h2>
+    <p class="glossary-intro" data-i18n="guide.glossary.intro">Términos clave para entender Bittensor sin jerga.</p>
     <dl>
       <div class="glossary-item">
         <dt>TAO</dt>
-        <dd>Token nativo de Bittensor. Símbolo: τ. Sirve para pagar miners, registrar subnets, hacer staking y gobernanza. Cap fijo de 21M.</dd>
+        <dd data-i18n="guide.glos.tao">Token nativo de Bittensor. Símbolo: τ. Sirve para pagar miners, registrar subnets, hacer staking y gobernanza. Cap fijo de 21M.</dd>
       </div>
       <div class="glossary-item">
         <dt>Subnet</dt>
-        <dd>Mercado especializado dentro de Bittensor que produce un tipo concreto de IA. Hay 128 actualmente. Cada una tiene su propia tarea, reglas y token.</dd>
+        <dd data-i18n="guide.glos.subnet">Mercado especializado dentro de Bittensor que produce un tipo concreto de IA. Hay 128 actualmente. Cada una tiene su propia tarea, reglas y token.</dd>
       </div>
       <div class="glossary-item">
         <dt>Alpha token</dt>
-        <dd>Token específico de cada subnet (también llamado "subnet token"). Su precio refleja la demanda del mercado por esa subnet en particular. Comprar un alpha es una apuesta apalancada sobre TAO + el éxito de esa subnet.</dd>
+        <dd data-i18n="guide.glos.alpha">Token específico de cada subnet (también llamado "subnet token"). Su precio refleja la demanda del mercado por esa subnet en particular. Comprar un alpha es una apuesta apalancada sobre TAO + el éxito de esa subnet.</dd>
       </div>
       <div class="glossary-item">
         <dt>dTAO</dt>
-        <dd>Dynamic TAO. Sistema lanzado en febrero 2025 que permite que el mercado —no un consejo de validators— decida qué subnets reciben más emisiones, vía pools AMM y alpha tokens.</dd>
+        <dd data-i18n="guide.glos.dtao">Dynamic TAO. Sistema lanzado en febrero 2025 que permite que el mercado —no un consejo de validators— decida qué subnets reciben más emisiones, vía pools AMM y alpha tokens.</dd>
       </div>
       <div class="glossary-item">
         <dt>Miner</dt>
-        <dd>Participante que produce el output dentro de una subnet (texto, imágenes, predicciones, etc.). Compite con otros miners por la calidad de su trabajo.</dd>
+        <dd data-i18n="guide.glos.miner">Participante que produce el output dentro de una subnet (texto, imágenes, predicciones, etc.). Compite con otros miners por la calidad de su trabajo.</dd>
       </div>
       <div class="glossary-item">
         <dt>Validator</dt>
-        <dd>Participante que evalúa a los miners y ayuda a determinar cómo se reparten las recompensas. Es la "capa de calidad" de cada subnet.</dd>
+        <dd data-i18n="guide.glos.validator">Participante que evalúa a los miners y ayuda a determinar cómo se reparten las recompensas. Es la "capa de calidad" de cada subnet.</dd>
       </div>
       <div class="glossary-item">
-        <dt>Emisiones</dt>
-        <dd>El TAO que la red imprime y distribuye cada bloque entre subnets, miners y validators. Tras el halving de diciembre 2025, son 3.600 TAO al día.</dd>
+        <dt data-i18n="guide.glos.emissions.dt">Emisiones</dt>
+        <dd data-i18n="guide.glos.emissions">El TAO que la red imprime y distribuye cada bloque entre subnets, miners y validators. Tras el halving de diciembre 2025, son 3.600 TAO al día.</dd>
       </div>
       <div class="glossary-item">
         <dt>AMM</dt>
-        <dd>Automated Market Maker. Mecanismo que permite intercambiar TAO por el alpha token de una subnet sin necesidad de un libro de órdenes tradicional. Misma idea que Uniswap.</dd>
+        <dd data-i18n="guide.glos.amm">Automated Market Maker. Mecanismo que permite intercambiar TAO por el alpha token de una subnet sin necesidad de un libro de órdenes tradicional. Misma idea que Uniswap.</dd>
       </div>
       <div class="glossary-item">
         <dt>Halving</dt>
-        <dd>Reducción a la mitad de las emisiones diarias de TAO, programada en el código del protocolo. Limita la inflación con el tiempo, igual que en Bitcoin.</dd>
+        <dd data-i18n="guide.glos.halving">Reducción a la mitad de las emisiones diarias de TAO, programada en el código del protocolo. Limita la inflación con el tiempo, igual que en Bitcoin.</dd>
       </div>
       <div class="glossary-item">
         <dt>Staking</dt>
-        <dd>Bloquear TAO (o un alpha token) para apoyar a una subnet o validator. A cambio se reciben recompensas en forma de más TAO/alpha.</dd>
+        <dd data-i18n="guide.glos.staking">Bloquear TAO (o un alpha token) para apoyar a una subnet o validator. A cambio se reciben recompensas en forma de más TAO/alpha.</dd>
       </div>
       <div class="glossary-item">
         <dt>Yuma Consensus</dt>
-        <dd>El mecanismo de consenso interno de Bittensor que agrega los pesos que los validators asignan a los miners y determina las recompensas finales.</dd>
+        <dd data-i18n="guide.glos.yuma">El mecanismo de consenso interno de Bittensor que agrega los pesos que los validators asignan a los miners y determina las recompensas finales.</dd>
       </div>
       <div class="glossary-item">
         <dt>Subtensor</dt>
-        <dd>La blockchain sobre la que corre Bittensor (basada en Substrate, igual que Polkadot). Los bloques se generan cada 12 segundos.</dd>
+        <dd data-i18n="guide.glos.subtensor">La blockchain sobre la que corre Bittensor (basada en Substrate, igual que Polkadot). Los bloques se generan cada 12 segundos.</dd>
       </div>
     </dl>
   </div>
 </section>
 
 <section class="cta-section">
-  <h2>¿Listo para ver el mercado?</h2>
-  <p>Mira en tiempo real qué subnets están subiendo y cuáles cayendo.</p>
+  <h2 data-i18n="guide.cta.title">¿Listo para ver el mercado?</h2>
+  <p data-i18n="guide.cta.sub">Mira en tiempo real qué subnets están subiendo y cuáles cayendo.</p>
   <div class="cta-buttons">
     <a href="market.html" class="cta-btn primary">
-      Subnet Market
+      <span data-i18n="guide.cta.market">Subnet Market</span>
       <span class="arrow">→</span>
     </a>
-    <a href="index.html" class="cta-btn secondary">Volver al inicio</a>
+    <a href="index.html" class="cta-btn secondary" data-i18n="guide.cta.home">Volver al inicio</a>
   </div>
 </section>
 
 <footer>
-  <a href="index.html">Bittensor Pro</a> · 2026 · Datos: Taostats · Educativo, no consejo financiero
+  <span data-i18n-html="guide.footer"><a href="index.html">Bittensor Pro</a> · 2026 · Datos: Taostats · Educativo, no consejo financiero</span>
 </footer>
 
 

@@ -19,7 +19,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- Chart.js para la gráfica -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -36,7 +36,7 @@
 html{scroll-behavior:smooth}
 body{
   background:var(--bg);color:var(--text);
-  font-family:'Chakra Petch',system-ui,sans-serif;
+  font-family:'Outfit',system-ui,sans-serif;
   -webkit-font-smoothing:antialiased;line-height:1.65;
   overflow-x:hidden;min-height:100vh;
 }
@@ -69,7 +69,7 @@ body::before{
 }
 .brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;color:#f4faff}
 .brand-title .pro{color:var(--magenta);font-style:italic;margin-left:3px;text-shadow:0 0 8px rgba(255,43,214,.5)}
-.nav{display:flex;gap:16px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.nav{display:flex;gap:16px;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 .nav a{color:var(--text-muted);text-decoration:none;padding:4px 0;transition:color .15s}
 .nav a.active{color:var(--cyan);text-shadow:0 0 8px rgba(0,240,255,.5)}
 .nav a:hover{color:var(--text)}
@@ -82,7 +82,7 @@ body::before{
 
 /* BREADCRUMB */
 .breadcrumb{
-  font-family:'Share Tech Mono',monospace;font-size:11px;
+  font-family:'Outfit',sans-serif;font-size:11px;
   letter-spacing:.12em;color:var(--text-faint);
   text-transform:uppercase;margin-bottom:24px;
 }
@@ -91,16 +91,25 @@ body::before{
 
 /* HERO */
 .hero{margin-bottom:32px}
+.hero-title-row{
+  display:flex;align-items:center;gap:16px;margin-bottom:0;
+}
+.subnet-logo{
+  width:56px;height:56px;border-radius:12px;
+  border:1px solid rgba(0,240,255,.25);
+  object-fit:cover;flex-shrink:0;
+  background:rgba(0,240,255,.06);
+}
 .subnet-name{
   font-family:'Fraunces',serif;font-weight:600;
   font-size:42px;line-height:1.05;letter-spacing:-.02em;
-  color:#fff;margin-bottom:8px;
+  color:#fff;margin-bottom:4px;
 }
 .subnet-ticker{
   font-family:'Orbitron',sans-serif;font-weight:600;
   font-size:12px;letter-spacing:.18em;
   color:var(--text-dim);text-transform:uppercase;
-  margin-bottom:24px;
+  margin-bottom:0;
 }
 .price-row{
   display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
@@ -111,7 +120,7 @@ body::before{
   font-variant-numeric:tabular-nums;
 }
 .price-change{
-  font-family:'Share Tech Mono',monospace;
+  font-family:'Outfit',sans-serif;
   font-size:18px;font-weight:500;
   font-variant-numeric:tabular-nums;
 }
@@ -119,7 +128,7 @@ body::before{
 .price-change.neg{color:var(--red)}
 .price-change.zero{color:var(--text-dim)}
 .price-change-label{
-  font-family:'Share Tech Mono',monospace;
+  font-family:'Outfit',sans-serif;
   font-size:12px;color:var(--text-faint);
   letter-spacing:.16em;text-transform:uppercase;
 }
@@ -127,36 +136,56 @@ body::before{
 /* CHART AREA */
 .chart-section{margin-bottom:36px}
 .chart-controls{
-  display:flex;justify-content:flex-end;gap:0;margin-bottom:16px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;margin-bottom:14px;flex-wrap:wrap;
 }
+.chart-ctrl-left,.chart-ctrl-right{display:flex;align-items:center;gap:8px}
 .tf-toggle{
   display:inline-flex;background:var(--bg-2);
   border:1px solid var(--border);border-radius:8px;padding:2px;
 }
 .tf-toggle button{
   background:transparent;border:none;
-  color:var(--text-dim);padding:6px 14px;border-radius:6px;
-  font-family:'Share Tech Mono',monospace;font-size:12px;font-weight:500;
-  cursor:pointer;transition:all .15s;min-width:40px;
+  color:var(--text-dim);padding:5px 12px;border-radius:6px;
+  font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.06em;cursor:pointer;transition:all .15s;min-width:36px;
 }
 .tf-toggle button.active{
-  background:rgba(0,240,255,.1);color:var(--cyan);
+  background:rgba(0,240,255,.12);color:var(--cyan);
   text-shadow:0 0 6px rgba(0,240,255,.5);
+  box-shadow:inset 0 0 8px rgba(0,240,255,.08);
 }
+.tf-toggle.cur-toggle button.active{
+  background:rgba(255,43,214,.12);color:var(--magenta);
+  text-shadow:0 0 6px rgba(255,43,214,.5);
+  box-shadow:inset 0 0 8px rgba(255,43,214,.08);
+}
+.chart-stat-bar{
+  display:flex;gap:20px;padding:10px 16px;
+  background:rgba(0,240,255,.03);border:1px solid var(--border);
+  border-bottom:none;border-radius:10px 10px 0 0;
+  font-family:'Outfit',sans-serif;font-size:11px;
+}
+.chart-stat-item{display:flex;flex-direction:column;gap:2px}
+.chart-stat-lbl{color:var(--text-faint);letter-spacing:.12em;font-size:9px;text-transform:uppercase}
+.chart-stat-val{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text)}
+.chart-stat-val.pos{color:var(--green)}
+.chart-stat-val.neg{color:var(--red)}
 .chart-wrap{
   background:var(--bg-2);border:1px solid var(--border);
-  border-radius:12px;padding:20px;
-  height:320px;position:relative;
+  border-radius:12px;padding:20px 20px 14px;
+  height:300px;position:relative;
 }
+.chart-wrap.has-statbar{border-radius:0 0 12px 12px}
 .chart-wrap canvas{max-width:100%;max-height:100%}
 .chart-empty{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:13px;
+  color:var(--text-dim);font-family:'Outfit',sans-serif;font-size:13px;
 }
 .chart-empty-state{
   display:flex;align-items:center;justify-content:center;
   height:100%;width:100%;
-  color:var(--text-dim);font-family:'Share Tech Mono',monospace;
+  color:var(--text-dim);font-family:'Outfit',sans-serif;
   font-size:12px;letter-spacing:0.08em;
   text-align:center;padding:0 20px;line-height:1.6;
 }
@@ -172,7 +201,7 @@ body::before{
   background:var(--bg-2);padding:16px 20px;
 }
 .stat-label{
-  font-family:'Share Tech Mono',monospace;font-size:10px;
+  font-family:'Outfit',sans-serif;font-size:10px;
   letter-spacing:.16em;color:var(--text-faint);
   text-transform:uppercase;margin-bottom:6px;
 }
@@ -186,7 +215,7 @@ body::before{
 /* DESCRIPTION */
 .description-section{margin-bottom:36px}
 .section-label{
-  font-family:'Share Tech Mono',monospace;font-size:11px;
+  font-family:'Outfit',sans-serif;font-size:11px;
   letter-spacing:.22em;color:var(--cyan);
   text-transform:uppercase;margin-bottom:14px;
 }
@@ -203,7 +232,7 @@ body::before{
 .btn{
   display:inline-flex;align-items:center;gap:8px;
   padding:12px 20px;border-radius:10px;
-  font-family:'Share Tech Mono',monospace;font-size:12px;
+  font-family:'Outfit',sans-serif;font-size:12px;
   letter-spacing:.16em;text-transform:uppercase;
   text-decoration:none;border:1px solid var(--border-2);
   background:rgba(0,240,255,.04);color:var(--cyan);
@@ -225,7 +254,7 @@ body::before{
 /* LOADING / ERROR */
 .loading-state{
   text-align:center;padding:60px 20px;
-  color:var(--text-dim);font-family:'Share Tech Mono',monospace;
+  color:var(--text-dim);font-family:'Outfit',sans-serif;
   font-size:13px;letter-spacing:.16em;text-transform:uppercase;
 }
 .loading-dot{
@@ -252,7 +281,7 @@ body::before{
 footer{
   border-top:1px solid var(--border);
   padding:30px 20px calc(30px + env(safe-area-inset-bottom));
-  text-align:center;font-family:'Share Tech Mono',monospace;
+  text-align:center;font-family:'Outfit',sans-serif;
   font-size:10px;letter-spacing:.2em;color:var(--text-faint);
   text-transform:uppercase;position:relative;z-index:1;
 }
@@ -286,7 +315,7 @@ footer a{color:var(--cyan);text-decoration:none}
     border-radius: 6px;
     background: rgba(0, 240, 255, 0.04);
     text-decoration: none;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.06em;
     color: #e8f0f5;
@@ -365,7 +394,7 @@ footer a{color:var(--cyan);text-decoration:none}
 .neuron-section-sub {
   color: var(--text-muted);
   font-size: 13.5px;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   letter-spacing: 0.05em;
 }
 .neuron-table-wrap {
@@ -382,7 +411,7 @@ table.neuron-table {
   min-width: 640px;
 }
 table.neuron-table th {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   font-size: 10px;
   color: var(--cyan);
   letter-spacing: 0.18em;
@@ -408,7 +437,7 @@ table.neuron-table td {
 }
 table.neuron-table td.num {
   text-align: right;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   font-size: 13px;
 }
 table.neuron-table tr:last-child td {
@@ -458,7 +487,7 @@ table.neuron-table td.apy {
   padding: 32px 20px;
   text-align: center;
   color: var(--text-faint);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -467,7 +496,7 @@ table.neuron-table td.apy {
   padding: 24px 20px;
   text-align: center;
   color: var(--text-faint);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -485,7 +514,7 @@ table.neuron-table td.apy {
   background: transparent;
   border: 1px solid var(--accent, #7ecff7);
   color: var(--accent, #7ecff7);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -498,7 +527,7 @@ table.neuron-table td.apy {
 .neuron-lazy-note {
   font-size: 10px;
   color: var(--text-faint);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   letter-spacing: 0.1em;
 }
 .badge-verified {
@@ -507,7 +536,7 @@ table.neuron-table td.apy {
   border-radius: 4px;
   border: 1px solid var(--green);
   color: var(--green);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -520,7 +549,7 @@ table.neuron-table td.apy {
   border-radius: 4px;
   border: 1px solid var(--magenta);
   color: var(--magenta);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Outfit', sans-serif;
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -544,6 +573,7 @@ table.neuron-table td.apy {
 }
 
 </style>
+<script src="./js/i18n.js"></script>
 </head>
 <body>
 
@@ -553,28 +583,28 @@ table.neuron-table td.apy {
     <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
   </a>
   <nav class="nav">
-    <a href="aprende.html">Aprende</a>
-    <a href="market.html" class="active">Market</a><a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)">Herramientas</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a><a href="index.html">Inicio</a>
+    <a href="aprende.html" data-i18n="nav.learn">Aprende</a>
+    <a href="market.html" class="active" data-i18n="nav.market">Market</a><a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a>
   </nav>
 </header>
 
 <div class="container" id="content">
   <div class="loading-state">
-    <span class="loading-dot"></span>Cargando datos…
+    <span class="loading-dot"></span><span data-i18n="subnet.loading_page">Cargando datos…</span>
   </div>
 </div>
 
 <footer>
-  <a href="index.html">Bittensor Pro</a> · 2026 · No es consejo financiero
+  <span data-i18n-html="subnet.footer"><a href="index.html">Bittensor Pro</a> · 2026 · No es consejo financiero</span>
 </footer>
 
 <script>
 /* =========================================================================
    CONFIGURACIÓN
    ========================================================================= */
+const _t = window.t || (k => k);
 const API_BASE = 'https://tao360.qrchd889gj.workers.dev';
 const SUBNETS_INFO_URL = 'https://raw.githubusercontent.com/taostat/subnets-infos/main/subnets.json';
-const RAO = 1_000_000_000;
 
 /* Diccionario de fallback (mismos que market.html) */
 const SUBNET_DEFS = {
@@ -651,13 +681,15 @@ const SUBNET_DEFS = {
    ========================================================================= */
 const STATE = {
   netuid: null,
-  subnet: null,        // datos del pool
-  info: null,          // datos del JSON oficial GitHub
-  validators: [],      // validadores con APY
-  miners: [],          // mineros del metagraph
+  subnet: null,
+  info: null,
+  rawData: null,
+  historyPoints: [],   // puntos derivados del historial de pool
+  validators: [],
+  miners: [],
   taoUsd: 0,
   currency: 'USD',
-  timeframe: '7d',     // 7d por defecto (más datos)
+  timeframe: '7d',
   chart: null,
 };
 
@@ -722,33 +754,18 @@ async function fetchTaoPrice(){
   }
 }
 
-async function fetchSubnetData(netuid, retries = 2){
-  // Buscamos el item con el netuid en las páginas paginadas
-  // Con retries para soportar Worker lento o fallos intermitentes
-  for(let attempt = 0; attempt <= retries; attempt++){
-    const pages = [1, 2];
-    for(const page of pages){
-      try{
-        const controller = new AbortController();
-        const tid = setTimeout(() => controller.abort(), 8000);
-        const r = await fetch(`${API_BASE}/api/dtao/pool/latest/v1?page=${page}&limit=100`, {
-          signal: controller.signal
-        });
-        clearTimeout(tid);
-        const j = await r.json();
-        const list = (j && j.data) ? j.data : (Array.isArray(j) ? j : []);
-        const item = list.find(x => parseInt(x.netuid,10) === netuid);
-        if(item) return item;
-      }catch(e){
-        console.error(`Error fetching pool data (attempt ${attempt+1}, page ${page})`, e);
-      }
-    }
-    // Si llegamos aquí en las 2 páginas y no se encontró, esperamos antes del siguiente intento
-    if(attempt < retries){
-      await new Promise(r => setTimeout(r, 1500 * (attempt + 1)));
-    }
+async function fetchSubnetData(netuid){
+  try{
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 10000);
+    const r = await fetch(`${API_BASE}/taoswap/subnet?id=${netuid}`, { signal: controller.signal });
+    clearTimeout(tid);
+    if(!r.ok) return null;
+    return await r.json();
+  }catch(e){
+    console.error('Error fetching subnet data from TaoSwap', e);
+    return null;
   }
-  return null;
 }
 
 async function fetchSubnetInfo(){
@@ -764,102 +781,90 @@ async function fetchSubnetInfo(){
 }
 
 async function fetchValidators(netuid){
-  // Validadores con APYs (yield endpoint). No es crítico, si falla seguimos sin él.
   try{
     const controller = new AbortController();
-    const tid = setTimeout(() => controller.abort(), 8000);
-    const r = await fetch(`${API_BASE}/api/dtao/validator/yield/latest/v1?netuid=${netuid}&limit=20&order=seven_day_apy_desc`, {
-      signal: controller.signal
-    });
+    const tid = setTimeout(() => controller.abort(), 10000);
+    const r = await fetch(`${API_BASE}/taoswap/validators?netuid=${netuid}`, { signal: controller.signal });
     clearTimeout(tid);
     if(!r.ok) return [];
     const j = await r.json();
-    const list = (j && j.data) ? j.data : (Array.isArray(j) ? j : []);
-    return list;
+    return Array.isArray(j) ? j : (j.results || []);
   }catch(e){
-    console.error('Error fetching validators', e);
+    console.error('Error fetching validators from TaoSwap', e);
     return [];
   }
 }
 
 async function fetchMetagraph(netuid){
-  // Metagraph desde el RPC público de Bittensor (gratis, sin límite de llamadas).
   try{
     const controller = new AbortController();
     const tid = setTimeout(() => controller.abort(), 15000);
-    const r = await fetch(`${API_BASE}/rpc/metagraph?netuid=${netuid}`, {
-      signal: controller.signal
-    });
+    const r = await fetch(`${API_BASE}/taoswap/metagraph?netuid=${netuid}`, { signal: controller.signal });
     clearTimeout(tid);
     if(!r.ok) return [];
     const j = await r.json();
     return j.neurons || [];
   }catch(e){
-    console.error('Error fetching metagraph from RPC', e);
+    console.error('Error fetching metagraph from TaoSwap', e);
+    return [];
+  }
+}
+
+async function fetchSubnetHistory(netuid){
+  try{
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 10000);
+    const r = await fetch(`${API_BASE}/taoswap/history?netuid=${netuid}`, { signal: controller.signal });
+    clearTimeout(tid);
+    if(!r.ok) return [];
+    const j = await r.json();
+    return Array.isArray(j) ? j : (j.results || []);
+  }catch(e){
+    console.error('Error fetching history from TaoSwap', e);
     return [];
   }
 }
 
 /* =========================================================================
-   PARSEO Y NORMALIZACIÓN
+   PARSEO Y NORMALIZACIÓN (TaoSwap)
    ========================================================================= */
 function parseSubnet(raw){
-  const id = parseInt(raw.netuid, 10);
+  // raw viene de TaoSwap /subnets/{id}/ — campos directamente en TAO, sin RAO
+  const id = raw.id;
   const def = SUBNET_DEFS[id] || {};
-  let symbol = def.symbol || '';
-  let name = def.name || `Subnet ${id}`;
+  let symbol = def.symbol || `SN${id}`;
+  let name = raw.identity?.name || def.name || raw.name || `Subnet ${id}`;
 
-  // Si tenemos info del JSON oficial, prevalece para nombre
-  if(STATE.info && STATE.info.name && STATE.info.name !== 'Unknown'){
-    name = STATE.info.name;
-  }
-
-  // Series temporales: cada item es {block_number, timestamp, price}
-  let sevenDayPoints = []; // Array de {price: number, time: Date}
-  
-  if(Array.isArray(raw.seven_day_prices)){
-    sevenDayPoints = raw.seven_day_prices.map(p => {
-      let price = NaN;
-      let time = null;
-      if(typeof p === 'number'){
-        price = p;
-      }else if(typeof p === 'string'){
-        price = parseFloat(p);
-      }else if(p && typeof p === 'object'){
-        price = parseFloat(p.price || p.value || p.p || p[0]) || NaN;
-        if(p.timestamp) time = new Date(p.timestamp);
-      }
-      return { price, time };
-    }).filter(pt => !isNaN(pt.price) && pt.price > 0);
-  }
-  // Fallback: string JSON
-  else if(typeof raw.seven_day_prices === 'string'){
-    try{
-      const parsed = JSON.parse(raw.seven_day_prices);
-      if(Array.isArray(parsed)){
-        sevenDayPoints = parsed.map(p => ({
-          price: parseFloat(p.price || p),
-          time: p.timestamp ? new Date(p.timestamp) : null
-        })).filter(pt => !isNaN(pt.price) && pt.price > 0);
-      }
-    }catch(e){}
-  }
+  // sevenDayPoints se rellena después con fetchSubnetHistory
+  const sevenDayPoints = STATE.historyPoints || [];
 
   return {
     id,
     symbol,
     name,
-    price:        parseFloat(raw.price) || 0,
-    marketCap:    (parseFloat(raw.market_cap) || 0) / RAO,
-    volume:       (parseFloat(raw.tao_volume_24_hr) || 0) / RAO,
-    liquidity:    (parseFloat(raw.liquidity) || 0) / RAO,
-    totalAlpha:   (parseFloat(raw.total_alpha) || 0) / RAO,
-    change1h:     parseFloat(raw.price_change_1_hour)  || 0,
-    change24h:    parseFloat(raw.price_change_1_day)   || 0,
-    change7d:     parseFloat(raw.price_change_1_week)  || 0,
-    change30d:    parseFloat(raw.price_change_1_month) || 0,
+    logo: raw.identity?.image || raw.identity?.logo_url || raw.identity?.icon || null,
+    price:        raw.price || 0,
+    marketCap:    raw.market_cap || 0,         // ya en TAO
+    volume:       (raw.inflow || 0) + Math.abs(raw.outflow || 0),
+    liquidity:    raw.root_in_pool || 0,       // TAO en el pool AMM
+    totalAlpha:   raw.total_supply || 0,
+    change1h:     raw.price_evolution_h_1  || 0,
+    change24h:    raw.price_evolution_h_24 || 0,
+    change7d:     raw.price_evolution_d_7  || 0,
+    change30d:    raw.price_evolution_d_30 || 0,
     sevenDayPoints,
   };
+}
+
+function parseHistory(historyArr){
+  // Deriva precio diario de tao_in_pool / alpha_in_pool
+  if(!Array.isArray(historyArr) || historyArr.length === 0) return [];
+  return historyArr
+    .filter(h => h.tao_in_pool > 0 && h.alpha_in_pool > 0)
+    .map(h => ({
+      price: h.tao_in_pool / h.alpha_in_pool,
+      time:  h.date ? new Date(h.date) : null,
+    }));
 }
 
 /* =========================================================================
@@ -868,12 +873,12 @@ function parseSubnet(raw){
 function renderError(msg){
   const html = `
     <div class="breadcrumb">
-      <a href="market.html" id="back-link">← Volver al Market</a>
+      <a href="market.html" id="back-link">${_t('subnet.back_market')}</a>
     </div>
     <div class="error-state">
-      <h2>Subnet no encontrada</h2>
+      <h2>${_t('subnet.not_found')}</h2>
       <p>${escapeHtml(msg)}</p>
-      <a href="market.html" class="btn">← Volver al Market</a>
+      <a href="market.html" class="btn">${_t('subnet.back_market')}</a>
     </div>
   `;
   document.getElementById('content').innerHTML = html;
@@ -899,16 +904,15 @@ function renderPage(){
   // Botones de descripción/github (condicionales)
   let actions = '';
   if(info && info.github){
-    actions += `<a href="${escapeHtml(info.github)}" target="_blank" rel="noopener" class="btn">GitHub →</a>`;
+    actions += `<a href="${escapeHtml(info.github)}" target="_blank" rel="noopener" class="btn">${_t('subnet.btn.github')}</a>`;
   }
-  actions += `<a href="https://taostats.io/subnets/${s.id}" target="_blank" rel="noopener" class="btn magenta">Ver en Taostats →</a>`;
 
   // Sección de descripción (condicional)
   let descriptionSection = '';
   if(info && info.description && info.description.trim()){
     descriptionSection = `
       <div class="description-section">
-        <div class="section-label">// Sobre ${escapeHtml(s.name)}</div>
+        <div class="section-label">${_t('subnet.about')} ${escapeHtml(s.name)}</div>
         <div class="description-text">${escapeHtml(info.description)}</div>
       </div>
     `;
@@ -917,13 +921,18 @@ function renderPage(){
   // Construir HTML
   const html = `
     <div class="breadcrumb">
-      <a href="market.html" id="back-link">← Volver al Market</a>
+      <a href="market.html" id="back-link">${_t('subnet.back')}</a>
     </div>
 
     <section class="hero">
-      <h1 class="subnet-name">${escapeHtml(s.name)}</h1>
-      <div class="subnet-ticker">${escapeHtml(s.symbol || `SN${s.id}`)} · SN${s.id}</div>
-      <div class="price-row">
+      <div class="hero-title-row">
+        ${s.logo ? `<img class="subnet-logo" src="${escapeHtml(s.logo)}" alt="${escapeHtml(s.symbol)}" onerror="this.style.display='none'">` : ''}
+        <div>
+          <h1 class="subnet-name">${escapeHtml(s.name)}</h1>
+          <div class="subnet-ticker">${escapeHtml(s.symbol || `SN${s.id}`)} · SN${s.id}</div>
+        </div>
+      </div>
+      <div class="price-row" style="margin-top:20px;">
         <div class="price-big" id="price-big">${fmtPriceUSD(s.price)}</div>
         <div class="price-change ${pctClass(change)}">${fmtPct(change)}</div>
         <div class="price-change-label">${tfLabel}</div>
@@ -932,49 +941,59 @@ function renderPage(){
 
     <section class="chart-section">
       <div class="chart-controls">
-        <div class="tf-toggle" id="tf-toggle">
-          <button data-tf="1d">1d</button>
-          <button data-tf="7d" class="active">7d</button>
+        <div class="chart-ctrl-left">
+          <div class="tf-toggle" id="tf-toggle">
+            <button data-tf="1d">24h</button>
+            <button data-tf="7d" class="${STATE.timeframe === '7d' ? 'active' : ''}">7d</button>
+            <button data-tf="30d" class="${STATE.timeframe === '30d' ? 'active' : ''}">30d</button>
+          </div>
+        </div>
+        <div class="chart-ctrl-right">
+          <div class="tf-toggle cur-toggle" id="cur-toggle">
+            <button data-cur="USD" class="${STATE.currency !== 'TAO' ? 'active' : ''}">USD</button>
+            <button data-cur="TAO" class="${STATE.currency === 'TAO' ? 'active' : ''}">τ TAO</button>
+          </div>
         </div>
       </div>
-      <div class="chart-wrap" id="chart-wrap">
+      <div id="chart-stat-bar" class="chart-stat-bar"></div>
+      <div class="chart-wrap has-statbar" id="chart-wrap">
         <canvas id="price-chart"></canvas>
       </div>
     </section>
 
     <section>
-      <div class="section-label">// Estadísticas</div>
+      <div class="section-label">${_t('subnet.stats_label')}</div>
       <div class="stats-grid">
         <div class="stat-cell">
-          <div class="stat-label">Market Cap</div>
+          <div class="stat-label">${_t('subnet.stat.mcap')}</div>
           <div class="stat-value">${fmtMoneyUSD(s.marketCap)}</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-label">Volumen 24h</div>
+          <div class="stat-label">${_t('subnet.stat.vol')}</div>
           <div class="stat-value">${fmtMoneyUSD(s.volume)}</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-label">Liquidez</div>
+          <div class="stat-label">${_t('subnet.stat.liquidity')}</div>
           <div class="stat-value">${fmtMoneyUSD(s.liquidity)}</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-label">Cambio 1h</div>
+          <div class="stat-label">${_t('subnet.stat.change1h')}</div>
           <div class="stat-value ${pctClass(s.change1h)}">${fmtPct(s.change1h)}</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-label">Cambio 24h</div>
+          <div class="stat-label">${_t('subnet.stat.change24h')}</div>
           <div class="stat-value ${pctClass(s.change24h)}">${fmtPct(s.change24h)}</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-label">Cambio 7d</div>
+          <div class="stat-label">${_t('subnet.stat.change7d')}</div>
           <div class="stat-value ${pctClass(s.change7d)}">${fmtPct(s.change7d)}</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-label">Cambio 30d</div>
+          <div class="stat-label">${_t('subnet.stat.change30d')}</div>
           <div class="stat-value ${pctClass(s.change30d)}">${fmtPct(s.change30d)}</div>
         </div>
         <div class="stat-cell">
-          <div class="stat-label">Supply (α)</div>
+          <div class="stat-label">${_t('subnet.stat.supply')}</div>
           <div class="stat-value">${(s.totalAlpha/1e6).toFixed(2)}M</div>
         </div>
       </div>
@@ -986,15 +1005,12 @@ function renderPage(){
     <section class="neuron-section" id="validators-section">
       <div class="neuron-section-header">
         <div>
-          <h2>Validadores</h2>
-          <div class="neuron-section-sub">// Top 15 por APY 7d · datos de Taostats</div>
+          <h2>${_t('subnet.validators')}</h2>
+          <div class="neuron-section-sub">${_t('subnet.validators_sub')}</div>
         </div>
       </div>
       <div id="validators-content">
-        <div class="neuron-lazy">
-          <button id="load-validators-btn" class="btn-lazy" onclick="loadValidators()">▸ Ver validators con APY</button>
-          <span class="neuron-lazy-note">Usa 1 llamada a la API de Taostats</span>
-        </div>
+        <div class="neuron-loading">${_t('subnet.loading.val')}</div>
       </div>
     </section>
 
@@ -1002,12 +1018,12 @@ function renderPage(){
     <section class="neuron-section" id="miners-section">
       <div class="neuron-section-header">
         <div>
-          <h2>Mineros</h2>
-          <div class="neuron-section-sub">// Top 15 por incentive</div>
+          <h2>${_t('subnet.miners')}</h2>
+          <div class="neuron-section-sub">${_t('subnet.miners_sub')}</div>
         </div>
       </div>
       <div id="miners-content">
-        <div class="neuron-loading">▸ Cargando mineros…</div>
+        <div class="neuron-loading">${_t('subnet.loading.min')}</div>
       </div>
     </section>
 
@@ -1019,7 +1035,7 @@ function renderPage(){
   // Activar el "← Volver" inteligente
   setupSmartBack();
 
-  // Listener del toggle 1d/7d
+  // Listener del toggle timeframe
   document.getElementById('tf-toggle').addEventListener('click', e => {
     const btn = e.target.closest('button');
     if(!btn) return;
@@ -1028,6 +1044,16 @@ function renderPage(){
     STATE.timeframe = btn.dataset.tf;
     renderChart();
     updatePriceChange();
+  });
+
+  // Listener del toggle moneda
+  document.getElementById('cur-toggle').addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    document.querySelectorAll('#cur-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    STATE.currency = btn.dataset.cur;
+    renderChart();
   });
 
   // Renderizar la gráfica
@@ -1065,39 +1091,36 @@ function fmtAPY(val){
 function renderValidators(){
   const container = document.getElementById('validators-content');
   if(!container) return;
+  const _t = window.t || (k => k);
 
   const validators = STATE.validators || [];
   if(validators.length === 0){
-    container.innerHTML = '<div class="neuron-empty">No hay datos de validadores disponibles para esta subnet</div>';
+    container.innerHTML = `<div class="neuron-empty">${_t('subnet.empty.val')}</div>`;
     return;
   }
 
-  // Ordenar por APY 7d desc (por si el endpoint no lo hace ya)
-  const sorted = [...validators]
-    .sort((a, b) => (parseFloat(b.seven_day_apy) || 0) - (parseFloat(a.seven_day_apy) || 0))
-    .slice(0, 15);
+  // TaoSwap ya devuelve ordenado por APY desc, tomamos top 15
+  const sorted = validators.slice(0, 15);
 
   const rows = sorted.map((v, i) => {
-    const hotkey = v.hotkey?.ss58 || v.hotkey || v.ss58 || '';
-    const name = v.name || v.validator_name || v.label || shortAddr(hotkey);
-    const stake = v.total_alpha_stake || v.alpha_stake || v.stake || v.total_stake || 0;
-    const apy7d = fmtAPY(v.seven_day_apy);
-    const apy30d = fmtAPY(v.thirty_day_apy);
-    const take = v.take !== undefined ? (parseFloat(v.take) * 100).toFixed(1) + '%' : '—';
-    const vtrust = v.vtrust !== undefined ? (parseFloat(v.vtrust)).toFixed(3) : '—';
-    const verified = v.verified === true || v.is_verified === true;
+    const hotkey = v.validator_hotkey || '';
+    const name = v.identity?.name || shortAddr(hotkey);
+    const stake = parseFloat(v.total_stake_alpha) || parseFloat(v.total_stake) || 0;
+    const apy7d = v.apy_7d != null ? parseFloat(v.apy_7d).toFixed(1) + '%' : '—';
+    // TaoSwap take ya viene en porcentaje
+    const take = v.take != null ? parseFloat(v.take).toFixed(1) + '%' : '—';
+    const delegators = v.count_delegators ? v.count_delegators.toLocaleString() : '—';
     const taostatsUrl = hotkey ? `https://taostats.io/hotkey/${hotkey}` : null;
 
     return `
       <tr>
         <td class="rank">#${i+1}</td>
-        <td class="name">${escapeHtml(name)}${verified ? '<span class="badge-verified">VER</span>' : ''}</td>
+        <td class="name">${escapeHtml(name)}</td>
         <td class="addr">${taostatsUrl ? `<a href="${taostatsUrl}" target="_blank" rel="noopener">${shortAddr(hotkey)}</a>` : shortAddr(hotkey)}</td>
         <td class="num apy">${apy7d}</td>
-        <td class="num">${apy30d}</td>
         <td class="num">${fmtTAO(stake)}</td>
         <td class="num">${take}</td>
-        <td class="num">${vtrust}</td>
+        <td class="num">${delegators}</td>
       </tr>
     `;
   }).join('');
@@ -1108,13 +1131,12 @@ function renderValidators(){
         <thead>
           <tr>
             <th>#</th>
-            <th>Nombre</th>
+            <th>${_t('subnet.th.name')}</th>
             <th>Hotkey</th>
-            <th class="num">APY 7d</th>
-            <th class="num">APY 30d</th>
-            <th class="num">Stake</th>
+            <th class="num">${_t('subnet.th.apy7d')}</th>
+            <th class="num">${_t('subnet.th.stake')}</th>
             <th class="num">Take</th>
-            <th class="num">VTrust</th>
+            <th class="num">${_t('subnet.th.delegators')}</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
@@ -1129,20 +1151,16 @@ function renderValidators(){
 function renderMiners(){
   const container = document.getElementById('miners-content');
   if(!container) return;
+  const _t = window.t || (k => k);
 
   const miners = STATE.miners || [];
   if(miners.length === 0){
-    container.innerHTML = '<div class="neuron-empty">No hay datos de mineros disponibles para esta subnet</div>';
+    container.innerHTML = `<div class="neuron-empty">${_t('subnet.empty.min')}</div>`;
     return;
   }
 
-  // Filtrar solo mineros (sin validator_permit) y ordenar por incentive desc
-  // Si no podemos distinguir, mostramos los top por incentive
-  let onlyMiners = miners.filter(n => {
-    const perm = n.validator_permit;
-    return perm === false || perm === 'false' || perm === 0;
-  });
-  // Si el filtro deja vacío (porque el campo no viene), usar todos
+  // TaoSwap metagraph: filtrar mineros (type=miner o is_validator=false)
+  let onlyMiners = miners.filter(n => n.type === 'miner' || n.is_validator === false);
   if(onlyMiners.length === 0) onlyMiners = miners;
 
   const sorted = [...onlyMiners]
@@ -1150,15 +1168,15 @@ function renderMiners(){
     .slice(0, 15);
 
   const rows = sorted.map((m, i) => {
-    const hotkey = m.hotkey?.ss58 || m.hotkey || m.ss58 || '';
+    const hotkey = m.hotkey || '';
     const uid = m.uid !== undefined ? `UID ${m.uid}` : '—';
-    const incentive = m.incentive !== undefined ? (parseFloat(m.incentive)).toFixed(4) : '—';
-    const trust = m.trust !== undefined ? (parseFloat(m.trust)).toFixed(3) : '—';
-    const dailyReward = m.daily_reward !== undefined ? fmtTAO(m.daily_reward) :
-                       (m.daily_mining_alpha !== undefined ? fmtTAO(m.daily_mining_alpha) : '—');
-    const emission = m.emission !== undefined ? parseFloat(m.emission).toFixed(6) : '—';
-    const isImmune = m.is_immunity_period === true || m.is_immune === true;
-    const inDanger = m.in_danger === true;
+    const incentive = m.incentive != null ? parseFloat(m.incentive).toFixed(4) : '—';
+    const trust = m.consensus != null ? parseFloat(m.consensus).toFixed(3) : '—';
+    // daily_rewards_alpha: recompensa diaria en alpha (TaoSwap lo calcula directamente)
+    const dailyReward = m.daily_rewards_alpha != null ? fmtTAO(m.daily_rewards_alpha) :
+                        m.daily_rewards != null ? fmtTAO(m.daily_rewards) : '—';
+    const emission = m.emission != null ? parseFloat(m.emission).toFixed(6) : '—';
+    const isImmune = m.status === 'IMMUNE' || m.is_immune === true;
     const taostatsUrl = hotkey ? `https://taostats.io/hotkey/${hotkey}` : null;
 
     return `
@@ -1182,10 +1200,10 @@ function renderMiners(){
             <th>#</th>
             <th class="num">UID</th>
             <th>Hotkey</th>
-            <th class="num">Incentive</th>
-            <th class="num">Trust</th>
-            <th class="num">Emisión</th>
-            <th class="num">Diario</th>
+            <th class="num">${_t('subnet.th.incentive')}</th>
+            <th class="num">${_t('subnet.th.trust')}</th>
+            <th class="num">${_t('subnet.th.emission')}</th>
+            <th class="num">${_t('subnet.th.daily')}</th>
           </tr>
         </thead>
         <tbody>${rows}</tbody>
@@ -1212,138 +1230,124 @@ function renderChart(){
   const wrap = document.getElementById('chart-wrap');
   if(!wrap) return;
 
-  // Asegurarse de que existe el canvas (puede haber sido reemplazado por mensaje empty)
   let canvas = document.getElementById('price-chart');
   if(!canvas){
     wrap.innerHTML = '<canvas id="price-chart"></canvas>';
     canvas = document.getElementById('price-chart');
   }
 
-  // Detectar histórico vacío o inválido
-  if(!s.sevenDayPoints || s.sevenDayPoints.length === 0){
-    wrap.innerHTML = '<div class="chart-empty-state">Datos históricos no disponibles para esta subnet</div>';
+  const allPoints = (s.sevenDayPoints || []).filter(pt => pt.price && pt.price > 0);
+
+  if(allPoints.length === 0){
+    wrap.innerHTML = `<div class="chart-empty-state">${_t('subnet.chart.no_data')}</div>`;
+    updateStatBar([]);
     return;
   }
 
-  // Detectar si todos los precios son 0 o null (histórico inútil)
-  const validPrices = s.sevenDayPoints.filter(pt => pt.price && pt.price > 0);
-  if(validPrices.length === 0){
-    wrap.innerHTML = '<div class="chart-empty-state">Esta subnet aún no tiene historial de precios suficiente</div>';
-    return;
-  }
+  if(STATE.chart){ STATE.chart.destroy(); STATE.chart = null; }
 
-  // Si solo tenemos 1-2 puntos válidos, también es poco fiable
-  if(validPrices.length < 3){
-    wrap.innerHTML = '<div class="chart-empty-state">Histórico insuficiente para mostrar gráfica</div>';
-    return;
-  }
-
-  // Destruir gráfica previa si existe
-  if(STATE.chart){
-    STATE.chart.destroy();
-    STATE.chart = null;
-  }
-
-  // Datos según timeframe
-  // 7d = todos los puntos
-  // 1d = puntos de las últimas 24h (filtrados por timestamp si lo tenemos)
-  const allPoints = s.sevenDayPoints;
+  // Selección de puntos según timeframe
+  // Nota: la API solo tiene datos diarios (1 punto/día), no intradiarios.
+  // Para "24h" usamos los últimos 2 días disponibles (ayer→hoy).
   let points;
   if(STATE.timeframe === '1d'){
-    // Filtrar últimas 24h por timestamp real
-    const now = Date.now();
-    const dayMs = 24 * 60 * 60 * 1000;
-    points = allPoints.filter(pt => pt.time && (now - pt.time.getTime()) <= dayMs);
-    // Si no hay timestamps, fallback a los últimos 6 puntos
-    if(points.length === 0){
-      points = allPoints.slice(-6);
-    }
-  }else{
+    const now = Date.now(), twoDaysMs = 864e5 * 2;
+    points = allPoints.filter(pt => pt.time && (now - pt.time.getTime()) <= twoDaysMs);
+    if(points.length < 2) points = allPoints.slice(-Math.min(2, allPoints.length));
+  } else if(STATE.timeframe === '7d'){
+    points = allPoints.slice(-Math.min(7, allPoints.length));
+  } else {
     points = allPoints;
   }
 
-  // Construir labels usando timestamps reales si los tenemos
+  const isTAO = STATE.currency === 'TAO';
+  const locale = window.getLang && window.getLang() === 'en' ? 'en-US' : 'es-ES';
+
+  const dataValues = points.map(pt => isTAO ? pt.price : pt.price * STATE.taoUsd);
+  const firstVal = dataValues[0], lastVal = dataValues[dataValues.length - 1];
+  const isPositive = lastVal >= firstVal;
+  const lineColor = isPositive ? '#22d87a' : '#ff4d5e';
+
+  // Stat bar: open, close, high, low, change%
+  updateStatBar(dataValues, firstVal, lastVal, isPositive);
+
   const labels = points.map(pt => {
-    if(!pt.time){
-      return '';
-    }
-    if(STATE.timeframe === '1d'){
-      return pt.time.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-    }
-    return pt.time.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+    if(!pt.time) return '';
+    if(STATE.timeframe === '1d')
+      return pt.time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
+    return pt.time.toLocaleDateString(locale, { day: 'numeric', month: 'short' });
   });
 
-  // Color según tendencia (primer vs último precio)
-  const firstPrice = points[0].price;
-  const lastPrice = points[points.length - 1].price;
-  const isPositive = lastPrice >= firstPrice;
-  const lineColor = isPositive ? '#22d87a' : '#ff4d5e';
-  const fillColor = isPositive ? 'rgba(34,216,122,0.08)' : 'rgba(255,77,94,0.08)';
-
-  // Convertir precios TAO a USD para mostrar
-  const dataUSD = points.map(pt => pt.price * STATE.taoUsd);
-
-  // Guardar timestamps para tooltip
   const tooltipTimes = points.map(pt => pt.time);
 
+  // Gradient fill usando canvas API
   const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, canvas.offsetHeight || 280);
+  grad.addColorStop(0,   isPositive ? 'rgba(34,216,122,0.28)' : 'rgba(255,77,94,0.28)');
+  grad.addColorStop(0.6, isPositive ? 'rgba(34,216,122,0.06)' : 'rgba(255,77,94,0.06)');
+  grad.addColorStop(1,   'rgba(0,0,0,0)');
+
+  const fmtVal = v => {
+    if(isTAO){
+      if(v < 0.001) return 'τ' + v.toFixed(6);
+      if(v < 1)     return 'τ' + v.toFixed(4);
+      return 'τ' + v.toFixed(3);
+    }
+    if(v === 0) return '—';
+    if(v < 0.001) return '$' + v.toFixed(6);
+    if(v < 0.01)  return '$' + v.toFixed(5);
+    if(v < 1)     return '$' + v.toFixed(4);
+    if(v < 100)   return '$' + v.toFixed(2);
+    return '$' + v.toLocaleString('en-US', {maximumFractionDigits:2});
+  };
+
   STATE.chart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels,
+      labels,
       datasets: [{
-        data: dataUSD,
+        data: dataValues,
         borderColor: lineColor,
-        backgroundColor: fillColor,
+        backgroundColor: grad,
         borderWidth: 2,
         fill: true,
-        tension: 0.3,
+        tension: 0.35,
         pointRadius: 0,
-        pointHoverRadius: 6,
+        pointHoverRadius: 5,
         pointHoverBackgroundColor: lineColor,
         pointHoverBorderColor: '#fff',
         pointHoverBorderWidth: 2,
+        segment: {
+          borderColor: ctx => lineColor,
+        },
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: {
-        mode: 'index',
-        intersect: false,
-      },
+      animation: { duration: 400, easing: 'easeInOutQuart' },
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: 'rgba(13,15,23,0.95)',
-          titleColor: '#a8b2c0',
+          backgroundColor: 'rgba(10,12,20,0.97)',
+          titleColor: '#6b7385',
           bodyColor: '#fff',
-          borderColor: 'rgba(0,240,255,0.3)',
+          borderColor: isPositive ? 'rgba(34,216,122,0.4)' : 'rgba(255,77,94,0.4)',
           borderWidth: 1,
-          padding: 12,
-          titleFont: { family: "'Share Tech Mono', monospace", size: 11 },
-          bodyFont: { family: "'Orbitron', sans-serif", size: 14, weight: '600' },
+          padding: { top:10, right:14, bottom:10, left:14 },
+          titleFont: { family: "'Outfit', sans-serif", size: 10, weight: '400' },
+          bodyFont: { family: "'Share Tech Mono', monospace", size: 14 },
           displayColors: false,
+          caretSize: 5,
           callbacks: {
-            title: (items) => {
+            title: items => {
               if(!items.length) return '';
-              const i = items[0].dataIndex;
-              const t = tooltipTimes[i];
+              const t = tooltipTimes[items[0].dataIndex];
               if(!t) return items[0].label;
-              return t.toLocaleString('es-ES', {
-                day: 'numeric',
-                month: 'short',
-                hour: '2-digit',
-                minute: '2-digit'
-              });
+              return t.toLocaleString(locale, { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
             },
-            label: (ctx) => {
-              const v = ctx.parsed.y;
-              if(v === 0) return '—';
-              if(v < 0.01) return '$' + v.toFixed(5);
-              if(v < 1) return '$' + v.toFixed(4);
-              return '$' + v.toFixed(2);
-            }
+            label: ctx => ' ' + fmtVal(ctx.parsed.y),
           }
         }
       },
@@ -1351,31 +1355,69 @@ function renderChart(){
         x: {
           grid: { display: false },
           ticks: {
-            color: '#6b7385',
-            font: { family: "'Share Tech Mono', monospace", size: 10 },
+            color: '#4a5263',
+            font: { family: "'Outfit', sans-serif", size: 9 },
             maxRotation: 0,
             autoSkip: true,
-            maxTicksLimit: 6,
+            maxTicksLimit: STATE.timeframe === '30d' ? 8 : 6,
           },
-          border: { color: 'rgba(0,240,255,0.10)' }
+          border: { color: 'rgba(0,240,255,0.08)' }
         },
         y: {
-          grid: { color: 'rgba(0,240,255,0.05)', drawBorder: false },
+          position: 'right',
+          grid: { color: 'rgba(0,240,255,0.04)' },
           ticks: {
-            color: '#6b7385',
-            font: { family: "'Share Tech Mono', monospace", size: 10 },
-            callback: (v) => {
-              if(v === 0) return '$0';
-              if(v < 0.01) return '$' + v.toFixed(4);
-              if(v < 1) return '$' + v.toFixed(3);
-              return '$' + v.toFixed(2);
-            }
+            color: '#4a5263',
+            font: { family: "'Share Tech Mono', monospace", size: 9 },
+            callback: v => fmtVal(v),
+            maxTicksLimit: 5,
           },
           border: { display: false }
         }
       }
     }
   });
+}
+
+function updateStatBar(dataValues, firstVal, lastVal, isPositive){
+  const bar = document.getElementById('chart-stat-bar');
+  if(!bar) return;
+  if(!dataValues || dataValues.length === 0){ bar.style.display = 'none'; return; }
+  bar.style.display = 'flex';
+  const isTAO = STATE.currency === 'TAO';
+  const sym = isTAO ? 'τ' : '$';
+  const hi = Math.max(...dataValues), lo = Math.min(...dataValues);
+  const changePct = firstVal > 0 ? ((lastVal - firstVal) / firstVal) * 100 : 0;
+  const fmtShort = v => {
+    if(isTAO) return sym + (v < 0.01 ? v.toFixed(5) : v < 1 ? v.toFixed(4) : v.toFixed(3));
+    if(v < 0.01) return sym + v.toFixed(5);
+    if(v < 1)    return sym + v.toFixed(4);
+    return sym + v.toFixed(2);
+  };
+  const sign = changePct > 0 ? '+' : '';
+  const cls = changePct > 0.001 ? 'pos' : changePct < -0.001 ? 'neg' : '';
+  bar.innerHTML = `
+    <div class="chart-stat-item">
+      <span class="chart-stat-lbl">${_t('subnet.chart.open')}</span>
+      <span class="chart-stat-val">${fmtShort(firstVal)}</span>
+    </div>
+    <div class="chart-stat-item">
+      <span class="chart-stat-lbl">${_t('subnet.chart.close')}</span>
+      <span class="chart-stat-val">${fmtShort(lastVal)}</span>
+    </div>
+    <div class="chart-stat-item">
+      <span class="chart-stat-lbl">↑ ${_t('subnet.chart.high')}</span>
+      <span class="chart-stat-val pos">${fmtShort(hi)}</span>
+    </div>
+    <div class="chart-stat-item">
+      <span class="chart-stat-lbl">↓ ${_t('subnet.chart.low')}</span>
+      <span class="chart-stat-val neg">${fmtShort(lo)}</span>
+    </div>
+    <div class="chart-stat-item">
+      <span class="chart-stat-lbl">${_t('subnet.chart.change')}</span>
+      <span class="chart-stat-val ${cls}">${sign}${changePct.toFixed(2)}%</span>
+    </div>
+  `;
 }
 
 /* =========================================================================
@@ -1385,51 +1427,51 @@ async function init(){
   STATE.netuid = getNetuidFromUrl();
 
   if(STATE.netuid === null){
-    renderError('Falta el parámetro ?id en la URL. Ejemplo: subnet.html?id=64');
+    renderError(_t('subnet.error_noid'));
     return;
   }
 
-  // Cargar TAO price + datos de subnet + info GitHub en paralelo
-  const [_, raw, info] = await Promise.all([
+  // Cargar todo en paralelo: precio TAO + datos subnet + info GitHub + historial
+  const [_, raw, info, historyArr] = await Promise.all([
     fetchTaoPrice(),
     fetchSubnetData(STATE.netuid),
     fetchSubnetInfo(),
+    fetchSubnetHistory(STATE.netuid),
   ]);
 
   if(!raw){
-    renderError(`No se encontraron datos para la subnet ${STATE.netuid}. Es posible que no exista o no esté activa.`);
+    renderError(_t('subnet.error_notfound').replace('{id}', STATE.netuid));
     return;
   }
 
   STATE.info = info;
   STATE.rawData = raw;
+  STATE.historyPoints = parseHistory(historyArr);
   STATE.subnet = parseSubnet(raw);
   renderPage();
 
-  // Cargar validadores y mineros DESPUÉS del render principal,
-  // para que la página aparezca rápida y las tablas se rellenen progresivamente
+  // Cargar mineros y validadores progresivamente (ambos gratis desde TaoSwap)
   loadNeurons();
 }
 
 async function loadNeurons(){
-  // Metagraph: gratis desde el RPC de Bittensor, se carga automáticamente.
-  // Validators (APY): solo Taostats lo tiene, se carga bajo demanda.
-  const metagraph = await fetchMetagraph(STATE.netuid);
+  const [metagraph, validators] = await Promise.all([
+    fetchMetagraph(STATE.netuid),
+    fetchValidators(STATE.netuid),
+  ]);
   STATE.miners = metagraph || [];
-  renderMiners();
-}
-
-async function loadValidators(){
-  const btn = document.getElementById('load-validators-btn');
-  const container = document.getElementById('validators-content');
-  if(btn) btn.disabled = true;
-  if(container) container.innerHTML = '<div class="neuron-loading">▸ Cargando validators desde Taostats…</div>';
-  const validators = await fetchValidators(STATE.netuid);
   STATE.validators = validators || [];
+  renderMiners();
   renderValidators();
 }
 
 init();
+
+document.addEventListener('langchange', () => {
+  if(STATE.subnet) renderPage();
+  if(STATE.validators.length) renderValidators();
+  if(STATE.miners.length) renderMiners();
+});
 
 // Botón "Volver" inteligente: usa history.back() si vienes del propio sitio
 function setupSmartBack(){
@@ -1448,19 +1490,19 @@ function setupSmartBack(){
   }
 
   const labels = {
-    'market.html':           '← Volver al Market',
-    'aprende.html':          '← Volver a Aprende',
-    'index.html':            '← Volver al inicio',
-    '':                      '← Volver al inicio',
-    'que-es-bittensor.html': '← Volver a la guía',
-    'tao.html':              '← Volver a TAO',
+    'market.html':           _t('nav.back.market'),
+    'aprende.html':          _t('tao.back.learn'),
+    'index.html':            _t('tao.back.home'),
+    '':                      _t('tao.back.home'),
+    'que-es-bittensor.html': _t('tao.back.guide'),
+    'tao.html':              _t('subnet.back.tao'),
   };
   if(fromPath.startsWith('aprende-modulo-')){
-    link.textContent = '← Volver al módulo';
+    link.textContent = _t('tao.back.module');
   } else if(labels[fromPath] !== undefined){
     link.textContent = labels[fromPath];
   } else if(fromPath){
-    link.textContent = '← Volver';
+    link.textContent = _t('nav.back');
   }
 
   link.addEventListener('click', function(e){

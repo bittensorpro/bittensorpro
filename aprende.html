@@ -19,7 +19,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -43,7 +43,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Chakra Petch', system-ui, sans-serif;
+    font-family: 'Outfit', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
     overflow-x: hidden;
@@ -95,7 +95,7 @@
     font-weight: 700;
   }
   .brand-sub {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 9px;
     color: var(--text-faint);
     letter-spacing: 0.18em;
@@ -104,7 +104,7 @@
   }
   .nav { display: flex; gap: 8px; align-items: center; }
   .nav a {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.1em;
     color: var(--text-muted);
@@ -137,7 +137,7 @@
     line-height: 1;
   }
   .nt-price {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     color: var(--text);
     font-variant-numeric: tabular-nums;
@@ -163,7 +163,7 @@
   }
   .hero-tag {
     display: inline-block;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.3em;
     color: var(--cyan);
@@ -254,7 +254,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 10px;
     letter-spacing: 0.18em;
     color: var(--accent);
@@ -273,7 +273,7 @@
     box-shadow: 0 0 8px var(--accent);
   }
   .level-meta {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 10px;
     color: var(--text-faint);
     letter-spacing: 0.1em;
@@ -326,7 +326,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 12px;
     color: var(--accent);
     text-transform: uppercase;
@@ -356,7 +356,7 @@
   }
   .footer-info p {
     color: var(--text-faint);
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -373,6 +373,7 @@
     .level-desc { font-size: 13px; }
   }
 </style>
+<script src="./js/i18n.js"></script>
 </head>
 <body>
 
@@ -386,8 +387,8 @@
       </div>
     </a>
     <nav class="nav">
-      <a href="market.html">Market</a>
-      <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)">Herramientas</a><a href="tao.html" class="nav-tao">
+      <a href="market.html" data-i18n="nav.market">Market</a>
+      <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a><a href="tao.html" class="nav-tao">
         <span class="nt-symbol">TAO</span>
         <span class="nt-price" id="nav-tao-price">—</span>
         <span class="nt-arrow">→</span>
@@ -397,69 +398,69 @@
 </header>
 
 <section class="hero">
-  <span class="hero-tag">Tres niveles · Empieza por el tuyo</span>
-  <h1><strong>Aprende</strong> Bittensor</h1>
-  <p>Elige el curso según tu punto de partida. Desde cero o nivel avanzado, todo en español y gratis.</p>
+  <span class="hero-tag" data-i18n="aprende.hero_tag">Tres niveles · Empieza por el tuyo</span>
+  <h1 data-i18n-html="aprende.hero_title"><strong>Aprende</strong> Bittensor</h1>
+  <p data-i18n="aprende.hero_sub">Elige el curso según tu punto de partida. Desde cero o nivel avanzado, todo en español y gratis.</p>
 </section>
 
 <section class="levels">
 
   <a href="aprende-basico.html" class="level-card basic">
     <div class="level-header">
-      <span class="level-badge"><span class="dot"></span>Básico</span>
-      <span class="level-meta">Próximamente</span>
+      <span class="level-badge"><span class="dot"></span><span data-i18n="aprende.basic.badge">Básico</span></span>
+      <span class="level-meta" data-i18n="aprende.coming_soon">Próximamente</span>
     </div>
-    <h2 class="level-title">Empieza desde cero</h2>
-    <p class="level-who">Para quien no sabe qué es una blockchain ni cómo funciona Bitcoin.</p>
-    <p class="level-desc">Te explicamos lo esencial sin dar nada por sabido. Conceptos básicos de cripto, qué es Bitcoin, qué es la IA descentralizada y por qué Bittensor importa.</p>
+    <h2 class="level-title" data-i18n="aprende.basic.title">Empieza desde cero</h2>
+    <p class="level-who" data-i18n="aprende.basic.who">Para quien no sabe qué es una blockchain ni cómo funciona Bitcoin.</p>
+    <p class="level-desc" data-i18n="aprende.basic.desc">Te explicamos lo esencial sin dar nada por sabido. Conceptos básicos de cripto, qué es Bitcoin, qué es la IA descentralizada y por qué Bittensor importa.</p>
     <ul class="level-points">
-      <li>¿Qué es una criptomoneda?</li>
-      <li>¿Qué es la blockchain?</li>
-      <li>¿Qué es la IA descentralizada?</li>
-      <li>Primeros pasos en Bittensor</li>
+      <li data-i18n="aprende.basic.p1">¿Qué es una criptomoneda?</li>
+      <li data-i18n="aprende.basic.p2">¿Qué es la blockchain?</li>
+      <li data-i18n="aprende.basic.p3">¿Qué es la IA descentralizada?</li>
+      <li data-i18n="aprende.basic.p4">Primeros pasos en Bittensor</li>
     </ul>
     <span class="level-cta">
-      Empezar
+      <span data-i18n="aprende.basic.cta">Empezar</span>
       <span class="level-cta-arrow">→</span>
     </span>
   </a>
 
   <a href="aprende-intermedio.html" class="level-card medium">
     <div class="level-header">
-      <span class="level-badge"><span class="dot"></span>Intermedio</span>
-      <span class="level-meta">Próximamente</span>
+      <span class="level-badge"><span class="dot"></span><span data-i18n="aprende.inter.badge">Intermedio</span></span>
+      <span class="level-meta" data-i18n="aprende.coming_soon">Próximamente</span>
     </div>
-    <h2 class="level-title">Profundiza tu conocimiento</h2>
-    <p class="level-who">Para quien entiende Bitcoin y blockchain pero no es técnico ni programador.</p>
-    <p class="level-desc">Cómo funciona Bittensor por dentro: subnets, dTAO, validadores, mineros, staking, emisiones... sin necesitar saber programar ni matemáticas avanzadas.</p>
+    <h2 class="level-title" data-i18n="aprende.inter.title">Profundiza tu conocimiento</h2>
+    <p class="level-who" data-i18n="aprende.inter.who">Para quien entiende Bitcoin y blockchain pero no es técnico ni programador.</p>
+    <p class="level-desc" data-i18n="aprende.inter.desc">Cómo funciona Bittensor por dentro: subnets, dTAO, validadores, mineros, staking, emisiones... sin necesitar saber programar ni matemáticas avanzadas.</p>
     <ul class="level-points">
-      <li>Cómo funcionan las subnets</li>
-      <li>Qué es dTAO y el staking</li>
-      <li>Validadores y mineros explicados</li>
-      <li>Cómo invertir y elegir subnets</li>
+      <li data-i18n="aprende.inter.p1">Cómo funcionan las subnets</li>
+      <li data-i18n="aprende.inter.p2">Qué es dTAO y el staking</li>
+      <li data-i18n="aprende.inter.p3">Validadores y mineros explicados</li>
+      <li data-i18n="aprende.inter.p4">Cómo invertir y elegir subnets</li>
     </ul>
     <span class="level-cta">
-      Continuar
+      <span data-i18n="aprende.inter.cta">Continuar</span>
       <span class="level-cta-arrow">→</span>
     </span>
   </a>
 
   <a href="aprende-avanzado.html" class="level-card advanced">
     <div class="level-header">
-      <span class="level-badge"><span class="dot"></span>Avanzado</span>
-      <span class="level-meta">18 módulos · 105h</span>
+      <span class="level-badge"><span class="dot"></span><span data-i18n="aprende.adv.badge">Avanzado</span></span>
+      <span class="level-meta" data-i18n="aprende.adv.meta">18 módulos · 105h</span>
     </div>
-    <h2 class="level-title">Manual técnico completo</h2>
-    <p class="level-who">Para programadores y usuarios web3 que quieren dominar Bittensor.</p>
-    <p class="level-desc">Manual técnico completo: protocolo, Yuma Consensus, dTAO matemático, código de subnets, validadores, mineros y despliegue en producción.</p>
+    <h2 class="level-title" data-i18n="aprende.adv.title">Manual técnico completo</h2>
+    <p class="level-who" data-i18n="aprende.adv.who">Para programadores y usuarios web3 que quieren dominar Bittensor.</p>
+    <p class="level-desc" data-i18n="aprende.adv.desc">Manual técnico completo: protocolo, Yuma Consensus, dTAO matemático, código de subnets, validadores, mineros y despliegue en producción.</p>
     <ul class="level-points">
-      <li>Protocolo Bittensor en profundidad</li>
-      <li>Yuma Consensus matemático</li>
-      <li>Crear y desplegar tu subnet</li>
-      <li>Validadores y mineros avanzados</li>
+      <li data-i18n="aprende.adv.p1">Protocolo Bittensor en profundidad</li>
+      <li data-i18n="aprende.adv.p2">Yuma Consensus matemático</li>
+      <li data-i18n="aprende.adv.p3">Crear y desplegar tu subnet</li>
+      <li data-i18n="aprende.adv.p4">Validadores y mineros avanzados</li>
     </ul>
     <span class="level-cta">
-      Acceder
+      <span data-i18n="aprende.adv.cta">Acceder</span>
       <span class="level-cta-arrow">→</span>
     </span>
   </a>
@@ -467,7 +468,7 @@
 </section>
 
 <div class="footer-info">
-  <p>Bittensor Pro · 2026 · <a href="index.html">Inicio</a> · <a href="market.html">Market</a></p>
+  <p data-i18n-html="aprende.footer">Bittensor Pro · 2026 · <a href="index.html" data-i18n="nav.home">Inicio</a> · <a href="market.html" data-i18n="nav.market">Market</a></p>
 </div>
 
 <script>
