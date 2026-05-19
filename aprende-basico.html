@@ -68,7 +68,7 @@
   .brand-title .pro{color:#ff2bd6;font-style:italic;margin-left:2px;text-shadow:0 0 8px rgba(255,43,214,.5)}
   .topbar-center{display:flex;align-items:center;justify-content:center;gap:4px}
   .topbar-center a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:6px;transition:all .15s;white-space:nowrap}
-  .nav-guide{color:#e8f0f5}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
+  .nav-guide{color:#e8f0f5;border-color:rgba(232,240,245,.18)!important}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
   .nav-learn{color:#22d87a;border-color:rgba(34,216,122,.18)!important}.nav-learn:hover{border-color:rgba(34,216,122,.45)!important}
   .nav-market{color:#ff2bd6;border-color:rgba(255,43,214,.18)!important}.nav-market:hover{border-color:rgba(255,43,214,.45)!important}
   .nav-tools{color:#ffb84d;border-color:rgba(255,184,77,.18)!important}.nav-tools:hover{border-color:rgba(255,184,77,.45)!important}
@@ -513,6 +513,10 @@
   </a>
 </header>
 
+<div style="max-width:860px;margin:0 auto;padding:16px 20px 0">
+  <a href="aprende.html" style="display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#22d87a;text-decoration:none;padding:6px 12px;border:1px solid rgba(34,216,122,.25);border-radius:6px;transition:all .15s" onmouseover="this.style.borderColor='rgba(34,216,122,.55)'" onmouseout="this.style.borderColor='rgba(34,216,122,.25)'" data-i18n="basico.back_link">← Aprende</a>
+</div>
+
 <section class="hero">
   <div class="hero-eyebrow">
     <span class="dot"></span>
@@ -541,13 +545,13 @@
 <div class="intro">
   <div class="intro-box">
     <h2 data-i18n="aprende.intro.title">Sobre este manual</h2>
-    <p>
+    <p data-i18n-html="basico.intro.p1">
       Este curso está pensado para alguien que <strong>nunca ha tocado cripto</strong>. No asume conocimientos previos de blockchain, programación ni IA. Empezamos por el principio (qué es el dinero digital) y terminamos con tu primera wallet de Bittensor lista para usar.
     </p>
-    <p>
+    <p data-i18n-html="basico.intro.p2">
       La estructura es <strong>progresiva</strong>: cada módulo se apoya en el anterior. Si alguien no sabe qué es una blockchain, no tiene sentido que aprenda Yuma Consensus. Los conceptos se introducen en el momento exacto en que hacen falta.
     </p>
-    <p>
+    <p data-i18n-html="basico.intro.p3">
       Cada módulo incluye <strong>objetivos claros</strong>, secciones explicadas con analogías del mundo real, glosario, ejercicios prácticos y referencias para profundizar. Cuando termines, estarás listo para el <a href="aprende-avanzado.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor">Nivel Avanzado</a>.
     </p>
   </div>
@@ -582,8 +586,8 @@
     <a href="aprende-basico-modulo-01.html" class="module-card">
       <div class="module-num">01</div>
       <div class="module-info">
-        <div class="module-name">¿Qué es el dinero digital?</div>
-        <div class="module-desc">Bitcoin, criptomonedas, exchanges y wallets. Por qué existe el dinero digital y qué problema resuelve.</div>
+        <div class="module-name" data-i18n="basico.m01.name">¿Qué es el dinero digital?</div>
+        <div class="module-desc" data-i18n="basico.m01.desc">Bitcoin, criptomonedas, exchanges y wallets. Por qué existe el dinero digital y qué problema resuelve.</div>
       </div>
       <div class="module-meta">
         <span class="module-hours">3h</span>
@@ -595,8 +599,8 @@
     <a href="aprende-basico-modulo-02.html" class="module-card">
       <div class="module-num">02</div>
       <div class="module-info">
-        <div class="module-name">Cómo funciona una blockchain</div>
-        <div class="module-desc">Bloques, hashes, nodos y consenso. Proof of Work vs Proof of Stake. Sobre qué tecnología opera Bittensor.</div>
+        <div class="module-name" data-i18n="basico.m02.name">Cómo funciona una blockchain</div>
+        <div class="module-desc" data-i18n="basico.m02.desc">Bloques, hashes, nodos y consenso. Proof of Work vs Proof of Stake. Sobre qué tecnología opera Bittensor.</div>
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>
@@ -608,8 +612,8 @@
     <a href="aprende-basico-modulo-03.html" class="module-card">
       <div class="module-num">03</div>
       <div class="module-info">
-        <div class="module-name">Inteligencia Artificial descentralizada</div>
-        <div class="module-desc">Qué es la IA, por qué la controlan unas pocas empresas y por qué la blockchain hace posible descentralizarla.</div>
+        <div class="module-name" data-i18n="basico.m03.name">Inteligencia Artificial descentralizada</div>
+        <div class="module-desc" data-i18n="basico.m03.desc">Qué es la IA, por qué la controlan unas pocas empresas y por qué la blockchain hace posible descentralizarla.</div>
       </div>
       <div class="module-meta">
         <span class="module-hours">3h</span>
@@ -621,8 +625,8 @@
     <a href="aprende-basico-modulo-04.html" class="module-card">
       <div class="module-num">04</div>
       <div class="module-info">
-        <div class="module-name">Bittensor: la red de IA</div>
-        <div class="module-desc">Subredes, mineros, validadores y Yuma Consensus. Cómo se distribuyen las recompensas en TAO.</div>
+        <div class="module-name" data-i18n="basico.m04.name">Bittensor: la red de IA</div>
+        <div class="module-desc" data-i18n="basico.m04.desc">Subredes, mineros, validadores y Yuma Consensus. Cómo se distribuyen las recompensas en TAO.</div>
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>
@@ -634,8 +638,8 @@
     <a href="aprende-basico-modulo-05.html" class="module-card">
       <div class="module-num">05</div>
       <div class="module-info">
-        <div class="module-name">El token TAO</div>
-        <div class="module-desc">Supply de 21M, halvings, distribución 18/41/41, alpha tokens y dónde se compra TAO.</div>
+        <div class="module-name" data-i18n="basico.m05.name">El token TAO</div>
+        <div class="module-desc" data-i18n="basico.m05.desc">Supply de 21M, halvings, distribución 18/41/41, alpha tokens y dónde se compra TAO.</div>
       </div>
       <div class="module-meta">
         <span class="module-hours">3h</span>
@@ -647,8 +651,8 @@
     <a href="aprende-basico-modulo-06.html" class="module-card">
       <div class="module-num">06</div>
       <div class="module-info">
-        <div class="module-name">Tu primera wallet</div>
-        <div class="module-desc">Coldkey vs hotkey, instalación de btcli, creación paso a paso de tu wallet y reglas de oro de seguridad.</div>
+        <div class="module-name" data-i18n="basico.m06.name">Tu primera wallet</div>
+        <div class="module-desc" data-i18n="basico.m06.desc">Coldkey vs hotkey, instalación de btcli, creación paso a paso de tu wallet y reglas de oro de seguridad.</div>
       </div>
       <div class="module-meta">
         <span class="module-hours">5h</span>
@@ -660,8 +664,8 @@
     <a href="aprende-basico-modulo-07.html" class="module-card">
       <div class="module-num">07</div>
       <div class="module-info">
-        <div class="module-name">Explorar el ecosistema</div>
-        <div class="module-desc">Taostats, las subredes que importan, la comunidad oficial (Discord, X) y el mapa completo del ecosistema.</div>
+        <div class="module-name" data-i18n="basico.m07.name">Explorar el ecosistema</div>
+        <div class="module-desc" data-i18n="basico.m07.desc">Taostats, las subredes que importan, la comunidad oficial (Discord, X) y el mapa completo del ecosistema.</div>
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>
@@ -673,8 +677,8 @@
     <a href="aprende-basico-modulo-08.html" class="module-card">
       <div class="module-num">08</div>
       <div class="module-info">
-        <div class="module-name">¿Y ahora qué?</div>
-        <div class="module-desc">Repaso del nivel, los 4 caminos en Bittensor (minero/validador/dev/inversor), plan de 4 semanas y siguiente paso.</div>
+        <div class="module-name" data-i18n="basico.m08.name">¿Y ahora qué?</div>
+        <div class="module-desc" data-i18n="basico.m08.desc">Repaso del nivel, los 4 caminos en Bittensor (minero/validador/dev/inversor), plan de 4 semanas y siguiente paso.</div>
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>

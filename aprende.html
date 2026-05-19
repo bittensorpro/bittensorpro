@@ -59,7 +59,7 @@
   .brand-title .pro{color:#ff2bd6;font-style:italic;margin-left:2px;text-shadow:0 0 8px rgba(255,43,214,.5)}
   .topbar-center{display:flex;align-items:center;justify-content:center;gap:4px}
   .topbar-center a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:6px;transition:all .15s;white-space:nowrap}
-  .nav-guide{color:#e8f0f5}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
+  .nav-guide{color:#e8f0f5;border-color:rgba(232,240,245,.18)!important}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
   .nav-learn{color:#22d87a;border-color:rgba(34,216,122,.18)!important}.nav-learn:hover{border-color:rgba(34,216,122,.45)!important}
   .nav-market{color:#ff2bd6;border-color:rgba(255,43,214,.18)!important}.nav-market:hover{border-color:rgba(255,43,214,.45)!important}
   .nav-tools{color:#ffb84d;border-color:rgba(255,184,77,.18)!important}.nav-tools:hover{border-color:rgba(255,184,77,.45)!important}
@@ -122,10 +122,12 @@
     max-width: var(--max-width);
     margin: 0 auto;
     padding: 20px 20px 60px;
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 16px;
   }
+  .level-card { flex: 1 1 300px; max-width: 420px; }
 
   .level-card {
     position: relative;
@@ -158,8 +160,7 @@
   .level-card:hover::before { opacity: 1; height: 4px; }
 
   .level-card.basic    { --accent: #22d87a; }
-  .level-card.medium   { --accent: #00f0ff; }
-  .level-card.advanced { --accent: #ff2bd6; }
+  .level-card.advanced { --accent: #22d87a; }
 
   .level-header {
     display: flex;
@@ -184,7 +185,7 @@
     border-radius: 12px;
   }
   .level-card.basic .level-badge    { background: rgba(34, 216, 122, 0.06); }
-  .level-card.advanced .level-badge { background: rgba(255, 43, 214, 0.06); }
+  .level-card.advanced .level-badge { background: rgba(34, 216, 122, 0.06); }
   .level-badge .dot {
     width: 6px; height: 6px;
     border-radius: 50%;
@@ -258,7 +259,7 @@
     align-self: flex-start;
   }
   .level-card.basic .level-cta    { background: rgba(34, 216, 122, 0.06); }
-  .level-card.advanced .level-cta { background: rgba(255, 43, 214, 0.06); }
+  .level-card.advanced .level-cta { background: rgba(34, 216, 122, 0.06); }
   .level-card:hover .level-cta {
     box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 30%, transparent);
   }
@@ -283,10 +284,7 @@
   .footer-info p a { color: var(--cyan); }
 
   @media (min-width: 760px) {
-    .levels {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
+    .levels { gap: 20px; }
     .level-card { padding: 22px 20px 22px; }
     .level-points li { font-size: 12px; line-height: 1.7; }
     .level-desc { font-size: 13px; }
@@ -316,7 +314,7 @@
 </header>
 
 <section class="hero">
-  <span class="hero-tag" data-i18n="aprende.hero_tag">Tres niveles · Empieza por el tuyo</span>
+  <span class="hero-tag" data-i18n="aprende.hero_tag">Dos niveles · Empieza por el tuyo</span>
   <h1 data-i18n-html="aprende.hero_title"><strong>Aprende</strong> Bittensor</h1>
   <p data-i18n="aprende.hero_sub">Elige el curso según tu punto de partida. Desde cero o nivel avanzado, todo en español y gratis.</p>
 </section>
@@ -326,7 +324,7 @@
   <a href="aprende-basico.html" class="level-card basic">
     <div class="level-header">
       <span class="level-badge"><span class="dot"></span><span data-i18n="aprende.basic.badge">Básico</span></span>
-      <span class="level-meta" data-i18n="aprende.coming_soon">Próximamente</span>
+      <span class="level-meta">Free · Basic course</span>
     </div>
     <h2 class="level-title" data-i18n="aprende.basic.title">Empieza desde cero</h2>
     <p class="level-who" data-i18n="aprende.basic.who">Para quien no sabe qué es una blockchain ni cómo funciona Bitcoin.</p>
@@ -343,30 +341,10 @@
     </span>
   </a>
 
-  <a href="aprende-intermedio.html" class="level-card medium">
-    <div class="level-header">
-      <span class="level-badge"><span class="dot"></span><span data-i18n="aprende.inter.badge">Intermedio</span></span>
-      <span class="level-meta" data-i18n="aprende.coming_soon">Próximamente</span>
-    </div>
-    <h2 class="level-title" data-i18n="aprende.inter.title">Profundiza tu conocimiento</h2>
-    <p class="level-who" data-i18n="aprende.inter.who">Para quien entiende Bitcoin y blockchain pero no es técnico ni programador.</p>
-    <p class="level-desc" data-i18n="aprende.inter.desc">Cómo funciona Bittensor por dentro: subnets, dTAO, validadores, mineros, staking, emisiones... sin necesitar saber programar ni matemáticas avanzadas.</p>
-    <ul class="level-points">
-      <li data-i18n="aprende.inter.p1">Cómo funcionan las subnets</li>
-      <li data-i18n="aprende.inter.p2">Qué es dTAO y el staking</li>
-      <li data-i18n="aprende.inter.p3">Validadores y mineros explicados</li>
-      <li data-i18n="aprende.inter.p4">Cómo invertir y elegir subnets</li>
-    </ul>
-    <span class="level-cta">
-      <span data-i18n="aprende.inter.cta">Continuar</span>
-      <span class="level-cta-arrow">→</span>
-    </span>
-  </a>
-
   <a href="aprende-avanzado.html" class="level-card advanced">
     <div class="level-header">
       <span class="level-badge"><span class="dot"></span><span data-i18n="aprende.adv.badge">Avanzado</span></span>
-      <span class="level-meta" data-i18n="aprende.adv.meta">18 módulos · 105h</span>
+      <span class="level-meta" data-i18n="aprende.adv.meta">Próximamente en la app</span>
     </div>
     <h2 class="level-title" data-i18n="aprende.adv.title">Manual técnico completo</h2>
     <p class="level-who" data-i18n="aprende.adv.who">Para programadores y usuarios web3 que quieren dominar Bittensor.</p>
@@ -391,14 +369,19 @@
 
 <script>
 (async function loadNavTao(){
-  try {
-    const r = await fetch('https://tao360.qrchd889gj.workers.dev/api/price/latest/v1?asset=tao');
-    const j = await r.json();
-    const p = parseFloat(j?.data?.[0]?.price);
-    if(p && document.getElementById('nav-tao-price')){
-      document.getElementById('nav-tao-price').textContent = '$' + p.toFixed(0);
+  const B='https://tao360.qrchd889gj.workers.dev';
+  function fU(n){if(!n&&n!==0)return'—';if(n<1)return'$'+n.toFixed(3);if(n<100)return'$'+n.toFixed(2);return'$'+Math.round(n).toLocaleString('en-US')}
+  function fP(v){if(v===null||v===undefined||isNaN(v))return'—';return(v>0?'+':'')+v.toFixed(1)+'%'}
+  function pC(v){if(v>0.001)return'pos';if(v<-0.001)return'neg';return'zero'}
+  try{
+    const r=await fetch(B+'/api/price/latest/v1?asset=tao'),j=await r.json();
+    if(j&&j.data&&j.data[0]){
+      const price=parseFloat(j.data[0].price)||0,ch=parseFloat(j.data[0].percent_change_24h)||0;
+      const pe=document.getElementById('nav-tao-price'),ce=document.getElementById('nav-tao-change');
+      if(pe)pe.textContent=fU(price);
+      if(ce){ce.textContent=fP(ch);ce.className='nt-change '+pC(ch)}
     }
-  } catch(e){}
+  }catch(e){console.error('nav-tao load failed',e)}
 })();
 
 (function(){

@@ -68,7 +68,7 @@
   .brand-title .pro{color:#ff2bd6;font-style:italic;margin-left:2px;text-shadow:0 0 8px rgba(255,43,214,.5)}
   .topbar-center{display:flex;align-items:center;justify-content:center;gap:4px}
   .topbar-center a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:6px;transition:all .15s;white-space:nowrap}
-  .nav-guide{color:#e8f0f5}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
+  .nav-guide{color:#e8f0f5;border-color:rgba(232,240,245,.18)!important}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
   .nav-learn{color:#22d87a;border-color:rgba(34,216,122,.18)!important}.nav-learn:hover{border-color:rgba(34,216,122,.45)!important}
   .nav-market{color:#ff2bd6;border-color:rgba(255,43,214,.18)!important}.nav-market:hover{border-color:rgba(255,43,214,.45)!important}
   .nav-tools{color:#ffb84d;border-color:rgba(255,184,77,.18)!important}.nav-tools:hover{border-color:rgba(255,184,77,.45)!important}
@@ -127,7 +127,7 @@
   }
   h1 .highlight {
     font-style: italic;
-    background: linear-gradient(135deg, var(--cyan), var(--magenta));
+    background: linear-gradient(135deg, var(--cyan), #22d87a);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -366,9 +366,9 @@
     background: rgba(0, 240, 255, 0.06);
   }
   .module-level.avanzado {
-    color: var(--magenta);
-    border-color: rgba(255, 43, 214, 0.4);
-    background: rgba(255, 43, 214, 0.06);
+    color: #22d87a;
+    border-color: rgba(34, 216, 122, 0.4);
+    background: rgba(34, 216, 122, 0.06);
   }
   .module-arrow {
     color: var(--cyan);
@@ -423,8 +423,8 @@
     transform: translateY(-1px);
   }
   .cta-btn .arrow {
-    color: var(--magenta);
-    text-shadow: 0 0 6px rgba(255, 43, 214, 0.6);
+    color: #22d87a;
+    text-shadow: 0 0 6px rgba(34, 216, 122, 0.6);
   }
 
   /* FOOTER */
@@ -495,6 +495,10 @@
   </a>
 </header>
 
+<div style="max-width:860px;margin:0 auto;padding:16px 20px 0">
+  <a href="aprende.html" style="display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#22d87a;text-decoration:none;padding:6px 12px;border:1px solid rgba(34,216,122,.25);border-radius:6px;transition:all .15s" onmouseover="this.style.borderColor='rgba(34,216,122,.55)'" onmouseout="this.style.borderColor='rgba(34,216,122,.25)'" data-i18n="basico.back_link">← Aprende</a>
+</div>
+
 <section class="hero">
   <div class="hero-eyebrow">
     <span class="dot"></span>
@@ -506,19 +510,8 @@
     una blockchain hasta crear tu propia subnet. Con fórmulas reales, ejercicios prácticos
     y referencias oficiales.
   </p>
-  <div class="hero-meta">
-    <div class="hero-meta-item">
-      <div class="hero-meta-value">18</div>
-      <div class="hero-meta-label" data-i18n="aprende.meta.modules">Módulos</div>
-    </div>
-    <div class="hero-meta-item">
-      <div class="hero-meta-value">≈ 105h</div>
-      <div class="hero-meta-label" data-i18n="aprende.meta.duration">Duración</div>
-    </div>
-    <div class="hero-meta-item">
-      <div class="hero-meta-value">0€</div>
-      <div class="hero-meta-label" data-i18n="aprende.meta.cost">Coste</div>
-    </div>
+  <div style="display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:8px 18px;border:1px solid rgba(34,216,122,0.3);border-radius:20px;background:rgba(34,216,122,0.06);font-family:'Outfit',sans-serif;font-size:13px;color:#22d87a;letter-spacing:.06em">
+    <span style="font-size:10px">◆</span> Próximamente en la app
   </div>
 </section>
 
@@ -809,9 +802,9 @@
 
 <section class="cta-section">
   <h2>Curso avanzado · Próximamente</h2>
-  <p>Mientras tanto, completa el nivel básico e intermedio para llegar preparado.</p>
-  <a href="aprende-intermedio.html" class="cta-btn">
-    <span>Ver nivel intermedio</span>
+  <p>Mientras tanto, completa el nivel básico para llegar preparado.</p>
+  <a href="aprende-basico.html" class="cta-btn">
+    <span>Ver el nivel básico</span>
     <span class="arrow">→</span>
   </a>
 </section>
