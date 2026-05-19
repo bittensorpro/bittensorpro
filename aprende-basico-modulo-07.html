@@ -14,11 +14,11 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#22d87a;--max-width:760px}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,216,122,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
 .topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
@@ -26,11 +26,11 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellips
 .brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
 .brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
 .topbar-right{display:flex;gap:8px;align-items:center}
-.topbar-right a{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
 .topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
 @media (max-width:600px){.topbar-right a{display:none}.topbar-right a:first-child{display:inline-block}}
 .back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
-.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
 .back-link:hover{opacity:0.75}
 .hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
 .module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
@@ -38,18 +38,18 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellips
 .hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(34,216,122,0.4)}
 .hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
 .hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
-.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(34,216,122,0.06);border-radius:12px}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(34,216,122,0.06);border-radius:12px}
 .meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
 .meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
 .objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
 .obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
-.obj-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
 .obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
 .obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
 .obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
 .content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
 .content section{margin-bottom:50px}
-.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
 .content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
 .content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
 .content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
@@ -60,13 +60,13 @@ body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellips
 .content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
 .content ul li strong{color:var(--text);font-weight:600}
 .key-concept{background:linear-gradient(135deg,rgba(34,216,122,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
-.key-concept-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
 .key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
 .key-concept p strong{font-style:normal;color:var(--accent)}
 .table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;min-width:480px}
-table th{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(34,216,122,0.04);white-space:nowrap}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(34,216,122,0.04);white-space:nowrap}
 table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
 table tr:last-child td{border-bottom:none}
 table td strong{color:var(--text);font-weight:600}
@@ -74,16 +74,16 @@ table td strong{color:var(--text);font-weight:600}
 .glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
 .glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
 .glosario-item:last-child{border-bottom:none}
-.glosario-term{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
 .glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
 .ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
-.ejercicios-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
 .ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
 .ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
-.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:700}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
 .ejercicios a{color:var(--magenta)}
 .referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
-.referencias-title{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
 .referencias ul li{padding-left:18px;margin-bottom:10px}
 .referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
 .referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
@@ -92,14 +92,15 @@ table td strong{color:var(--text);font-weight:600}
 .siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
 .siguiente-card:hover{border-color:var(--accent);background:rgba(34,216,122,0.04);transform:translateX(2px)}
 .siguiente-info{min-width:0}
-.siguiente-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
 .siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
 .siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
 .siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
-.footer{text-align:center;padding:30px 20px 40px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
 .footer a{color:var(--accent);text-decoration:none}
 @media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.glosario-term{font-size:11px}.glosario-def{font-size:13px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
 </style>
+<script src="./js/i18n.js"></script>
 </head>
 <body>
 
@@ -109,15 +110,15 @@ table td strong{color:var(--text);font-weight:600}
     <div class="brand-name">Bittensor <em>Pro</em></div>
   </a>
   <div class="topbar-right">
-    <a href="aprende.html">Niveles</a>
-    <a href="aprende-basico.html">Básico</a>
-    <a href="market.html">Market</a>
-    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)">Herramientas</a>
+    <a href="aprende.html" data-i18n="nav.levels">Niveles</a>
+    <a href="aprende-basico.html" data-i18n="nav.basic">Básico</a>
+    <a href="market.html" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a>
   </div>
 </header>
 
 <div class="back-bar">
-  <a href="aprende-basico.html" class="back-link">← Volver al curso básico</a>
+  <a href="aprende-basico.html" class="back-link" data-i18n="basico.back">← Volver al curso básico</a>
 </div>
 
 <section class="hero">
@@ -125,7 +126,7 @@ table td strong{color:var(--text);font-weight:600}
   <h1>Explorar el <strong>ecosistema</strong></h1>
   <p class="hero-sub">Taostats, las subredes principales, la comunidad y un mapa completo del ecosistema Bittensor para orientarte como nuevo participante.</p>
   <div class="hero-meta">
-    <span class="meta-tag"><span class="dot"></span>Nivel Básico</span>
+    <span class="meta-tag"><span class="dot"></span><span data-i18n="basico.level">Nivel Básico</span></span>
     <span class="meta-tag neutral">4 horas</span>
     <span class="meta-tag neutral">Módulo 06</span>
   </div>
@@ -133,7 +134,7 @@ table td strong{color:var(--text);font-weight:600}
 
 <section class="objetivos">
   <div class="obj-card">
-    <div class="obj-title">// Objetivos del módulo</div>
+    <div class="obj-title" data-i18n="mod.objectives">// Objetivos del módulo</div>
     <ul class="obj-list">
       <li>Aprender a usar Taostats.io para explorar la red en tiempo real.</li>
       <li>Conocer las subredes más importantes y qué tipo de IA ofrecen.</li>
@@ -290,7 +291,7 @@ table td strong{color:var(--text);font-weight:600}
   </section>
 
   <div class="glosario">
-    <div class="glosario-title">Glosario del módulo</div>
+    <div class="glosario-title" data-i18n="mod.glossary">Glosario del módulo</div>
     <div class="glosario-item"><div class="glosario-term">Taostats.io</div><div class="glosario-def">Explorador de bloques oficial de Bittensor. Permite ver subredes, validadores, transacciones en tiempo real.</div></div>
     <div class="glosario-item"><div class="glosario-term">Explorador de bloques</div><div class="glosario-def">Web que permite consultar el contenido de una blockchain de forma legible para humanos.</div></div>
     <div class="glosario-item"><div class="glosario-term">Root network / Metared</div><div class="glosario-def">Subred 0 de Bittensor, donde los validadores raíz votan el peso de cada subred.</div></div>
@@ -304,7 +305,7 @@ table td strong{color:var(--text);font-weight:600}
   </div>
 
   <div class="ejercicios">
-    <div class="ejercicios-title">// Ejercicios</div>
+    <div class="ejercicios-title" data-i18n="mod.exercises">// Ejercicios</div>
     <ol>
       <li>Visita <a href="https://taostats.io" target="_blank" rel="noopener">taostats.io</a> y anota: (a) precio actual de TAO, (b) número de subredes activas, (c) supply circulante, (d) emisiones por bloque.</li>
       <li>Elige 3 subredes de Bittensor que te interesen. Para cada una, busca en Discord o en taostats qué hardware necesita un minero.</li>
@@ -316,7 +317,7 @@ table td strong{color:var(--text);font-weight:600}
   </div>
 
   <div class="referencias">
-    <div class="referencias-title">// Vídeos y referencias</div>
+    <div class="referencias-title" data-i18n="mod.refs">// Vídeos y referencias</div>
     <ul>
       <li><a href="https://taostats.io" target="_blank" rel="noopener">Taostats.io</a> — el explorador oficial de Bittensor. Visítalo regularmente para seguir la red.</li>
       <li><a href="https://docs.bittensor.com" target="_blank" rel="noopener">docs.bittensor.com</a> — documentación oficial. Sección 'Subnets' para entender cada subred.</li>
@@ -338,7 +339,7 @@ table td strong{color:var(--text);font-weight:600}
 </section>
 
 <div class="footer">
-  Bittensor Pro · Nivel Básico · Módulo 07 · Mayo 2026 · <a href="aprende-basico.html">Volver al curso</a>
+  Bittensor Pro · <span data-i18n="basico.level">Nivel Básico</span> · Módulo 07 · Mayo 2026 · <a href="aprende-basico.html"><span data-i18n="basico.back_course">Volver al curso</span></a>
 </div>
 
 <script>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo I-02 Intermedio: Dynamic TAO y el sistema de alpha tokens — Bittensor Pro</title>
+<meta name="description" content="Aprende cómo funciona Dynamic TAO: pools AMM por subnet, alpha tokens, descubrimiento de precio y cómo las emisiones se distribuyen según el mercado." />
+<link rel="canonical" href="https://bittensor.pro/aprende-intermedio-modulo-02.html" />
+<meta property="og:title" content="Módulo I-02 Intermedio: Dynamic TAO y el sistema de alpha tokens" />
+<meta property="og:description" content="dTAO cambia cómo fluye el capital en Bittensor: cada subnet tiene su propio pool AMM y su propio token alpha. Aprende cómo funciona y qué implica para inversores." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html" data-i18n="nav.levels">Niveles</a>
+    <a href="aprende-intermedio.html" class="active" data-i18n="intermedio.level">Intermedio</a>
+    <a href="market.html" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link" data-i18n="intermedio.back">← Volver al curso intermedio</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO I-02</div>
+  <h1>Dynamic TAO y el sistema de <strong>alpha tokens</strong></h1>
+  <p class="hero-sub">Dynamic TAO reescribió las reglas del capital en Bittensor. Cada subnet ahora tiene su propio mercado, su propio token y su propio precio. Entender cómo funcionan los pools AMM y los alpha tokens es esencial para cualquier participante del ecosistema.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span><span data-i18n="intermedio.level">Nivel Intermedio</span></span>
+    <span class="meta-tag neutral">4h</span>
+    <span class="meta-tag neutral">Prerrequisito: Módulo I-01</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title" data-i18n="mod.objectives">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Comprender el problema que existía antes de dTAO y por qué se necesitaba un cambio.</li>
+      <li>Entender el mecanismo AMM y la fórmula de producto constante aplicada a cada subnet.</li>
+      <li>Distinguir qué son los alpha tokens y qué relación tienen con el TAO stakeado.</li>
+      <li>Entender cómo las emisiones de TAO se distribuyen proporcionalmente bajo dTAO.</li>
+      <li>Comparar la estrategia de stakear en SN0 versus stakear en subnets específicas.</li>
+      <li>Identificar los principales riesgos de la exposición a alpha tokens frente a TAO.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">01 / 05</div>
+    <h2>El problema antes de dTAO</h2>
+
+    <p>Para entender Dynamic TAO (dTAO), hay que entender el sistema que reemplazó. Antes de su introducción, Bittensor operaba con un modelo de asignación de recursos centralizado en el Root Network (SN0). Un consejo de 64 validators —los que más stake tenían en la red— decidía qué porcentaje de las emisiones globales de TAO recibía cada subnet.</p>
+
+    <p>Este diseño tenía problemas fundamentales. Primero, <strong>concentraba el poder de decisión</strong> en pocas manos: 64 entidades elegían qué subnets "merecían" más capital. Segundo, las subnets recibían asignaciones fijas que no reflejaban su utilidad real ni la demanda del mercado. Si una subnet estaba produciendo resultados extraordinarios pero ningún validator influyente le prestaba atención, podía recibir la misma asignación que una subnet inactiva. Tercero, no existía ninguna <strong>señal de precio</strong> que permitiera a inversores externos expresar su valoración de cada subnet de forma continua y descentralizada.</p>
+
+    <p>El resultado era previsible: capital mal asignado, fricción política en SN0 y una barrera de entrada enorme para subnets nuevas que necesitaban convencer al consejo antes de poder crecer.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Dynamic TAO elimina el consejo centralizado de asignación y reemplaza las allocations fijas por <strong>pools de mercado</strong>: la cantidad de TAO que fluye a cada subnet depende directamente de cuánto capital elige el mercado colocar en ella.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">02 / 05</div>
+    <h2>Cómo funciona dTAO: el pool AMM</h2>
+
+    <p>Con dTAO, cada subnet tiene su propio <strong>pool AMM</strong> (Automated Market Maker), similar en concepto a los pools de liquidez de Uniswap v2, pero integrado directamente en el protocolo de Subtensor. Un pool AMM es simplemente un contrato (o en este caso, lógica de pallet) que mantiene dos activos en reserva y permite intercambiarlos según una fórmula matemática.</p>
+
+    <p>En el caso de Bittensor, los dos activos de cada pool son <strong>TAO</strong> y el <strong>alpha token</strong> de esa subnet. El precio del alpha en términos de TAO lo determina la relación entre las reservas del pool en cada momento.</p>
+
+    <h3>La fórmula de producto constante</h3>
+
+    <p>La mecánica de precio sigue la fórmula clásica de los AMM de producto constante:</p>
+
+    <p><strong>x · y = k</strong></p>
+
+    <p>Donde <em>x</em> es la reserva de TAO en el pool, <em>y</em> es la reserva de alpha tokens, y <em>k</em> es una constante que el protocolo mantiene invariable durante cada intercambio. Cuando un participante deposita TAO en el pool (stake), el pool debe emitir alpha tokens en proporción; y viceversa, cuando retira TAO, los alpha tokens se devuelven al pool.</p>
+
+    <p>Esto tiene una consecuencia inmediata: <strong>cuanta más gente stakea TAO en una subnet, menos alpha reciben por cada TAO adicional</strong>. El precio del alpha sube porque el ratio de reservas cambia. Y al contrario: cuando hay salidas de capital, el alpha se abarata. El precio es siempre un reflejo directo del equilibrio de oferta y demanda del mercado.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>En un pool AMM con la fórmula <strong>x · y = k</strong>, el precio del alpha (en TAO) en cualquier momento es simplemente <strong>x / y</strong>: la reserva de TAO dividida entre la reserva de alpha. Si el pool tiene 1.000 TAO y 500.000 alpha, el precio de un alpha es 0,002 TAO. Cuando alguien añade TAO al pool, <em>x</em> sube, <em>k</em> permanece constante, por lo que <em>y</em> debe bajar — el pool entrega alpha al staker, y el precio sube.</p>
+    </div>
+
+    <p>Esta mecánica de precio continua y transparente es lo que faltaba en el sistema anterior. Cualquier participante puede ver en tiempo real cuánto TAO hay en el pool de cada subnet y evaluar si el precio del alpha refleja o no el valor real de lo que esa subnet produce.</p>
+  </section>
+
+  <section>
+    <div class="section-num">03 / 05</div>
+    <h2>Alpha tokens: qué son y qué representan</h2>
+
+    <p>Cada subnet de Bittensor tiene su <strong>propio token alpha</strong>, independiente y no fungible con los alpha de otras subnets. No es un token ERC-20 en Ethereum; es un activo nativo de Subtensor gestionado enteramente por el pallet SubtensorModule.</p>
+
+    <p>Cuando haces stake de TAO en una subnet específica, el protocolo intercambia tu TAO por alpha de esa subnet a través del pool AMM. Ese alpha es tu posición: representa tu proporción del pool y, por tanto, tu derecho a una fracción de las emisiones que esa subnet recibe.</p>
+
+    <p>Es importante entender qué es y qué no es un alpha token:</p>
+
+    <ul>
+      <li><strong>Es:</strong> una posición en el pool AMM de esa subnet. Un derecho proporcional a las emisiones. Una exposición al crecimiento (o caída) de la valoración de esa subnet.</li>
+      <li><strong>No es:</strong> una acción de la empresa. No da derechos de gobernanza sobre la subnet en sí. No garantiza ningún rendimiento fijo. No es un stablecoin ni tiene precio fijo respecto al TAO.</li>
+    </ul>
+
+    <p>El alpha puede <strong>aumentar de precio en TAO</strong> si el mercado decide que esa subnet es valiosa y más participantes depositan TAO. O puede <strong>caer de precio</strong> si hay grandes salidas o si la subnet pierde tracción. Esta volatilidad es la diferencia fundamental entre tener alpha de una subnet específica y tener TAO "puro".</p>
+  </section>
+
+  <section>
+    <div class="section-num">04 / 05</div>
+    <h2>Emisiones bajo dTAO</h2>
+
+    <p>El gran cambio que introduce dTAO no es solo en el precio: también transforma <strong>cómo se distribuyen las nuevas emisiones de TAO</strong> a lo largo de la red.</p>
+
+    <p>Bajo dTAO, las emisiones globales de TAO se reparten entre las subnets de forma <strong>proporcional al TAO stakeado en el pool de cada subnet</strong>. Una subnet cuyo pool contiene el 10% del total de TAO stakeado en todos los pools recibe el 10% de las emisiones. No hay consejo que decida: el mercado, mediante sus decisiones de staking, determina la asignación.</p>
+
+    <p>Dentro de cada subnet, las emisiones que le corresponden se distribuyen entre miners y validators según las reglas de Yuma Consensus (que veremos en el siguiente módulo). Los validators reciben dividendos proporcionales a su stake y a su contribución al consenso; los miners reciben incentivos según los pesos que los validators les asignan.</p>
+
+    <p>Este diseño crea un bucle de retroalimentación elegante: si una subnet produce resultados de alto valor, atrae más stake, recibe más emisiones, puede pagar mejor a sus miners, lo que atrae mejores miners, lo que eleva la calidad de sus outputs, lo que atrae aún más stake. Y si una subnet deja de producir valor, el capital migra a mejores alternativas, reduciendo sus emisiones de forma natural.</p>
+  </section>
+
+  <section>
+    <div class="section-num">05 / 05</div>
+    <h2>Cómo invertir con dTAO</h2>
+
+    <p>Desde la perspectiva de un holder de TAO, dTAO abre dos estrategias principales con perfiles de riesgo y retorno muy distintos.</p>
+
+    <h3>Stakear en SN0 (Root Network)</h3>
+
+    <p>La Subnet 0 es la red raíz de Bittensor. Stakear TAO directamente en SN0 implica depositar en el validator de tu elección y recibir TAO como recompensa — no alpha. Es la opción de menor volatilidad: tu exposición es únicamente al precio de TAO, sin la capa adicional de riesgo del alpha de una subnet concreta.</p>
+
+    <h3>Stakear en una subnet específica</h3>
+
+    <p>Al stakear TAO en el pool de una subnet concreta, el protocolo te entrega alpha de esa subnet. Ahora tienes dos capas de exposición: el precio de TAO en general, y el precio del alpha de esa subnet en particular. Si la subnet crece en valoración, el alpha sube frente a TAO y tu posición vale más en TAO cuando decides salir. Pero si la subnet cae en desgracia, el alpha puede caer mucho más rápido que el propio TAO.</p>
+
+    <p><strong>Para deshacer el stake</strong>, el proceso es inverso: devuelves tu alpha al pool y el protocolo te entrega TAO a la tasa de cambio actual. Si el alpha subió desde que entraste, recibes más TAO del que depositaste. Si bajó, recibes menos. El slippage (deslizamiento de precio) también aplica: posiciones grandes que entran o salen del pool mueven el precio en su contra.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Característica</th>
+            <th>Stake en SN0 (Root)</th>
+            <th>Stake en Subnet Alpha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Activo recibido</strong></td>
+            <td>TAO directamente</td>
+            <td>Alpha token de la subnet</td>
+          </tr>
+          <tr>
+            <td><strong>Volatilidad</strong></td>
+            <td>Solo volatilidad de TAO</td>
+            <td>Volatilidad de TAO + volatilidad del alpha</td>
+          </tr>
+          <tr>
+            <td><strong>Mecanismo de retorno</strong></td>
+            <td>Emisiones en TAO según stake proporcional</td>
+            <td>Emisiones de subnet + apreciación del alpha</td>
+          </tr>
+          <tr>
+            <td><strong>Riesgo adicional</strong></td>
+            <td>Bajo (solo riesgo de mercado TAO)</td>
+            <td>Alto: el alpha puede caer aunque TAO suba</td>
+          </tr>
+          <tr>
+            <td><strong>Potencial de upside</strong></td>
+            <td>Moderado y predecible</td>
+            <td>Elevado si la subnet crece en valoración</td>
+          </tr>
+          <tr>
+            <td><strong>Liquidez de salida</strong></td>
+            <td>Inmediata (en TAO)</td>
+            <td>Sujeta al tamaño del pool y slippage</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>El alpha de una subnet puede verse como una <strong>apuesta apalancada sobre el éxito relativo de esa subnet</strong> dentro del ecosistema Bittensor. Mientras que TAO refleja el valor global de la red, el alpha refleja la valoración específica de una sola subred — con toda la volatilidad que eso implica.</p>
+    </div>
+
+    <div class="glosario">
+      <div class="glosario-title" data-i18n="mod.glossary">Glosario del módulo</div>
+      <div class="glosario-item">
+        <div class="glosario-term">dTAO / Dynamic TAO</div>
+        <div class="glosario-def">Actualización del protocolo Bittensor que introduce pools AMM por subnet y elimina el consejo centralizado de asignación de emisiones. Cada subnet descubre su precio vía mercado.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Alpha token</div>
+        <div class="glosario-def">Token nativo de cada subnet de Bittensor bajo dTAO. Se recibe al stakear TAO en el pool de esa subnet y representa una posición proporcional en su pool AMM.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">AMM (Automated Market Maker)</div>
+        <div class="glosario-def">Mecanismo de mercado sin libro de órdenes que permite intercambiar activos según una fórmula matemática. Cada pool AMM mantiene dos activos en reserva y usa su ratio para determinar el precio.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Fórmula de producto constante</div>
+        <div class="glosario-def">Regla matemática de los pools AMM: x · y = k, donde x e y son las reservas de los dos activos y k es una constante. Todo intercambio debe mantener esta constante invariable.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Pool</div>
+        <div class="glosario-def">Par de reservas de activos (TAO + alpha de una subnet) gestionado por el protocolo Subtensor. La relación entre ambas reservas determina el precio del alpha en TAO en todo momento.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Staking</div>
+        <div class="glosario-def">Acción de depositar TAO en el pool de una subnet (o en SN0) para obtener retornos en forma de emisiones. En el contexto dTAO, el staking en subnets entrega alpha a cambio del TAO depositado.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Emisiones</div>
+        <div class="glosario-def">Nuevos TAO que el protocolo genera en cada bloque y distribuye entre las subnets según su proporción de TAO stakeado, y dentro de cada subnet entre miners y validators.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Slippage</div>
+        <div class="glosario-def">Deslizamiento de precio que ocurre al hacer operaciones grandes en un pool AMM. Cuanto mayor es la operación relativa al tamaño del pool, más mueve el precio en contra del operador.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Root Network (SN0)</div>
+        <div class="glosario-def">Subnet 0 de Bittensor. Stakear en SN0 produce retornos directamente en TAO sin exposición a alpha de subnets específicas. Es la opción de menor volatilidad relativa.</div>
+      </div>
+    </div>
+
+    <div class="ejercicios">
+      <div class="ejercicios-title" data-i18n="mod.exercises">// Ejercicios</div>
+      <ol>
+        <li>Un pool AMM de la subnet 7 tiene 2.000 TAO y 1.000.000 de alpha. Calcula el precio actual del alpha en TAO. Si alguien deposita 200 TAO adicionales, ¿cuánto alpha recibiría aproximadamente? ¿Cómo cambia el precio del alpha tras esa operación?</li>
+        <li>Explica por qué bajo el sistema antiguo (consejo de 64 validators) era posible que una subnet con resultados excelentes recibiera menos emisiones que una con resultados mediocres.</li>
+        <li>Compara el perfil riesgo/retorno de estas dos posiciones: (a) 10 TAO en stake en SN0, (b) 10 TAO en el pool de la subnet 1. ¿En qué escenarios sale mejor la opción (a)? ¿Y la opción (b)?</li>
+        <li>¿Qué efectos podría tener una "ballena" (alguien con mucho capital) que decide stakear una cantidad enorme en el pool de una subnet pequeña? Describe el impacto en el precio del alpha, en las emisiones recibidas y en los retornos de los stakers anteriores.</li>
+        <li>Investiga el concepto de "impermanent loss" en los AMM tradicionales. ¿Aplica de la misma forma en los pools de Bittensor? ¿Por qué sí o por qué no?</li>
+      </ol>
+    </div>
+
+    <div class="referencias">
+      <div class="referencias-title" data-i18n="mod.refs">// Vídeos y referencias</div>
+      <ul>
+        <li><a href="https://docs.bittensor.com/dynamic-tao" target="_blank" rel="noopener">Documentación oficial: Dynamic TAO — docs.bittensor.com/dynamic-tao</a></li>
+        <li><a href="https://docs.bittensor.com/staking-and-delegation/staking" target="_blank" rel="noopener">Documentación oficial: Staking en Bittensor — docs.bittensor.com</a></li>
+        <li><a href="https://uniswap.org/whitepaper.pdf" target="_blank" rel="noopener">Whitepaper de Uniswap v2 — explicación de la fórmula x·y=k original</a></li>
+        <li><a href="https://taostats.io" target="_blank" rel="noopener">Taostats — explorador on-chain de Bittensor con datos de pools y emisiones en tiempo real</a></li>
+        <li><a href="https://github.com/opentensor/bittensor/blob/master/bittensor/core/chain_data/stake_info.py" target="_blank" rel="noopener">Código fuente: StakeInfo en bittensor Python SDK — github.com/opentensor/bittensor</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-intermedio-modulo-03.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo I-03</div>
+      <div class="siguiente-title">Yuma Consensus en profundidad</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · <span data-i18n="intermedio.level">Nivel Intermedio</span> · Módulo I-02 · Mayo 2026 · <a href="aprende-intermedio.html"><span data-i18n="intermedio.back_course">Volver al curso</span></a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

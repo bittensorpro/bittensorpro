@@ -49,30 +49,26 @@ body::before{
 }
 
 /* TOPBAR */
-.topbar{
-  position:sticky;top:0;z-index:50;
-  padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));
-  background:rgba(5,6,10,.85);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
-.brand-mark{
-  width:32px;height:32px;border-radius:8px;
-  background:linear-gradient(135deg,rgba(0,240,255,.12),rgba(255,43,214,.10));
-  border:1px solid rgba(0,240,255,.4);
-  display:grid;place-items:center;color:#fff;
-  font-family:'Orbitron',serif;font-weight:900;font-size:18px;
-  box-shadow:0 0 12px rgba(0,240,255,.3);
-  text-shadow:0 0 8px rgba(0,240,255,.7);
-}
-.brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;color:#f4faff}
-.brand-title .pro{color:var(--magenta);font-style:italic;margin-left:3px;text-shadow:0 0 8px rgba(255,43,214,.5)}
-.nav{display:flex;gap:16px;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-.nav a{color:var(--text-muted);text-decoration:none;padding:4px 0;transition:color .15s}
-.nav a.active{color:var(--cyan);text-shadow:0 0 8px rgba(0,240,255,.5)}
-.nav a:hover{color:var(--text)}
+.topbar{position:sticky;top:0;z-index:50;padding:10px 20px;padding-top:calc(10px + env(safe-area-inset-top));background:rgba(5,6,10,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,240,255,0.10);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex-shrink:0}
+.brand-mark{width:30px;height:30px;border:1px solid rgba(0,240,255,0.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:#00f0ff;font-size:14px;box-shadow:0 0 10px rgba(0,240,255,0.2)}
+.brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:#f4faff}
+.brand-title .pro{color:#ff2bd6;font-style:italic;margin-left:2px;text-shadow:0 0 8px rgba(255,43,214,.5)}
+.topbar-center{display:flex;align-items:center;justify-content:center;gap:4px}
+.topbar-center a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-guide{color:#e8f0f5}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
+.nav-learn{color:#22d87a;border-color:rgba(34,216,122,.18)!important}.nav-learn:hover{border-color:rgba(34,216,122,.45)!important}
+.nav-market{color:#ff2bd6;border-color:rgba(255,43,214,.18)!important}.nav-market:hover{border-color:rgba(255,43,214,.45)!important}
+.nav-tools{color:#ffb84d;border-color:rgba(255,184,77,.18)!important}.nav-tools:hover{border-color:rgba(255,184,77,.45)!important}
+.nav-tao{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;text-decoration:none;font-family:'Share Tech Mono','Courier New',monospace;background:rgba(0,240,255,.05);border:1px solid rgba(0,240,255,.25);border-radius:8px;padding:5px 10px;transition:all .15s}
+.nav-tao:hover{background:rgba(0,240,255,.10);border-color:rgba(0,240,255,.5)}
+.nt-symbol{font-size:10px;color:#00f0ff;letter-spacing:.08em;font-weight:700}
+.nt-price{font-size:12px;color:#e8f0f5;font-variant-numeric:tabular-nums;font-weight:500}
+.nt-change{font-size:10px;font-variant-numeric:tabular-nums}
+.nt-change.pos{color:#22d87a}.nt-change.neg{color:#ff4d5e}.nt-change.zero{color:#6b7385}
+.nt-arrow{color:#00f0ff;font-size:11px;transition:transform .2s}
+.nav-tao:hover .nt-arrow{transform:translateX(2px)}
+@media(max-width:640px){.topbar-center a{display:none}.nt-change{display:none}.nav-tao{padding:3px 8px}}
 
 /* CONTAINER */
 .container{
@@ -296,80 +292,8 @@ footer a{color:var(--cyan);text-decoration:none}
   .chart-wrap{height:260px;padding:14px}
   .stats-grid{grid-template-columns:1fr 1fr}
   .stat-value{font-size:16px}
-  .nav a:not(.active):not(.nav-tao){display:none}
-    .nav-tao{padding:3px 7px;font-size:10px;gap:5px}
-    .nav-tao .nt-arrow{font-size:11px}
-    .nav-tao .nt-change{display:none}
   .actions .btn{flex:1;justify-content:center}
 }
-
-
-
-  /* ===== TAO INLINE IN NAV ===== */
-  .nav-tao {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    border-radius: 6px;
-    background: rgba(0, 240, 255, 0.04);
-    text-decoration: none;
-    font-family: 'Outfit', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: #e8f0f5;
-    transition: all 0.15s;
-    line-height: 1;
-  }
-  .nav-tao:hover {
-    background: rgba(0, 240, 255, 0.10);
-    border-color: rgba(0, 240, 255, 0.55);
-    color: #fff;
-  }
-  .nav-tao .nt-price {
-    font-variant-numeric: tabular-nums;
-    font-weight: 500;
-  }
-  .nav-tao .nt-change {
-    font-variant-numeric: tabular-nums;
-    font-size: 10px;
-  }
-  .nav-tao .nt-change.pos { color: #22d87a; }
-  .nav-tao .nt-change.neg { color: #ff4d5e; }
-  .nav-tao .nt-change.zero { color: #6b7385; }
-  .nav-tao .nt-arrow {
-    color: #00f0ff;
-    font-size: 12px;
-    transition: transform 0.2s;
-  }
-  .nav-tao:hover .nt-arrow {
-    transform: translateX(2px);
-  }
-  .nav-tao .nt-symbol {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 9px;
-    letter-spacing: 0.05em;
-    color: #00f0ff;
-    background: rgba(0, 240, 255, 0.08);
-    border: 1px solid rgba(0, 240, 255, 0.4);
-    border-radius: 4px;
-    padding: 3px 5px;
-    margin-right: 4px;
-    line-height: 1;
-    text-shadow: 0 0 4px rgba(0, 240, 255, 0.6);
-    box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
-  }
-  @media (max-width: 600px) {
-    .nav-tao .nt-change { display: none; }
-    .nav-tao { padding: 3px 8px; font-size: 10px; gap: 5px; }
-    .nav-tao .nt-arrow { font-size: 11px; }
-  }
-
 
 /* ===== TABLAS DE VALIDADORES / MINEROS ===== */
 .neuron-section {
@@ -582,10 +506,18 @@ table.neuron-table td.apy {
     <div class="brand-mark">τ</div>
     <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
   </a>
-  <nav class="nav">
-    <a href="aprende.html" data-i18n="nav.learn">Aprende</a>
-    <a href="market.html" class="active" data-i18n="nav.market">Market</a><a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a>
-  </nav>
+  <div class="topbar-center">
+    <div class="btp-lang-slot"></div>
+    <a href="que-es-bittensor.html" class="nav-guide" data-i18n="nav.guide">Guide</a>
+    <a href="aprende.html" class="nav-learn" data-i18n="nav.learn">Learn</a>
+    <a href="herramientas.html" class="nav-tools" data-i18n="nav.tools">Tools</a>
+  </div>
+  <a href="tao.html" class="nav-tao" id="nav-tao-link">
+    <span class="nt-symbol">TAO</span>
+    <span class="nt-price" id="nav-tao-price">—</span>
+    <span class="nt-change zero" id="nav-tao-change">—</span>
+    <span class="nt-arrow">→</span>
+  </a>
 </header>
 
 <div class="container" id="content">

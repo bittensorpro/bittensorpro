@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo I-08 Intermedio: DeFi y TAO: liquidez y bridges — Bittensor Pro</title>
+<meta name="description" content="Entiende cómo funciona TAO como activo DeFi: pools AMM de dTAO, slippage, impermanent loss, exchanges y bridges a otras cadenas." />
+<link rel="canonical" href="https://bittensor.pro/aprende-intermedio-modulo-08.html" />
+<meta property="og:title" content="Módulo I-08 Intermedio: DeFi y TAO: liquidez y bridges" />
+<meta property="og:description" content="TAO en el ecosistema DeFi: AMMs, liquidez, bridges y exchanges. 4 horas." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html" data-i18n="nav.levels">Niveles</a>
+    <a href="aprende-intermedio.html" class="active" data-i18n="intermedio.level">Intermedio</a>
+    <a href="market.html" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link" data-i18n="intermedio.back">← Volver al curso intermedio</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO I-08</div>
+  <h1>DeFi y TAO: <strong>liquidez</strong> y bridges</h1>
+  <p class="hero-sub">Cómo funciona TAO como activo DeFi nativo: pools de liquidez AMM con alpha tokens, slippage, impermanent loss, exchanges centralizados y descentralizados, y el futuro de los bridges hacia otras cadenas.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span><span data-i18n="intermedio.level">Nivel Intermedio</span></span>
+    <span class="meta-tag neutral">4 horas</span>
+    <span class="meta-tag neutral">Prerrequisito: Módulo I-07</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title" data-i18n="mod.objectives">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender cómo los alpha tokens de dTAO funcionan como activos DeFi nativos.</li>
+      <li>Comprender la mecánica de los pools AMM: fórmula constant product, precio spot y slippage.</li>
+      <li>Conocer la diferencia entre exchanges centralizados y descentralizados para operar TAO.</li>
+      <li>Entender el concepto de impermanent loss y cuándo afecta a los proveedores de liquidez.</li>
+      <li>Conocer el estado y perspectivas de los bridges de TAO hacia otras redes blockchain.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>TAO como activo DeFi</h2>
+
+    <h3>1.1. Más allá de la simple transferencia</h3>
+    <p>Muchos activos blockchain solo sirven para transferirse entre cuentas. TAO va más allá: tiene <strong>múltiples usos DeFi nativos integrados directamente en el protocolo</strong>. Al hacer staking de TAO en la Subnet 0 (root), recibes rendimiento en forma de más TAO. Al hacer staking en una subnet específica, recibes alpha tokens de esa subnet a través de su pool AMM.</p>
+    <p>Los alpha tokens son activos DeFi propios de Bittensor. Cada subnet tiene el suyo, con su propio precio de mercado, su propia liquidez y su propia dinámica de oferta y demanda. Se pueden comprar, vender y acumular como cualquier otro token, pero su valor está intrínsecamente ligado al rendimiento de su subnet.</p>
+
+    <h3>1.2. El ecosistema de liquidez en números</h3>
+    <p>A mayo de 2026, el ecosistema de alpha tokens supera los <strong>$1.100 millones en capitalización combinada</strong>, aproximadamente el 27% del market cap de TAO. Cada subnet activa tiene su propio pool con liquidez real. Las subnets más grandes (Templar, Chutes, Targon) tienen pools con cientos de miles de TAO de reserva, mientras que las más pequeñas pueden tener pocos miles.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Los pools AMM de dTAO</h2>
+
+    <h3>2.1. Cómo funciona un pool AMM</h3>
+    <p>Cada subnet tiene un pool de liquidez que contiene dos activos: <strong>TAO y el alpha token de esa subnet</strong>. El pool sigue la fórmula del <em>constant product</em>, popularizada por Uniswap:</p>
+    <p style="text-align:center;font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--accent);padding:18px 0"><strong>TAO_reserva × Alpha_reserva = k (constante)</strong></p>
+    <p>Cuando alguien quiere comprar alpha tokens enviando TAO al pool: el TAO entra, los alpha salen. La reserva de TAO aumenta y la de alpha disminuye. Como el producto debe mantenerse constante, el <strong>precio del alpha sube automáticamente</strong>. No hay libro de órdenes ni market maker humano: el precio lo fija la aritmética.</p>
+
+    <h3>2.2. Precio spot y slippage</h3>
+    <p>El <strong>precio spot</strong> del alpha en TAO es simplemente: TAO_reserva / Alpha_reserva. Si el pool tiene 10.000 TAO y 100.000 Alpha, el precio es 0,1 TAO por alpha.</p>
+    <p>El <strong>slippage</strong> ocurre cuando haces un trade grande. Si compras 1.000 TAO de alpha en un pool con solo 5.000 TAO de reserva, estás moviendo el 20% del pool. El precio que obtienes será significativamente peor que el precio spot, porque cada alpha que sale del pool es más caro que el anterior.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Pool TAO reserva</th><th>Alpha reserva</th><th>Precio spot</th><th>Compra 100 TAO · slippage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>1.000 TAO</strong></td><td>100.000 α</td><td>0,010 TAO/α</td><td>~9,1% slippage</td></tr>
+          <tr><td><strong>10.000 TAO</strong></td><td>100.000 α</td><td>0,100 TAO/α</td><td>~1,0% slippage</td></tr>
+          <tr><td><strong>100.000 TAO</strong></td><td>100.000 α</td><td>1,000 TAO/α</td><td>~0,1% slippage</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Los pools pequeños tienen <strong>mucho slippage</strong>. Operar subnets con poco TVL es como operar un token de muy baja capitalización: una compra grande mueve el precio sustancialmente. Esto es riesgo y oportunidad al mismo tiempo.</p>
+    </div>
+
+    <h3>2.3. Cómo se alimentan los pools</h3>
+    <p>Cuando se crea una subnet, el protocolo inicializa su pool con una pequeña reserva de ambos activos. A medida que usuarios hacen staking (enviando TAO al pool), la liquidez crece. Las emisiones de TAO que recibe la subnet también se añaden gradualmente al pool, aumentando la reserva de TAO y creando presión alcista sobre el precio del alpha.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Exchanges: CEX vs DEX para TAO</h2>
+
+    <h3>3.1. Exchanges centralizados (CEX)</h3>
+    <p>Los CEX son plataformas como <strong>Binance, Coinbase, OKX, MEXC o Kraken</strong>. Ofrecen el par TAO/USDT o TAO/BTC con alta liquidez y poca fricción. Son la opción más sencilla para comprar TAO con euros o dólares directamente.</p>
+    <p>El inconveniente ya lo conoces del módulo básico: en un CEX, <strong>tú no tienes las claves privadas</strong>. El exchange custodia tus fondos. Si quiebra (como FTX en 2022) o congela los retiros, pierdes acceso. La regla es simple: compra en CEX, pero transfiere inmediatamente a tu propia coldkey.</p>
+
+    <h3>3.2. El DEX nativo de Bittensor</h3>
+    <p>El DEX nativo de Bittensor son los propios pools AMM de dTAO. No se trata de una interfaz web como Uniswap, sino de operaciones on-chain que puedes ejecutar directamente desde el CLI:</p>
+    <ul>
+      <li><code style="font-family:'Share Tech Mono',monospace;color:var(--accent);font-size:14px">btcli stake add</code> — compra alpha stakeando TAO en una subnet</li>
+      <li><code style="font-family:'Share Tech Mono',monospace;color:var(--accent);font-size:14px">btcli stake remove</code> — vende alpha volviendo a TAO</li>
+    </ul>
+    <p>Ventajas: no requieres KYC, conservas la custodia total, el precio es transparente on-chain. Desventajas: liquidez variable según la subnet, slippage puede ser alto en pools pequeños, interfaz menos amigable que un CEX.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Característica</th><th>CEX (Binance, Coinbase…)</th><th>DEX nativo (dTAO pools)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Custodia</strong></td><td>Exchange (no tienes claves)</td><td>Tú (coldkey)</td></tr>
+          <tr><td><strong>KYC</strong></td><td>Obligatorio</td><td>No requerido</td></tr>
+          <tr><td><strong>Liquidez TAO</strong></td><td>Alta (millones de USD)</td><td>Variable por subnet</td></tr>
+          <tr><td><strong>Alpha tokens</strong></td><td>No disponibles</td><td>Todos los subnets</td></tr>
+          <tr><td><strong>Slippage</strong></td><td>Muy bajo para TAO</td><td>Depende del pool</td></tr>
+          <tr><td><strong>Complejidad</strong></td><td>Baja</td><td>Media (CLI o SDK)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>Impermanent loss para proveedores de liquidez</h2>
+
+    <h3>4.1. Qué es el impermanent loss</h3>
+    <p>Si proporcionas liquidez a un pool AMM (añades tanto TAO como alpha en proporción 50/50), tu posición cambia con el tiempo a medida que otros hacen trades. Si el precio del alpha sube mucho respecto al TAO, el pool rebalancea automáticamente: acabas teniendo más TAO y menos alpha de los que depositaste. Esto es el <strong>impermanent loss</strong>: no es una pérdida realizada, pero sí una ganancia potencial a la que renunciaste comparado con simplemente haber tenido los activos en la wallet.</p>
+
+    <h3>4.2. Cuándo importa y cuándo no</h3>
+    <p>Si el precio del alpha vuelve a donde estaba cuando entraste al pool, el impermanent loss desaparece (de ahí el nombre «impermanent»). Solo se convierte en pérdida permanente si retiras liquidez con el precio muy diferente al de entrada.</p>
+    <p>Para la mayoría de usuarios de Bittensor, el impermanent loss no es relevante porque <strong>no son proveedores de liquidez activos</strong>: simplemente hacen staking (que es buy alpha en el pool) y luego unstaking (que es sell alpha). Son participantes del pool, no proveedores de liquidez al estilo Uniswap.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 05</div>
+    <h2>Bridges hacia otras cadenas</h2>
+
+    <h3>5.1. El estado actual</h3>
+    <p>A mayo de 2026, TAO existe principalmente como activo nativo en Subtensor (la blockchain de Bittensor). No hay un bridge oficial auditado hacia Ethereum o BSC que esté en producción generalizada. Algunos proyectos de terceros ofrecen bridges parciales, pero con sus propios riesgos.</p>
+
+    <h3>5.2. Por qué importan los bridges</h3>
+    <p>Un bridge permitiría usar TAO y alpha tokens en el ecosistema DeFi de Ethereum: pools en Uniswap, préstamos en Aave, yield farming. Esto multiplicaría la utilidad de los activos y atraería capital de DeFi tradicional al ecosistema Bittensor. Es un desarrollo muy esperado por la comunidad.</p>
+
+    <h3>5.3. Riesgos de bridges</h3>
+    <p>Los bridges son históricamente uno de los vectores de ataque más explotados en DeFi. Más de $2.000 millones fueron robados de bridges entre 2021 y 2024. Los riesgos incluyen: bugs en los smart contracts del bridge, centralización del operador del bridge (puede ser comprometido o actuar de forma maliciosa), y vulnerabilidades de oracle manipulation. Si un bridge de TAO se lanza, evalúa su auditoría y centralización antes de usarlo.</p>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title" data-i18n="mod.glossary">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">AMM</div><div class="glosario-def">Automated Market Maker. Sistema que fija precios automáticamente usando una fórmula matemática, sin libro de órdenes ni market maker humano.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Constant product</div><div class="glosario-def">Fórmula x·y=k usada en AMMs como Uniswap. La multiplicación de las dos reservas del pool permanece constante, lo que determina los precios.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Slippage</div><div class="glosario-def">Diferencia entre el precio esperado y el precio real de ejecución de un trade. Mayor en pools pequeños o trades grandes.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Impermanent loss</div><div class="glosario-def">Pérdida potencial que sufre un proveedor de liquidez cuando el precio de los activos del pool cambia respecto al momento de entrada.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Proveedor de liquidez</div><div class="glosario-def">Actor que deposita dos activos en un pool AMM para que otros puedan intercambiarlos. Recibe fees a cambio.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Bridge</div><div class="glosario-def">Protocolo que permite mover activos de una blockchain a otra (ej: TAO de Subtensor a Ethereum). Alto riesgo de smart contract.</div></div>
+    <div class="glosario-item"><div class="glosario-term">DEX</div><div class="glosario-def">Decentralized Exchange. Intercambio sin intermediario centralizado, operado por smart contracts o protocolo on-chain.</div></div>
+    <div class="glosario-item"><div class="glosario-term">CEX</div><div class="glosario-def">Centralized Exchange. Plataforma de intercambio centralizada que custodia los fondos de los usuarios (Binance, Coinbase, etc.).</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title" data-i18n="mod.exercises">// Ejercicios</div>
+    <ol>
+      <li>Un pool AMM de una subnet tiene 8.000 TAO de reserva y 200.000 alpha de reserva. ¿Cuál es el precio spot del alpha en TAO? Si compras 800 TAO de alpha, ¿aproximadamente cuánto slippage esperas? Explica tu razonamiento.</li>
+      <li>Compara las ventajas e inconvenientes de comprar TAO en Binance (CEX) vs hacer stake directamente en la subnet deseada (DEX nativo). ¿En qué caso preferirías cada opción?</li>
+      <li>Explica con tus palabras qué es el impermanent loss y en qué circunstancias se convierte en una pérdida real. ¿Afecta a un usuario que solo hace staking (sin proporcionar liquidez como LP)?</li>
+      <li>¿Por qué los bridges de blockchain han sido el objetivo favorito de hackers? Menciona dos vectores de ataque y cómo un usuario puede minimizar su exposición.</li>
+      <li>Entra en bittensor.pro/market.html. Busca la subnet con mayor TVL y la subnet con menor TVL entre las 20 principales. ¿Qué diferencia de slippage aproximado esperarías al comprar 100 TAO de alpha en cada una?</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title" data-i18n="mod.refs">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>Documentación dTAO y pools:</strong> <a href="https://docs.bittensor.com/dynamic-tao" target="_blank" rel="noopener">docs.bittensor.com/dynamic-tao</a></li>
+      <li><strong>'How Uniswap works' — Finematics (YouTube, ~20min):</strong> explicación visual del AMM constant product, aplicable directamente a los pools de dTAO.</li>
+      <li><strong>Historial de hacks de bridges (Rekt News):</strong> <a href="https://rekt.news" target="_blank" rel="noopener">rekt.news</a> — registro de incidentes DeFi incluyendo bridges.</li>
+      <li><strong>Calculadora de impermanent loss:</strong> <a href="https://dailydefi.org/tools/impermanent-loss-calculator/" target="_blank" rel="noopener">dailydefi.org/tools/impermanent-loss-calculator/</a></li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-intermedio-modulo-09.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo I-09</div>
+      <div class="siguiente-title">Seguridad avanzada: wallets y OpSec</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · <span data-i18n="intermedio.level">Nivel Intermedio</span> · Módulo I-08 · Mayo 2026 · <a href="aprende-intermedio.html"><span data-i18n="intermedio.back_course">Volver al curso</span></a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

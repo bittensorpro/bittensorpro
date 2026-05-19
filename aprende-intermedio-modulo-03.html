@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo I-03 Intermedio: Yuma Consensus en profundidad — Bittensor Pro</title>
+<meta name="description" content="Comprende Yuma Consensus: cómo se asignan pesos, cómo se calcula el trust de validators, cómo se distribuyen las recompensas y qué hiperparámetros controlan el comportamiento de cada subnet." />
+<link rel="canonical" href="https://bittensor.pro/aprende-intermedio-modulo-03.html" />
+<meta property="og:title" content="Módulo I-03 Intermedio: Yuma Consensus en profundidad" />
+<meta property="og:description" content="El corazón de Bittensor: cómo Yuma Consensus distribuye recompensas entre miners y validators de forma justa, descentralizada y resistente a la colusión." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html" data-i18n="nav.levels">Niveles</a>
+    <a href="aprende-intermedio.html" class="active" data-i18n="intermedio.level">Intermedio</a>
+    <a href="market.html" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link" data-i18n="intermedio.back">← Volver al curso intermedio</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO I-03</div>
+  <h1>Yuma Consensus <strong>en profundidad</strong></h1>
+  <p class="hero-sub">Yuma Consensus es el algoritmo que decide quién recibe recompensas en Bittensor y cuánto. Está diseñado para ser justo, descentralizado y resistente a la colusión entre validators — sin depender de ninguna autoridad central para evaluar el trabajo de los miners.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span><span data-i18n="intermedio.level">Nivel Intermedio</span></span>
+    <span class="meta-tag neutral">5h</span>
+    <span class="meta-tag neutral">Prerrequisito: Módulo I-02</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title" data-i18n="mod.objectives">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender qué problema resuelve Yuma Consensus y por qué no basta con un sistema de mayoría simple.</li>
+      <li>Distinguir los roles de validators y miners, y qué representa la matriz de pesos W[i][j].</li>
+      <li>Seguir el algoritmo paso a paso: asignación de pesos, cálculo del consenso, trust, incentivos y dividendos.</li>
+      <li>Comprender por qué copiar pesos entre validators reduce el trust y penaliza sus dividendos.</li>
+      <li>Conocer los hiperparámetros clave: tempo, kappa, immunity period y su efecto práctico.</li>
+      <li>Saber qué señales buscar para elegir un validator con buena track record en una subnet.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">01 / 05</div>
+    <h2>El problema que resuelve Yuma</h2>
+
+    <p>Imagina que necesitas distribuir un presupuesto entre varios trabajadores en función de la calidad de su trabajo. Tienes evaluadores (los validators) que puntúan a los trabajadores (los miners). El problema es que los evaluadores también reciben parte del presupuesto — y podrían tener incentivos para actuar de forma deshonesta: inflar las puntuaciones de amigos, ignorar a competidores, o simplemente copiar las puntuaciones de otros evaluadores sin hacer el trabajo real de evaluar.</p>
+
+    <p>En un sistema blockchain descentralizado, esto se vuelve aún más complicado: no hay nadie que pueda verificar externamente si un evaluador hizo su trabajo de forma honesta. Yuma Consensus ataca este problema usando la propia <strong>coherencia colectiva de los validators como señal de calidad</strong>. En lugar de confiar en que cada validator actúa bien por convicción moral, el algoritmo recompensa a los validators cuyas evaluaciones se parecen al consenso global — y penaliza a los que divergen de él sin justificación o que copian sin criterio propio.</p>
+
+    <p>El resultado es un sistema que resiste tres amenazas específicas:</p>
+
+    <ul>
+      <li><strong>Sybil attacks:</strong> crear muchas identidades falsas para inflar las puntuaciones propias no funciona si esas identidades no tienen stake real.</li>
+      <li><strong>Colusión directa:</strong> si un grupo de validators se pone de acuerdo para favorecer a ciertos miners, sus puntuaciones divergirán del consenso formado por los validators honestos, reduciendo su trust.</li>
+      <li><strong>Free riding (copiar pesos):</strong> si un validator simplemente copia los pesos de otro, su puntuación de trust caerá porque el algoritmo detecta que no está aportando información independiente.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-num">02 / 05</div>
+    <h2>Actores y roles</h2>
+
+    <p>En cualquier subnet de Bittensor existen dos tipos de UIDs (identificadores únicos de participante):</p>
+
+    <ul>
+      <li><strong>Validators:</strong> UIDs que tienen stake delegado (o propio) y cuya función es evaluar la calidad del trabajo de los miners. Lo hacen asignando <strong>pesos</strong> a cada miner. Un validator con más stake tiene más influencia en el cálculo del consenso, pero también más responsabilidad: si sus pesos son malos, pierde trust y con ello sus dividendos.</li>
+      <li><strong>Miners:</strong> UIDs que producen outputs para la subnet. Lo que produce un miner depende de la tarea de esa subnet específica: puede ser respuestas a consultas de texto, predicciones de series temporales, servicios de cómputo, etc. Los miners no evalúan a nadie; solo ejecutan su tarea y esperan recibir buenos pesos de los validators.</li>
+    </ul>
+
+    <p>La relación entre validators y miners se representa como una <strong>matriz de pesos W</strong>, donde <em>W[i][j]</em> es el peso que el validator <em>i</em> asigna al miner <em>j</em>. Los valores van de 0 a 1 (normalizados), y cada fila (los pesos de un validator) debe sumar 1. Una entrada alta W[i][j] significa que el validator <em>i</em> considera que el miner <em>j</em> está haciendo un trabajo excelente.</em></p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>La matriz W es el <strong>input central de Yuma Consensus</strong>. Todo el algoritmo — el consenso, el trust, los incentivos y los dividendos — se deriva de esta matriz ponderada por el stake de cada validator. Asignar pesos buenos es literalmente el trabajo de un validator.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">03 / 05</div>
+    <h2>El algoritmo paso a paso</h2>
+
+    <p>Yuma Consensus opera de forma periódica al final de cada <strong>tempo</strong> (ciclo de bloques). Aquí está la secuencia lógica completa:</p>
+
+    <h3>Paso 1: Los validators asignan pesos</h3>
+
+    <p>Durante el tempo, cada validator ejecuta su código de evaluación: consulta el trabajo producido por cada miner, lo puntúa, y envía la fila de su matriz W al chain mediante un extrinsic firmado con su hotkey. Este es el único momento en que los validators interactúan activamente con el algoritmo.</p>
+
+    <h3>Paso 2: Se calcula el Consenso (C)</h3>
+
+    <p>El consenso C[j] para el miner <em>j</em> es la suma de todos los pesos W[i][j] ponderados por el stake de cada validator <em>i</em>. Los validators con más stake tienen más peso en esta suma. Intuitivamente, el consenso es la "opinión colectiva de capital" sobre qué miners son buenos: no todos los validators valen igual — el que más stake ha arriesgado en la red tiene más voz.</p>
+
+    <h3>Paso 3: Se calcula el Trust (T) de cada validator</h3>
+
+    <p>El trust T[i] de un validator mide cuánto se parecen sus pesos individuales al consenso global. Si los pesos de un validator están muy correlacionados con el consenso — es decir, da puntuaciones altas a los miners que el consenso considera buenos y bajas a los que considera malos — su trust es alto. Si sus pesos divergen significativamente del consenso, su trust cae.</p>
+
+    <p>Esto es el mecanismo anti-colusión fundamental. Un grupo de validators que se pongan de acuerdo para favorecer a miners mediocres formarán un "sub-consenso" que diverge del consenso mayoritario, y todos verán reducido su trust — y por tanto sus dividendos.</p>
+
+    <h3>Paso 4: Incentivos para miners</h3>
+
+    <p>El incentivo I[j] que recibe el miner <em>j</em> es proporcional a su valor en el consenso C[j]. Los miners más valorados por el consenso ponderado por stake reciben más recompensas. Punto. No importa lo que diga un validator de bajo stake sobre un miner si el conjunto de validators de alto stake opina lo contrario.</p>
+
+    <h3>Paso 5: Dividendos para validators</h3>
+
+    <p>Los dividendos D[i] de un validator dependen de dos factores multiplicados: su <strong>stake</strong> y su <strong>trust</strong>. Un validator con mucho stake pero trust bajo recibe menos dividendos de los que esperaría dado su stake. Un validator con alto trust pero poco stake tampoco recibe demasiado. La combinación óptima es: stake elevado y evaluaciones honestas alineadas con el consenso.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>UID</th>
+            <th>Rol</th>
+            <th>Stake (S)</th>
+            <th>W → Miner A</th>
+            <th>W → Miner B</th>
+            <th>W → Miner C</th>
+            <th>Trust (T)</th>
+            <th>Dividendos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>V1</strong></td>
+            <td>Validator</td>
+            <td>60%</td>
+            <td>0.70</td>
+            <td>0.20</td>
+            <td>0.10</td>
+            <td><strong style="color:#00f0ff">0.92</strong></td>
+            <td>Alto</td>
+          </tr>
+          <tr>
+            <td><strong>V2</strong></td>
+            <td>Validator</td>
+            <td>30%</td>
+            <td>0.65</td>
+            <td>0.25</td>
+            <td>0.10</td>
+            <td><strong style="color:#00f0ff">0.88</strong></td>
+            <td>Moderado</td>
+          </tr>
+          <tr>
+            <td><strong>V3</strong></td>
+            <td>Validator</td>
+            <td>10%</td>
+            <td>0.10</td>
+            <td>0.10</td>
+            <td>0.80</td>
+            <td><strong style="color:#ff2bd6">0.21</strong></td>
+            <td>Bajo</td>
+          </tr>
+          <tr>
+            <td><strong>M-A</strong></td>
+            <td>Miner</td>
+            <td>—</td>
+            <td colspan="3">—</td>
+            <td>—</td>
+            <td>Incentivo alto (consenso lo favorece)</td>
+          </tr>
+          <tr>
+            <td><strong>M-C</strong></td>
+            <td>Miner</td>
+            <td>—</td>
+            <td colspan="3">—</td>
+            <td>—</td>
+            <td>Incentivo bajo (solo V3 lo puntúa alto)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>En este ejemplo simplificado, V1 y V2 tienen pesos similares y forman el consenso mayoritario (90% del stake combinado). El consenso considera que el Miner A es el mejor. V3 tiene una opinión radicalmente diferente (favorece al Miner C), pero representa solo el 10% del stake — su trust es muy bajo porque diverge del consenso, y sus dividendos son mínimos aunque haya enviado sus pesos puntualmente.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>El <strong>trust</strong> en Yuma Consensus no mide si un validator es "honesto" en sentido moral. Mide si sus evaluaciones son <strong>consistentes con la opinión colectiva ponderada por stake</strong>. Un validator con trust bajo puede tener razón — pero si el resto de la red no lo acompaña, sus dividendos sufren de todas formas.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">04 / 05</div>
+    <h2>Hiperparámetros clave</h2>
+
+    <p>Cada subnet de Bittensor puede configurar su propio conjunto de hiperparámetros que modulan el comportamiento de Yuma Consensus. Estos parámetros se almacenan on-chain y pueden modificarse mediante gobernanza del subnet owner.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Hiperparámetro</th>
+            <th>Valor típico</th>
+            <th>Qué controla</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Tempo</strong></td>
+            <td>360 bloques (~72 min)</td>
+            <td>Cada cuántos bloques se ejecuta Yuma Consensus y se distribuyen recompensas. Tempos más cortos significan más frecuencia de evaluación pero también más carga en la cadena.</td>
+          </tr>
+          <tr>
+            <td><strong>Kappa (κ)</strong></td>
+            <td>~0.5</td>
+            <td>Umbral de trust para que un validator tenga influencia significativa en el cálculo del consenso. Validators por debajo de kappa contribuyen menos al consenso efectivo.</td>
+          </tr>
+          <tr>
+            <td><strong>Min allowed weights</strong></td>
+            <td>Varía por subnet</td>
+            <td>Número mínimo de miners a los que un validator debe asignar peso en su actualización. Evita que validators asignen peso solo a 1-2 miners (posible señal de colusión).</td>
+          </tr>
+          <tr>
+            <td><strong>Max allowed weights</strong></td>
+            <td>Varía por subnet</td>
+            <td>Número máximo de miners que un validator puede puntuar. Limita la capacidad de un validator de dar peso a demasiados UIDs de forma indiscriminada.</td>
+          </tr>
+          <tr>
+            <td><strong>Weights version key</strong></td>
+            <td>Incrementa con updates</td>
+            <td>Número de versión que los validators deben incluir al enviar pesos. Cuando el subnet owner actualiza la versión, los validators deben actualizar su código para seguir siendo válidos.</td>
+          </tr>
+          <tr>
+            <td><strong>Immunity period</strong></td>
+            <td>~5.000 bloques</td>
+            <td>Bloques que un UID recién registrado está protegido de ser eliminado por bajo rendimiento. Da tiempo a los nuevos miners y validators para establecerse antes de competir con los veteranos.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Por qué el tempo importa</h3>
+
+    <p>El tempo define el ritmo de la subnet. Con un tempo de 360 bloques (aproximadamente 72 minutos dado un tiempo de bloque de 12 segundos), los miners y validators deben coordinar su actividad en esa ventana. Un validator que no envíe pesos durante un tempo completo no recibe dividendos en ese ciclo. Un miner que no esté disponible para recibir consultas durante el tempo puede recibir puntuaciones bajas.</p>
+
+    <p>Subnets con tareas que requieren actualización constante (por ejemplo, predicciones de mercado en tiempo real) suelen preferir tempos cortos. Subnets con tareas computacionalmente pesadas pueden preferir tempos más largos para dar tiempo a los miners a completar su trabajo.</p>
+  </section>
+
+  <section>
+    <div class="section-num">05 / 05</div>
+    <h2>Implicaciones prácticas</h2>
+
+    <h3>Por qué no funciona copiar pesos</h3>
+
+    <p>Una estrategia aparentemente atractiva para un validator perezoso sería simplemente copiar los pesos de otro validator de alta reputación. Si el validator A tiene trust alto, ¿por qué no copiar sus pesos y también tener trust alto?</p>
+
+    <p>El problema es que el trust se mide como correlación con el consenso, y el consenso es la suma ponderada de <em>todos</em> los validators. Si el validator B copia exactamente los pesos del validator A, su contribución al consenso es la misma que la de A — y el consenso no cambia. Pero si hay suficientes "copiadores", el consenso empieza a estar dominado por unos pocos líderes que otros copian, y cualquier error del líder se amplifica por todos los copiadores.</p>
+
+    <p>El protocolo desincentiva esto directamente: para que los pesos de B sean válidos, deben haber sido generados de forma independiente. Si el subnet owner o el conjunto de validators honestos detecta patrones de copia masiva, puede ajustar hiperparámetros o cambiar la weights version key, obligando a todos a actualizar su lógica de evaluación.</p>
+
+    <h3>La calidad del scoring importa más que el stake</h3>
+
+    <p>Este es el mensaje más contraintuitivo de Yuma Consensus: <strong>tener mucho stake no garantiza altos dividendos</strong>. Un validator con el 40% del stake de una subnet pero con trust de 0.3 ganará menos que uno con el 10% del stake y trust de 0.95. Esto premia a los validators que realmente hacen el trabajo intelectual de evaluar miners de forma rigurosa e independiente.</p>
+
+    <h3>Cómo elegir un validator con buena track record</h3>
+
+    <p>Para un delegador que quiere maximizar sus retornos al hacer stake en un validator de una subnet, las señales más relevantes son:</p>
+
+    <ul>
+      <li><strong>Trust histórico:</strong> exploradores como Taostats muestran el trust de cada validator a lo largo del tiempo. Busca validators con trust consistentemente alto (por encima de kappa), no uno que suba y baje erráticamene.</li>
+      <li><strong>Uptime y actualización de pesos:</strong> un validator que se salta varios tempos sin enviar pesos es una señal de problemas de infraestructura o de abandono.</li>
+      <li><strong>Stake propio vs delegado:</strong> un validator que tiene una proporción significativa de stake propio (skin in the game) tiene más incentivos alineados con comportarse honestamente.</li>
+      <li><strong>Comisión de delegación:</strong> los validators cobran un porcentaje de los dividendos generados por el stake delegado. Una comisión razonable (5-18%) es señal de sostenibilidad sin ser extractiva.</li>
+    </ul>
+
+    <div class="glosario">
+      <div class="glosario-title" data-i18n="mod.glossary">Glosario del módulo</div>
+      <div class="glosario-item">
+        <div class="glosario-term">Consensus (C)</div>
+        <div class="glosario-def">Valor calculado por Yuma para cada miner: la suma de los pesos que todos los validators le asignan, ponderada por el stake de cada validator. Representa la opinión colectiva de la red sobre la calidad de ese miner.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Weights (W)</div>
+        <div class="glosario-def">Matriz de puntuaciones que cada validator asigna a cada miner. W[i][j] es el peso del validator i al miner j, entre 0 y 1, con la fila normalizada para sumar 1. El input principal de Yuma Consensus.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Trust (T)</div>
+        <div class="glosario-def">Puntuación de un validator que mide cuánto se parecen sus pesos individuales al consenso global de la red. Trust alto indica que el validator evalúa de forma alineada con la opinión mayoritaria ponderada por stake.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Incentive (I)</div>
+        <div class="glosario-def">Recompensa que reciben los miners en cada tempo, proporcional a su valor en el consenso C. Los miners más valorados por el consenso ponderado reciben más incentivos.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Dividends (D)</div>
+        <div class="glosario-def">Recompensa que reciben los validators en cada tempo, proporcional al producto de su stake y su trust. Un validator con alto stake pero bajo trust recibe menos dividendos de los esperados.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Tempo</div>
+        <div class="glosario-def">Número de bloques entre dos ejecuciones consecutivas de Yuma Consensus. Típicamente 360 bloques (~72 minutos). Define el ritmo de evaluación y distribución de recompensas de la subnet.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Immunity period</div>
+        <div class="glosario-def">Número de bloques durante los cuales un UID recién registrado en una subnet no puede ser eliminado por bajo rendimiento. Permite a nuevos participantes establecerse antes de competir.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Kappa (κ)</div>
+        <div class="glosario-def">Hiperparámetro de la subnet que define el umbral de trust para que un validator tenga influencia plena en el consenso. Validators con trust inferior a kappa tienen influencia reducida en el cálculo colectivo.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Weights version key</div>
+        <div class="glosario-def">Número de versión que debe incluirse en cada actualización de pesos. Cuando el subnet owner lo cambia, todos los validators deben actualizar su software para seguir enviando pesos válidos.</div>
+      </div>
+    </div>
+
+    <div class="ejercicios">
+      <div class="ejercicios-title" data-i18n="mod.exercises">// Ejercicios</div>
+      <ol>
+        <li>Supón que hay 3 validators (V1 con 50% de stake, V2 con 30%, V3 con 20%) y 3 miners. V1 asigna pesos [0.6, 0.3, 0.1], V2 asigna [0.5, 0.4, 0.1] y V3 asigna [0.1, 0.1, 0.8]. Calcula manualmente el consenso C para cada miner (suma ponderada por stake). ¿Qué miner recibirá más incentivos?</li>
+        <li>Usando el mismo ejemplo anterior, explica por qué el trust de V3 será bajo aunque haya enviado sus pesos correctamente y a tiempo. ¿Qué tendría que hacer V3 para mejorar su trust sin necesariamente "copiar" a V1?</li>
+        <li>Un nuevo subnet owner está diseñando los hiperparámetros de su subnet. Su tarea requiere que los miners generen respuestas en tiempo real a preguntas de usuarios. ¿Qué tempo recomendarías? ¿Por qué un immunity period largo podría ser especialmente importante en los primeros meses de la subnet?</li>
+        <li>Investiga en Taostats o en docs.bittensor.com el trust actual de los validators de una subnet activa (por ejemplo, la SN1 de texto). ¿Cuántos validators tienen trust superior a 0.5? ¿Hay alguno con trust cercano a 0 pero que siga activo? ¿Qué explicación le darías?</li>
+        <li>Explica con tus propias palabras por qué Yuma Consensus no puede simplemente usar "quién tiene más stake gana" como sistema de recompensas. ¿Qué problema introduce la pureza del stake sin el componente de trust?</li>
+      </ol>
+    </div>
+
+    <div class="referencias">
+      <div class="referencias-title" data-i18n="mod.refs">// Vídeos y referencias</div>
+      <ul>
+        <li><a href="https://bittensor.com/whitepaper" target="_blank" rel="noopener">Whitepaper original de Bittensor — bittensor.com/whitepaper (secciones 3 y 4: Yuma Consensus)</a></li>
+        <li><a href="https://docs.bittensor.com/yuma-consensus" target="_blank" rel="noopener">Documentación oficial: Yuma Consensus — docs.bittensor.com/yuma-consensus</a></li>
+        <li><a href="https://docs.bittensor.com/subnets/hyperparameters" target="_blank" rel="noopener">Documentación oficial: Hiperparámetros de subnet — docs.bittensor.com/subnets/hyperparameters</a></li>
+        <li><a href="https://taostats.io" target="_blank" rel="noopener">Taostats — métricas en tiempo real de trust, dividendos e incentivos por subnet</a></li>
+        <li><a href="https://github.com/opentensor/bittensor/blob/master/bittensor/utils/weight_utils.py" target="_blank" rel="noopener">Código fuente: weight_utils.py en bittensor SDK — utilidades de normalización de pesos</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-intermedio-modulo-04.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo I-04</div>
+      <div class="siguiente-title">Configurar un nodo minero</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · <span data-i18n="intermedio.level">Nivel Intermedio</span> · Módulo I-03 · Mayo 2026 · <a href="aprende-intermedio.html"><span data-i18n="intermedio.back_course">Volver al curso</span></a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

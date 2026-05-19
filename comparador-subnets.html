@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Comparador de Subnets · Bittensor Pro — Compara precio, MCap, APY y más</title>
+<meta name="description" content="Compara dos subnets de Bittensor lado a lado: precio, market cap, volumen, liquidez, APY de validadores y cambios de precio. Datos en vivo." />
+<link rel="canonical" href="https://bittensor.pro/comparador-subnets.html" />
+<meta property="og:title" content="Comparador de Subnets · Bittensor Pro" />
+<meta property="og:description" content="Compara dos subnets de Bittensor: precio, MCap, volumen, liquidez y APY en tiempo real." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://bittensor.pro/comparador-subnets.html" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a;--bg-2:#0d0f17;--bg-3:#141826;
+  --border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);
+  --text:#e8f0f5;--text-muted:#a8b2c0;--text-dim:#6b7385;--text-faint:#4a5263;
+  --cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--red:#ff4d5e;--amber:#ffb84d;
+  --max-width:960px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Outfit',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.6;
+  overflow-x:hidden;min-height:100vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,184,77,0.05), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(0,240,255,0.03), transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:50;padding:10px 20px;padding-top:calc(10px + env(safe-area-inset-top));background:rgba(5,6,10,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,240,255,0.10);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex-shrink:0}
+.brand-mark{width:30px;height:30px;border:1px solid rgba(0,240,255,0.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:#00f0ff;font-size:14px;box-shadow:0 0 10px rgba(0,240,255,0.2)}
+.brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:#f4faff}
+.brand-title .pro{color:#ff2bd6;font-style:italic;margin-left:2px;text-shadow:0 0 8px rgba(255,43,214,.5)}
+.topbar-center{display:flex;align-items:center;justify-content:center;gap:4px}
+.topbar-center a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-guide{color:#e8f0f5}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
+.nav-learn{color:#22d87a;border-color:rgba(34,216,122,.18)!important}.nav-learn:hover{border-color:rgba(34,216,122,.45)!important}
+.nav-market{color:#ff2bd6;border-color:rgba(255,43,214,.18)!important}.nav-market:hover{border-color:rgba(255,43,214,.45)!important}
+.nav-tools{color:#ffb84d;border-color:rgba(255,184,77,.18)!important}.nav-tools:hover{border-color:rgba(255,184,77,.45)!important}
+.nav-tao{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;text-decoration:none;font-family:'Share Tech Mono','Courier New',monospace;background:rgba(0,240,255,.05);border:1px solid rgba(0,240,255,.25);border-radius:8px;padding:5px 10px;transition:all .15s}
+.nav-tao:hover{background:rgba(0,240,255,.10);border-color:rgba(0,240,255,.5)}
+.nt-symbol{font-size:10px;color:#00f0ff;letter-spacing:.08em;font-weight:700}
+.nt-price{font-size:12px;color:#e8f0f5;font-variant-numeric:tabular-nums;font-weight:500}
+.nt-change{font-size:10px;font-variant-numeric:tabular-nums}
+.nt-change.pos{color:#22d87a}.nt-change.neg{color:#ff4d5e}.nt-change.zero{color:#6b7385}
+.nt-arrow{color:#00f0ff;font-size:11px;transition:transform .2s}
+.nav-tao:hover .nt-arrow{transform:translateX(2px)}
+@media(max-width:640px){.topbar-center a{display:none}.nt-change{display:none}.nav-tao{padding:3px 8px}}
+
+/* BACK BAR */
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:0.12em;
+  color:var(--amber);text-transform:uppercase;text-decoration:none;padding:4px 0;
+}
+.back-link:hover{opacity:0.75}
+
+/* HERO */
+.hero{max-width:var(--max-width);margin:0 auto;padding:32px 20px 24px;position:relative;z-index:1}
+.hero-eyebrow{
+  font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.3em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:12px;
+}
+.hero h1{
+  font-family:'Fraunces',serif;font-weight:600;font-style:italic;
+  font-size:clamp(28px,5vw,42px);line-height:1.1;margin-bottom:10px;
+}
+.hero h1 strong{font-style:normal;color:var(--amber);text-shadow:0 0 18px rgba(255,184,77,0.4)}
+.hero p{font-size:15px;color:var(--text-muted);max-width:56ch}
+
+/* PICKER SECTION */
+.picker-section{
+  max-width:var(--max-width);margin:0 auto;padding:28px 20px;
+  position:relative;z-index:10;
+}
+.picker-grid{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:16px;align-items:start;
+}
+.picker-vs{
+  font-family:'Orbitron',sans-serif;font-weight:900;font-size:20px;
+  color:var(--text-faint);padding-top:36px;text-align:center;
+}
+.picker-label{
+  font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--text-faint);margin-bottom:8px;
+}
+.picker-wrap{position:relative}
+.picker-input{
+  width:100%;padding:11px 14px;
+  background:var(--bg-2);border:1px solid var(--border-2);border-radius:8px;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;
+  outline:none;transition:border-color 0.15s;
+}
+.picker-input:focus{border-color:var(--amber);box-shadow:0 0 0 2px rgba(255,184,77,0.12)}
+.picker-input::placeholder{color:var(--text-faint)}
+.picker-dropdown{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:100;
+  background:var(--bg-2);border:1px solid var(--border-2);border-radius:8px;
+  max-height:220px;overflow-y:auto;display:none;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+}
+.picker-dropdown.open{display:block}
+.picker-option{
+  display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;
+  font-size:13px;color:var(--text-muted);transition:background 0.1s;border-bottom:1px solid var(--border);
+}
+.picker-option:last-child{border-bottom:none}
+.picker-option:hover,.picker-option.active{background:rgba(255,184,77,0.06);color:var(--text)}
+.picker-option-id{
+  font-family:'Orbitron',monospace;font-size:10px;color:var(--amber);
+  min-width:28px;text-align:right;flex-shrink:0;
+}
+.picker-option-logo{width:20px;height:20px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.picker-option-logo-placeholder{
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(255,184,77,0.12);border:1px solid rgba(255,184,77,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',sans-serif;font-size:8px;color:var(--amber);flex-shrink:0;
+}
+.picker-selected-chip{
+  display:none;align-items:center;gap:8px;
+  margin-top:8px;padding:7px 12px;
+  background:rgba(255,184,77,0.08);border:1px solid rgba(255,184,77,0.3);border-radius:6px;
+  font-size:13px;color:var(--text);
+}
+.picker-selected-chip.show{display:flex}
+.picker-chip-clear{
+  margin-left:auto;cursor:pointer;color:var(--text-faint);font-size:16px;line-height:1;
+  padding:0 2px;
+}
+.picker-chip-clear:hover{color:var(--red)}
+
+.compare-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:13px;margin-top:20px;
+  background:rgba(255,184,77,0.08);border:1px solid var(--amber);border-radius:8px;
+  color:var(--amber);font-family:'Outfit',sans-serif;font-size:12px;
+  letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;
+  transition:all 0.2s;
+}
+.compare-btn:hover:not(:disabled){background:rgba(255,184,77,0.15);box-shadow:0 0 20px rgba(255,184,77,0.25)}
+.compare-btn:disabled{opacity:0.4;cursor:not-allowed}
+
+/* LOADING */
+.loading-state{
+  max-width:var(--max-width);margin:0 auto;padding:40px 20px;
+  text-align:center;color:var(--text-muted);font-size:14px;
+  display:none;position:relative;z-index:1;
+}
+.loading-state.show{display:block}
+.spinner{
+  display:inline-block;width:24px;height:24px;margin-bottom:12px;
+  border:2px solid rgba(255,184,77,0.2);border-top-color:var(--amber);
+  border-radius:50%;animation:spin 0.8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESULTS */
+.results{
+  max-width:var(--max-width);margin:0 auto;padding:0 20px 60px;
+  position:relative;z-index:1;display:none;
+}
+.results.show{display:block}
+
+/* COMPARE TABLE */
+.compare-table{
+  border:1px solid var(--border-2);border-radius:12px;overflow:hidden;
+  background:var(--bg-2);
+}
+
+/* Header row */
+.compare-header{
+  display:grid;grid-template-columns:180px 1fr 1fr;
+  border-bottom:2px solid var(--border-2);
+}
+.compare-header-cell{padding:20px 16px;text-align:center}
+.compare-header-cell.label{background:transparent;border-right:1px solid var(--border)}
+.compare-header-cell.subnet-a{border-right:1px solid var(--border);background:rgba(0,240,255,0.03)}
+.compare-header-cell.subnet-b{background:rgba(255,43,214,0.03)}
+.subnet-header-logo{
+  width:44px;height:44px;border-radius:50%;object-fit:cover;
+  margin:0 auto 10px;display:block;
+}
+.subnet-header-logo-placeholder{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',sans-serif;font-size:11px;color:var(--cyan);
+  margin:0 auto 10px;
+}
+.subnet-header-logo-placeholder.b{
+  background:rgba(255,43,214,0.08);border-color:rgba(255,43,214,0.3);color:var(--magenta);
+}
+.subnet-header-name{font-weight:600;font-size:15px;color:var(--text);line-height:1.2;margin-bottom:4px}
+.subnet-header-meta{font-size:11px;color:var(--text-faint);letter-spacing:0.08em}
+.subnet-header-link{
+  display:inline-block;margin-top:8px;font-size:10px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--cyan);text-decoration:none;
+  padding:3px 8px;border:1px solid rgba(0,240,255,0.3);border-radius:4px;
+}
+.subnet-header-link:hover{background:rgba(0,240,255,0.08)}
+
+/* Section label rows */
+.compare-section{
+  display:grid;grid-template-columns:180px 1fr 1fr;
+  background:rgba(255,184,77,0.04);border-top:1px solid var(--border);
+}
+.compare-section-label{
+  grid-column:1/-1;padding:8px 16px;
+  font-family:'Outfit',sans-serif;font-size:9px;letter-spacing:0.24em;
+  text-transform:uppercase;color:var(--amber);
+}
+
+/* Data rows */
+.compare-row{
+  display:grid;grid-template-columns:180px 1fr 1fr;
+  border-top:1px solid var(--border);
+}
+.compare-row:hover{background:rgba(255,255,255,0.01)}
+.compare-cell{padding:12px 16px;display:flex;align-items:center}
+.compare-cell.metric{color:var(--text-dim);font-size:13px;border-right:1px solid var(--border)}
+.compare-cell.val-a{justify-content:center;border-right:1px solid var(--border);background:rgba(0,240,255,0.015)}
+.compare-cell.val-b{justify-content:center;background:rgba(255,43,214,0.015)}
+.val-wrap{text-align:center}
+.val-main{font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--text)}
+.val-sub{font-size:11px;color:var(--text-faint);margin-top:2px}
+.val-change{
+  display:inline-flex;align-items:center;gap:3px;
+  font-family:'Share Tech Mono',monospace;font-size:13px;
+  padding:2px 7px;border-radius:3px;
+}
+.val-change.pos{color:var(--green);background:rgba(34,216,122,0.10)}
+.val-change.neg{color:var(--red);background:rgba(255,77,94,0.10)}
+.val-change.zero{color:var(--text-dim);background:transparent}
+
+/* Bar comparison */
+.bar-row{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%}
+.bar-track{width:100%;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden}
+.bar-fill-a{height:100%;background:var(--cyan);border-radius:2px;transition:width 0.6s ease}
+.bar-fill-b{height:100%;background:var(--magenta);border-radius:2px;transition:width 0.6s ease}
+.bar-winner{font-size:10px;color:var(--text-faint)}
+
+/* Mobile */
+@media(max-width:700px){
+  .picker-grid{grid-template-columns:1fr;gap:12px}
+  .picker-vs{padding-top:0;padding:4px 0;font-size:16px;text-align:center}
+  .compare-header{grid-template-columns:100px 1fr 1fr}
+  .compare-section{grid-template-columns:100px 1fr 1fr}
+  .compare-row{grid-template-columns:100px 1fr 1fr}
+  .compare-cell.metric{font-size:11px;padding:10px 8px}
+  .compare-cell.val-a,.compare-cell.val-b{padding:10px 6px}
+  .val-main{font-size:13px}
+  .compare-header-cell{padding:14px 8px}
+  .subnet-header-name{font-size:13px}
+}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);padding:28px 20px;
+  text-align:center;font-family:'Outfit',sans-serif;font-size:10px;
+  letter-spacing:0.2em;color:var(--text-faint);text-transform:uppercase;
+  position:relative;z-index:1;
+}
+footer a{color:var(--amber);text-decoration:none}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-mark">τ</div>
+    <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
+  </a>
+  <div class="topbar-center">
+    <div class="btp-lang-slot"></div>
+    <a href="que-es-bittensor.html" class="nav-guide" data-i18n="nav.guide">Guide</a>
+    <a href="aprende.html" class="nav-learn" data-i18n="nav.learn">Learn</a>
+    <a href="market.html" class="nav-market" data-i18n="nav.market">Market</a>
+  </div>
+  <a href="tao.html" class="nav-tao" id="nav-tao-link">
+    <span class="nt-symbol">TAO</span>
+    <span class="nt-price" id="nav-tao-price">—</span>
+    <span class="nt-change zero" id="nav-tao-change">—</span>
+    <span class="nt-arrow">→</span>
+  </a>
+</header>
+
+<div class="back-bar">
+  <a href="herramientas.html" class="back-link" data-i18n="tools.back">← Herramientas</a>
+</div>
+
+<section class="hero">
+  <div class="hero-eyebrow" data-i18n="subcomp.eyebrow">// Herramientas · Datos en vivo</div>
+  <h1 data-i18n-html="subcomp.title">Comparador de <strong>subnets</strong></h1>
+  <p data-i18n="subcomp.subtitle">Selecciona dos subnets y compara precio, market cap, volumen, liquidez, APY y más, lado a lado en tiempo real.</p>
+</section>
+
+<section class="picker-section">
+  <div class="picker-grid">
+
+    <!-- SLOT A -->
+    <div>
+      <div class="picker-label" data-i18n="subcomp.slot_a">Subnet A</div>
+      <div class="picker-wrap" id="wrap-a">
+        <input type="text" class="picker-input" id="input-a" data-i18n="subcomp.search_ph" placeholder="Buscar por nombre o número…" autocomplete="off" />
+        <div class="picker-dropdown" id="drop-a"></div>
+        <div class="picker-selected-chip" id="chip-a">
+          <span id="chip-a-text">—</span>
+          <span class="picker-chip-clear" id="clear-a" title="Quitar">✕</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="picker-vs">VS</div>
+
+    <!-- SLOT B -->
+    <div>
+      <div class="picker-label" data-i18n="subcomp.slot_b">Subnet B</div>
+      <div class="picker-wrap" id="wrap-b">
+        <input type="text" class="picker-input" id="input-b" data-i18n="subcomp.search_ph" placeholder="Buscar por nombre o número…" autocomplete="off" />
+        <div class="picker-dropdown" id="drop-b"></div>
+        <div class="picker-selected-chip" id="chip-b">
+          <span id="chip-b-text">—</span>
+          <span class="picker-chip-clear" id="clear-b" title="Quitar">✕</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="compare-btn" id="compare-btn" disabled>
+    <span data-i18n="subcomp.btn">⚖ Comparar subnets</span>
+  </button>
+</section>
+
+<div class="loading-state" id="loading">
+  <div class="spinner"></div>
+  <div data-i18n="subcomp.loading">Cargando datos…</div>
+</div>
+
+<section class="results" id="results">
+  <div class="compare-table" id="compare-table"></div>
+</section>
+
+<footer>
+  <span data-i18n-html="subcomp.footer"><a href="index.html">Bittensor Pro</a> · 2026 · Datos: TaoSwap · No es consejo financiero</span>
+</footer>
+
+<script>
+const _t = window.t || (k => k);
+const API = 'https://tao360.qrchd889gj.workers.dev';
+
+// Subnet name overrides (same as subnet.html)
+const DEFS = {
+  0:'Root',1:'Apex',2:'Omron',3:'Templar',4:'Targon',5:'Open Kaito',
+  6:'Infinite Games',7:'Subvortex',8:'PTN',9:'Pretraining',10:'Sturdy',
+  11:'Dippy Roleplay',12:'Horde',13:'Data Universe',14:'VectorStore',
+  15:'De-Val',16:'BitAds',17:'Three Gen',18:'Cortex.t',19:'Nineteen',
+  20:'BitAgent',21:'Omega Any-to-any',22:'Desearch',23:'SocialTensor',
+  24:'Omega',25:'Protein Folding',27:'NI Compute',28:'LOL',29:'Coldint',
+  30:'Bettensor',31:'NAS Chain',32:"It's AI",33:'ReadyAI',34:'BitMind',
+  35:'LogicNet',36:'Web Agents',37:'Finetuning',38:'Distributed Training',
+};
+
+let ALL_SUBNETS = [];   // lista completa de subnets del mercado
+let SEL = { a: null, b: null }; // netuids seleccionados
+let TAO_USD = 0;
+let LAST_DATA = null;  // last comparison result for lang re-render
+
+// ─── Formatters ──────────────────────────────────────────────────────────────
+function fmtTAO(v){
+  if(v == null || isNaN(v)) return '—';
+  if(v === 0) return '0 τ';
+  if(v < 0.0001) return v.toExponential(2) + ' τ';
+  if(v < 0.01)   return v.toFixed(6) + ' τ';
+  if(v < 1)      return v.toFixed(4) + ' τ';
+  if(v < 1000)   return v.toFixed(2) + ' τ';
+  return fmtNum(v) + ' τ';
+}
+function fmtUSD(v){
+  if(v == null || isNaN(v)) return '—';
+  if(v === 0) return '$0';
+  if(v < 0.001) return '$' + v.toFixed(5);
+  if(v < 1)    return '$' + v.toFixed(4);
+  if(v < 100)  return '$' + v.toFixed(2);
+  return '$' + fmtNum(Math.round(v));
+}
+function fmtNum(n){
+  if(n >= 1e9) return (n/1e9).toFixed(2) + 'B';
+  if(n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+  if(n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+  return n.toFixed(0);
+}
+function fmtPct(v){
+  if(v == null || isNaN(v)) return '—';
+  const s = (v > 0 ? '+' : '') + v.toFixed(2) + '%';
+  return s;
+}
+function pctClass(v){ return v > 0.01 ? 'pos' : v < -0.01 ? 'neg' : 'zero'; }
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+// ─── Subnet name resolver ────────────────────────────────────────────────────
+function subnetName(raw){
+  const id = raw.id;
+  return raw.identity?.name?.trim() || DEFS[id] || raw.name || `Subnet ${id}`;
+}
+function subnetSymbol(raw){
+  return raw.identity?.symbol || raw.symbol || `SN${raw.id}`;
+}
+function subnetLogo(raw){
+  return raw.identity?.image || raw.identity?.logo_url || raw.identity?.icon || null;
+}
+
+// ─── Fetch helpers ───────────────────────────────────────────────────────────
+async function apiFetch(path){
+  const r = await fetch(API + path);
+  if(!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
+// ─── Load all subnets for pickers ───────────────────────────────────────────
+async function loadAllSubnets(){
+  try {
+    const j = await apiFetch('/taoswap/subnets');
+    const raw = Array.isArray(j) ? j : (j?.results || []);
+    ALL_SUBNETS = raw
+      .filter(s => s.id > 0)
+      .sort((a,b) => (b.market_cap||0) - (a.market_cap||0))
+      .map(s => ({
+        id:     s.id,
+        name:   subnetName(s),
+        symbol: subnetSymbol(s),
+        logo:   subnetLogo(s),
+        mcap:   s.market_cap || 0,
+      }));
+    buildDropdowns();
+    checkUrlParams();
+  } catch(e){
+    console.error('loadAllSubnets', e);
+  }
+}
+
+// ─── TAO price ───────────────────────────────────────────────────────────────
+async function loadTaoPrice(){
+  try {
+    const j = await apiFetch('/api/price/latest/v1?asset=tao');
+    TAO_USD = parseFloat(j?.data?.[0]?.price) || 0;
+  } catch(e){}
+}
+
+// ─── Picker UI ───────────────────────────────────────────────────────────────
+function buildDropdowns(){
+  ['a','b'].forEach(slot => renderDropdown(slot, ''));
+}
+
+function renderDropdown(slot, query){
+  const drop = document.getElementById(`drop-${slot}`);
+  const q = query.toLowerCase().trim();
+  const items = q
+    ? ALL_SUBNETS.filter(s =>
+        s.name.toLowerCase().includes(q) ||
+        s.symbol.toLowerCase().includes(q) ||
+        String(s.id) === q.replace(/^sn/i,'')
+      )
+    : ALL_SUBNETS;
+
+  drop.innerHTML = items.slice(0, 80).map(s => `
+    <div class="picker-option" data-id="${s.id}" data-slot="${slot}">
+      ${s.logo
+        ? `<img class="picker-option-logo" src="${esc(s.logo)}" alt="${esc(s.symbol)}" onerror="this.style.display='none'">`
+        : `<div class="picker-option-logo-placeholder">${esc(s.symbol.slice(0,2))}</div>`}
+      <span>${esc(s.name)}</span>
+      <span class="picker-option-id">SN${s.id}</span>
+    </div>
+  `).join('');
+
+  drop.querySelectorAll('.picker-option').forEach(el => {
+    el.addEventListener('mousedown', e => {
+      e.preventDefault();
+      selectSubnet(el.dataset.slot, parseInt(el.dataset.id));
+    });
+  });
+}
+
+function openDrop(slot){ document.getElementById(`drop-${slot}`).classList.add('open'); }
+function closeDrop(slot){ document.getElementById(`drop-${slot}`).classList.remove('open'); }
+
+function selectSubnet(slot, id){
+  SEL[slot] = id;
+  const s = ALL_SUBNETS.find(x => x.id === id);
+  const chip = document.getElementById(`chip-${slot}`);
+  const txt  = document.getElementById(`chip-${slot}-text`);
+  const input = document.getElementById(`input-${slot}`);
+  txt.textContent = s ? `${s.name} · SN${id}` : `Subnet ${id}`;
+  chip.classList.add('show');
+  input.value = '';
+  input.blur();
+  closeDrop(slot);
+  checkCompareBtn();
+  updateUrl();
+}
+
+function clearSlot(slot){
+  SEL[slot] = null;
+  document.getElementById(`chip-${slot}`).classList.remove('show');
+  document.getElementById(`input-${slot}`).value = '';
+  checkCompareBtn();
+  document.getElementById('results').classList.remove('show');
+  updateUrl();
+}
+
+function checkCompareBtn(){
+  document.getElementById('compare-btn').disabled = !(SEL.a !== null && SEL.b !== null);
+}
+
+// ─── URL params ──────────────────────────────────────────────────────────────
+function updateUrl(){
+  const p = new URLSearchParams();
+  if(SEL.a !== null) p.set('a', SEL.a);
+  if(SEL.b !== null) p.set('b', SEL.b);
+  const str = p.toString();
+  history.replaceState(null,'', str ? '?' + str : location.pathname);
+}
+
+function checkUrlParams(){
+  const p = new URLSearchParams(location.search);
+  const a = p.get('a'), b = p.get('b');
+  if(a && ALL_SUBNETS.find(s => s.id === +a)) selectSubnet('a', +a);
+  if(b && ALL_SUBNETS.find(s => s.id === +b)) selectSubnet('b', +b);
+  if(SEL.a !== null && SEL.b !== null) runCompare();
+}
+
+// ─── Compare ─────────────────────────────────────────────────────────────────
+async function runCompare(){
+  if(SEL.a === null || SEL.b === null) return;
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('results').classList.remove('show');
+
+  try {
+    const [rawA, rawB, valA, valB] = await Promise.all([
+      apiFetch(`/taoswap/subnet?id=${SEL.a}`),
+      apiFetch(`/taoswap/subnet?id=${SEL.b}`),
+      apiFetch(`/taoswap/validators?netuid=${SEL.a}`).catch(()=>null),
+      apiFetch(`/taoswap/validators?netuid=${SEL.b}`).catch(()=>null),
+    ]);
+
+    const dA = parseSubnet(rawA[String(SEL.a)] || rawA, SEL.a);
+    const dB = parseSubnet(rawB[String(SEL.b)] || rawB, SEL.b);
+    dA.topApy = topApy(valA);
+    dB.topApy = topApy(valB);
+
+    LAST_DATA = { dA, dB };
+    document.getElementById('loading').classList.remove('show');
+    renderComparison(dA, dB);
+    document.getElementById('results').classList.add('show');
+    document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+  } catch(e){
+    document.getElementById('loading').classList.remove('show');
+    console.error('compare error', e);
+  }
+}
+
+function parseSubnet(raw, id){
+  if(!raw) return { id, name:`Subnet ${id}`, symbol:`SN${id}`, logo:null };
+  return {
+    id,
+    name:     subnetName(raw),
+    symbol:   subnetSymbol(raw),
+    logo:     subnetLogo(raw),
+    price:    raw.price || 0,
+    mcap:     raw.market_cap || 0,
+    volume:   (raw.inflow||0) + Math.abs(raw.outflow||0),
+    liquidity: raw.root_in_pool || raw.tao_in_pool || 0,
+    supply:   raw.total_supply || 0,
+    ch1h:     raw.price_evolution_h_1  || 0,
+    ch24h:    raw.price_evolution_h_24 || 0,
+    ch7d:     raw.price_evolution_d_7  || 0,
+    ch30d:    raw.price_evolution_d_30 || 0,
+  };
+}
+
+function topApy(valsJson){
+  if(!valsJson) return null;
+  const arr = Array.isArray(valsJson) ? valsJson : (valsJson?.results || []);
+  if(!arr.length) return null;
+  const best = arr.reduce((m,v) => {
+    const a = parseFloat(v.apy_7d)||0;
+    return a > m ? a : m;
+  }, 0);
+  return best > 0 ? best : null;
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+function logoHtml(s, cls=''){
+  return s.logo
+    ? `<img class="subnet-header-logo" src="${esc(s.logo)}" alt="${esc(s.symbol)}" onerror="this.style.display='none'">`
+    : `<div class="subnet-header-logo-placeholder ${cls}">${esc(s.symbol.slice(0,3))}</div>`;
+}
+
+function valCell(main, sub=''){
+  return `<div class="val-wrap"><div class="val-main">${main}</div>${sub ? `<div class="val-sub">${sub}</div>` : ''}</div>`;
+}
+
+function changeCell(pct){
+  if(pct == null || isNaN(pct)) return valCell('—');
+  return `<div class="val-change ${pctClass(pct)}">${fmtPct(pct)}</div>`;
+}
+
+function barRow(vA, vB, labelA, labelB, higherIsBetter=true){
+  if(!vA && !vB) return '';
+  const total = vA + vB;
+  if(total === 0) return '';
+  const pctA = Math.round((vA / total) * 100);
+  const pctB = 100 - pctA;
+  const winnerA = higherIsBetter ? vA >= vB : vA <= vB;
+  return `
+    <div class="bar-row">
+      <div class="val-wrap"><div class="val-main">${labelA}</div></div>
+      <div class="bar-track"><div class="bar-fill-a" style="width:${pctA}%"></div></div>
+    </div>
+  `;
+}
+
+function renderComparison(a, b){
+  const tao = TAO_USD;
+
+  const rows = [
+    // Header
+    `<div class="compare-header">
+      <div class="compare-header-cell label"></div>
+      <div class="compare-header-cell subnet-a">
+        ${logoHtml(a)}
+        <div class="subnet-header-name">${esc(a.name)}</div>
+        <div class="subnet-header-meta">${esc(a.symbol)} · SN${a.id}</div>
+        <a class="subnet-header-link" href="subnet.html?id=${a.id}">${_t('subcomp.detail')}</a>
+      </div>
+      <div class="compare-header-cell subnet-b">
+        ${logoHtml(b,'b')}
+        <div class="subnet-header-name">${esc(b.name)}</div>
+        <div class="subnet-header-meta">${esc(b.symbol)} · SN${b.id}</div>
+        <a class="subnet-header-link" href="subnet.html?id=${b.id}" style="border-color:rgba(255,43,214,0.3);color:var(--magenta)">${_t('subcomp.detail')}</a>
+      </div>
+    </div>`,
+
+    // Section: Precio
+    `<div class="compare-section"><div class="compare-section-label">${_t('subcomp.sec.price')}</div></div>`,
+
+    row(_t('subcomp.row.price_tao'),
+      valCell(fmtTAO(a.price)),
+      valCell(fmtTAO(b.price))
+    ),
+    tao ? row(_t('subcomp.row.price_usd'),
+      valCell(fmtUSD(a.price * tao)),
+      valCell(fmtUSD(b.price * tao))
+    ) : '',
+    row(_t('subcomp.row.ch1h'),   changeCell(a.ch1h),   changeCell(b.ch1h)),
+    row(_t('subcomp.row.ch24h'),  changeCell(a.ch24h),  changeCell(b.ch24h)),
+    row(_t('subcomp.row.ch7d'),   changeCell(a.ch7d),   changeCell(b.ch7d)),
+    row(_t('subcomp.row.ch30d'),  changeCell(a.ch30d),  changeCell(b.ch30d)),
+
+    // Section: Mercado
+    `<div class="compare-section"><div class="compare-section-label">${_t('subcomp.sec.market')}</div></div>`,
+
+    row(_t('subcomp.row.mcap_tao'), valCell(fmtTAO(a.mcap)), valCell(fmtTAO(b.mcap))),
+    tao ? row(_t('subcomp.row.mcap_usd'),
+      valCell(fmtUSD(a.mcap * tao)),
+      valCell(fmtUSD(b.mcap * tao))
+    ) : '',
+    row(_t('subcomp.row.vol'), valCell(fmtTAO(a.volume)), valCell(fmtTAO(b.volume))),
+    row(_t('subcomp.row.liq'), valCell(fmtTAO(a.liquidity)), valCell(fmtTAO(b.liquidity))),
+    row(_t('subcomp.row.ratio'),
+      valCell(a.liquidity > 0 ? (a.mcap / a.liquidity).toFixed(2) + 'x' : '—'),
+      valCell(b.liquidity > 0 ? (b.mcap / b.liquidity).toFixed(2) + 'x' : '—')
+    ),
+    row(_t('subcomp.row.supply'),
+      valCell(fmtNum(a.supply) + ' α'),
+      valCell(fmtNum(b.supply) + ' α')
+    ),
+
+    // Section: Staking
+    `<div class="compare-section"><div class="compare-section-label">${_t('subcomp.sec.staking')}</div></div>`,
+
+    row(_t('subcomp.row.apy'),
+      valCell(a.topApy != null ? a.topApy.toFixed(1) + '%' : '—'),
+      valCell(b.topApy != null ? b.topApy.toFixed(1) + '%' : '—')
+    ),
+  ].join('');
+
+  document.getElementById('compare-table').innerHTML = rows;
+}
+
+function row(label, cellA, cellB){
+  return `<div class="compare-row">
+    <div class="compare-cell metric">${esc(label)}</div>
+    <div class="compare-cell val-a">${cellA}</div>
+    <div class="compare-cell val-b">${cellB}</div>
+  </div>`;
+}
+
+// ─── Event wiring ─────────────────────────────────────────────────────────────
+['a','b'].forEach(slot => {
+  const input = document.getElementById(`input-${slot}`);
+  const drop  = document.getElementById(`drop-${slot}`);
+
+  input.addEventListener('focus', () => {
+    renderDropdown(slot, input.value);
+    openDrop(slot);
+  });
+  input.addEventListener('input', () => {
+    renderDropdown(slot, input.value);
+    openDrop(slot);
+  });
+  input.addEventListener('blur', () => {
+    setTimeout(() => closeDrop(slot), 150);
+  });
+  document.getElementById(`clear-${slot}`).addEventListener('click', () => clearSlot(slot));
+});
+
+document.getElementById('compare-btn').addEventListener('click', runCompare);
+
+document.addEventListener('langchange', () => {
+  if(LAST_DATA) renderComparison(LAST_DATA.dA, LAST_DATA.dB);
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+Promise.all([loadAllSubnets(), loadTaoPrice()]);
+</script>
+
+<script>
+(function(){
+  function savePage(){
+    try { sessionStorage.setItem('lastPage', location.pathname.replace(/^\//,'') || 'index.html'); } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden') savePage(); });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+<script>
+(async function loadNavTao(){
+  const B='https://tao360.qrchd889gj.workers.dev';
+  function fU(n){if(!n&&n!==0)return'—';if(n<1)return'$'+n.toFixed(3);if(n<100)return'$'+n.toFixed(2);return'$'+Math.round(n).toLocaleString('en-US')}
+  function fP(v){if(v===null||v===undefined||isNaN(v))return'—';return(v>0?'+':'')+v.toFixed(1)+'%'}
+  function pC(v){if(v>0.001)return'pos';if(v<-0.001)return'neg';return'zero'}
+  try{
+    const r=await fetch(B+'/api/price/latest/v1?asset=tao'),j=await r.json();
+    if(j&&j.data&&j.data[0]){
+      const price=parseFloat(j.data[0].price)||0,ch=parseFloat(j.data[0].percent_change_24h)||0;
+      const pe=document.getElementById('nav-tao-price'),ce=document.getElementById('nav-tao-change');
+      if(pe)pe.textContent=fU(price);
+      if(ce){ce.textContent=fP(ch);ce.className='nt-change '+pC(ch)}
+    }
+  }catch(e){console.error('nav-tao load failed',e)}
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo I-09 Intermedio: Seguridad avanzada: wallets y OpSec — Bittensor Pro</title>
+<meta name="description" content="Guía completa de seguridad para Bittensor: modelo coldkey/hotkey, seed phrases, hardware wallets, seguridad de servidores y protección frente a phishing." />
+<link rel="canonical" href="https://bittensor.pro/aprende-intermedio-modulo-09.html" />
+<meta property="og:title" content="Módulo I-09 Intermedio: Seguridad avanzada: wallets y OpSec" />
+<meta property="og:description" content="Protege tus fondos TAO: modelo de seguridad, seed phrases, OpSec y cómo evitar estafas. 4 horas." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html" data-i18n="nav.levels">Niveles</a>
+    <a href="aprende-intermedio.html" class="active" data-i18n="intermedio.level">Intermedio</a>
+    <a href="market.html" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link" data-i18n="intermedio.back">← Volver al curso intermedio</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO I-09</div>
+  <h1>Seguridad avanzada: <strong>wallets</strong> y OpSec</h1>
+  <p class="hero-sub">El modelo de seguridad coldkey/hotkey de Bittensor, cómo guardar tu seed phrase correctamente, seguridad de los servidores de minería y cómo identificar y evitar phishing y estafas comunes en el ecosistema.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span><span data-i18n="intermedio.level">Nivel Intermedio</span></span>
+    <span class="meta-tag neutral">4 horas</span>
+    <span class="meta-tag neutral">Prerrequisito: Módulo I-08</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title" data-i18n="mod.objectives">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Dominar el modelo de seguridad coldkey/hotkey y por qué separarlos es esencial.</li>
+      <li>Saber cómo guardar seed phrases de forma segura y duradera.</li>
+      <li>Entender qué es una wallet air-gapped y cuándo usarla.</li>
+      <li>Aplicar buenas prácticas de OpSec en servidores de minería y validación.</li>
+      <li>Identificar los vectores de phishing y estafa más comunes en Bittensor.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>El modelo de seguridad de Bittensor</h2>
+
+    <h3>1.1. Coldkey: tu identidad financiera</h3>
+    <p>La <strong>coldkey</strong> es la clave más importante que tienes en Bittensor. Almacena tu TAO, recibe las recompensas de minería y validación, y controla los staking positions. Es equivalente a la llave de tu caja fuerte: si alguien la consigue, puede vaciar tus fondos por completo e irremediablemente. No hay banco que llame para verificar. No hay servicio de atención al cliente. La blockchain es soberana y las transacciones son irreversibles.</p>
+    <p>Por eso la coldkey debe tratarse con el máximo rigor: generada en un entorno seguro, guardada offline, nunca conectada a internet más de lo estrictamente necesario para firmar transacciones.</p>
+
+    <h3>1.2. Hotkey: tu identidad operativa</h3>
+    <p>La <strong>hotkey</strong> es la clave que usa el minero o validator para operar día a día: identificarse en la red, recibir peticiones, firmar actualizaciones de pesos. Un servidor de minería corre con la hotkey activa en memoria. Esto la expone más: un servidor comprometido puede perder la hotkey.</p>
+    <p>La protección aquí es la separación: <strong>una hotkey comprometida no da acceso a la coldkey</strong>. Los fondos siguen seguros. Lo peor que puede pasar es que alguien use tu hotkey UID para actuar maliciosamente en la subnet, no que robe tu TAO directamente.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Regla de oro</div>
+      <p><strong>Nunca pongas la coldkey en un servidor de minería.</strong> El servidor solo necesita la hotkey. La coldkey solo la usas en tu máquina personal, lo mínimo posible, para operaciones financieras.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Seed phrases y backup seguro</h2>
+
+    <h3>2.1. Qué es la seed phrase y por qué es todo</h3>
+    <p>Al crear una coldkey o hotkey con <code style="font-family:'Share Tech Mono',monospace;color:var(--accent);font-size:14px">btcli wallet new_coldkey</code>, el sistema genera una frase mnemónica de 12 o 24 palabras. Esta frase es la representación human-readable de tu clave privada. Con ella puedes recuperar la wallet en cualquier máquina, en cualquier momento, con cualquier software compatible. Sin ella, si pierdes el dispositivo o el archivo de keystore, los fondos se pierden para siempre.</p>
+
+    <h3>2.2. Dónde guardarla (y dónde NO)</h3>
+    <ul>
+      <li><strong>Sí:</strong> en papel, escrita a mano, en un lugar físico seguro (caja fuerte en casa o banco).</li>
+      <li><strong>Sí:</strong> en metal grabado (acero inoxidable, titanio) para resistencia al fuego y al agua. Hay productos específicos para esto (CryptoSteel, Bilodeau).</li>
+      <li><strong>Sí:</strong> varias copias en lugares distintos (por si hay incendio, robo, o inundación).</li>
+      <li><strong>No:</strong> en el ordenador en texto plano, en un gestor de contraseñas online, en Google Docs, en un email, en una foto en tu teléfono, en un mensaje de Telegram a ti mismo.</li>
+      <li><strong>No:</strong> dársela a nadie, nunca, bajo ningún motivo, aunque digan ser soporte de Bittensor.</li>
+    </ul>
+
+    <h3>2.3. La paradoja del backup digital</h3>
+    <p>Guardar la seed phrase en un gestor de contraseñas offline (como KeePass, en un disco cifrado) puede ser aceptable como capa adicional, pero <em>nunca como única copia</em>. Los discos fallan. Los formatos de archivo se vuelven obsoletos. El papel tiene sus propios riesgos pero lleva siglos funcionando. El consejo de la industria es: <strong>al menos una copia física en papel o metal, en lugar físico seguro.</strong></p>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Wallets air-gapped y hardware wallets</h2>
+
+    <h3>3.1. Qué es una wallet air-gapped</h3>
+    <p>Una wallet <strong>air-gapped</strong> es aquella cuya clave privada nunca ha tocado un sistema conectado a internet. La forma más segura para una coldkey de Bittensor es generarla en un ordenador que nunca se conectará a internet: un portátil viejo con el WiFi físicamente desactivado, arrancado desde un USB con un sistema operativo limpio (Tails OS o similar).</p>
+    <p>Una vez generada la coldkey offline, solo se transfiere la dirección pública (para recibir fondos) al mundo conectado. Para firmar una transacción, se hace el proceso en la máquina air-gapped y se transfiere la transacción firmada al sistema online mediante QR code o USB.</p>
+
+    <h3>3.2. Hardware wallets y Bittensor</h3>
+    <p>A mayo de 2026, Ledger y Trezor no tienen soporte nativo completo para Bittensor (el SDK de Subtensor no está integrado en sus aplicaciones). La alternativa recomendada es la wallet air-gapped descrita arriba, o en su defecto, un ordenador dedicado exclusivamente a la coldkey que no se usa para ninguna otra cosa y nunca instala software de terceros.</p>
+
+    <h3>3.3. Para usuarios con menos fondos</h3>
+    <p>Si tienes poco TAO (menos de 1.000 USD en valor), un ordenador personal razonablemente seguro (actualizado, con antivirus, sin software pirata) es suficiente para empezar. La regla de proporcionalidad: el nivel de seguridad debe ser proporcional al valor que proteges. No tiene sentido montar una infraestructura air-gapped para 50 USD de TAO, pero sí para 50.000 USD.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>OpSec en servidores de minería</h2>
+
+    <h3>4.1. Principios básicos</h3>
+    <p>Los servidores de minería son máquinas expuestas a internet con una hotkey activa. Son objetivos potenciales de ataques. Las prácticas básicas no negociables:</p>
+    <ul>
+      <li><strong>Actualización constante:</strong> mantén el sistema operativo y todos los paquetes al día. La mayoría de ataques exitosos explotan vulnerabilidades conocidas con parches disponibles.</li>
+      <li><strong>Firewall restrictivo:</strong> solo exponer el puerto del axon (el que usa el validator para conectarse). Todo lo demás cerrado.</li>
+      <li><strong>Acceso SSH por clave, no por contraseña:</strong> desactiva el acceso SSH por contraseña. Solo claves SSH. Y usa una passphrase en tu clave SSH.</li>
+      <li><strong>No instalar software innecesario:</strong> menos software = menos superficie de ataque.</li>
+      <li><strong>Monitorización:</strong> configura alertas si el proceso del minero muere o si hay accesos SSH inusuales.</li>
+    </ul>
+
+    <h3>4.2. La coldkey no va en el servidor</h3>
+    <p>Este punto merece repetirse. Muchos mineros nuevos cometen el error de poner la coldkey en el servidor de minería «por comodidad» para poder hacer operaciones desde ahí. Es un error grave. Si el servidor es comprometido, el atacante tiene acceso completo a todos los fondos. La coldkey solo se usa desde una máquina personal de confianza.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 05</div>
+    <h2>Phishing y estafas comunes</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Vector de ataque</th><th>Cómo funciona</th><th>Cómo identificarlo y evitarlo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Sitios falsos</strong></td><td>bitt3nsor.pro, bittensor-pro.com — URLs casi idénticas a las legítimas</td><td>Usar siempre bookmarks. Verificar la URL completa. HTTPS no garantiza legitimidad.</td></tr>
+          <tr><td><strong>DMs falsos de soporte</strong></td><td>Alguien en Discord o Telegram dice ser del equipo de Bittensor y pide tu seed phrase para «verificar» o «resolver un problema»</td><td>El equipo de Bittensor nunca contacta por DM para pedir claves. Ignorar y reportar.</td></tr>
+          <tr><td><strong>Wallet verifiers</strong></td><td>Sitio web que pide conectar tu wallet y autorizar una transacción para «reclamar un airdrop» o «sincronizar tu cuenta»</td><td>Nunca conectar la coldkey a sitios desconocidos. No hay airdrops oficiales que requieran seed phrase.</td></tr>
+          <tr><td><strong>Airdrops falsos</strong></td><td>Tokens no solicitados aparecen en una wallet. Intentar venderlos activa un contrato malicioso que drena fondos</td><td>Ignorar tokens no solicitados. No interactuar con contratos desconocidos.</td></tr>
+          <tr><td><strong>Falsas oportunidades de inversión</strong></td><td>«Pon X TAO aquí y gana 3X en 30 días». Canales en Telegram con miles de miembros (mayormente bots)</td><td>Si suena demasiado bueno, es estafa. No hay rendimientos garantizados en crypto.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Regla absoluta</div>
+      <p><strong>Nadie legítimo te pedirá nunca tu seed phrase.</strong> Ni el equipo de Bittensor, ni un validator, ni un miner, ni un "moderador" de Discord. Si alguien la pide, es un ataque. Punto final.</p>
+    </div>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title" data-i18n="mod.glossary">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">Coldkey</div><div class="glosario-def">Clave principal de Bittensor que controla fondos TAO. Equivalente a la clave privada de una wallet. Debe guardarse siempre offline.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Hotkey</div><div class="glosario-def">Clave operativa para minería/validación. Se usa en servidores activos. Si se compromete, los fondos de la coldkey permanecen seguros.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Seed phrase / Mnemónico</div><div class="glosario-def">Frase de 12-24 palabras que representa la clave privada de forma legible. Permite recuperar la wallet en cualquier dispositivo.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Air-gapped</div><div class="glosario-def">Dispositivo que nunca ha estado conectado a internet. Máximo nivel de seguridad para guardar claves privadas.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Hardware wallet</div><div class="glosario-def">Dispositivo físico (Ledger, Trezor) que guarda la clave privada offline y firma transacciones sin exponer la clave. Soporte limitado en Bittensor a mayo 2026.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Phishing</div><div class="glosario-def">Ataque en el que el atacante se hace pasar por una entidad legítima para obtener credenciales o seed phrases.</div></div>
+    <div class="glosario-item"><div class="glosario-term">OpSec</div><div class="glosario-def">Operational Security. Conjunto de prácticas para minimizar la exposición de información sensible y sistemas críticos.</div></div>
+    <div class="glosario-item"><div class="glosario-term">2FA</div><div class="glosario-def">Two-Factor Authentication. Segunda capa de verificación de identidad además de la contraseña. Obligatorio en todos los exchanges y servicios relacionados.</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title" data-i18n="mod.exercises">// Ejercicios</div>
+    <ol>
+      <li>Explica con tus palabras la diferencia entre coldkey y hotkey en Bittensor. ¿Qué pasa en el peor caso si un atacante obtiene tu hotkey? ¿Y si obtiene tu coldkey?</li>
+      <li>Diseña un plan de backup para una coldkey que almacena 5.000 TAO. Indica: cuántas copias de la seed phrase harás, en qué formato (papel/metal), dónde las guardarás físicamente, y qué harás si una copia se pierde o destruye.</li>
+      <li>Recibes un DM en Discord de alguien con el nombre «Bittensor Support» que dice que tu wallet tiene una anomalía y necesitas verificarla visitando un link. ¿Qué haces? Detalla los pasos y qué señales de alarma ves.</li>
+      <li>Configura (en papel, no es necesario ejecutarlo) las reglas de firewall básicas para un servidor de minería: qué puertos abrir, qué cerrar, y cómo restringir el acceso SSH.</li>
+      <li>¿Por qué la seed phrase no debería guardarse en un gestor de contraseñas online (como LastPass o 1Password cloud)? ¿Qué riesgos específicos presenta esa opción?</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title" data-i18n="mod.refs">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>Guía de seguridad de wallets Bittensor:</strong> <a href="https://docs.bittensor.com/getting-started/wallets" target="_blank" rel="noopener">docs.bittensor.com/getting-started/wallets</a></li>
+      <li><strong>Tails OS (sistema operativo seguro para air-gap):</strong> <a href="https://tails.boum.org" target="_blank" rel="noopener">tails.boum.org</a></li>
+      <li><strong>'Not Your Keys, Not Your Coins' — explainer (Andreas Antonopoulos):</strong> video disponible en YouTube sobre auto-custodia.</li>
+      <li><strong>Rekt.news — historial de hacks y estafas crypto:</strong> <a href="https://rekt.news" target="_blank" rel="noopener">rekt.news</a></li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-intermedio-modulo-10.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo I-10</div>
+      <div class="siguiente-title">Gobernanza: propuestas y votaciones</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · <span data-i18n="intermedio.level">Nivel Intermedio</span> · Módulo I-09 · Mayo 2026 · <a href="aprende-intermedio.html"><span data-i18n="intermedio.back_course">Volver al curso</span></a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

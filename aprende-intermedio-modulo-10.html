@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Módulo I-10: Gobernanza: propuestas y votaciones | Bittensor PRO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">B</div>
+    <div class="brand-name">Bittensor<em>PRO</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html">Niveles</a>
+    <a href="aprende-intermedio.html" class="active">Intermedio</a>
+    <a href="market.html">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.3);">Herramientas</a>
+  </div>
+</nav>
+
+<!-- BACK -->
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link" data-i18n="intermedio.back">&#8592; Intermedio</a>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="module-num">MÓDULO I-10</div>
+  <h1>Gobernanza: <strong>propuestas y votaciones</strong></h1>
+  <p class="hero-sub">Descubre cómo se toman las decisiones en Bittensor: quién tiene poder de voto, cómo se presentan y aprueban los cambios al protocolo, y qué propuestas históricas han transformado la red.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span>4 horas</span>
+    <span class="meta-tag neutral">Prerequisito: Módulo I-09</span>
+    <span class="meta-tag neutral">Nivel Intermedio</span>
+  </div>
+</header>
+
+<!-- OBJETIVOS -->
+<div class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title">Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Comprender la arquitectura de gobernanza on-chain de Bittensor: Senate, Triumvirate y sus roles.</li>
+      <li>Diferenciar los tipos de propuestas existentes y qué aspectos del protocolo puede modificar cada una.</li>
+      <li>Entender el proceso completo de votación: quórum, pesos por stake y ejecución automática.</li>
+      <li>Conocer cómo participa indirectamente un usuario normal a través de su validator delegado.</li>
+      <li>Revisar las propuestas históricas más importantes y cómo han cambiado la red.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <!-- SECTION 1 -->
+  <section>
+    <div class="section-num">01 — Fundamentos</div>
+    <h2>El sistema de gobernanza de Bittensor</h2>
+
+    <p>Bittensor opera como una red descentralizada, pero la descentralización no significa ausencia de coordinación. Para que el protocolo pueda evolucionar —correcting bugs, adjusting incentives, expanding capacities— existe un sistema de <strong>gobernanza on-chain</strong>: las decisiones no las toma ninguna empresa ni individuo de forma unilateral, sino que se someten a un proceso formal de propuesta, deliberación y votación cuyo resultado se ejecuta directamente en la blockchain.</p>
+
+    <p>El órgano central de esta gobernanza es el <strong>Senado</strong> (Senate). El Senado está compuesto por los validators con mayor stake acumulado en la <em>root network</em> (SN0, también llamada Subnet 0 o red raíz). No cualquier validator puede ser senator: solo los que alcanzan los umbrales de stake más altos en SN0 obtienen un asiento en el Senado. Esto hace que el poder de gobernanza esté directamente correlacionado con la convicción económica — cuanto más TAO tienes comprometido en la red raíz, más influencia tienes sobre su futuro.</p>
+
+    <p>Junto al Senado, existe un segundo organismo de menor composición pero con poderes especiales: el <strong>Triumvirate</strong>. El Triumvirate es un grupo fijo de 3 wallets designadas que tiene la capacidad de ejecutar <em>propuestas de emergencia</em> sin pasar por el proceso completo de votación senatorial. Su función es actuar con agilidad ante bugs críticos, vulnerabilidades de seguridad o actualizaciones urgentes donde esperar 7 días sería inaceptable.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>En Bittensor, <strong>el poder de gobernanza se gana con stake</strong>. Los senators no son elegidos por votos populares sino por su posición en el ranking de stake de SN0. Esto alinea los incentivos: quien más arriesga económicamente tiene más voz sobre el protocolo. Un senator que vote por un cambio dañino perjudica directamente el valor de sus propios activos.</p>
+    </div>
+
+    <p>Este diseño tiene implicaciones importantes. Primero, los grandes validators que acumulan stake masivo en la root network acumulan también influencia política desproporcionada. Segundo, los cambios al protocolo siempre dejan un registro público e inmutable en la cadena. Tercero, cualquier cambio que supere el quórum se ejecuta <em>automáticamente</em> —no hay intermediario técnico que deba implementarlo manualmente.</p>
+
+    <h3>La root network como centro de poder</h3>
+    <p>La Subnet 0 no produce inteligencia artificial como las demás subnets. Su función principal es ser el <strong>sistema de coordinación global</strong> de la red. Los validators que stakean en SN0 son quienes deciden las emisiones que recibe cada subnet (a través de los root weights), y son quienes conforman el Senado. Stackear en SN0 es, por tanto, una decisión política además de económica.</p>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section>
+    <div class="section-num">02 — Tipos</div>
+    <h2>Tipos de propuestas</h2>
+
+    <p>No todas las propuestas son iguales en alcance ni en quién puede presentarlas. Bittensor clasifica las propuestas en cuatro categorías principales según el tipo de cambio que buscan implementar.</p>
+
+    <h3>Senate Motions</h3>
+    <p>Son las propuestas más frecuentes y afectan a los <strong>hiperparámetros globales</strong> del protocolo. Cualquier senator puede presentar una motion. Ejemplos de lo que puede modificar una senate motion:</p>
+    <ul>
+      <li><strong>Emission tempo:</strong> la velocidad a la que se emiten nuevos TAO al sistema.</li>
+      <li><strong>Max subnets:</strong> el número máximo de subnets que pueden existir simultáneamente en la red.</li>
+      <li><strong>Min stake para senator:</strong> el umbral mínimo de stake necesario para ser considerado senator.</li>
+      <li><strong>Ajustes al burn cost global:</strong> el coste base de registrarse en cualquier subnet.</li>
+      <li><strong>Parámetros de Yuma Consensus:</strong> como el kappa (threshold de consenso) global.</li>
+    </ul>
+
+    <h3>Subnet Proposals</h3>
+    <p>Son propuestas que afectan a los <strong>hiperparámetros de una subnet específica</strong>. Solo el owner (fundador registrado) de esa subnet puede presentar cambios de hiperparámetros menores. Sin embargo, cambios considerados "mayores" por el protocolo —como modificar parámetros fundamentales de incentivos— requieren ratificación por parte del Senado. Esto protege a la red de subnet owners que podrían intentar manipular sus propios sistemas de emisiones para beneficiarse a expensas de los demás.</p>
+
+    <h3>Root Network Proposals</h3>
+    <p>Son las propuestas de mayor alcance: afectan a la <strong>arquitectura fundamental del protocolo</strong>. Cambios en cómo funciona Yuma Consensus a nivel de red, modificaciones a la lógica de la root network, o cambios en cómo se distribuyen las emisiones entre subnets entran en esta categoría. Son las más difíciles de aprobar y requieren el mayor nivel de deliberación.</p>
+
+    <h3>Emergency Proposals via Triumvirate</h3>
+    <p>El Triumvirate puede ejecutar cambios de emergencia sin votación senatorial completa. Este mecanismo existe para situaciones donde la velocidad es crítica: un bug que está siendo explotado activamente, una vulnerabilidad de seguridad descubierta antes de que sea pública, o una actualización de compatibilidad urgente antes de un fork planificado. Aunque poderoso, el Triumvirate está diseñado para ser usado con moderación — el abuso erosionaría la confianza en el sistema.</p>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section>
+    <div class="section-num">03 — Proceso</div>
+    <h2>El proceso de votación</h2>
+
+    <p>Entender el flujo completo de una propuesta, desde su presentación hasta su ejecución o rechazo, es esencial para cualquier participante que quiera seguir o influir en la gobernanza de Bittensor.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Etapa</th>
+            <th>Actor</th>
+            <th>Mecanismo</th>
+            <th>Resultado posible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Presentación</strong></td>
+            <td>Cualquier senator</td>
+            <td>Llama a la función <code>propose()</code> on-chain con los parámetros del cambio propuesto</td>
+            <td>Propuesta queda registrada en la cadena con un ID único y un periodo de votación activo</td>
+          </tr>
+          <tr>
+            <td><strong>2. Deliberación</strong></td>
+            <td>Todos los senators</td>
+            <td>Periodo abierto (normalmente 7 días) durante el cual cualquier senator puede votar <em>aye</em> (a favor) o <em>nay</em> (en contra)</td>
+            <td>Votos ponderados por stake acumulados on-chain</td>
+          </tr>
+          <tr>
+            <td><strong>3. Cómputo</strong></td>
+            <td>Protocolo (automático)</td>
+            <td>Al cierre del periodo, el protocolo suma los pesos de stake de los votos <em>aye</em> y los compara con el quórum requerido (mayoría simple por stake)</td>
+            <td>Propuesta marcada como aprobada o rechazada</td>
+          </tr>
+          <tr>
+            <td><strong>4a. Aprobada</strong></td>
+            <td>Protocolo (automático)</td>
+            <td>Se ejecuta la función correspondiente on-chain sin intervención manual</td>
+            <td>El cambio entra en vigor en el siguiente bloque aplicable</td>
+          </tr>
+          <tr>
+            <td><strong>4b. Rechazada</strong></td>
+            <td>—</td>
+            <td>No se realiza ninguna acción; la propuesta queda archivada como rechazada</td>
+            <td>El estado del protocolo permanece sin cambios</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>El quórum y los pesos de stake</h3>
+    <p>A diferencia de una democracia de "una persona, un voto", el sistema de gobernanza de Bittensor es <strong>plutocrático ponderado por stake</strong>. Cada senator no tiene un voto equivalente al de cualquier otro senator: su voto vale exactamente lo que representa su stake en SN0 como proporción del stake total de todos los senators.</p>
+
+    <p>El quórum se define como una <strong>mayoría simple por stake</strong>: si los votos <em>aye</em> acumulan más del 50% del stake total de los senators que han votado, la propuesta se aprueba. Un senator con el 30% del stake total del Senado tiene, por tanto, un poder de voto considerable y puede ser decisivo en cualquier votación reñida.</p>
+
+    <p>El <strong>periodo de votación</strong> estándar es de 7 días (aproximadamente 100,800 bloques a la velocidad de ~12 segundos por bloque). Durante este tiempo, los senators pueden cambiar su voto si obtienen nueva información o si la propuesta es modificada. Al expirar el periodo, el estado de la votación es definitivo.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Los validators que son senators <strong>tienen más poder que el resto</strong> porque concentran dos funciones críticas: establecen las emisiones entre subnets a través de los root weights, y votan las propuestas de cambio al protocolo. Esto hace que convertirse en senator sea una posición de enorme influencia estratégica en el ecosistema Bittensor.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section>
+    <div class="section-num">04 — Participación</div>
+    <h2>Cómo participa un usuario normal</h2>
+
+    <p>Si no eres un senator —es decir, si no tienes el stake suficiente en SN0 para estar en el Senado— ¿puedes influir en la gobernanza? La respuesta es sí, aunque de forma indirecta.</p>
+
+    <h3>Voto delegado a través del stake</h3>
+    <p>Cuando stakeas TAO con un validator que es senator, tu stake contribuye al poder de voto de ese senator. Si ese senator vota <em>aye</em> a una propuesta, lo hace con el peso combinado de <strong>su propio TAO más el TAO que sus delegadores han colocado en su hotkey</strong>. En este sentido, cada TAO delegado es también un voto indirecto en la gobernanza.</p>
+
+    <p>Esto significa que la elección de tu validator es también una decisión de gobernanza. Un validator con posiciones públicas claras sobre el desarrollo del protocolo representa de forma implícita a quienes le delegan. Antes de elegir un validator, tiene sentido investigar:</p>
+    <ul>
+      <li>¿Ha votado en propuestas recientes? ¿Cómo ha votado?</li>
+      <li>¿Tiene publicada una posición sobre los grandes debates del ecosistema?</li>
+      <li>¿Comunica a sus delegadores antes de votar en propuestas importantes?</li>
+    </ul>
+
+    <h3>Expresar tu preferencia</h3>
+    <p>Nada impide que contactes directamente a tu validator y le expreses tu posición antes de que vote en una propuesta activa. Los validators que cuidan su reputación suelen escuchar a sus delegadores, especialmente cuando representan una proporción significativa de su stake total. Esta comunicación puede ocurrir a través de canales públicos como Discord, Telegram, foros o incluso publicaciones en redes sociales.</p>
+
+    <h3>El futuro: delegated voting granular</h3>
+    <p>En el diseño actual, la influencia del usuario normal sobre la gobernanza es indirecta. Sin embargo, en el roadmap de Bittensor y en las discusiones de la comunidad se plantea la posibilidad de implementar <strong>mecanismos de delegated voting más granulares</strong> en el futuro: sistemas donde un delegador podría indicar directamente cómo quiere que su validator vote en su nombre, propuesta por propuesta. Este tipo de mecanismo existe en otras blockchains (como Cosmos con su liquid governance) y podría aumentar significativamente la participación del usuario promedio en las decisiones del protocolo.</p>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section>
+    <div class="section-num">05 — Historia</div>
+    <h2>Propuestas históricas relevantes</h2>
+
+    <p>La historia de la gobernanza de Bittensor es la historia de cómo una red joven ha ido ajustando sus mecanismos para sobrevivir y crecer. Algunas propuestas han tenido un impacto tan grande que es imposible entender el Bittensor actual sin conocerlas.</p>
+
+    <h3>dTAO — Febrero 2025</h3>
+    <p><strong>dTAO</strong> (Dynamic TAO) fue la actualización más significativa en la historia del protocolo. Antes de dTAO, las emisiones a cada subnet las decidían exclusivamente los senators de la root network asignando pesos manualmente. Esto creaba un proceso centralizado y sujeto a favoritismos. dTAO reemplazó este sistema por <strong>pools AMM (Automated Market Maker)</strong>: cada subnet tiene ahora su propio token alpha y un pool de liquidez TAO/alpha. Las emisiones fluyen hacia cada subnet en proporción al TAO stakeado en su pool. El mercado, en vez del Senado, determina qué subnets merecen más recursos.</p>
+    <p>dTAO fue aprobada por el Senado tras meses de debate público, revisiones técnicas y testing en testnet. Su implementación en febrero de 2025 transformó radicalmente el ecosistema, introduciendo conceptos como TVL por subnet, precio del alpha token y estrategias de inversión en subnets individuales.</p>
+
+    <h3>Expansión a 256 subnets</h3>
+    <p>El protocolo original permitía un número limitado de subnets simultáneas. Una propuesta amplió ese límite, y está previsto en el roadmap de 2026 llegar hasta <strong>256 subnets activas en paralelo</strong>. Cada expansión de este límite requiere que la infraestructura de la red pueda soportar la carga adicional y que haya demanda real de nuevas subnets, lo que hace de este tipo de propuestas un balance entre crecimiento y estabilidad.</p>
+
+    <h3>Ajustes a emission tempos</h3>
+    <p>Varias propuestas históricas han ajustado los <strong>emission tempos</strong> de subnets específicas: la velocidad a la que esa subnet recibe y distribuye TAO entre sus participants. Cambiar el tempo puede acelerar o ralentizar la competencia dentro de una subnet, afectar la rentabilidad de los miners y validators de esa subnet, y cambiar su atractivo para nuevos participantes.</p>
+
+    <h3>Cómo seguir las propuestas activas</h3>
+    <p>Para monitorizar en tiempo real las propuestas abiertas, los votos emitidos y el historial de decisiones pasadas, los recursos más útiles son:</p>
+    <ul>
+      <li><strong>taostats.io/governance</strong> — el explorador más completo para gobernanza, con listado de proposals activas, estado de votaciones, senators y sus posiciones.</li>
+      <li><strong>El explorador oficial de Opentensor</strong> — accesible desde docs.bittensor.com con información técnica detallada sobre cada motion.</li>
+      <li><strong>Discord de Opentensor Foundation</strong> — donde ocurren las discusiones previas a las propuestas formales y donde los senators comunican sus posiciones.</li>
+    </ul>
+  </section>
+
+  <!-- GLOSARIO -->
+  <div class="glosario">
+    <div class="glosario-title">Glosario del módulo</div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Senate (Senado)</div>
+      <div class="glosario-def">El órgano de gobernanza principal de Bittensor, formado por los validators con mayor stake en SN0 (root network). Los senators tienen poder de voto sobre las propuestas de cambio al protocolo. Su composición varía según el ranking de stake en SN0.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Senator</div>
+      <div class="glosario-def">Un validator que ha alcanzado el umbral de stake en SN0 necesario para formar parte del Senado. Puede presentar propuestas, votar en ellas y su peso de voto es proporcional a su stake total en la root network.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Triumvirate</div>
+      <div class="glosario-def">Grupo especial de 3 wallets con capacidad para ejecutar propuestas de emergencia sin necesidad de completar el proceso completo de votación senatorial. Diseñado para actuar con rapidez ante vulnerabilidades críticas o actualizaciones urgentes del protocolo.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Governance (Gobernanza)</div>
+      <div class="glosario-def">El conjunto de mecanismos on-chain mediante los cuales la comunidad de Bittensor decide cómo evoluciona el protocolo. Incluye la presentación de propuestas, el proceso de votación, el cómputo del quórum y la ejecución automática de las decisiones aprobadas.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Motion</div>
+      <div class="glosario-def">Término técnico para una propuesta presentada ante el Senado. Una motion puede proponer cambios en hiperparámetros globales, ajustes a subnets específicas o modificaciones a la arquitectura fundamental del protocolo.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Quórum</div>
+      <div class="glosario-def">El umbral mínimo de participación o aprobación necesario para que una propuesta sea válida. En Bittensor, el quórum para la mayoría de propuestas es la mayoría simple ponderada por stake: los votos aye deben representar más del 50% del stake total de quienes han votado.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">On-chain execution</div>
+      <div class="glosario-def">La ejecución automática de una propuesta aprobada directamente en la blockchain, sin intervención manual de ningún desarrollador o administrador. Es una garantía de que las decisiones de gobernanza se implementan fielmente y sin censura.</div>
+    </div>
+  </div>
+
+  <!-- EJERCICIOS -->
+  <div class="ejercicios">
+    <div class="ejercicios-title">Ejercicios prácticos</div>
+    <ol>
+      <li>Entra en taostats.io/governance y localiza las últimas 5 propuestas votadas (aprobadas o rechazadas). Para cada una, anota: tipo de propuesta, senator que la presentó, resultado de la votación y qué cambio buscaba implementar.</li>
+      <li>Identifica cuáles de los validators de SN0 actualmente tienen estatus de senator. ¿Cuántos senators hay? ¿Cuánto stake representa el senator con más poder como porcentaje del total del Senado? ¿Podría ese senator aprobar o bloquear una propuesta en solitario?</li>
+      <li>Investiga la propuesta dTAO: busca el texto original de la propuesta, la fecha de aprobación, el número de senators que votaron aye vs nay, y cómo cambió la red en las semanas siguientes a su implementación. Resume los cambios en un párrafo.</li>
+      <li>Si tuvieras que proponer un cambio al protocolo Bittensor, ¿cuál sería y por qué? Redacta una "motion" informal explicando el problema que resuelve, el cambio concreto que propones y por qué crees que los senators deberían apoyarla.</li>
+      <li>Compara el sistema de gobernanza de Bittensor con el de otra blockchain que conozcas (por ejemplo Ethereum con sus EIPs, Cosmos, o Polkadot). ¿Cuáles son las principales diferencias en términos de quién puede votar, cómo se ponderan los votos y cómo se ejecutan las decisiones?</li>
+    </ol>
+  </div>
+
+  <!-- REFERENCIAS -->
+  <div class="referencias">
+    <div class="referencias-title">Referencias y lecturas</div>
+    <ul>
+      <li><a href="https://docs.bittensor.com/governance" target="_blank" rel="noopener">docs.bittensor.com/governance — Documentación oficial de gobernanza</a></li>
+      <li><a href="https://taostats.io/governance" target="_blank" rel="noopener">taostats.io/governance — Explorador de propuestas y votaciones en tiempo real</a></li>
+      <li><a href="https://docs.bittensor.com/senate" target="_blank" rel="noopener">docs.bittensor.com/senate — El Senado: composición y poderes</a></li>
+      <li><a href="https://github.com/opentensor/bittensor/discussions" target="_blank" rel="noopener">github.com/opentensor/bittensor/discussions — Discusiones pre-propuesta de la comunidad</a></li>
+    </ul>
+  </div>
+
+</main>
+
+<!-- SIGUIENTE MÓDULO -->
+<div class="siguiente">
+  <a href="aprende-intermedio-modulo-11.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente módulo</div>
+      <div class="siguiente-title">Métricas y análisis del ecosistema</div>
+    </div>
+    <div class="siguiente-arrow">→</div>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <a href="index.html">Bittensor PRO</a> &nbsp;·&nbsp; Módulo I-10 &nbsp;·&nbsp; Nivel Intermedio
+</footer>
+
+</body>
+</html>

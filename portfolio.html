@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Portfolio de Subnets · Bittensor Pro — Construye y valora tu cartera</title>
+<meta name="description" content="Construye tu portfolio ideal de TAO y alpha tokens, ve la distribución en un gráfico y calcula cuánto costaría comprarlo en USD. Precios en vivo." />
+<link rel="canonical" href="https://bittensor.pro/portfolio.html" />
+<meta property="og:title" content="Portfolio de Subnets · Bittensor Pro" />
+<meta property="og:description" content="Diseña tu cartera de TAO y subnets y calcula su coste en USD con precios en vivo." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://bittensor.pro/portfolio.html" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a;--bg-2:#0d0f17;--bg-3:#141826;
+  --border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);
+  --text:#e8f0f5;--text-muted:#a8b2c0;--text-dim:#6b7385;--text-faint:#4a5263;
+  --cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--red:#ff4d5e;--amber:#ffb84d;
+  --max-width:1060px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Outfit',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.6;
+  overflow-x:hidden;min-height:100vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,184,77,0.05),transparent 60%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(0,240,255,0.03),transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:50;padding:10px 20px;padding-top:calc(10px + env(safe-area-inset-top));background:rgba(5,6,10,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,240,255,0.10);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex-shrink:0}
+.brand-mark{width:30px;height:30px;border:1px solid rgba(0,240,255,0.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:#00f0ff;font-size:14px;box-shadow:0 0 10px rgba(0,240,255,0.2)}
+.brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:#f4faff}
+.brand-title .pro{color:#ff2bd6;font-style:italic;margin-left:2px;text-shadow:0 0 8px rgba(255,43,214,.5)}
+.topbar-center{display:flex;align-items:center;justify-content:center;gap:4px}
+.topbar-center a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-guide{color:#e8f0f5}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
+.nav-learn{color:#22d87a;border-color:rgba(34,216,122,.18)!important}.nav-learn:hover{border-color:rgba(34,216,122,.45)!important}
+.nav-market{color:#ff2bd6;border-color:rgba(255,43,214,.18)!important}.nav-market:hover{border-color:rgba(255,43,214,.45)!important}
+.nav-tools{color:#ffb84d;border-color:rgba(255,184,77,.18)!important}.nav-tools:hover{border-color:rgba(255,184,77,.45)!important}
+.nav-tao{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;text-decoration:none;font-family:'Share Tech Mono','Courier New',monospace;background:rgba(0,240,255,.05);border:1px solid rgba(0,240,255,.25);border-radius:8px;padding:5px 10px;transition:all .15s}
+.nav-tao:hover{background:rgba(0,240,255,.10);border-color:rgba(0,240,255,.5)}
+.nt-symbol{font-size:10px;color:#00f0ff;letter-spacing:.08em;font-weight:700}
+.nt-price{font-size:12px;color:#e8f0f5;font-variant-numeric:tabular-nums;font-weight:500}
+.nt-change{font-size:10px;font-variant-numeric:tabular-nums}
+.nt-change.pos{color:#22d87a}.nt-change.neg{color:#ff4d5e}.nt-change.zero{color:#6b7385}
+.nt-arrow{color:#00f0ff;font-size:11px;transition:transform .2s}
+.nav-tao:hover .nt-arrow{transform:translateX(2px)}
+@media(max-width:640px){.topbar-center a{display:none}.nt-change{display:none}.nav-tao{padding:3px 8px}}
+
+/* BACK */
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;letter-spacing:0.12em;color:var(--amber);
+  text-transform:uppercase;text-decoration:none;
+}
+.back-link:hover{opacity:0.75}
+
+/* HERO */
+.hero{max-width:var(--max-width);margin:0 auto;padding:28px 20px 24px;position:relative;z-index:2}
+.hero-eyebrow{
+  font-size:10px;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:12px;
+}
+.hero h1{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:600;
+  font-size:clamp(28px,5vw,42px);line-height:1.1;margin-bottom:10px;
+}
+.hero h1 strong{font-style:normal;color:var(--amber);text-shadow:0 0 18px rgba(255,184,77,0.4)}
+.hero p{font-size:15px;color:var(--text-muted);max-width:58ch}
+
+/* MAIN GRID */
+.main{max-width:var(--max-width);margin:0 auto;padding:16px 20px 60px;position:relative;z-index:2}
+.layout{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr}}
+
+/* CARD */
+.card{
+  background:var(--bg-2);border:1px solid var(--border-2);border-radius:14px;padding:22px;
+}
+.card-title{
+  font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);margin-bottom:18px;
+}
+
+/* TYPE TOGGLE */
+.type-toggle{display:flex;gap:6px;margin-bottom:16px}
+.type-btn{
+  flex:1;padding:9px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
+  border:1px solid var(--border-2);background:transparent;color:var(--text-muted);
+  transition:all 0.15s;
+}
+.type-btn.active{
+  background:rgba(255,184,77,0.1);border-color:var(--amber);color:var(--amber);
+}
+
+/* PICKER */
+.field-label{font-size:11px;color:var(--text-faint);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px}
+.picker-wrap{position:relative;margin-bottom:14px}
+.picker-input{
+  width:100%;padding:10px 14px;background:var(--bg-3);border:1px solid var(--border-2);border-radius:8px;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.15s;
+}
+.picker-input:focus{border-color:var(--amber);box-shadow:0 0 0 2px rgba(255,184,77,0.1)}
+.picker-input::placeholder{color:var(--text-faint)}
+.picker-drop{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:200;
+  background:var(--bg-2);border:1px solid var(--border-2);border-radius:8px;
+  max-height:200px;overflow-y:auto;display:none;
+  box-shadow:0 8px 32px rgba(0,0,0,0.6);
+}
+.picker-drop.open{display:block}
+.picker-opt{
+  display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;
+  font-size:13px;color:var(--text-muted);border-bottom:1px solid var(--border);transition:background 0.1s;
+}
+.picker-opt:last-child{border-bottom:none}
+.picker-opt:hover{background:rgba(255,184,77,0.06);color:var(--text)}
+.opt-logo{width:20px;height:20px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.opt-logo-ph{
+  width:20px;height:20px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,184,77,0.1);border:1px solid rgba(255,184,77,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',sans-serif;font-size:7px;color:var(--amber);
+}
+.opt-id{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);margin-left:auto;flex-shrink:0}
+
+/* AMOUNT ROW */
+.amount-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-bottom:16px}
+.amount-wrap{position:relative}
+.amount-input{
+  width:100%;padding:10px 14px;background:var(--bg-3);border:1px solid var(--border-2);border-radius:8px;
+  color:var(--text);font-family:'Share Tech Mono',monospace;font-size:15px;outline:none;transition:border-color 0.15s;
+}
+.amount-input:focus{border-color:var(--amber)}
+.amount-unit{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  font-size:11px;color:var(--text-faint);letter-spacing:0.08em;pointer-events:none;
+}
+.amount-preview{font-size:12px;color:var(--text-faint);margin-top:4px;min-height:16px}
+
+.add-btn{
+  padding:10px 18px;border-radius:8px;cursor:pointer;
+  background:rgba(255,184,77,0.1);border:1px solid var(--amber);
+  color:var(--amber);font-size:13px;font-weight:600;white-space:nowrap;
+  transition:all 0.15s;
+}
+.add-btn:hover{background:rgba(255,184,77,0.2);box-shadow:0 0 16px rgba(255,184,77,0.2)}
+.add-btn:disabled{opacity:0.35;cursor:not-allowed}
+
+/* POSITIONS LIST */
+.positions-wrap{margin-top:20px}
+.positions-header{
+  display:grid;grid-template-columns:1fr 90px 90px 32px;gap:8px;
+  padding:0 0 8px;border-bottom:1px solid var(--border);
+  font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);
+}
+.pos-row{
+  display:grid;grid-template-columns:1fr 90px 90px 32px;gap:8px;align-items:center;
+  padding:11px 0;border-bottom:1px solid var(--border);
+  transition:background 0.1s;
+}
+.pos-row:last-child{border-bottom:none}
+.pos-asset{display:flex;align-items:center;gap:9px;min-width:0}
+.pos-swatch{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pos-logo{width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.pos-logo-ph{
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',sans-serif;font-size:8px;
+}
+.pos-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pos-sub{font-size:10px;color:var(--text-faint)}
+.pos-val{font-family:'Share Tech Mono',monospace;font-size:13px;text-align:right}
+.pos-val small{display:block;font-size:10px;color:var(--text-faint)}
+.pos-del{
+  display:flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:6px;cursor:pointer;
+  border:none;background:transparent;color:var(--text-faint);font-size:15px;
+  transition:all 0.15s;
+}
+.pos-del:hover{background:rgba(255,77,94,0.1);color:var(--red)}
+
+.empty-state{
+  text-align:center;padding:40px 20px;color:var(--text-faint);font-size:14px;
+}
+.empty-state .empty-icon{font-size:32px;margin-bottom:12px;opacity:0.4}
+
+.clear-btn{
+  margin-top:16px;width:100%;padding:8px;border-radius:8px;cursor:pointer;
+  background:transparent;border:1px solid var(--border-2);
+  color:var(--text-faint);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  transition:all 0.15s;
+}
+.clear-btn:hover{border-color:var(--red);color:var(--red);background:rgba(255,77,94,0.05)}
+
+/* RIGHT PANEL */
+.right-col{display:flex;flex-direction:column;gap:16px;position:sticky;top:74px}
+@media(max-width:860px){.right-col{position:static}}
+
+/* DONUT */
+.donut-card{text-align:center}
+.donut-wrap{position:relative;width:220px;height:220px;margin:0 auto 16px}
+.donut-wrap svg{width:100%;height:100%}
+.donut-center{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  text-align:center;pointer-events:none;
+}
+.donut-total-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-faint)}
+.donut-total-value{
+  font-family:'Orbitron',monospace;font-weight:700;font-size:20px;
+  color:var(--amber);text-shadow:0 0 12px rgba(255,184,77,0.35);line-height:1.2;
+  margin-top:2px;
+}
+.donut-total-tao{font-size:11px;color:var(--text-faint);margin-top:2px}
+.donut-empty{
+  width:220px;height:220px;margin:0 auto 16px;border-radius:50%;
+  border:3px dashed rgba(255,184,77,0.15);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-faint);font-size:13px;
+}
+
+/* LEGEND */
+.legend{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.legend-item{
+  display:grid;grid-template-columns:10px 1fr auto auto;
+  align-items:center;gap:8px;font-size:13px;
+}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.legend-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-muted)}
+.legend-pct{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text-faint);min-width:38px;text-align:right}
+.legend-usd{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text);min-width:72px;text-align:right}
+
+/* SUMMARY CARDS */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat-card{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:10px;
+  padding:14px;text-align:center;
+}
+.stat-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+.stat-value{font-family:'Orbitron',monospace;font-weight:700;font-size:18px;color:var(--amber)}
+.stat-value.big{font-size:22px;grid-column:1/-1}
+
+/* SHARE */
+.share-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:10px;border-radius:8px;cursor:pointer;
+  background:transparent;border:1px solid var(--border-2);
+  color:var(--text-muted);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  transition:all 0.15s;
+}
+.share-btn:hover{border-color:var(--amber);color:var(--amber);background:rgba(255,184,77,0.05)}
+.share-btn.copied{border-color:var(--green);color:var(--green)}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);padding:28px 20px;
+  text-align:center;font-size:10px;letter-spacing:0.2em;
+  color:var(--text-faint);text-transform:uppercase;position:relative;z-index:1;
+}
+footer a{color:var(--amber);text-decoration:none}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-mark">τ</div>
+    <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
+  </a>
+  <div class="topbar-center">
+    <div class="btp-lang-slot"></div>
+    <a href="que-es-bittensor.html" class="nav-guide" data-i18n="nav.guide">Guide</a>
+    <a href="aprende.html" class="nav-learn" data-i18n="nav.learn">Learn</a>
+    <a href="market.html" class="nav-market" data-i18n="nav.market">Market</a>
+  </div>
+  <a href="tao.html" class="nav-tao" id="nav-tao-link">
+    <span class="nt-symbol">TAO</span>
+    <span class="nt-price" id="nav-tao-price">—</span>
+    <span class="nt-change zero" id="nav-tao-change">—</span>
+    <span class="nt-arrow">→</span>
+  </a>
+</header>
+
+<div class="back-bar">
+  <a href="herramientas.html" class="back-link" data-i18n="tools.back">← Herramientas</a>
+</div>
+
+<section class="hero">
+  <div class="hero-eyebrow" data-i18n="port.eyebrow">// Portfolio Builder · Datos en vivo</div>
+  <h1 data-i18n-html="port.title">Construye tu <strong>portfolio</strong></h1>
+  <p data-i18n="port.subtitle">Añade TAO y alpha tokens, ve la distribución en el gráfico y calcula cuánto costaría comprarlo a precios de hoy.</p>
+</section>
+
+<main class="main">
+  <div class="layout">
+
+    <!-- LEFT: BUILDER -->
+    <div>
+      <!-- ADD POSITION CARD -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title" data-i18n="port.add_title">// Añadir activo</div>
+
+        <div class="type-toggle">
+          <button class="type-btn active" id="btn-tao" data-i18n="port.type_tao" onclick="setType('tao')">τ TAO</button>
+          <button class="type-btn" id="btn-subnet" data-i18n="port.type_subnet" onclick="setType('subnet')">Alpha token</button>
+        </div>
+
+        <div id="subnet-picker-wrap" style="display:none">
+          <div class="field-label" data-i18n="port.label_subnet">Subnet</div>
+          <div class="picker-wrap">
+            <input type="text" class="picker-input" id="subnet-input" data-i18n="port.search_ph" placeholder="Buscar subnet…" autocomplete="off" />
+            <div class="picker-drop" id="subnet-drop"></div>
+          </div>
+        </div>
+
+        <div class="amount-row">
+          <div>
+            <div class="field-label" data-i18n="port.label_amount">Cantidad</div>
+            <div class="amount-wrap">
+              <input type="number" class="amount-input" id="amount-input"
+                min="0" step="any" placeholder="0" />
+              <span class="amount-unit" id="amount-unit">TAO</span>
+            </div>
+            <div class="amount-preview" id="amount-preview"></div>
+          </div>
+          <button class="add-btn" id="add-btn" data-i18n="port.add_btn" onclick="addPosition()">+ Añadir</button>
+        </div>
+      </div>
+
+      <!-- POSITIONS -->
+      <div class="card">
+        <div class="card-title" data-i18n="port.pos_title">// Posiciones</div>
+        <div id="positions-container">
+          <div class="empty-state">
+            <div class="empty-icon">◎</div>
+            <span data-i18n="port.empty">Añade activos para construir tu portfolio</span>
+          </div>
+        </div>
+        <button class="clear-btn" id="clear-btn" data-i18n="port.clear_all" onclick="clearAll()" style="display:none">
+          Limpiar todo
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: CHART + SUMMARY -->
+    <div class="right-col">
+
+      <!-- DONUT -->
+      <div class="card donut-card">
+        <div class="card-title" data-i18n="port.chart_title">// Distribución</div>
+        <div id="donut-container">
+          <div class="donut-empty" data-i18n="port.no_assets">Sin activos</div>
+        </div>
+        <div class="legend" id="legend"></div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="summary-grid" id="summary" style="display:none">
+        <div class="stat-card" style="grid-column:1/-1">
+          <div class="stat-label" data-i18n="port.stat_cost">Coste total estimado</div>
+          <div class="stat-value big" id="stat-usd">$0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label" data-i18n="port.stat_tao_lbl">Total en TAO</div>
+          <div class="stat-value" id="stat-tao" style="font-size:15px">0 τ</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label" data-i18n="port.stat_assets">Activos</div>
+          <div class="stat-value" id="stat-count">0</div>
+        </div>
+      </div>
+
+      <!-- SHARE -->
+      <button class="share-btn" id="share-btn" data-i18n="port.share_btn" onclick="sharePortfolio()" style="display:none">
+        ⎘ Copiar enlace del portfolio
+      </button>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span data-i18n-html="port.footer"><a href="index.html">Bittensor Pro</a> · 2026 · Precios orientativos · No es consejo financiero</span>
+</footer>
+
+<script>
+const _t = window.t || (k => k);
+const API = 'https://tao360.qrchd889gj.workers.dev';
+
+// Palette: TAO siempre cyan, subnets rotan por el resto
+const PALETTE = [
+  '#00f0ff','#ff2bd6','#22d87a','#ffb84d','#7c6bfa',
+  '#ff6b6b','#00d4aa','#f7971e','#4ecdc4','#a78bfa',
+  '#ffd700','#45b7d1','#96e6a1','#f97316','#38bdf8',
+];
+
+const DEFS = {
+  0:'Root',1:'Apex',2:'Omron',3:'Templar',4:'Targon',5:'Open Kaito',
+  6:'Infinite Games',7:'Subvortex',8:'PTN',9:'Pretraining',10:'Sturdy',
+  11:'Dippy Roleplay',12:'Horde',13:'Data Universe',14:'VectorStore',
+  15:'De-Val',16:'BitAds',17:'Three Gen',18:'Cortex.t',19:'Nineteen',
+  20:'BitAgent',21:'Omega Any-to-any',22:'Desearch',23:'SocialTensor',
+  24:'Omega',25:'Protein Folding',27:'NI Compute',28:'LOL',29:'Coldint',
+  30:'Bettensor',31:'NAS Chain',32:"It's AI",33:'ReadyAI',34:'BitMind',
+  35:'LogicNet',36:'Web Agents',37:'Finetuning',38:'Distributed Training',
+};
+
+// State
+let ALL_SUBNETS = [];
+let TAO_USD = 0;
+let POSITIONS = [];       // [{id, name, symbol, logo, amount, priceInTao, color}]
+let selType = 'tao';
+let selSubnet = null;     // {id, name, symbol, logo, priceInTao}
+let colorIdx = 1;         // 0 = cyan reserved for TAO
+
+// ── Formatters ────────────────────────────────────────────────────────────────
+function fmtUSD(v){
+  if(!v && v!==0) return '$—';
+  if(v<0.01) return '$'+v.toFixed(5);
+  if(v<1)    return '$'+v.toFixed(3);
+  if(v<1000) return '$'+v.toFixed(2);
+  if(v<1e6)  return '$'+(v/1e3).toFixed(1)+'K';
+  if(v<1e9)  return '$'+(v/1e6).toFixed(2)+'M';
+  return '$'+(v/1e9).toFixed(2)+'B';
+}
+function fmtTAO(v){
+  if(!v && v!==0) return '—';
+  if(v<0.001) return v.toFixed(6)+' τ';
+  if(v<1)     return v.toFixed(4)+' τ';
+  if(v<1000)  return v.toFixed(2)+' τ';
+  return fmtK(v)+' τ';
+}
+function fmtK(n){
+  if(n>=1e9) return (n/1e9).toFixed(2)+'B';
+  if(n>=1e6) return (n/1e6).toFixed(2)+'M';
+  if(n>=1e3) return (n/1e3).toFixed(1)+'K';
+  return n.toFixed(2);
+}
+function fmtPct(v){ return v.toFixed(1)+'%'; }
+function esc(s){ const d=document.createElement('div');d.textContent=s;return d.innerHTML; }
+
+// ── Data loading ──────────────────────────────────────────────────────────────
+async function init(){
+  try {
+    const [sj, pj] = await Promise.all([
+      fetch(API+'/taoswap/subnets').then(r=>r.json()),
+      fetch(API+'/api/price/latest/v1?asset=tao').then(r=>r.json()),
+    ]);
+    TAO_USD = parseFloat(pj?.data?.[0]?.price) || 0;
+    const raw = Array.isArray(sj) ? sj : (sj?.results || []);
+    ALL_SUBNETS = raw
+      .filter(s => s.id > 0)
+      .sort((a,b) => (b.market_cap||0)-(a.market_cap||0))
+      .map(s => ({
+        id:      s.id,
+        name:    s.identity?.name?.trim() || DEFS[s.id] || s.name || `Subnet ${s.id}`,
+        symbol:  s.identity?.symbol || s.symbol || `SN${s.id}`,
+        logo:    s.identity?.image || s.identity?.logo_url || s.identity?.icon || null,
+        priceInTao: s.price || 0,
+      }));
+    buildDrop('');
+    checkUrlParams();
+  } catch(e){ console.error('init', e); }
+}
+
+// ── Picker ────────────────────────────────────────────────────────────────────
+function buildDrop(query){
+  const drop = document.getElementById('subnet-drop');
+  const q = query.toLowerCase().trim();
+  const items = q
+    ? ALL_SUBNETS.filter(s =>
+        s.name.toLowerCase().includes(q) ||
+        s.symbol.toLowerCase().includes(q) ||
+        String(s.id) === q.replace(/^sn/i,'')
+      )
+    : ALL_SUBNETS;
+  drop.innerHTML = items.slice(0,80).map(s => `
+    <div class="picker-opt" data-id="${s.id}">
+      ${s.logo
+        ? `<img class="opt-logo" src="${esc(s.logo)}" alt="" onerror="this.style.display='none'">`
+        : `<div class="opt-logo-ph">${esc(s.symbol.slice(0,2))}</div>`}
+      <span>${esc(s.name)}</span>
+      <span class="opt-id">SN${s.id}</span>
+    </div>`).join('');
+  drop.querySelectorAll('.picker-opt').forEach(el => {
+    el.addEventListener('mousedown', e => {
+      e.preventDefault();
+      const id = parseInt(el.dataset.id);
+      selSubnet = ALL_SUBNETS.find(s=>s.id===id);
+      document.getElementById('subnet-input').value = selSubnet
+        ? `${selSubnet.name} · SN${id}`
+        : '';
+      drop.classList.remove('open');
+      updatePreview();
+    });
+  });
+}
+
+const subnetInput = document.getElementById('subnet-input');
+const subnetDrop  = document.getElementById('subnet-drop');
+subnetInput.addEventListener('focus', ()=>{ subnetInput.value=''; selSubnet=null; buildDrop(''); subnetDrop.classList.add('open'); updatePreview(); });
+subnetInput.addEventListener('input', ()=>{ selSubnet=null; buildDrop(subnetInput.value); subnetDrop.classList.add('open'); updatePreview(); });
+subnetInput.addEventListener('blur', ()=>{ setTimeout(()=>subnetDrop.classList.remove('open'),150); });
+
+// ── Type toggle ───────────────────────────────────────────────────────────────
+function setType(type){
+  selType = type;
+  selSubnet = null;
+  document.getElementById('btn-tao').classList.toggle('active', type==='tao');
+  document.getElementById('btn-subnet').classList.toggle('active', type==='subnet');
+  document.getElementById('subnet-picker-wrap').style.display = type==='subnet' ? 'block' : 'none';
+  document.getElementById('amount-unit').textContent = type==='tao' ? 'TAO' : 'alpha';
+  document.getElementById('subnet-input').value = '';
+  document.getElementById('amount-input').value = '';
+  updatePreview();
+}
+
+// ── Preview ───────────────────────────────────────────────────────────────────
+document.getElementById('amount-input').addEventListener('input', updatePreview);
+function updatePreview(){
+  const amt = parseFloat(document.getElementById('amount-input').value) || 0;
+  const preview = document.getElementById('amount-preview');
+  if(!amt){ preview.textContent=''; return; }
+  if(selType==='tao'){
+    preview.textContent = '≈ ' + fmtUSD(amt * TAO_USD);
+  } else if(selSubnet){
+    const valueTao = amt * selSubnet.priceInTao;
+    preview.textContent = `≈ ${fmtTAO(valueTao)} · ${fmtUSD(valueTao * TAO_USD)}`;
+  } else {
+    preview.textContent = '';
+  }
+}
+
+// ── Add position ──────────────────────────────────────────────────────────────
+function addPosition(){
+  const amt = parseFloat(document.getElementById('amount-input').value);
+  if(!amt || amt <= 0) return;
+
+  if(selType === 'tao'){
+    // Check if TAO already exists, update amount
+    const existing = POSITIONS.findIndex(p => p.id === 'tao');
+    if(existing >= 0){
+      POSITIONS[existing].amount += amt;
+    } else {
+      POSITIONS.push({
+        id: 'tao', name: 'Bittensor TAO', symbol: 'TAO',
+        logo: null, amount: amt, priceInTao: 1,
+        color: PALETTE[0],
+      });
+    }
+  } else {
+    if(!selSubnet) return;
+    const existing = POSITIONS.findIndex(p => p.id === selSubnet.id);
+    if(existing >= 0){
+      POSITIONS[existing].amount += amt;
+    } else {
+      POSITIONS.push({
+        id: selSubnet.id, name: selSubnet.name, symbol: selSubnet.symbol,
+        logo: selSubnet.logo, amount: amt, priceInTao: selSubnet.priceInTao,
+        color: PALETTE[colorIdx % PALETTE.length],
+      });
+      colorIdx++;
+    }
+  }
+
+  // Reset inputs
+  document.getElementById('amount-input').value = '';
+  document.getElementById('amount-preview').textContent = '';
+  updateAll();
+  updateUrl();
+}
+
+function removePosition(idx){
+  POSITIONS.splice(idx, 1);
+  updateAll();
+  updateUrl();
+}
+
+function clearAll(){
+  POSITIONS = [];
+  colorIdx = 1;
+  updateAll();
+  updateUrl();
+}
+
+// ── Update all ────────────────────────────────────────────────────────────────
+function updateAll(){
+  renderPositions();
+  renderChart();
+  renderSummary();
+}
+
+// ── Render positions ──────────────────────────────────────────────────────────
+function renderPositions(){
+  const container = document.getElementById('positions-container');
+  const clearBtn  = document.getElementById('clear-btn');
+
+  if(!POSITIONS.length){
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">◎</div>${_t('port.empty')}</div>`;
+    clearBtn.style.display = 'none';
+    return;
+  }
+
+  const totalTao = POSITIONS.reduce((s,p) => s + p.amount * p.priceInTao, 0);
+
+  const rows = POSITIONS.map((p, i) => {
+    const valTao = p.amount * p.priceInTao;
+    const valUsd = valTao * TAO_USD;
+    const pct    = totalTao > 0 ? (valTao / totalTao) * 100 : 0;
+    const logoEl = p.logo
+      ? `<img class="pos-logo" src="${esc(p.logo)}" alt="" onerror="this.style.display='none'">`
+      : `<div class="pos-logo-ph" style="background:${p.color}22;border:1px solid ${p.color}44;color:${p.color}">${esc(p.symbol.slice(0,2))}</div>`;
+
+    return `<div class="pos-row">
+      <div class="pos-asset">
+        <span class="pos-swatch" style="background:${p.color}"></span>
+        ${logoEl}
+        <div>
+          <div class="pos-name">${esc(p.name)}</div>
+          <div class="pos-sub">${fmtK(p.amount)} ${esc(p.symbol)} · ${fmtPct(pct)}</div>
+        </div>
+      </div>
+      <div class="pos-val">${fmtTAO(valTao)}<small>${fmtUSD(valUsd)}</small></div>
+      <div class="pos-val">${fmtUSD(valUsd)}</div>
+      <button class="pos-del" onclick="removePosition(${i})" title="Eliminar">✕</button>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="positions-header">
+      <div>${_t('port.col_asset')}</div>
+      <div style="text-align:right">${_t('port.col_tao')}</div>
+      <div style="text-align:right">${_t('port.col_usd')}</div>
+      <div></div>
+    </div>
+    ${rows}
+  `;
+  clearBtn.style.display = 'block';
+}
+
+// ── Render donut ──────────────────────────────────────────────────────────────
+function renderChart(){
+  const container = document.getElementById('donut-container');
+  const legend    = document.getElementById('legend');
+
+  if(!POSITIONS.length){
+    container.innerHTML = `<div class="donut-empty">${_t('port.no_assets')}</div>`;
+    legend.innerHTML = '';
+    return;
+  }
+
+  const totalTao = POSITIONS.reduce((s,p) => s + p.amount * p.priceInTao, 0);
+  const totalUsd = totalTao * TAO_USD;
+
+  // SVG donut
+  const R = 78, CX = 110, CY = 110, SW = 38, GAP = 3;
+  const C = 2 * Math.PI * R;
+
+  let accum = 0;
+  const segments = POSITIONS.map(p => {
+    const pct = totalTao > 0 ? (p.amount * p.priceInTao) / totalTao : 0;
+    return { pct, color: p.color, name: p.name, symbol: p.symbol, valueTao: p.amount * p.priceInTao };
+  });
+
+  const circles = segments.map(seg => {
+    const len = Math.max(0, seg.pct * C - GAP);
+    const offset = C / 4 - accum;
+    accum += seg.pct * C;
+    return `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none"
+      stroke="${seg.color}" stroke-width="${SW}"
+      stroke-dasharray="${len} ${C}"
+      stroke-dashoffset="${offset}"
+      style="transition:stroke-dasharray 0.4s ease" />`;
+  }).join('');
+
+  // Background track
+  const bgCircle = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none"
+    stroke="rgba(255,255,255,0.04)" stroke-width="${SW}" />`;
+
+  const svg = `<svg viewBox="0 0 220 220" style="overflow:visible">
+    ${bgCircle}${circles}
+    <circle cx="${CX}" cy="${CY}" r="${R - SW/2 - 2}" fill="var(--bg-2)" />
+  </svg>`;
+
+  container.innerHTML = `
+    <div class="donut-wrap">
+      ${svg}
+      <div class="donut-center">
+        <div class="donut-total-label">${_t('port.total_label')}</div>
+        <div class="donut-total-value">${fmtUSD(totalUsd)}</div>
+        <div class="donut-total-tao">${fmtTAO(totalTao)}</div>
+      </div>
+    </div>`;
+
+  // Legend
+  const pctList = segments.map((seg,i) => {
+    const pct = totalTao > 0 ? (seg.valueTao / totalTao) * 100 : 0;
+    return `<div class="legend-item">
+      <div class="legend-dot" style="background:${seg.color}"></div>
+      <div class="legend-name">${esc(seg.name)}</div>
+      <div class="legend-pct">${fmtPct(pct)}</div>
+      <div class="legend-usd">${fmtUSD(seg.valueTao * TAO_USD)}</div>
+    </div>`;
+  }).join('');
+  legend.innerHTML = pctList;
+}
+
+// ── Render summary ────────────────────────────────────────────────────────────
+function renderSummary(){
+  const summary  = document.getElementById('summary');
+  const shareBtn = document.getElementById('share-btn');
+  if(!POSITIONS.length){
+    summary.style.display = 'none';
+    shareBtn.style.display = 'none';
+    return;
+  }
+  const totalTao = POSITIONS.reduce((s,p) => s + p.amount * p.priceInTao, 0);
+  const totalUsd = totalTao * TAO_USD;
+  document.getElementById('stat-usd').textContent   = fmtUSD(totalUsd);
+  document.getElementById('stat-tao').textContent   = fmtTAO(totalTao);
+  document.getElementById('stat-count').textContent = POSITIONS.length;
+  summary.style.display  = 'grid';
+  shareBtn.style.display = 'flex';
+}
+
+// ── URL params ────────────────────────────────────────────────────────────────
+function updateUrl(){
+  if(!POSITIONS.length){ history.replaceState(null,'',location.pathname); return; }
+  const parts = POSITIONS.map(p => `${p.id}:${p.amount}`);
+  history.replaceState(null,'', '?p=' + parts.join(','));
+}
+
+function checkUrlParams(){
+  const p = new URLSearchParams(location.search).get('p');
+  if(!p) return;
+  const parts = p.split(',');
+  for(const part of parts){
+    const [id, amt] = part.split(':');
+    const amount = parseFloat(amt);
+    if(!amount || amount <= 0) continue;
+    if(id === 'tao'){
+      POSITIONS.push({
+        id:'tao', name:'Bittensor TAO', symbol:'TAO',
+        logo:null, amount, priceInTao:1, color: PALETTE[0],
+      });
+    } else {
+      const netuid = parseInt(id);
+      const s = ALL_SUBNETS.find(x => x.id === netuid);
+      if(s){
+        POSITIONS.push({
+          id: s.id, name: s.name, symbol: s.symbol, logo: s.logo,
+          amount, priceInTao: s.priceInTao, color: PALETTE[colorIdx % PALETTE.length],
+        });
+        colorIdx++;
+      }
+    }
+  }
+  updateAll();
+}
+
+// ── Share ─────────────────────────────────────────────────────────────────────
+function sharePortfolio(){
+  const url = location.href;
+  navigator.clipboard?.writeText(url).then(()=>{
+    const btn = document.getElementById('share-btn');
+    btn.textContent = _t('port.share_copied');
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent=_t('port.share_btn'); btn.classList.remove('copied'); }, 2000);
+  }).catch(()=>{});
+}
+
+document.addEventListener('langchange', () => { updateAll(); });
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+init();
+</script>
+
+<script>
+(function(){
+  function savePage(){ try{ sessionStorage.setItem('lastPage', location.pathname.replace(/^\//,'')||'index.html'); }catch(e){} }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') savePage(); });
+  document.addEventListener('click', e=>{ const a=e.target.closest('a'); if(a&&a.href&&a.host===location.host) savePage(); });
+})();
+</script>
+
+<script>
+(async function loadNavTao(){
+  const B='https://tao360.qrchd889gj.workers.dev';
+  function fU(n){if(!n&&n!==0)return'—';if(n<1)return'$'+n.toFixed(3);if(n<100)return'$'+n.toFixed(2);return'$'+Math.round(n).toLocaleString('en-US')}
+  function fP(v){if(v===null||v===undefined||isNaN(v))return'—';return(v>0?'+':'')+v.toFixed(1)+'%'}
+  function pC(v){if(v>0.001)return'pos';if(v<-0.001)return'neg';return'zero'}
+  try{
+    const r=await fetch(B+'/api/price/latest/v1?asset=tao'),j=await r.json();
+    if(j&&j.data&&j.data[0]){
+      const price=parseFloat(j.data[0].price)||0,ch=parseFloat(j.data[0].percent_change_24h)||0;
+      const pe=document.getElementById('nav-tao-price'),ce=document.getElementById('nav-tao-change');
+      if(pe)pe.textContent=fU(price);
+      if(ce){ce.textContent=fP(ch);ce.className='nt-change '+pC(ch)}
+    }
+  }catch(e){console.error('nav-tao load failed',e)}
+})();
+</script>
+
+</body>
+</html>

@@ -231,12 +231,100 @@
       'tools.comparador.title':  'Comparador de market cap',
       'tools.comparador.desc':   '¿Qué precio tendría TAO si tuviera el market cap de Bitcoin, Ethereum o cualquier moneda del Top 100? Experimento mental con datos en vivo de CoinGecko.',
       'tools.wallet.title':      'Buscador de wallet',
-      'tools.wallet.desc':       'Pega una dirección SS58 y consulta saldo, distribución de stake por subnet, recompensas acumuladas y transacciones.',
+      'tools.wallet.desc':       'Pega una dirección SS58 y consulta saldo, distribución de stake por subnet y valor total en USD.',
       'tools.subcomp.title':     'Comparador de subnets',
-      'tools.subcomp.desc':      'Compara dos o tres subnets lado a lado: precio, MCap, volumen, APY de validadores, mineros activos y emisiones.',
+      'tools.subcomp.desc':      'Compara dos subnets lado a lado: precio, MCap, volumen, liquidez, APY de validadores y cambios de precio en tiempo real.',
+      'tools.portfolio.title':   'Portfolio builder',
+      'tools.portfolio.desc':    'Construye tu cartera ideal de TAO y alpha tokens, ve la distribución en el gráfico y calcula cuánto costaría comprarla a precios de hoy.',
       'tools.live':              'EN VIVO',
       'tools.soon':              'Próximamente',
       'tools.footer':            '<a href="index.html">Bittensor Pro</a> · 2026 · No es consejo financiero',
+
+      /* ----- comparador-subnets.html ----- */
+      'subcomp.eyebrow':          '// Herramientas · Datos en vivo',
+      'subcomp.title':            'Comparador de <strong>subnets</strong>',
+      'subcomp.subtitle':         'Selecciona dos subnets y compara precio, market cap, volumen, liquidez, APY y más, lado a lado en tiempo real.',
+      'subcomp.slot_a':           'Subnet A',
+      'subcomp.slot_b':           'Subnet B',
+      'subcomp.search_ph':        'Buscar por nombre o número…',
+      'subcomp.btn':              '⚖ Comparar subnets',
+      'subcomp.loading':          'Cargando datos…',
+      'subcomp.detail':           'Ver detalles →',
+      'subcomp.sec.price':        'PRECIO',
+      'subcomp.sec.market':       'MERCADO',
+      'subcomp.sec.staking':      'STAKING',
+      'subcomp.row.price_tao':    'Precio (TAO)',
+      'subcomp.row.price_usd':    'Precio (USD)',
+      'subcomp.row.ch1h':         'Cambio 1h',
+      'subcomp.row.ch24h':        'Cambio 24h',
+      'subcomp.row.ch7d':         'Cambio 7d',
+      'subcomp.row.ch30d':        'Cambio 30d',
+      'subcomp.row.mcap_tao':     'Market Cap (TAO)',
+      'subcomp.row.mcap_usd':     'Market Cap (USD)',
+      'subcomp.row.vol':          'Volumen 24h (TAO)',
+      'subcomp.row.liq':          'Liquidez pool (TAO)',
+      'subcomp.row.ratio':        'Ratio MCap / Liq',
+      'subcomp.row.supply':       'Supply alpha',
+      'subcomp.row.apy':          'APY validador top (7d)',
+      'subcomp.footer':           '<a href="index.html">Bittensor Pro</a> · 2026 · Datos: TaoSwap · No es consejo financiero',
+
+      /* ----- portfolio.html ----- */
+      'port.eyebrow':             '// Portfolio Builder · Datos en vivo',
+      'port.title':               'Construye tu <strong>portfolio</strong>',
+      'port.subtitle':            'Añade TAO y alpha tokens, ve la distribución en el gráfico y calcula cuánto costaría comprarlo a precios de hoy.',
+      'port.add_title':           '// Añadir activo',
+      'port.type_tao':            'τ TAO',
+      'port.type_subnet':         'Alpha token',
+      'port.label_subnet':        'Subnet',
+      'port.search_ph':           'Buscar subnet…',
+      'port.label_amount':        'Cantidad',
+      'port.add_btn':             '+ Añadir',
+      'port.pos_title':           '// Posiciones',
+      'port.empty':               'Añade activos para construir tu portfolio',
+      'port.clear_all':           'Limpiar todo',
+      'port.chart_title':         '// Distribución',
+      'port.no_assets':           'Sin activos',
+      'port.total_label':         'Total USD',
+      'port.stat_cost':           'Coste total estimado',
+      'port.stat_tao_lbl':        'Total en TAO',
+      'port.stat_assets':         'Activos',
+      'port.share_btn':           '⎘ Copiar enlace del portfolio',
+      'port.share_copied':        '✓ Enlace copiado',
+      'port.col_asset':           'Activo',
+      'port.col_tao':             'En TAO',
+      'port.col_usd':             'En USD',
+      'port.footer':              '<a href="index.html">Bittensor Pro</a> · 2026 · Precios orientativos · No es consejo financiero',
+
+      /* ----- wallet.html ----- */
+      'wallet.eyebrow':          'Herramientas · Wallet',
+      'wallet.title':            'Busca una <strong>wallet</strong>',
+      'wallet.subtitle':         'Pega una dirección SS58 (coldkey) para ver el saldo libre, las posiciones de staking por subnet y el valor total en USD. Sin registro, sin login.',
+      'wallet.search.label':     '// Dirección SS58 (coldkey)',
+      'wallet.search.placeholder': '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
+      'wallet.paste':            'Pegar',
+      'wallet.search.btn':       'Consultar →',
+      'wallet.search.hint':      'Una dirección SS58 empieza por 5 y tiene 48 caracteres.',
+      'wallet.search.invalid':   'Formato incorrecto. Verifica que sea una dirección SS58 válida (empieza por 5, 48 caracteres).',
+      'wallet.loading':          'Consultando datos on-chain…',
+      'wallet.error.title':      'Error al obtener los datos',
+      'wallet.error.body':       'No se pudo conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.',
+      'wallet.error.rpc':        'El nodo RPC no está respondiendo. Inténtalo de nuevo en unos segundos.',
+      'wallet.col.coldkey':      'Coldkey',
+      'wallet.stat.balance':     'Saldo libre',
+      'wallet.stat.staked':      'Total stakeado',
+      'wallet.stat.total':       'Valor total',
+      'wallet.stat.positions':   'Posiciones',
+      'wallet.stat.pos_sub':     'subnets con stake',
+      'wallet.stat.total_sub':   'libre + SN0',
+      'wallet.stat.sn0_sub':     'stake raíz (SN0)',
+      'wallet.table.title':      '// Stakes por subnet',
+      'wallet.table.subnet':     'Subnet',
+      'wallet.table.stake':      'Stake',
+      'wallet.table.pct':        '% del total',
+      'wallet.table.hotkey':     'Hotkey delegada',
+      'wallet.no_stakes':        'No hay posiciones de staking activas para esta dirección.',
+      'wallet.disclaimer':       'Datos 100% on-chain vía RPC de Bittensor — sin API key, sin cuota. SN0 = TAO (raíz). Otras subnets = tokens alpha propios de cada subnet. <strong>No es consejo financiero.</strong>',
+      'wallet.footer':           '<a href="index.html">Bittensor Pro</a> · 2026 · <a href="herramientas.html">Herramientas</a> · No es consejo financiero',
 
       /* ----- halvings.html ----- */
       'halvings.back':            '← Volver a herramientas',
@@ -542,14 +630,15 @@
       'avanzado.footer':        '<a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero',
 
       /* ----- aprende-intermedio.html ----- */
-      'intermedio.eyebrow':       'Nivel Intermedio',
+      'intermedio.eyebrow':       'Nivel Intermedio · Edición mayo 2026',
       'intermedio.title':         'Profundiza tu <strong>conocimiento</strong>',
       'intermedio.subtitle':      'Para quien ya entiende Bitcoin y blockchain pero quiere dominar cómo funciona Bittensor por dentro: subnets, dTAO, validadores, mineros, staking y emisiones — sin necesidad de programar.',
-      'intermedio.study.label':   '// Módulos planeados',
-      'intermedio.cta.title':     'Curso en preparación',
-      'intermedio.cta.sub':       'Estamos preparando el curso intermedio de Bittensor en español. Mientras tanto, puedes empezar con la guía introductoria o pasar directamente al manual técnico avanzado si tienes conocimientos de programación.',
-      'intermedio.cta.btn':       'Leer la guía introductoria →',
-      'intermedio.footer':        'Bittensor Pro · 2026 · <a href="aprende.html">Niveles</a> · <a href="market.html">Market</a>',
+      'intermedio.study.label':   '// Plan de estudio',
+      'intermedio.study.heading': 'Los <em>12 módulos</em>',
+      'intermedio.cta.title':     'Empieza por el primero',
+      'intermedio.cta.sub':       'El Módulo I-01 te introduce a Subtensor, la blockchain de Bittensor, base de toda la infraestructura de la red.',
+      'intermedio.cta.btn':       'Empezar Módulo I-01',
+      'intermedio.footer':        '<a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero',
 
       /* ----- Shared aprende keys ----- */
       'aprende.meta.modules':    'Módulos',
@@ -624,6 +713,9 @@
       'mod.footer':         '<a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero',
       'basico.level':       'Nivel Básico',
       'basico.back_course': 'Volver al curso',
+      'intermedio.back':        '← Volver al curso intermedio',
+      'intermedio.level':       'Nivel Intermedio',
+      'intermedio.back_course': 'Volver al curso',
       'mod.prev':           '← Módulo anterior',
       'mod.next':           'Módulo siguiente →',
     },
@@ -839,12 +931,100 @@
       'tools.comparador.title':  'Market cap comparator',
       'tools.comparador.desc':   'What price would TAO have if it had the market cap of Bitcoin, Ethereum or any Top 100 coin? A thought experiment with live CoinGecko data.',
       'tools.wallet.title':      'Wallet lookup',
-      'tools.wallet.desc':       'Paste an SS58 address to view balance, stake distribution by subnet, accumulated rewards and transactions.',
+      'tools.wallet.desc':       'Paste an SS58 address to view balance, stake distribution by subnet and total USD value.',
       'tools.subcomp.title':     'Subnet comparator',
-      'tools.subcomp.desc':      'Compare two or three subnets side by side: price, MCap, volume, validator APY, active miners and emissions.',
+      'tools.subcomp.desc':      'Compare two subnets side by side: price, MCap, volume, liquidity, validator APY and price changes in real time.',
+      'tools.portfolio.title':   'Portfolio builder',
+      'tools.portfolio.desc':    'Build your ideal portfolio of TAO and alpha tokens, see the distribution chart and calculate what it would cost to buy it at today\'s prices.',
       'tools.live':              'LIVE',
       'tools.soon':              'Coming soon',
       'tools.footer':            '<a href="index.html">Bittensor Pro</a> · 2026 · Not financial advice',
+
+      /* ----- comparador-subnets.html ----- */
+      'subcomp.eyebrow':          '// Tools · Live Data',
+      'subcomp.title':            'Subnet <strong>comparator</strong>',
+      'subcomp.subtitle':         'Pick two subnets and compare price, market cap, volume, liquidity, APY and more, side by side in real time.',
+      'subcomp.slot_a':           'Subnet A',
+      'subcomp.slot_b':           'Subnet B',
+      'subcomp.search_ph':        'Search by name or number…',
+      'subcomp.btn':              '⚖ Compare subnets',
+      'subcomp.loading':          'Loading data…',
+      'subcomp.detail':           'See details →',
+      'subcomp.sec.price':        'PRICE',
+      'subcomp.sec.market':       'MARKET',
+      'subcomp.sec.staking':      'STAKING',
+      'subcomp.row.price_tao':    'Price (TAO)',
+      'subcomp.row.price_usd':    'Price (USD)',
+      'subcomp.row.ch1h':         'Change 1h',
+      'subcomp.row.ch24h':        'Change 24h',
+      'subcomp.row.ch7d':         'Change 7d',
+      'subcomp.row.ch30d':        'Change 30d',
+      'subcomp.row.mcap_tao':     'Market Cap (TAO)',
+      'subcomp.row.mcap_usd':     'Market Cap (USD)',
+      'subcomp.row.vol':          'Volume 24h (TAO)',
+      'subcomp.row.liq':          'Pool liquidity (TAO)',
+      'subcomp.row.ratio':        'MCap / Liq ratio',
+      'subcomp.row.supply':       'Alpha supply',
+      'subcomp.row.apy':          'Top validator APY (7d)',
+      'subcomp.footer':           '<a href="index.html">Bittensor Pro</a> · 2026 · Data: TaoSwap · Not financial advice',
+
+      /* ----- portfolio.html ----- */
+      'port.eyebrow':             '// Portfolio Builder · Live Data',
+      'port.title':               'Build your <strong>portfolio</strong>',
+      'port.subtitle':            'Add TAO and alpha tokens, see the distribution chart and calculate what it would cost to buy it at today\'s prices.',
+      'port.add_title':           '// Add asset',
+      'port.type_tao':            'τ TAO',
+      'port.type_subnet':         'Alpha token',
+      'port.label_subnet':        'Subnet',
+      'port.search_ph':           'Search subnet…',
+      'port.label_amount':        'Amount',
+      'port.add_btn':             '+ Add',
+      'port.pos_title':           '// Positions',
+      'port.empty':               'Add assets to build your portfolio',
+      'port.clear_all':           'Clear all',
+      'port.chart_title':         '// Distribution',
+      'port.no_assets':           'No assets',
+      'port.total_label':         'Total USD',
+      'port.stat_cost':           'Estimated total cost',
+      'port.stat_tao_lbl':        'Total in TAO',
+      'port.stat_assets':         'Assets',
+      'port.share_btn':           '⎘ Copy portfolio link',
+      'port.share_copied':        '✓ Link copied',
+      'port.col_asset':           'Asset',
+      'port.col_tao':             'In TAO',
+      'port.col_usd':             'In USD',
+      'port.footer':              '<a href="index.html">Bittensor Pro</a> · 2026 · Indicative prices · Not financial advice',
+
+      /* ----- wallet.html ----- */
+      'wallet.eyebrow':          'Tools · Wallet',
+      'wallet.title':            'Look up a <strong>wallet</strong>',
+      'wallet.subtitle':         'Paste an SS58 address (coldkey) to view free balance, staking positions by subnet and total USD value. No sign-up, no login.',
+      'wallet.search.label':     '// SS58 address (coldkey)',
+      'wallet.search.placeholder': '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw',
+      'wallet.paste':            'Paste',
+      'wallet.search.btn':       'Look up →',
+      'wallet.search.hint':      'An SS58 address starts with 5 and is 48 characters long.',
+      'wallet.search.invalid':   'Incorrect format. Make sure it is a valid SS58 address (starts with 5, 48 characters).',
+      'wallet.loading':          'Fetching on-chain data…',
+      'wallet.error.title':      'Could not fetch data',
+      'wallet.error.body':       'Could not connect to the server. Check your connection and try again.',
+      'wallet.error.rpc':        'The RPC node is not responding. Please try again in a few seconds.',
+      'wallet.col.coldkey':      'Coldkey',
+      'wallet.stat.balance':     'Free balance',
+      'wallet.stat.staked':      'Total staked',
+      'wallet.stat.total':       'Total value',
+      'wallet.stat.positions':   'Positions',
+      'wallet.stat.pos_sub':     'subnets with stake',
+      'wallet.stat.total_sub':   'free + SN0',
+      'wallet.stat.sn0_sub':     'root stake (SN0)',
+      'wallet.table.title':      '// Stakes by subnet',
+      'wallet.table.subnet':     'Subnet',
+      'wallet.table.stake':      'Stake',
+      'wallet.table.pct':        '% of total',
+      'wallet.table.hotkey':     'Delegated hotkey',
+      'wallet.no_stakes':        'No active staking positions for this address.',
+      'wallet.disclaimer':       '100% on-chain data via Bittensor RPC — no API key, no quota. SN0 = TAO (root). Other subnets = their own alpha tokens. <strong>Not financial advice.</strong>',
+      'wallet.footer':           '<a href="index.html">Bittensor Pro</a> · 2026 · <a href="herramientas.html">Tools</a> · Not financial advice',
 
       /* ----- halvings.html ----- */
       'halvings.back':            '← Back to tools',
@@ -1150,14 +1330,15 @@
       'avanzado.footer':        '<a href="index.html">Bittensor Pro</a> · 2026 · Educational material · Not financial advice',
 
       /* ----- aprende-intermedio.html ----- */
-      'intermedio.eyebrow':       'Intermediate Level',
+      'intermedio.eyebrow':       'Intermediate Level · May 2026 Edition',
       'intermedio.title':         'Deepen your <strong>knowledge</strong>',
       'intermedio.subtitle':      'For those who already understand Bitcoin and blockchain but want to master how Bittensor works under the hood: subnets, dTAO, validators, miners, staking and emissions — without needing to code.',
-      'intermedio.study.label':   '// Planned modules',
-      'intermedio.cta.title':     'Course in preparation',
-      'intermedio.cta.sub':       'We are preparing the intermediate Bittensor course in Spanish. In the meantime, you can start with the introductory guide or go straight to the advanced technical manual if you have programming knowledge.',
-      'intermedio.cta.btn':       'Read the introductory guide →',
-      'intermedio.footer':        'Bittensor Pro · 2026 · <a href="aprende.html">Levels</a> · <a href="market.html">Market</a>',
+      'intermedio.study.label':   '// Study plan',
+      'intermedio.study.heading': 'The <em>12 modules</em>',
+      'intermedio.cta.title':     'Start with the first one',
+      'intermedio.cta.sub':       'Module I-01 introduces you to Subtensor, the Bittensor blockchain that forms the foundation of the entire network infrastructure.',
+      'intermedio.cta.btn':       'Start Module I-01',
+      'intermedio.footer':        '<a href="index.html">Bittensor Pro</a> · 2026 · Educational material · Not financial advice',
 
       /* ----- Shared aprende keys ----- */
       'aprende.meta.modules':    'Modules',
@@ -1232,6 +1413,9 @@
       'mod.footer':         '<a href="index.html">Bittensor Pro</a> · 2026 · Educational material · Not financial advice',
       'basico.level':       'Basic Level',
       'basico.back_course': 'Back to course',
+      'intermedio.back':        '← Back to intermediate course',
+      'intermedio.level':       'Intermediate Level',
+      'intermedio.back_course': 'Back to course',
       'mod.prev':           '← Previous module',
       'mod.next':           'Next module →',
     },
@@ -1337,31 +1521,28 @@
       style.textContent = _SWITCHER_CSS;
       document.head.appendChild(style);
 
-      const topbar = document.querySelector('.topbar') || document.querySelector('header');
+      // Slot declarativo tiene prioridad: funciona dentro y fuera del topbar
+      const slot = document.querySelector('.btp-lang-slot');
+      if (slot) {
+        if (!slot.querySelector('.btp-lang')) slot.appendChild(_buildSwitcher());
+        return;
+      }
 
-      // Sin topbar: usar slot declarativo si existe, si no flotante
+      const topbar = document.querySelector('.topbar') || document.querySelector('header');
       if (!topbar) {
         if (document.querySelector('.btp-lang')) return;
-        const slot = document.querySelector('.btp-lang-slot');
-        if (slot) {
-          slot.appendChild(_buildSwitcher());
-        } else {
-          const wrap = document.createElement('div');
-          wrap.style.cssText = 'position:fixed;top:10px;right:14px;z-index:9999;';
-          wrap.appendChild(_buildSwitcher());
-          document.body.appendChild(wrap);
-        }
+        const wrap = document.createElement('div');
+        wrap.style.cssText = 'position:fixed;top:10px;right:14px;z-index:9999;';
+        wrap.appendChild(_buildSwitcher());
+        document.body.appendChild(wrap);
         return;
       }
 
       if (topbar.querySelector('.btp-lang')) return;
 
       const switcher = _buildSwitcher();
-
-      // El contenedor flex real puede ser el topbar o un .topbar-inner dentro de él
       const container = topbar.querySelector('.topbar-inner') || topbar;
 
-      // Buscar .tao-info o .nav-tao como hijo DIRECTO del container
       const directTaoInfo = [...container.children].find(el =>
         el.classList.contains('tao-info') || el.classList.contains('nav-tao')
       );
@@ -1369,7 +1550,6 @@
       if (directTaoInfo) {
         container.insertBefore(switcher, directTaoInfo);
       } else {
-        // Insertar antes del último hijo (suele ser .nav o .topbar-right)
         const last = container.lastElementChild;
         if (last) container.insertBefore(switcher, last);
         else container.appendChild(switcher);

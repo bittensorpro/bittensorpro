@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo I-07 Intermedio: Crear y gestionar una subred — Bittensor Pro</title>
+<meta name="description" content="Aprende a crear y gestionar una subnet en Bittensor: registro, diseño del incentive mechanism, hiperparámetros y cómo atraer miners y validators." />
+<link rel="canonical" href="https://bittensor.pro/aprende-intermedio-modulo-07.html" />
+<meta property="og:title" content="Módulo I-07 Intermedio: Crear y gestionar una subred" />
+<meta property="og:description" content="Guía completa para crear una subnet en Bittensor. 8 horas. Nivel intermedio." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html" data-i18n="nav.levels">Niveles</a>
+    <a href="aprende-intermedio.html" class="active" data-i18n="intermedio.level">Intermedio</a>
+    <a href="market.html" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link" data-i18n="intermedio.back">← Volver al curso intermedio</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO I-07</div>
+  <h1>Crear y gestionar una <strong>subred</strong></h1>
+  <p class="hero-sub">Desde la idea hasta el lanzamiento: cómo registrar una subnet en Bittensor, diseñar su mecanismo de incentivos, configurar hiperparámetros y hacer crecer su comunidad de miners y validators.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span><span data-i18n="intermedio.level">Nivel Intermedio</span></span>
+    <span class="meta-tag neutral">8 horas</span>
+    <span class="meta-tag neutral">Prerrequisito: Módulo I-06</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title" data-i18n="mod.objectives">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender cuándo tiene sentido crear una subnet y cuáles son los costes reales.</li>
+      <li>Comprender el proceso de registro on-chain y la asignación de netuid.</li>
+      <li>Diseñar un incentive mechanism sólido: evaluable, no colusivo y sybil-resistant.</li>
+      <li>Conocer los hiperparámetros clave y cómo configurarlos correctamente.</li>
+      <li>Aprender estrategias para atraer miners y validators de calidad.</li>
+      <li>Saber cómo gestionar y evolucionar una subnet una vez en producción.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>¿Cuándo tiene sentido crear una subnet?</h2>
+
+    <h3>1.1. La pregunta correcta antes de empezar</h3>
+    <p>Una subnet de Bittensor no es una aplicación ni una startup en el sentido convencional. Es un <strong>mercado de incentivos para un tipo específico de trabajo de IA</strong>. Antes de registrar una, la pregunta más importante no es «¿tenemos el dinero para pagarla?» sino «¿podemos definir y evaluar objetivamente la calidad del trabajo que queremos que se produzca?»</p>
+    <p>Si la respuesta a esa pregunta no es clara, el incentive mechanism fallará, los miners aprenderán a jugar el sistema sin producir valor real, y la subnet acabará siendo deregistrada. Muchas subnets han fracasado exactamente por esto.</p>
+
+    <h3>1.2. Condiciones favorables para crear una subnet</h3>
+    <ul>
+      <li><strong>Problema de IA bien definido:</strong> inferencia de LLM, predicción financiera, almacenamiento verificable, generación de imágenes, búsqueda web... algo con outputs medibles.</li>
+      <li><strong>Evaluación objetiva posible:</strong> o existe ground truth (datos reales para comparar) o hay una métrica técnica verificable (latencia, precisión, perplexity).</li>
+      <li><strong>Demanda exterior:</strong> alguien fuera de la red quiere comprar el output. Subnets que generan ingresos reales atraen más capital y tienen más estabilidad.</li>
+      <li><strong>Recursos para arrancar:</strong> capital suficiente para el registro y los primeros meses de operación, tiempo para desarrollar el código del incentive mechanism y crear documentación para miners.</li>
+    </ul>
+
+    <h3>1.3. El coste de registro</h3>
+    <p>Registrar una subnet quema TAO. El precio es dinámico: sube cuando hay muchas subnets queriendo registrarse y baja cuando hay subnets deregistradas disponibles. A mayo de 2026, el coste oscila entre <strong>1.000 y 2.500 TAO</strong>, dependiendo de la demanda. Este TAO se quema permanentemente, lo que tiene efecto deflacionario sobre el supply total.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>El coste de registro <strong>no es un fee que se recupera</strong>: se quema para siempre. Es el precio de entrada al mercado de subnets. Esto protege a la red de subnets de baja calidad o spam, pero también eleva la barra para proyectos serios.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>El proceso de registro</h2>
+
+    <h3>2.1. Registrar la subnet on-chain</h3>
+    <p>El registro se hace con el CLI de Bittensor. El comando es <code style="font-family:'Share Tech Mono',monospace;color:var(--accent);font-size:14px">btcli subnets create --wallet.name TU_COLDKEY</code>. El sistema verifica que tienes suficiente TAO en tu coldkey, ejecuta la transacción on-chain, quema el TAO correspondiente y asigna el siguiente netuid disponible.</p>
+    <p>El <strong>netuid</strong> es el número identificador único de tu subnet (por ejemplo, 64 para Chutes, 3 para Templar). Una vez asignado, es permanente mientras la subnet esté activa. Si es deregistrada y luego alguien crea una nueva subnet, puede recibir ese mismo netuid.</p>
+
+    <h3>2.2. Quién es el owner</h3>
+    <p>La coldkey que registra la subnet se convierte en su <strong>propietaria (owner)</strong>. El owner tiene poderes especiales: puede cambiar algunos hiperparámetros directamente (como el take fee del owner, el porcentaje que se queda el creador de las emisiones de la subnet), puede proponer cambios más amplios vía governance, y puede transferir la propiedad a otra coldkey.</p>
+
+    <h3>2.3. Límite de 128 subnets y deregistración</h3>
+    <p>Bittensor permite un máximo de 128 subnets activas simultáneamente (con expansión a 256 en el roadmap de 2026). Si el sistema está lleno y alguien quiere registrar una nueva subnet, la subnet activa con <strong>menos TAO stakeado en su pool dTAO</strong> es eliminada para hacer hueco. Esto crea un mercado competitivo donde las subnets deben demostrar valor continuamente para sobrevivir.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Diseñar el incentive mechanism</h2>
+
+    <h3>3.1. Qué es y por qué es lo más importante</h3>
+    <p>El incentive mechanism es el conjunto de reglas que determina cómo los validators evalúan a los miners y cómo esas evaluaciones se traducen en pesos (y por tanto en recompensas). <strong>Es el corazón de la subnet</strong>. Un mecanismo mal diseñado produce comportamientos no deseados: miners que aprenden a engañar a los validators sin producir valor, o validators que copian pesos sin evaluación real.</p>
+
+    <h3>3.2. Propiedades de un buen incentive mechanism</h3>
+    <ul>
+      <li><strong>Verificabilidad:</strong> los validators pueden comprobar objetivamente la calidad del output del miner. Si el output no se puede verificar, el sistema es vulnerable a fraude.</li>
+      <li><strong>Sybil-resistance:</strong> crear muchos UIDs falsos no debe dar ventaja. Si el task es computacionalmente caro, los sybil UIDs no pueden producir outputs de calidad.</li>
+      <li><strong>Anti-colusión:</strong> si validators y miners se coordinan para extraer recompensas sin trabajar, Yuma Consensus debe penalizar al validator (reduciendo su trust) porque sus pesos se desvían del consenso.</li>
+      <li><strong>Escalabilidad:</strong> el mecanismo debe funcionar con 64, 128 o 256 miners activos sin degradarse.</li>
+    </ul>
+
+    <h3>3.3. Patrones comunes</h3>
+    <p><strong>Ground truth validation:</strong> el validator tiene acceso a las respuestas correctas y comprueba qué miner se acerca más. Ejemplo: predicciones financieras comparadas con el precio real al día siguiente. Muy robusto pero requiere datos externos de calidad.</p>
+    <p><strong>Benchmark tasks:</strong> el validator envía tareas estandarizadas de dificultad conocida (ej. un problema de matemáticas con solución verificable). El miner que resuelve más y mejor gana. Funciona bien en subnets de código o matemáticas.</p>
+    <p><strong>Consensus-based evaluation:</strong> los validators comparan los outputs de diferentes miners entre sí. Quien más se parece al consenso, más puntuación. Útil cuando no hay ground truth, pero vulnerable si miners se coluden.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>Hiperparámetros y configuración</h2>
+
+    <p>Al crear la subnet, hereda valores por defecto para todos sus hiperparámetros. El owner puede modificar muchos de ellos, y algunos requieren aprobación del Senate para cambios grandes.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Hiperparámetro</th><th>Valor típico</th><th>Qué controla</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>max_allowed_uids</strong></td><td>256</td><td>Número máximo de miners + validators activos simultáneamente</td></tr>
+          <tr><td><strong>min_allowed_weights</strong></td><td>8</td><td>Mínimo de miners a los que un validator debe asignar peso</td></tr>
+          <tr><td><strong>tempo</strong></td><td>360 bloques</td><td>Cada cuántos bloques (~72 min) se distribuyen las recompensas</td></tr>
+          <tr><td><strong>immunity_period</strong></td><td>5000 bloques</td><td>Bloques que un UID recién registrado está protegido de deregistración</td></tr>
+          <tr><td><strong>min_stake</strong></td><td>Variable</td><td>Stake mínimo para que un validator tenga peso en Yuma Consensus</td></tr>
+          <tr><td><strong>weights_rate_limit</strong></td><td>100 bloques</td><td>Mínimo de bloques entre actualizaciones de pesos por un validator</td></tr>
+          <tr><td><strong>max_weight_limit</strong></td><td>65535</td><td>Peso máximo que un validator puede asignar a un solo miner</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4.1. Ajustar para tu subnet</h3>
+    <p>Una subnet de inferencia de LLM que necesita GPUs potentes puede tener un <code style="font-family:'Share Tech Mono',monospace;color:var(--accent);font-size:14px">max_allowed_uids</code> más bajo (los UIDs son caros de mantener) y un <code style="font-family:'Share Tech Mono',monospace;color:var(--accent);font-size:14px">tempo</code> más corto para actualizaciones más frecuentes. Una subnet de predicción financiera puede tener un tempo más largo, equivalente a un día de mercado. Cada subnet es diferente y los hiperparámetros deben reflejar la naturaleza de su tarea.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 05</div>
+    <h2>Crecer el ecosistema de la subnet</h2>
+
+    <h3>5.1. Atraer miners de calidad</h3>
+    <p>Los miners eligen subnets según el ratio <em>recompensa esperada / coste operativo</em>. Para atraerlos:</p>
+    <ul>
+      <li><strong>Código abierto y documentado:</strong> publica el código del miner en GitHub con instrucciones claras de instalación y ejecución. Cuanto más fácil sea empezar, más miners intentarán unirse.</li>
+      <li><strong>Barreras de entrada iniciales bajas:</strong> comienza con requisitos de hardware razonables. Una vez que la subnet tenga momentum, los mejores miners harán el upgrade.</li>
+      <li><strong>Emisiones atractivas:</strong> cuanto más TAO haya stakeado en tu pool dTAO, más emisiones recibirá la subnet, y por tanto más recompensas habrá para los miners.</li>
+    </ul>
+
+    <h3>5.2. Atraer validators y capital</h3>
+    <p>Los validators traen stake (y por tanto emisiones). Para atraerlos: un incentive mechanism claro y bien documentado, un mínimo de stake razonable para entrar, y demostrar que la subnet produce valor real (outputs que la gente quiere comprar).</p>
+    <p>Cuanto más TAO se stakea en el pool dTAO de tu subnet, mayor es su <em>peso relativo</em> en el total del ecosistema, y mayor la proporción de las emisiones globales que recibe. Crecer el TVL es la métrica más directa de éxito a largo plazo.</p>
+
+    <h3>5.3. Gestión continua</h3>
+    <p>Una subnet en producción necesita mantenimiento activo: actualizar el código del miner cuando aparecen mejores técnicas, ajustar hiperparámetros a medida que cambia la competencia, comunicar cambios a la comunidad, detectar y penalizar comportamientos abusivos. El owner que abandona su subnet ve cómo otros la alcanzan y la deregistración se acerca.</p>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title" data-i18n="mod.glossary">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">Netuid</div><div class="glosario-def">Número identificador único de una subnet dentro de Bittensor (0 = raíz, 1-127 = subnets de usuario).</div></div>
+    <div class="glosario-item"><div class="glosario-term">Owner</div><div class="glosario-def">Coldkey propietaria de la subnet. Puede modificar hiperparámetros y proponer cambios via governance.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Incentive mechanism</div><div class="glosario-def">Conjunto de reglas que define cómo validators evalúan miners y cómo esas evaluaciones se traducen en recompensas.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Synapse</div><div class="glosario-def">El tipo de mensaje/petición que validators envían a miners. Define el formato del task.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Hiperparámetros</div><div class="glosario-def">Variables de configuración de una subnet: tempo, max_allowed_uids, immunity_period, min_stake, etc.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Quema de registro</div><div class="glosario-def">TAO que se destruye permanentemente al registrar una subnet. Efecto deflacionario sobre el supply total.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Deregistración</div><div class="glosario-def">Eliminación de una subnet del sistema cuando aparece una nueva con mayor demanda y el límite de 128 está lleno.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Ground truth</div><div class="glosario-def">Datos externos con las respuestas correctas, usados por validators para evaluar objetivamente a los miners.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Sybil attack</div><div class="glosario-def">Ataque en el que un actor crea múltiples identidades falsas para manipular el sistema de recompensas.</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title" data-i18n="mod.exercises">// Ejercicios</div>
+    <ol>
+      <li>Elige un problema de IA y describe en un párrafo: qué produciría el miner, cómo lo evaluaría el validator, y por qué esa evaluación es objetiva y difícil de falsificar.</li>
+      <li>Busca en bittensor.pro/market.html dos subnets activas. Para cada una, intenta deducir cuál es su incentive mechanism a partir de su descripción. ¿Usan ground truth, benchmark tasks o evaluación por consenso?</li>
+      <li>¿Por qué quema TAO el registro de subnets en lugar de cobrar un fee que va a los validators? Explica la diferencia económica y los incentivos que genera cada modelo.</li>
+      <li>Diseña una tabla con los hiperparámetros que usarías para una subnet de predicción de precios de criptomonedas. Justifica por qué elegiste ese tempo y ese max_allowed_uids.</li>
+      <li>Una subnet lanzada hace 3 meses tiene 5 miners activos y muy poco TAO stakeado. El owner planea no actualizar el código en 6 meses. ¿Qué riesgos corre y qué debería hacer?</li>
+      <li>Consulta el repositorio GitHub de una subnet real (por ejemplo Templar, Subnet 3) y describe en tus palabras cómo evalúa el validator a los miners en esa subnet.</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title" data-i18n="mod.refs">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>Documentación oficial de subnets:</strong> <a href="https://docs.bittensor.com/subnets/create-a-subnet" target="_blank" rel="noopener">docs.bittensor.com/subnets/create-a-subnet</a></li>
+      <li><strong>Guía de incentive mechanisms:</strong> <a href="https://docs.bittensor.com/subnets/incentive-mechanisms" target="_blank" rel="noopener">docs.bittensor.com/subnets/incentive-mechanisms</a></li>
+      <li><strong>Template de subnet (GitHub):</strong> <a href="https://github.com/opentensor/bittensor-subnet-template" target="_blank" rel="noopener">github.com/opentensor/bittensor-subnet-template</a></li>
+      <li><strong>Lista de subnets y sus repositorios:</strong> <a href="https://github.com/opentensor/bittensor/wiki/Subnets" target="_blank" rel="noopener">github.com/opentensor/bittensor/wiki/Subnets</a></li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-intermedio-modulo-08.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo I-08</div>
+      <div class="siguiente-title">DeFi y TAO: liquidez y bridges</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · <span data-i18n="intermedio.level">Nivel Intermedio</span> · Módulo I-07 · Mayo 2026 · <a href="aprende-intermedio.html"><span data-i18n="intermedio.back_course">Volver al curso</span></a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

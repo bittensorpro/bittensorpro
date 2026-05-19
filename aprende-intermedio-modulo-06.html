@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Módulo I-06: Ser validador — Staking y pesos | Bittensor PRO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">B</div>
+    <div class="brand-name">Bittensor<em>PRO</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html">Niveles</a>
+    <a href="aprende-intermedio.html" class="active">Intermedio</a>
+    <a href="market.html">Market</a>
+    <a href="herramientas.html" style="color:#f6a623;border-color:rgba(246,166,35,0.3);">Herramientas</a>
+  </div>
+</nav>
+
+<!-- BACK -->
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link">&#8592; Intermedio</a>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="module-num">MÓDULO I-06</div>
+  <h1>Ser validador: <strong>staking y pesos</strong></h1>
+  <p class="hero-sub">Comprende el rol del validator en Bittensor: cómo evalúa miners, asigna pesos, gestiona delegaciones y obtiene dividends proporcionales a su stake y su precisión.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span>6 horas</span>
+    <span class="meta-tag neutral">Prerequisito: Módulo I-05</span>
+    <span class="meta-tag neutral">Nivel Intermedio</span>
+  </div>
+</header>
+
+<!-- OBJETIVOS -->
+<div class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title">Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender qué hace un validator en Bittensor y por qué su rol es diferente al del miner.</li>
+      <li>Conocer los requisitos de stake mínimo para tener influencia real en distintas subnets.</li>
+      <li>Comprender el sistema de delegación: cómo funciona, qué cobra el validator y qué reciben los delegadores.</li>
+      <li>Aprender por qué asignar pesos correctamente es crucial y qué consecuencias tiene el peso-copying.</li>
+      <li>Analizar la economía del validator: ingresos, costes y factores que determinan el ROI.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<main class="content">
+
+  <!-- SECTION 1 -->
+  <section>
+    <div class="section-num">01 — Rol</div>
+    <h2>Qué hace un validator</h2>
+
+    <p>Si el miner es el proveedor de inteligencia artificial en Bittensor, el validator es el <strong>juez y árbitro de la calidad</strong> de esa inteligencia. Sin validators que evalúen y califiquen a los miners, Yuma Consensus no tendría datos con los que calcular los incentivos. El rol es por tanto fundamental para que el protocolo funcione como un mercado de IA genuinamente competitivo.</p>
+
+    <p>El ciclo operativo de un validator se repite continuamente durante cada época de la red:</p>
+
+    <ul>
+      <li><strong>Paso 1 — Enviar Synapses:</strong> El validator selecciona miners del metagraph y les envía peticiones (<em>Synapses</em>) a través del protocolo Dendrite. El contenido de la Synapse es la tarea específica de la subnet — puede ser una pregunta, un prompt, datos a procesar, etc.</li>
+      <li><strong>Paso 2 — Recibir respuestas:</strong> Los miners responden a través de sus Axons. El validator registra tanto el contenido de la respuesta como el tiempo que tardó en llegar.</li>
+      <li><strong>Paso 3 — Evaluar calidad:</strong> El validator aplica la lógica de evaluación específica de la subnet para puntuar cada respuesta. Esta lógica puede ser simple (comparar con una respuesta de referencia) o compleja (pasar la respuesta por otro modelo juez).</li>
+      <li><strong>Paso 4 — Calcular pesos:</strong> A partir de las puntuaciones, el validator construye un vector de pesos <code>W[validator][miner]</code> con valores entre 0 y 1, donde un peso mayor indica mayor calidad percibida.</li>
+      <li><strong>Paso 5 — Subir pesos a la cadena:</strong> El validator envía el extrinsic <code>set_weights</code> a la blockchain de Bittensor, registrando sus evaluaciones. Yuma Consensus procesa estos pesos cada época para calcular el incentive de cada miner.</li>
+    </ul>
+
+    <p>A cambio de este trabajo de evaluación, el validator recibe <strong>dividends</strong> — una fracción de las emisiones de TAO de la subnet, proporcional a su stake y a su <em>trust</em> (la consistencia y originalidad de sus evaluaciones según Yuma Consensus).</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>El validator no solo es un intermediario pasivo: <strong>su precisión al evaluar miners determina la calidad del mercado entero</strong>. Un validator que asigna pesos incorrectos o copiados distorsiona los incentivos y es penalizado por el protocolo con menor trust y menores dividends.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section>
+    <div class="section-num">02 — Requisitos</div>
+    <h2>Requisitos para ser validator</h2>
+
+    <h3>Stake mínimo efectivo</h3>
+    <p>En Bittensor, cualquiera puede técnicamente registrar un validator, pero <strong>la influencia real en el protocolo está determinada por el stake</strong>. Cada subnet permite hasta 64 validators con influencia activa (los que tienen sus pesos considerados en Yuma Consensus). Para estar entre esos 64, debes tener un stake suficientemente alto como para competir con los demás validators.</p>
+
+    <ul>
+      <li><strong>Subnet raíz (SN0):</strong> La subnet de gobernanza que determina cuántas emisiones recibe cada subnet. Aquí el mínimo competitivo es de aproximadamente 1.000 TAO o más. Los validators de SN0 con mayor stake tienen más influencia sobre qué subnets reciben más financiación.</li>
+      <li><strong>Subnets individuales:</strong> El mínimo varía dramáticamente. Una subnet emergente con pocos validators puede requerir solo 100-300 TAO para ser uno de los top 64. Una subnet establecida y popular puede requerir varios miles. Consulta el metagraph de la subnet para ver el stake del validator en la posición 64.</li>
+      <li><strong>Stake efectivo:</strong> El stake propio del validator más el stake delegado por terceros. Los validators con buena reputación y take fee competitiva atraen más delegaciones, lo que amplifica su influencia.</li>
+    </ul>
+
+    <h3>Hardware</h3>
+    <p>El validator debe ejecutar la misma lógica de evaluación que define la subnet. Esto implica que en muchos casos necesita el mismo hardware que un miner — o similar. Si una subnet evalúa respuestas de LLMs usando un modelo juez, el validator necesita una GPU capaz de correr ese modelo juez. En subnets más simples, el validator puede operar con CPU.</p>
+
+    <p>A diferencia del miner, el validator no necesita optimizar para la latencia de respuesta, sino para la <em>frecuencia y consistencia</em> de sus evaluaciones. La disponibilidad del sistema es crítica: un validator que no sube pesos frecuentemente pierde dividends.</p>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section>
+    <div class="section-num">03 — Delegación</div>
+    <h2>El sistema de delegación</h2>
+
+    <p>La delegación es el mecanismo que permite a cualquier holder de TAO <strong>participar en los rendimientos del validación sin operar infraestructura</strong>. Un usuario que tiene 50 TAO pero no quiere montar un servidor puede delegar esos TAO a un validator de confianza y recibir una proporción de los dividends de ese validator.</p>
+
+    <p>El proceso de delegación funciona de la siguiente manera:</p>
+
+    <ul>
+      <li>El usuario transfiere su stake al validator usando <code>btcli stake add --wallet.name mi_wallet --delegate_ss58 HOTKEY_DEL_VALIDATOR</code>.</li>
+      <li>El TAO delegado <strong>no sale de la custodia del usuario</strong> — sigue asociado a su coldkey. El validator no puede gastarlo ni transferirlo.</li>
+      <li>El stake del delegador se suma al stake propio del validator a efectos de Yuma Consensus, aumentando la influencia del validator y los dividends totales que genera.</li>
+      <li>El validator aplica su <strong>take fee</strong> (comisión) sobre los dividends totales antes de distribuir el resto proporcionalmente entre todos los delegadores.</li>
+    </ul>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Delegar vs. convertirse en validator</div>
+      <p>Delegar es la opción correcta si tienes TAO pero no el hardware, el tiempo ni los conocimientos técnicos para operar un validator. Ser validator tiene más potencial de ingresos (cobras la take fee además de los dividends por tu stake), pero requiere infraestructura 24/7, mantenimiento constante y la capacidad de implementar correctamente la lógica de evaluación de la subnet.</p>
+    </div>
+
+    <h3>Take fee</h3>
+    <p>La take fee es el porcentaje de los dividends totales generados por el validator (incluyendo los del stake delegado) que retiene para sí mismo antes de distribuir al resto. La take fee típica oscila entre el <strong>9% y el 18%</strong>, aunque cada validator puede configurar la suya. Una take fee muy alta desincentiva delegaciones; una muy baja puede no ser rentable para el operador del validator. El equilibrio está en ofrecer una fee competitiva respaldada por una buena reputación de rendimiento.</p>
+
+    <p>Los delegadores deben evaluar no solo la take fee, sino también el historial de uptime del validator, si está en los top 64 con influencia activa, y en qué subnets opera. Un validator con 12% de take fee pero en las top 3 subnets por emisiones puede ser más rentable que uno con 9% en una subnet con pocas emisiones.</p>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section>
+    <div class="section-num">04 — Pesos</div>
+    <h2>Asignar pesos correctamente</h2>
+
+    <p>La asignación de pesos es la responsabilidad técnica central del validator. Hacerlo bien no es trivial y tiene consecuencias económicas directas para el propio validator, los miners y la salud del ecosistema.</p>
+
+    <h3>La lógica de evaluación es específica de cada subnet</h3>
+    <p>No existe una forma universal de evaluar miners. Cada subnet define en su código qué métricas determinan la calidad de un miner. El validator <strong>debe implementar fielmente esa lógica</strong>. Ejemplos de métricas según el tipo de subnet:</p>
+
+    <ul>
+      <li><strong>Subnets de texto:</strong> ROUGE score, BLEU score, similitud semántica con embeddings, coherencia con un modelo juez, velocidad de respuesta.</li>
+      <li><strong>Subnets de predicción:</strong> Error cuadrático medio, accuracy en clasificación, calibración de probabilidades.</li>
+      <li><strong>Subnets de cómputo:</strong> Verificación criptográfica de que el cómputo se realizó correctamente, throughput medido.</li>
+    </ul>
+
+    <h3>El peso-copying y sus consecuencias</h3>
+    <p>El <strong>peso-copying</strong> ocurre cuando un validator no evalúa a los miners de forma independiente, sino que copia los pesos de otro validator de mayor confianza. Es la forma de "parasitar" los ingresos de validación sin hacer el trabajo real de evaluación.</p>
+
+    <p>Yuma Consensus tiene un mecanismo específico para detectar y penalizar esto. El algoritmo mide la <em>originalidad</em> de los pesos de cada validator respecto al consenso. Un validator cuyos pesos son siempre idénticos a los de otros pierde <strong>trust</strong>, y su trust reducido se traduce directamente en menores dividends. En casos extremos, un validator copiador puede quedar prácticamente excluido de los dividends aunque tenga mucho stake.</p>
+
+    <p>Más allá de la penalización económica, el peso-copying daña el protocolo: si todos los validators copian al mismo referente, el consenso pierde su función de descubrimiento de calidad y los incentivos dejan de reflejar el rendimiento real de los miners.</p>
+
+    <h3>Frecuencia de actualización de pesos</h3>
+    <p>Los validators deben subir pesos a la cadena regularmente. Bittensor establece un límite de actualizaciones mínimas — si un validator no sube pesos durante demasiados bloques, su contribución puede ser ignorada por el protocolo. La automatización y el monitoreo del proceso de <code>set_weights</code> son parte esencial de operar un validator en producción.</p>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section>
+    <div class="section-num">05 — Economía</div>
+    <h2>Economía del validador</h2>
+
+    <p>Convertirse en validator implica un análisis de rentabilidad riguroso. Los números dependen de múltiples variables interconectadas, pero el marco básico es claro.</p>
+
+    <h3>Fuentes de ingresos</h3>
+    <p>Un validator tiene dos vectores de ingresos:</p>
+    <ul>
+      <li><strong>Dividends por stake propio:</strong> La proporción de las emisiones de la subnet que corresponde a su stake, después de que Yuma Consensus calcula los dividends totales de los validators.</li>
+      <li><strong>Take fee sobre stake delegado:</strong> El porcentaje sobre los dividends generados por el stake que otros usuarios le han delegado. Este es el diferencial económico clave respecto a simplemente tener stake como delegador.</li>
+    </ul>
+
+    <h3>Ejemplo de APY estimado</h3>
+    <p>A continuación se muestra un desglose ilustrativo para un validator con condiciones específicas. Los valores son aproximados y para fines educativos — las emisiones reales varían constantemente.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Valor / Supuesto</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Stake propio</strong></td>
+            <td>1.000 TAO</td>
+            <td>Base de cálculo de dividends propios</td>
+          </tr>
+          <tr>
+            <td><strong>Stake delegado recibido</strong></td>
+            <td>4.000 TAO (de delegadores)</td>
+            <td>Stake total efectivo: 5.000 TAO</td>
+          </tr>
+          <tr>
+            <td><strong>Take fee</strong></td>
+            <td>18%</td>
+            <td>El validator retiene el 18% de los dividends del stake delegado</td>
+          </tr>
+          <tr>
+            <td><strong>Emisiones de la subnet</strong></td>
+            <td>~10 TAO/día</td>
+            <td>Pool total disponible para validators + miners de la subnet</td>
+          </tr>
+          <tr>
+            <td><strong>Proporción para validators</strong></td>
+            <td>~41% (Yuma Consensus)</td>
+            <td>~4.1 TAO/día para todos los validators de la subnet</td>
+          </tr>
+          <tr>
+            <td><strong>Cuota del validator (20% del stake total de validators)</strong></td>
+            <td>~0.82 TAO/día bruto</td>
+            <td>Dividends totales antes de descontar take a delegadores</td>
+          </tr>
+          <tr>
+            <td><strong>Dividends para delegadores</strong></td>
+            <td>0.82 × (4.000/5.000) × 82% = ~0.54 TAO/día</td>
+            <td>Lo que reciben los delegadores colectivamente</td>
+          </tr>
+          <tr>
+            <td><strong>Ingresos netos del validator</strong></td>
+            <td>Dividends propios + take fee = ~0.28 + ~0.15 = ~0.43 TAO/día</td>
+            <td>~157 TAO/año sobre 1.000 TAO propio ≈ 15.7% APY bruto</td>
+          </tr>
+          <tr>
+            <td><strong>Costes estimados (hardware + electricidad)</strong></td>
+            <td>~0.05 TAO/día equivalente</td>
+            <td>APY neto aproximado: ~13-14% sobre stake propio</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Este ejemplo ilustra por qué <strong>atraer stake delegado es el multiplicador económico</strong> más poderoso para un validator. Con 1.000 TAO propios, el validator genera dividends sobre 5.000 TAO efectivos y se queda con la take fee del diferencial. La reputación, la transparencia y el uptime son los factores que convierten a un validator en un destino atractivo para los delegadores.</p>
+
+    <h3>Costes a considerar</h3>
+    <p>Los costes operativos de un validator no son despreciables:</p>
+    <ul>
+      <li><strong>Hardware:</strong> Similar al miner de la subnet (puede requerir GPU para la evaluación). Amortización del equipo.</li>
+      <li><strong>Electricidad:</strong> El proceso de evaluación puede ser computacionalmente intensivo.</li>
+      <li><strong>Mantenimiento:</strong> Actualizar el código del validator cuando la subnet lanza nuevas versiones, monitorear el uptime, gestionar fallos.</li>
+      <li><strong>Coste de oportunidad del TAO en stake:</strong> TAO en stake no puede usarse para otras inversiones. El APY del validador debe compararse con alternativas.</li>
+    </ul>
+  </section>
+
+  <!-- GLOSARIO -->
+  <div class="glosario">
+    <div class="glosario-title">Glosario del módulo</div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Validator</div>
+      <div class="glosario-def">Participante de la red Bittensor que evalúa la calidad de los outputs de los miners, asigna pesos en consecuencia y los sube a la cadena. Recibe dividends proporcionales a su stake y a su trust dentro de la subnet.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Take Fee</div>
+      <div class="glosario-def">Comisión que retiene el validator sobre los dividends generados por el stake delegado a él por terceros, antes de distribuir el resto a los delegadores. Típicamente entre 9% y 18%. Es la principal fuente de ingresos diferencial del validator respecto a simplemente delegar.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Delegator</div>
+      <div class="glosario-def">Usuario que transfiere su stake TAO a un validator para aumentar su influencia a cambio de una proporción de sus dividends (neto de take fee). El delegador mantiene la custodia de sus fondos — el validator no puede gastarlos.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Synapse</div>
+      <div class="glosario-def">La petición estructurada que un validator envía a los miners a través del protocolo Dendrite. Define el formato de la tarea que el miner debe realizar. Cada subnet define su propia clase Synapse con los campos específicos de su dominio.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Set_weights</div>
+      <div class="glosario-def">El extrinsic (transacción) que un validator envía a la blockchain de Bittensor para registrar sus evaluaciones de los miners. Contiene el vector de pesos W[validator][miner]. Yuma Consensus usa estos datos para calcular el incentive de cada miner en cada época.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Dividends</div>
+      <div class="glosario-def">La fracción de las emisiones de TAO de una subnet que reciben los validators, distribuida en proporción a su stake y trust. Los dividends son la recompensa del validator por mantener la integridad del sistema de evaluación.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Stake Mínimo</div>
+      <div class="glosario-def">El amount de TAO en stake necesario para que un validator esté entre los top 64 con influencia activa en una subnet. Por debajo de ese umbral, los pesos del validator pueden ser ignorados por Yuma Consensus. Varía significativamente entre subnets.</div>
+    </div>
+
+    <div class="glosario-item">
+      <div class="glosario-term">Peso-copying</div>
+      <div class="glosario-def">Práctica fraudulenta en la que un validator copia los pesos de otro en lugar de evaluar miners de forma independiente. Yuma Consensus detecta la falta de originalidad y penaliza al validator copiador reduciendo su trust y sus dividends.</div>
+    </div>
+  </div>
+
+  <!-- EJERCICIOS -->
+  <div class="ejercicios">
+    <div class="ejercicios-title">Ejercicios prácticos</div>
+    <ol>
+      <li>Consulta el metagraph de SN1 (o cualquier subnet activa) y localiza los top 10 validators por stake. ¿Cuánto stake tiene el validator en la posición 64? ¿Cuántos TAO necesitarías para entrar a ese umbral hoy?</li>
+      <li>Busca en GitHub el repositorio de un validator de una subnet a tu elección. Localiza la función <code>set_weights</code> o equivalente. Describe en detalle qué métricas evalúa y cómo transforma esas métricas en pesos numéricos para cada miner.</li>
+      <li>Modela una hoja de cálculo de rentabilidad para un validator con 500 TAO propios, take fee del 15%, en una subnet con 5 TAO/día de emisiones. Varía el stake delegado recibido (0, 1.000, 3.000, 5.000 TAO) y calcula el APY en cada escenario. ¿A partir de qué nivel de delegación se vuelve claramente rentable?</li>
+      <li>Explica con tus propias palabras por qué el peso-copying es un equilibrio inestable: ¿qué pasaría con los incentivos del ecosistema si todos los validators copiaran sus pesos del mismo referente? ¿Cómo responde Yuma Consensus a ese escenario?</li>
+      <li>Compara la decisión de delegar 1.000 TAO a un validator con take fee del 12% contra convertirte tú mismo en validator con esos 1.000 TAO. Enumera al menos cuatro factores que deberías evaluar para tomar esa decisión y justifica en qué circunstancias cada opción es preferible.</li>
+    </ol>
+  </div>
+
+  <!-- REFERENCIAS -->
+  <div class="referencias">
+    <div class="referencias-title">Referencias y lecturas</div>
+    <ul>
+      <li><a href="https://docs.bittensor.com/validators" target="_blank" rel="noopener">docs.bittensor.com/validators — Documentación oficial del rol de validator</a></li>
+      <li><a href="https://docs.bittensor.com/staking-and-delegation/delegation" target="_blank" rel="noopener">docs.bittensor.com — Guía completa del sistema de delegación</a></li>
+      <li><a href="https://docs.bittensor.com/yuma-consensus" target="_blank" rel="noopener">docs.bittensor.com/yuma-consensus — Cómo Yuma Consensus procesa los pesos y detecta copying</a></li>
+      <li><a href="https://taostats.io/validators" target="_blank" rel="noopener">taostats.io/validators — Lista de validators activos con stake, take fee y delegaciones</a></li>
+      <li><a href="https://github.com/opentensor/bittensor-subnet-template/blob/main/neurons/validator.py" target="_blank" rel="noopener">github.com — Ejemplo de validator.py en el template oficial de subnet</a></li>
+    </ul>
+  </div>
+
+</main>
+
+<!-- SIGUIENTE MÓDULO -->
+<div class="siguiente">
+  <a href="aprende-intermedio-modulo-07.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente módulo</div>
+      <div class="siguiente-title">Crear y gestionar una subred</div>
+    </div>
+    <div class="siguiente-arrow">→</div>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <a href="index.html">Bittensor PRO</a> &nbsp;·&nbsp; Módulo I-06 &nbsp;·&nbsp; Nivel Intermedio
+</footer>
+
+</body>
+</html>

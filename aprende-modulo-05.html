@@ -16,43 +16,43 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#05060a;--bg-2:#0d0f17;--bg-3:#141826;--border:rgba(0,240,255,.10);--border-2:rgba(0,240,255,.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-dim:#6b7385;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--max-width:760px}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Chakra Petch',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,.06),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(255,43,214,.03),transparent 60%);pointer-events:none;z-index:0}
 .topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
 .brand-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,rgba(0,240,255,.12),rgba(255,43,214,.10));border:1px solid rgba(0,240,255,.4);display:grid;place-items:center;color:#fff;font-family:'Orbitron',serif;font-weight:900;font-size:18px;box-shadow:0 0 12px rgba(0,240,255,.3);text-shadow:0 0 8px rgba(0,240,255,.7)}
 .brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;color:#f4faff}
 .brand-title .pro{color:var(--magenta);font-style:italic;margin-left:3px;text-shadow:0 0 8px rgba(255,43,214,.5)}
-.nav{display:flex;gap:16px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.nav{display:flex;gap:16px;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 .nav a{color:var(--text-muted);text-decoration:none;padding:4px 0;transition:color .15s}
 .nav a.active{color:var(--cyan);text-shadow:0 0 8px rgba(0,240,255,.5)}.nav a:hover{color:var(--text)}
-.breadcrumb{max-width:var(--max-width);margin:0 auto;padding:24px 20px 0;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--text-faint);text-transform:uppercase;position:relative;z-index:1}
+.breadcrumb{max-width:var(--max-width);margin:0 auto;padding:24px 20px 0;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.12em;color:var(--text-faint);text-transform:uppercase;position:relative;z-index:1}
 .breadcrumb a{color:var(--cyan);text-decoration:none}.breadcrumb a:hover{color:var(--text)}
 .breadcrumb-sep{margin:0 10px;color:var(--text-faint)}
 .banner{max-width:var(--max-width);margin:24px auto 0;padding:0 20px;position:relative;z-index:1}
 .banner-inner{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center}
 .banner-num{font-family:'Orbitron',monospace;font-weight:900;font-size:48px;color:var(--cyan);line-height:1;text-shadow:0 0 16px rgba(0,240,255,.4)}
-.banner-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--text-faint);text-transform:uppercase;margin-bottom:4px}
+.banner-label{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.22em;color:var(--text-faint);text-transform:uppercase;margin-bottom:4px}
 .banner-title{font-family:'Fraunces',serif;font-weight:600;font-size:24px;color:#fff;line-height:1.15}
 .banner-meta{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
 .banner-hours{font-family:'Orbitron',monospace;font-weight:700;font-size:18px;color:#fff}
-.banner-level{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:3px;color:var(--cyan);border:1px solid rgba(0,240,255,.4);background:rgba(0,240,255,.06)}
+.banner-level{font-family:'Outfit',sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:3px;color:var(--cyan);border:1px solid rgba(0,240,255,.4);background:rgba(0,240,255,.06)}
 .objectives{max-width:var(--max-width);margin:30px auto 0;padding:0 20px;position:relative;z-index:1}
 .objectives-box{background:rgba(0,240,255,.03);border:1px solid var(--border-2);border-radius:12px;padding:22px 26px}
-.objectives-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px}
+.objectives-label{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px}
 .objectives-list{list-style:none}
 .objectives-list li{color:var(--text-muted);padding:6px 0 6px 22px;position:relative;font-size:15px}
 .objectives-list li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:700}
 article{max-width:var(--max-width);margin:0 auto;padding:50px 20px 20px;position:relative;z-index:1}
 .section{margin-bottom:48px;scroll-margin-top:80px}
-.section-num{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;margin-bottom:10px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;margin-bottom:10px}
 h2{font-family:'Fraunces',serif;font-weight:600;font-size:28px;line-height:1.2;letter-spacing:-.01em;margin-bottom:22px;color:#fff}
 h2 em{font-style:italic;color:var(--cyan);font-weight:600}
-h3{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:18px;margin-top:28px;margin-bottom:12px;color:#fff}
+h3{font-family:'Outfit',sans-serif;font-weight:600;font-size:18px;margin-top:28px;margin-bottom:12px;color:#fff}
 article p{font-size:16px;color:var(--text-muted);margin-bottom:16px;line-height:1.7}
 article p strong{color:var(--text);font-weight:600}
 article a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,.3)}
@@ -64,16 +64,16 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:var(--cyan);ba
 pre{background:var(--bg-3);border:1px solid var(--border-2);border-left:3px solid var(--cyan);border-radius:8px;padding:16px 20px;margin:20px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--text);line-height:1.55}
 pre code{background:transparent;border:none;padding:0;color:var(--text)}
 .callout{border:1px solid var(--border-2);background:rgba(0,240,255,.03);border-radius:10px;padding:18px 22px;margin:24px 0}
-.callout-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+.callout-label{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
 .callout p{font-size:15px;margin-bottom:0;color:var(--text)}
 .table-wrap{margin:24px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:10px;background:var(--bg-2)}
 table{width:100%;border-collapse:collapse;font-size:14.5px}
-thead th{background:rgba(0,240,255,.04);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border-2);white-space:nowrap}
+thead th{background:rgba(0,240,255,.04);font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border-2);white-space:nowrap}
 tbody td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-muted);vertical-align:top}
 tbody tr:last-child td{border-bottom:none}
 tbody td:first-child{color:var(--text);font-weight:600}
 .glossary-block{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:28px 0}
-.glossary-block-header{padding:14px 20px;background:rgba(0,240,255,.04);border-bottom:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
+.glossary-block-header{padding:14px 20px;background:rgba(0,240,255,.04);border-bottom:1px solid var(--border);font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
 .glossary-row{display:grid;grid-template-columns:140px 1fr;gap:18px;padding:12px 20px;border-bottom:1px solid var(--border);align-items:baseline}
 .glossary-row:last-child{border-bottom:none}
 .glossary-term{font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;color:var(--cyan);letter-spacing:.04em;text-transform:uppercase}
@@ -81,7 +81,7 @@ tbody td:first-child{color:var(--text);font-weight:600}
 .exercises{background:rgba(34,216,122,.04);border:1px solid rgba(34,216,122,.25);border-radius:12px;overflow:hidden;margin:32px 0}
 .exercises-toggle{width:100%;background:transparent;border:none;padding:16px 22px;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;color:inherit;font-family:inherit}
 .exercises-toggle:hover{background:rgba(34,216,122,.06)}
-.exercises-toggle-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:10px}
+.exercises-toggle-label{font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:10px}
 .exercises-toggle-icon{color:var(--green);font-size:16px;transition:transform .2s}
 .exercises.open .exercises-toggle-icon{transform:rotate(45deg)}
 .exercises-content{display:none;padding:0 22px 22px}
@@ -91,7 +91,7 @@ tbody td:first-child{color:var(--text);font-weight:600}
 .exercises li:last-child{border-bottom:none}
 .exercises li::before{content:counter(ex,decimal-leading-zero);position:absolute;left:0;top:12px;font-family:'Orbitron',monospace;font-weight:700;font-size:13px;color:var(--green);width:28px}
 .refs{background:rgba(255,43,214,.04);border:1px solid rgba(255,43,214,.25);border-radius:12px;padding:22px;margin:32px 0}
-.refs-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--magenta);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.refs-label{font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--magenta);margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .refs ul{padding-left:0}
 .refs ul li{padding:6px 0 6px 22px;color:var(--text-muted);font-size:14.5px}
 .refs ul li::before{content:"▸";color:var(--magenta)}
@@ -100,10 +100,10 @@ tbody td:first-child{color:var(--text);font-weight:600}
 .module-nav{max-width:var(--max-width);margin:40px auto 60px;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative;z-index:1}
 .nav-btn{padding:18px 22px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:inherit;transition:all .15s}
 .nav-btn:hover{border-color:var(--cyan);background:rgba(0,240,255,.04)}
-.nav-btn-label{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
-.nav-btn-title{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:15px;color:var(--text)}
+.nav-btn-label{font-family:'Outfit',sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+.nav-btn-title{font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;color:var(--text)}
 .nav-btn.next{text-align:right}
-footer{border-top:1px solid var(--border);padding:30px 20px calc(30px + env(safe-area-inset-bottom));text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--text-faint);text-transform:uppercase;position:relative;z-index:1}
+footer{border-top:1px solid var(--border);padding:30px 20px calc(30px + env(safe-area-inset-bottom));text-align:center;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--text-faint);text-transform:uppercase;position:relative;z-index:1}
 footer a{color:var(--cyan);text-decoration:none}
 @media(max-width:600px){.breadcrumb{padding:16px 16px 0}.banner{padding:0 16px}.banner-inner{grid-template-columns:auto 1fr;grid-template-rows:auto auto;padding:18px 20px;gap:14px}.banner-num{font-size:36px}.banner-title{font-size:18px}.banner-meta{grid-column:1/-1;flex-direction:row;align-items:center;gap:10px;align-self:start}.objectives{padding:0 16px;margin:24px auto 0}.objectives-box{padding:18px 20px}article{padding:36px 16px 16px}.section{margin-bottom:36px}h2{font-size:24px}article p{font-size:15.5px}.glossary-row{grid-template-columns:1fr;gap:4px}.module-nav{grid-template-columns:1fr;padding:0 16px}.nav a:not(.active):not(.nav-tao){display:none}
     .nav-tao{padding:3px 7px;font-size:10px;gap:5px}
@@ -122,7 +122,7 @@ footer a{color:var(--cyan);text-decoration:none}
     border-radius: 6px;
     background: rgba(0, 240, 255, 0.04);
     text-decoration: none;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.06em;
     color: #e8f0f5;
@@ -178,20 +178,21 @@ footer a{color:var(--cyan);text-decoration:none}
   }
 
 </style>
+<script src="./js/i18n.js"></script>
 </head>
 <body>
 <header class="topbar">
   <a href="index.html" class="brand"><div class="brand-mark">τ</div><span class="brand-title">Bittensor<span class="pro">Pro</span></span></a>
-  <nav class="nav"><a href="aprende.html" class="active">Aprende</a><a href="market.html">Market</a><a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)">Herramientas</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a><a href="index.html">Inicio</a></nav>
+  <nav class="nav"><a href="aprende.html" class="active" data-i18n="nav.learn">Aprende</a><a href="market.html" data-i18n="nav.market">Market</a><a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a><a href="index.html" data-i18n="nav.home">Inicio</a></nav>
 </header>
-<div class="breadcrumb"><a href="index.html">Inicio</a><span class="breadcrumb-sep">/</span><a href="aprende.html">Aprende</a><span class="breadcrumb-sep">/</span>Módulo 05</div>
+<div class="breadcrumb"><a href="index.html" data-i18n="nav.home">Inicio</a><span class="breadcrumb-sep">/</span><a href="aprende.html" data-i18n="nav.learn">Aprende</a><span class="breadcrumb-sep">/</span>Módulo 05</div>
 <div class="banner"><div class="banner-inner">
   <div class="banner-num">05</div>
   <div class="banner-info"><div class="banner-label">Módulo 05</div><div class="banner-title">Neuronas: axon, dendrite, synapse</div></div>
   <div class="banner-meta"><div class="banner-hours">5h</div><div class="banner-level">Intermedio</div></div>
 </div></div>
 <div class="objectives"><div class="objectives-box">
-  <div class="objectives-label">// Objetivos del módulo</div>
+  <div class="objectives-label" data-i18n="mod.objectives">// Objetivos del módulo</div>
   <ul class="objectives-list">
     <li>Entender la arquitectura cliente-servidor neurón-a-neurón.</li>
     <li>Conocer el rol de Axon, Dendrite, Synapse y Metagraph.</li>
@@ -286,7 +287,7 @@ axon = bt.Axon(wallet=self.wallet, config=self.config)</code></pre>
     <p>Solo las neuronas con permit pueden establecer pesos no propios. Todas las neuronas pueden establecer pesos propios independientemente del permit.</p>
   </section>
   <section class="section"><div class="section-num">Sección 5.11</div>
-    <h2>Glosario del <em>módulo</em></h2>
+    <h2 data-i18n-html="mod.glossary_h2">Glosario del <em>módulo</em></h2>
     <div class="glossary-block">
       <div class="glossary-block-header">// Términos clave</div>
       <div class="glossary-row"><div class="glossary-term">Neurona</div><div class="glossary-def">Minero o validador. Cada uno tiene un UID en su subnet.</div></div>
@@ -310,7 +311,7 @@ axon = bt.Axon(wallet=self.wallet, config=self.config)</code></pre>
       <li>Razonamiento: si el Axon de un minero está caído, ¿qué le sucederá a sus métricas a lo largo del tempo? ¿Y a sus emisiones?</li>
     </ol></div>
   </div>
-  <div class="refs"><div class="refs-label">// Vídeos y referencias</div>
+  <div class="refs"><div class="refs-label" data-i18n="mod.refs">// Vídeos y referencias</div>
     <ul>
       <li>Doc oficial: <a href="https://docs.learnbittensor.org/learn/neurons" target="_blank" rel="noopener">docs.learnbittensor.org/learn/neurons</a></li>
       <li>Repo: <a href="https://github.com/opentensor/bittensor" target="_blank" rel="noopener">github.com/opentensor/bittensor</a> (clases Axon, Dendrite, Synapse)</li>
@@ -321,10 +322,10 @@ axon = bt.Axon(wallet=self.wallet, config=self.config)</code></pre>
   </div>
 </article>
 <nav class="module-nav">
-  <a href="aprende-modulo-04.html" class="nav-btn"><div class="nav-btn-label">← Módulo anterior</div><div class="nav-btn-title">04 · Subnets, AMMs y dTAO</div></a>
-  <a href="aprende-modulo-06.html" class="nav-btn next"><div class="nav-btn-label">Módulo siguiente →</div><div class="nav-btn-title">06 · Mecanismos de incentivos</div></a>
+  <a href="aprende-modulo-04.html" class="nav-btn"><div class="nav-btn-label" data-i18n="mod.prev">← Módulo anterior</div><div class="nav-btn-title">04 · Subnets, AMMs y dTAO</div></a>
+  <a href="aprende-modulo-06.html" class="nav-btn next"><div class="nav-btn-label" data-i18n="mod.next">Módulo siguiente →</div><div class="nav-btn-title">06 · Mecanismos de incentivos</div></a>
 </nav>
-<footer><a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero</footer>
+<footer data-i18n-html="mod.footer"><a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero</footer>
 
 
 <script>

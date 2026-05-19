@@ -19,7 +19,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -44,7 +44,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Chakra Petch', system-ui, sans-serif;
+    font-family: 'Outfit', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
     overflow-x: hidden;
@@ -61,70 +61,26 @@
   }
 
   /* TOPBAR */
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    padding: 12px 20px;
-    padding-top: calc(12px + env(safe-area-inset-top));
-    background: rgba(5, 6, 10, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: inherit;
-  }
-  .brand-mark {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, rgba(0,240,255,0.12), rgba(255,43,214,0.10));
-    border: 1px solid rgba(0, 240, 255, 0.4);
-    display: grid; place-items: center;
-    color: #fff;
-    font-family: 'Orbitron', serif;
-    font-weight: 900;
-    font-size: 18px;
-    box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
-    text-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
-  }
-  .brand-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.06em;
-    color: #f4faff;
-  }
-  .brand-title .pro {
-    color: var(--magenta);
-    font-style: italic;
-    margin-left: 3px;
-    text-shadow: 0 0 8px rgba(255, 43, 214, 0.5);
-  }
-  .nav {
-    display: flex;
-    gap: 16px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 4px 0;
-    transition: color 0.15s;
-  }
-  .nav a.active { color: var(--cyan); text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); }
-  .nav a:hover { color: var(--text); }
+  .topbar{position:sticky;top:0;z-index:50;padding:10px 20px;padding-top:calc(10px + env(safe-area-inset-top));background:rgba(5,6,10,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,240,255,0.10);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex-shrink:0}
+  .brand-mark{width:30px;height:30px;border:1px solid rgba(0,240,255,0.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:#00f0ff;font-size:14px;box-shadow:0 0 10px rgba(0,240,255,0.2)}
+  .brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:#f4faff}
+  .brand-title .pro{color:#ff2bd6;font-style:italic;margin-left:2px;text-shadow:0 0 8px rgba(255,43,214,.5)}
+  .topbar-center{display:flex;align-items:center;justify-content:center;gap:4px}
+  .topbar-center a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:6px;transition:all .15s;white-space:nowrap}
+  .nav-guide{color:#e8f0f5}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
+  .nav-learn{color:#22d87a;border-color:rgba(34,216,122,.18)!important}.nav-learn:hover{border-color:rgba(34,216,122,.45)!important}
+  .nav-market{color:#ff2bd6;border-color:rgba(255,43,214,.18)!important}.nav-market:hover{border-color:rgba(255,43,214,.45)!important}
+  .nav-tools{color:#ffb84d;border-color:rgba(255,184,77,.18)!important}.nav-tools:hover{border-color:rgba(255,184,77,.45)!important}
+  .nav-tao{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;text-decoration:none;font-family:'Share Tech Mono','Courier New',monospace;background:rgba(0,240,255,.05);border:1px solid rgba(0,240,255,.25);border-radius:8px;padding:5px 10px;transition:all .15s}
+  .nav-tao:hover{background:rgba(0,240,255,.10);border-color:rgba(0,240,255,.5)}
+  .nt-symbol{font-size:10px;color:#00f0ff;letter-spacing:.08em;font-weight:700}
+  .nt-price{font-size:12px;color:#e8f0f5;font-variant-numeric:tabular-nums;font-weight:500}
+  .nt-change{font-size:10px;font-variant-numeric:tabular-nums}
+  .nt-change.pos{color:#22d87a}.nt-change.neg{color:#ff4d5e}.nt-change.zero{color:#6b7385}
+  .nt-arrow{color:#00f0ff;font-size:11px;transition:transform .2s}
+  .nav-tao:hover .nt-arrow{transform:translateX(2px)}
+  @media(max-width:640px){.topbar-center a{display:none}.nt-change{display:none}.nav-tao{padding:3px 8px}}
 
   /* HERO */
   .hero {
@@ -138,7 +94,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -203,7 +159,7 @@
     text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
   }
   .hero-meta-label {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 9.5px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -260,7 +216,7 @@
     text-align: center;
   }
   .duration-card-name {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 10px;
     letter-spacing: 0.2em;
     color: var(--cyan);
@@ -288,7 +244,7 @@
     z-index: 1;
   }
   .modules-title {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     letter-spacing: 0.22em;
     color: var(--cyan);
@@ -345,12 +301,16 @@
   }
   .module-card.locked {
     opacity: 0.5;
-    cursor: not-allowed;
+    cursor: default;
+    pointer-events: none;
   }
-  .module-card.locked:hover {
+  .module-card.locked .module-num { color: var(--text-faint); text-shadow: none; }
+  .module-level.proxim {
+    color: var(--text-faint);
+    border-color: var(--text-faint);
     background: transparent;
-    padding-left: 22px;
   }
+  .lock-icon { font-size: 14px; color: var(--text-faint); }
   .module-num {
     font-family: 'Orbitron', monospace;
     font-weight: 700;
@@ -361,7 +321,7 @@
   }
   .module-info { min-width: 0; }
   .module-name {
-    font-family: 'Chakra Petch', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-weight: 600;
     font-size: 16px;
     color: var(--text);
@@ -379,14 +339,14 @@
     flex-shrink: 0;
   }
   .module-hours {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 11px;
     color: var(--text-muted);
     letter-spacing: 0.05em;
     white-space: nowrap;
   }
   .module-level {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 9px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -445,7 +405,7 @@
     gap: 10px;
     padding: 13px 22px;
     text-decoration: none;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 12px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -472,7 +432,7 @@
     border-top: 1px solid var(--border);
     padding: 30px 20px calc(30px + env(safe-area-inset-bottom));
     text-align: center;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 10px;
     letter-spacing: 0.2em;
     color: var(--text-faint);
@@ -509,80 +469,10 @@
       gap: 10px;
     }
     .module-arrow { display: none; }
-    .nav a:not(.active):not(.nav-tao){display:none}
-    .nav-tao{padding:3px 7px;font-size:10px;gap:5px}
-    .nav-tao .nt-arrow{font-size:11px}
-    .nav-tao .nt-change{display:none}
-  }
-
-
-
-  /* ===== TAO INLINE IN NAV ===== */
-  .nav-tao {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    border-radius: 6px;
-    background: rgba(0, 240, 255, 0.04);
-    text-decoration: none;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: #e8f0f5;
-    transition: all 0.15s;
-    line-height: 1;
-  }
-  .nav-tao:hover {
-    background: rgba(0, 240, 255, 0.10);
-    border-color: rgba(0, 240, 255, 0.55);
-    color: #fff;
-  }
-  .nav-tao .nt-price {
-    font-variant-numeric: tabular-nums;
-    font-weight: 500;
-  }
-  .nav-tao .nt-change {
-    font-variant-numeric: tabular-nums;
-    font-size: 10px;
-  }
-  .nav-tao .nt-change.pos { color: #22d87a; }
-  .nav-tao .nt-change.neg { color: #ff4d5e; }
-  .nav-tao .nt-change.zero { color: #6b7385; }
-  .nav-tao .nt-arrow {
-    color: #00f0ff;
-    font-size: 12px;
-    transition: transform 0.2s;
-  }
-  .nav-tao:hover .nt-arrow {
-    transform: translateX(2px);
-  }
-  .nav-tao .nt-symbol {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    font-size: 9px;
-    letter-spacing: 0.05em;
-    color: #00f0ff;
-    background: rgba(0, 240, 255, 0.08);
-    border: 1px solid rgba(0, 240, 255, 0.4);
-    border-radius: 4px;
-    padding: 3px 5px;
-    margin-right: 4px;
-    line-height: 1;
-    text-shadow: 0 0 4px rgba(0, 240, 255, 0.6);
-    box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
-  }
-  @media (max-width: 600px) {
-    .nav-tao .nt-change { display: none; }
-    .nav-tao { padding: 3px 8px; font-size: 10px; gap: 5px; }
-    .nav-tao .nt-arrow { font-size: 11px; }
   }
 
 </style>
+<script src="./js/i18n.js"></script>
 </head>
 <body>
 
@@ -591,19 +481,27 @@
     <div class="brand-mark">τ</div>
     <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
   </a>
-  <nav class="nav">
-    <a href="aprende.html" class="active">Aprende</a>
-    <a href="market.html">Market</a><a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)">Herramientas</a><a href="tao.html" class="nav-tao" title="Ver página de TAO"><span class="nt-symbol">TAO</span><span class="nt-price" id="nav-tao-price">—</span><span class="nt-change zero" id="nav-tao-change">—</span><span class="nt-arrow">→</span></a><a href="index.html">Inicio</a>
-  </nav>
+  <div class="topbar-center">
+    <div class="btp-lang-slot"></div>
+    <a href="que-es-bittensor.html" class="nav-guide" data-i18n="nav.guide">Guide</a>
+    <a href="market.html" class="nav-market" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" class="nav-tools" data-i18n="nav.tools">Tools</a>
+  </div>
+  <a href="tao.html" class="nav-tao" id="nav-tao-link">
+    <span class="nt-symbol">TAO</span>
+    <span class="nt-price" id="nav-tao-price">—</span>
+    <span class="nt-change zero" id="nav-tao-change">—</span>
+    <span class="nt-arrow">→</span>
+  </a>
 </header>
 
 <section class="hero">
   <div class="hero-eyebrow">
     <span class="dot"></span>
-    Manual técnico · Edición abril 2026
+    <span data-i18n="avanzado.eyebrow">Manual técnico · Edición abril 2026</span>
   </div>
-  <h1>Aprende <span class="highlight">Bittensor</span> desde cero</h1>
-  <p class="hero-subtitle">
+  <h1 data-i18n-html="avanzado.title">Aprende <span class="highlight">Bittensor</span> desde cero</h1>
+  <p class="hero-subtitle" data-i18n="avanzado.subtitle">
     Manual completo en español. 18 módulos progresivos que te llevan desde no saber qué es
     una blockchain hasta crear tu propia subnet. Con fórmulas reales, ejercicios prácticos
     y referencias oficiales.
@@ -611,22 +509,22 @@
   <div class="hero-meta">
     <div class="hero-meta-item">
       <div class="hero-meta-value">18</div>
-      <div class="hero-meta-label">Módulos</div>
+      <div class="hero-meta-label" data-i18n="aprende.meta.modules">Módulos</div>
     </div>
     <div class="hero-meta-item">
       <div class="hero-meta-value">≈ 105h</div>
-      <div class="hero-meta-label">Duración</div>
+      <div class="hero-meta-label" data-i18n="aprende.meta.duration">Duración</div>
     </div>
     <div class="hero-meta-item">
       <div class="hero-meta-value">0€</div>
-      <div class="hero-meta-label">Coste</div>
+      <div class="hero-meta-label" data-i18n="aprende.meta.cost">Coste</div>
     </div>
   </div>
 </section>
 
 <div class="intro">
   <div class="intro-box">
-    <h2>Sobre este manual</h2>
+    <h2 data-i18n="aprende.intro.title">Sobre este manual</h2>
     <p>
       Este manual está pensado para alguien que parte de cero y quiere alcanzar un dominio
       sólido del ecosistema Bittensor en aproximadamente 105 horas de estudio. No asume
@@ -649,17 +547,17 @@
 <div class="duration-table">
   <div class="duration-grid">
     <div class="duration-card">
-      <div class="duration-card-name">Intensivo</div>
+      <div class="duration-card-name" data-i18n="aprende.pace.intensive">Intensivo</div>
       <div class="duration-card-pace">5 h/día (lun-vie)</div>
       <div class="duration-card-time">≈ 5 semanas</div>
     </div>
     <div class="duration-card">
-      <div class="duration-card-name">Estándar</div>
+      <div class="duration-card-name" data-i18n="aprende.pace.standard">Estándar</div>
       <div class="duration-card-pace">2 h/día (lun-vie)</div>
       <div class="duration-card-time">≈ 11 semanas</div>
     </div>
     <div class="duration-card">
-      <div class="duration-card-name">Pausado</div>
+      <div class="duration-card-name" data-i18n="aprende.pace.slow">Pausado</div>
       <div class="duration-card-pace">1 h/día (lun-dom)</div>
       <div class="duration-card-time">≈ 15 semanas</div>
     </div>
@@ -667,12 +565,12 @@
 </div>
 
 <section class="modules-section">
-  <div class="modules-title">// Plan de estudio</div>
-  <h2 class="modules-heading">Los <em>18 módulos</em></h2>
+  <div class="modules-title" data-i18n="avanzado.study.label">// Plan de estudio</div>
+  <h2 class="modules-heading" data-i18n-html="avanzado.study.heading">Los <em>18 módulos</em></h2>
 
   <div class="module-list">
 
-    <a href="aprende-modulo-01.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">01</div>
       <div class="module-info">
         <div class="module-name">Fundamentos de Bittensor</div>
@@ -680,12 +578,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>
-        <span class="module-level inicial">Inicial</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-02.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">02</div>
       <div class="module-info">
         <div class="module-name">La blockchain Subtensor</div>
@@ -693,12 +591,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>
-        <span class="module-level inicial">Inicial</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-03.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">03</div>
       <div class="module-info">
         <div class="module-name">Tokenomics: TAO, alpha y halving</div>
@@ -706,12 +604,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">8h</span>
-        <span class="module-level intermedio">Intermedio</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-04.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">04</div>
       <div class="module-info">
         <div class="module-name">Subnets, AMMs y Dynamic TAO</div>
@@ -719,12 +617,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">8h</span>
-        <span class="module-level intermedio">Intermedio</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-05.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">05</div>
       <div class="module-info">
         <div class="module-name">Neuronas: axon, dendrite, synapse</div>
@@ -732,12 +630,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">5h</span>
-        <span class="module-level intermedio">Intermedio</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-06.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">06</div>
       <div class="module-info">
         <div class="module-name">Mecanismos de incentivos</div>
@@ -745,12 +643,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">5h</span>
-        <span class="module-level intermedio">Intermedio</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-07.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">07</div>
       <div class="module-info">
         <div class="module-name">Yuma Consensus en profundidad</div>
@@ -758,12 +656,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">10h</span>
-        <span class="module-level avanzado">Avanzado</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-08.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">08</div>
       <div class="module-info">
         <div class="module-name">Promedios móviles exponenciales (EMA)</div>
@@ -771,12 +669,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">3h</span>
-        <span class="module-level avanzado">Avanzado</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-09.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">09</div>
       <div class="module-info">
         <div class="module-name">Wallets, claves y seguridad</div>
@@ -784,12 +682,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>
-        <span class="module-level inicial">Inicial</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-10.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">10</div>
       <div class="module-info">
         <div class="module-name">Staking y delegación</div>
@@ -797,12 +695,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">3h</span>
-        <span class="module-level inicial">Inicial</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-11.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">11</div>
       <div class="module-info">
         <div class="module-name">Mining: práctica completa</div>
@@ -810,12 +708,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">8h</span>
-        <span class="module-level avanzado">Avanzado</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-12.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">12</div>
       <div class="module-info">
         <div class="module-name">Validating: práctica completa</div>
@@ -823,12 +721,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">6h</span>
-        <span class="module-level avanzado">Avanzado</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-13.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">13</div>
       <div class="module-info">
         <div class="module-name">Crear una subnet</div>
@@ -836,12 +734,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">12h</span>
-        <span class="module-level avanzado">Avanzado</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-14.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">14</div>
       <div class="module-info">
         <div class="module-name">BTCLI y Python SDK</div>
@@ -849,12 +747,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">8h</span>
-        <span class="module-level intermedio">Intermedio</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-15.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">15</div>
       <div class="module-info">
         <div class="module-name">Bittensor EVM</div>
@@ -862,12 +760,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>
-        <span class="module-level avanzado">Avanzado</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-16.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">16</div>
       <div class="module-info">
         <div class="module-name">Análisis de subnets reales</div>
@@ -875,12 +773,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">6h</span>
-        <span class="module-level intermedio">Intermedio</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-17.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">17</div>
       <div class="module-info">
         <div class="module-name">Estrategias de inversión y participación</div>
@@ -888,12 +786,12 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">4h</span>
-        <span class="module-level intermedio">Intermedio</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
-    <a href="aprende-modulo-18.html" class="module-card">
+    <div class="module-card locked">
       <div class="module-num">18</div>
       <div class="module-info">
         <div class="module-name">Plan de estudio y bibliografía</div>
@@ -901,26 +799,24 @@
       </div>
       <div class="module-meta">
         <span class="module-hours">2h</span>
-        <span class="module-level inicial">Inicial</span>
-        <span class="module-arrow">→</span>
+        <span class="module-level proxim">Próximamente</span>
+        <span class="lock-icon">🔒</span>
       </div>
-    </a>
+    </div>
 
   </div>
 </section>
 
 <section class="cta-section">
-  <h2>Empieza por el primero</h2>
-  <p>El Módulo 1 te explica el problema que Bittensor intenta resolver y por qué importa.</p>
-  <a href="aprende-modulo-01.html" class="cta-btn">
-    Empezar Módulo 01
+  <h2>Curso avanzado · Próximamente</h2>
+  <p>Mientras tanto, completa el nivel básico e intermedio para llegar preparado.</p>
+  <a href="aprende-intermedio.html" class="cta-btn">
+    <span>Ver nivel intermedio</span>
     <span class="arrow">→</span>
   </a>
 </section>
 
-<footer>
-  <a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero
-</footer>
+<footer><span data-i18n-html="avanzado.footer"><a href="index.html">Bittensor Pro</a> · 2026 · Material educativo en español · No es consejo financiero</span></footer>
 
 
 

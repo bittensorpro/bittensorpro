@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo I-11 Intermedio: Métricas y análisis del ecosistema — Bittensor Pro</title>
+<meta name="description" content="Cómo leer e interpretar las métricas clave del ecosistema Bittensor: TVL, APY, metagraph, emisiones, on-chain analytics y herramientas de análisis." />
+<link rel="canonical" href="https://bittensor.pro/aprende-intermedio-modulo-11.html" />
+<meta property="og:title" content="Módulo I-11 Intermedio: Métricas y análisis del ecosistema" />
+<meta property="og:description" content="Dashboard de métricas de Bittensor: TVL, APY, metagraph, emisiones y herramientas. 4 horas." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html" data-i18n="nav.levels">Niveles</a>
+    <a href="aprende-intermedio.html" class="active" data-i18n="intermedio.level">Intermedio</a>
+    <a href="market.html" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link" data-i18n="intermedio.back">← Volver al curso intermedio</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO I-11</div>
+  <h1>Métricas y análisis del <strong>ecosistema</strong></h1>
+  <p class="hero-sub">Cómo leer las métricas que realmente importan en Bittensor: supply global, TVL por subnet, metagraph de una subnet, APY de validators, emisiones diarias, y cómo combinar herramientas para tomar mejores decisiones.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span><span data-i18n="intermedio.level">Nivel Intermedio</span></span>
+    <span class="meta-tag neutral">4 horas</span>
+    <span class="meta-tag neutral">Prerrequisito: Módulo I-10</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title" data-i18n="mod.objectives">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Conocer las métricas globales de la red Bittensor y dónde consultarlas.</li>
+      <li>Entender las métricas clave de una subnet individual: TVL, APY, holders, emisiones.</li>
+      <li>Saber leer e interpretar el metagraph de una subnet.</li>
+      <li>Identificar tendencias a partir de datos on-chain: momentum de stake, ratio TVL/MCap, distribución de incentives.</li>
+      <li>Conocer las herramientas de análisis disponibles y cuándo usar cada una.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">// 01</div>
+    <h2>Métricas de la red global</h2>
+
+    <h3>1.1. El cuadro de mandos de Bittensor</h3>
+    <p>Antes de analizar subnets individuales, conviene entender el estado general de la red. Las métricas globales te dicen si el ecosistema crece o contrae, si hay confianza del mercado, y si las condiciones son favorables para minar, validar o invertir.</p>
+    <p>Las puedes consultar en <a href="red.html" style="color:var(--accent)">bittensor.pro/red.html</a> o en Taostats.io.</p>
+
+    <ul>
+      <li><strong>Supply emitido vs máximo (21M TAO):</strong> porcentaje del supply ya minado. A más supply emitido, menos presión inflacionaria futura. Actualmente en torno al 72-75%.</li>
+      <li><strong>TAO en staking:</strong> porcentaje del supply circulante que está bloqueado en staking. Alto staking = confianza del ecosistema, menos TAO líquido, presión alcista sobre precio.</li>
+      <li><strong>Subnets activas:</strong> número de subnets registradas. Cerca del límite de 128 indica alta demanda por slots.</li>
+      <li><strong>Cuentas y holders:</strong> crecimiento de wallets activas indica expansión del ecosistema. Métricas de adopción.</li>
+      <li><strong>Precio TAO y market cap:</strong> contexto de valoración del ecosistema completo.</li>
+    </ul>
+
+    <h3>1.2. Por qué el TAO stakeado es el indicador más importante</h3>
+    <p>El porcentaje de TAO en staking es el <strong>leading indicator más fiable</strong> del estado de salud del ecosistema. Cuando sube, significa que los holders confían suficiente en el protocolo para bloquear sus fondos. Cuando baja significativamente, puede indicar salida de capital o preocupación sobre el protocolo.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 02</div>
+    <h2>Métricas de una subnet individual</h2>
+
+    <p>Cada subnet tiene su propio minieconomía. Puedes analizar cualquiera en <a href="market.html" style="color:var(--accent)">bittensor.pro/market.html</a> y en la página de detalle <a href="subnet.html?id=1" style="color:var(--accent)">subnet.html?id=N</a>.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Métrica</th><th>Qué mide</th><th>Señal positiva</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>TVL (TAO stakeado)</strong></td><td>TAO total en el pool dTAO de la subnet</td><td>Creciente: confianza del mercado</td></tr>
+          <tr><td><strong>Precio alpha</strong></td><td>Precio del token nativo de la subnet en TAO</td><td>Tendencia alcista sostenida</td></tr>
+          <tr><td><strong>MCap alpha</strong></td><td>Capitalización total del alpha token</td><td>Proporcional al TVL (si MCap/TVL &lt; 1, puede estar infravalorado)</td></tr>
+          <tr><td><strong>Emisiones diarias</strong></td><td>TAO/día que recibe la subnet (proporcional al TVL)</td><td>Alto = subnet recibe mucho del pool de emisiones global</td></tr>
+          <tr><td><strong>APY validators</strong></td><td>Rendimiento anual de los validators de esta subnet</td><td>APY competitivo respecto a SN0</td></tr>
+          <tr><td><strong>Holders alpha</strong></td><td>Número de wallets con alpha positivo</td><td>Creciente = expansión de inversores</td></tr>
+          <tr><td><strong>UIDs activos</strong></td><td>Número de miners + validators activos</td><td>Alta competencia indica subnet relevante</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Ratio clave</div>
+      <p>El ratio <strong>MCap Alpha / TVL</strong> es muy útil. Si es menor que 1, el mercado valora el alpha por debajo del TAO que respalda el pool — puede indicar infravaloración. Si es muy superior a 1, hay mucha especulación sobre el futuro de la subnet más allá de su valor actual.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">// 03</div>
+    <h2>Leer el metagraph</h2>
+
+    <h3>3.1. Qué es el metagraph</h3>
+    <p>El <strong>metagraph</strong> es el estado actual de todos los UIDs activos en una subnet. Es una matriz de datos: para cada UID tienes su stake, trust, consensus, incentive, dividends, emission, información del axon (IP y puerto), y cuándo fue la última actualización.</p>
+    <p>Es la radiografía instantánea de quién está ganando y quién no dentro de la subnet. Un miner con bajo incentive está siendo mal valorado por los validators. Un validator con bajo dividends puede tener un trust bajo porque asigna pesos de forma inconsistente con el consenso.</p>
+
+    <h3>3.2. Cómo consultarlo</h3>
+    <p>Via CLI: <code style="font-family:'Share Tech Mono',monospace;color:var(--accent);font-size:14px">btcli subnets metagraph --netuid X</code>. Via bittensor.pro: en la página de subnet (subnet.html?id=N) se muestran los top validators con APY. Via SDK Python:</p>
+    <p><code style="font-family:'Share Tech Mono',monospace;color:var(--accent);font-size:13px;background:var(--bg-2);display:block;padding:12px 14px;border-radius:8px;border:1px solid var(--border-2);margin:12px 0">import bittensor as bt<br>mg = bt.metagraph(netuid=1)<br>print(mg.I)  # incentive array<br>print(mg.S)  # stake array</code></p>
+
+    <h3>3.3. Distribución de incentives: qué buscar</h3>
+    <p>En una subnet sana, la distribución de incentives sigue aproximadamente una <em>ley de potencia</em>: los mejores miners se llevan más, pero hay varios miners con rendimiento decente. Una distribución completamente plana (todos iguales) puede indicar un mecanismo de evaluación débil o colusión. Una distribución donde 2-3 UIDs se llevan casi todo el incentive puede indicar subnets de muy alta competencia técnica.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 04</div>
+    <h2>Identificar tendencias</h2>
+
+    <h3>4.1. Momentum de stake</h3>
+    <p>El TAO entrando o saliendo de un pool dTAO es el indicador más directo de la dirección del mercado sobre esa subnet. Si el TVL de una subnet crece semana a semana, el mercado está apostando por ella. Si decrece, está perdiendo confianza aunque el precio del alpha todavía no lo refleje del todo.</p>
+
+    <h3>4.2. Emisiones por UID activo</h3>
+    <p>Una subnet con 200 miners activos pero solo 5 TAO/día de emisiones tiene muy poco para repartir: unos 0,025 TAO/día por miner en promedio. Una subnet con 30 miners y 50 TAO/día de emisiones da ~1,67 TAO/miner/día. Las emisiones por UID activo son la métrica que un miner debería usar para comparar oportunidades.</p>
+
+    <h3>4.3. Variación 7d vs 30d del precio alpha</h3>
+    <p>Comparar el rendimiento del alpha a 7 días vs 30 días ayuda a distinguir entre momentum real y rebote. Un alpha que sube 15% en 7d pero lleva -40% en 30d puede estar en un rebote temporal. Un alpha que sube 10% en 7d y 35% en 30d muestra una tendencia alcista sostenida.</p>
+  </section>
+
+  <section>
+    <div class="section-num">// 05</div>
+    <h2>Herramientas de análisis</h2>
+
+    <h3>5.1. El stack de análisis de Bittensor</h3>
+    <ul>
+      <li><strong>bittensor.pro:</strong> dashboard de red global, market de subnets con filtros, calculadora de staking, tracker de halvings, comparador de MCap, buscador de wallet. Punto de partida para cualquier análisis.</li>
+      <li><strong>Taostats.io:</strong> explorador on-chain completo. Histórico de bloques, extrinsics, cuentas, subnets, validators, miners. El más completo para análisis profundo.</li>
+      <li><strong>dune.com:</strong> dashboards SQL on-chain avanzados. Permite crear análisis personalizados si sabes SQL.</li>
+      <li><strong>TradingView:</strong> para análisis técnico del precio de TAO (gráficas, indicadores, patrones). No específico de Bittensor pero útil para el timing de entrada/salida.</li>
+    </ul>
+
+    <h3>5.2. Cómo combinarlas</h3>
+    <p>Una sesión de análisis típica: (1) Revisar estado global en bittensor.pro/red.html, (2) Ver qué subnets tienen mejor momentum en bittensor.pro/market.html, (3) Para las candidatas, profundizar en Taostats para ver histórico de TVL y validators activos, (4) Si vas a minar, consultar el metagraph via CLI para ver la distribución de incentives real.</p>
+  </section>
+
+  <div class="glosario">
+    <div class="glosario-title" data-i18n="mod.glossary">Glosario del módulo</div>
+    <div class="glosario-item"><div class="glosario-term">TVL</div><div class="glosario-def">Total Value Locked. TAO total stakeado en el pool dTAO de una subnet. Indicador principal de confianza del mercado en esa subnet.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Metagraph</div><div class="glosario-def">Estado actual de todos los UIDs activos en una subnet: stake, incentive, trust, consensus, emisiones, axon info.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Incentive</div><div class="glosario-def">Porcentaje de las emisiones de la subnet que recibe cada UID de miner. Determina los ingresos del minero.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Emisiones diarias</div><div class="glosario-def">TAO que recibe una subnet cada día, proporcional a su TVL respecto al TVL total del ecosistema.</div></div>
+    <div class="glosario-item"><div class="glosario-term">APY</div><div class="glosario-def">Annual Percentage Yield. Rendimiento anual estimado de un validator o posición de staking, expresado como porcentaje.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Holders</div><div class="glosario-def">Número de wallets que tienen saldo positivo de un activo (TAO o alpha de una subnet).</div></div>
+    <div class="glosario-item"><div class="glosario-term">Ratio MCap/TVL</div><div class="glosario-def">Capitalización del alpha token dividida entre el TAO stakeado en su pool. Por encima de 1 indica prima especulativa; por debajo puede indicar infravaloración.</div></div>
+    <div class="glosario-item"><div class="glosario-term">Momentum de stake</div><div class="glosario-def">Tendencia del TAO entrando o saliendo del pool de una subnet en las últimas horas/días. Indicador adelantado del precio del alpha.</div></div>
+  </div>
+
+  <div class="ejercicios">
+    <div class="ejercicios-title" data-i18n="mod.exercises">// Ejercicios</div>
+    <ol>
+      <li>Entra en bittensor.pro/red.html y anota el porcentaje de TAO en staking respecto al supply total. ¿Qué señal te da ese número sobre la confianza actual del ecosistema?</li>
+      <li>Elige 3 subnets del market y calcula el ratio MCap Alpha / TVL para cada una. ¿Cuál parece más sobrevaluada especulativamente? ¿Cuál más infravalorada respecto al TAO que respalda su pool?</li>
+      <li>Busca en bittensor.pro/market.html una subnet con más de 50 miners activos. Calcula las emisiones por UID activo y compara con una subnet con menos de 20 miners. ¿En cuál preferirías minar si los requisitos de hardware fueran iguales?</li>
+      <li>Explica por qué una subnet con TVL creciente pero precio de alpha estancado puede ser una buena señal, mientras que una con precio de alpha subiendo pero TVL bajando puede ser una señal de alerta.</li>
+      <li>¿Para qué usarías TradingView en el análisis de Bittensor? ¿Y Taostats? ¿Y el metagraph via CLI? Explica el caso de uso específico de cada herramienta.</li>
+    </ol>
+  </div>
+
+  <div class="referencias">
+    <div class="referencias-title" data-i18n="mod.refs">// Vídeos y referencias</div>
+    <ul>
+      <li><strong>bittensor.pro/red.html</strong> — Dashboard global de la red en tiempo real.</li>
+      <li><strong>Taostats explorador:</strong> <a href="https://taostats.io" target="_blank" rel="noopener">taostats.io</a> — datos on-chain históricos y en tiempo real.</li>
+      <li><strong>Documentación metagraph (SDK):</strong> <a href="https://docs.bittensor.com/python-api/metagraph" target="_blank" rel="noopener">docs.bittensor.com/python-api/metagraph</a></li>
+      <li><strong>Dune Analytics dashboards Bittensor:</strong> busca «Bittensor» en <a href="https://dune.com" target="_blank" rel="noopener">dune.com</a> para dashboards comunitarios avanzados.</li>
+    </ul>
+  </div>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-intermedio-modulo-12.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo I-12</div>
+      <div class="siguiente-title">Construir sobre Bittensor: APIs y SDK</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · <span data-i18n="intermedio.level">Nivel Intermedio</span> · Módulo I-11 · Mayo 2026 · <a href="aprende-intermedio.html"><span data-i18n="intermedio.back_course">Volver al curso</span></a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

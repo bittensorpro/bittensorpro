@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Módulo I-01 Intermedio: Subtensor — la blockchain de Bittensor — Bittensor Pro</title>
+<meta name="description" content="Aprende qué es Subtensor, cómo funciona la blockchain basada en Substrate, estructura de cuentas, pallets, extrinsics y nodos de red de Bittensor." />
+<link rel="canonical" href="https://bittensor.pro/aprende-intermedio-modulo-01.html" />
+<meta property="og:title" content="Módulo I-01 Intermedio: Subtensor — la blockchain de Bittensor" />
+<meta property="og:description" content="La capa base de Bittensor: Substrate, extrinsics, pallets, SS58 y nodos de red explicados en profundidad." />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_ES" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05060a;--bg-2:#0d0f17;--border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);--text:#e8f0f5;--text-muted:#a8b2c0;--text-faint:#4a5263;--cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--accent:#00f0ff;--max-width:760px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(0,240,255,0.05),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(0,240,255,0.03),transparent 60%);pointer-events:none;z-index:0}
+.topbar{position:sticky;top:0;z-index:50;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top));background:rgba(5,6,10,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-logo{width:32px;height:32px;border:1px solid var(--cyan);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:var(--cyan);font-size:14px;box-shadow:0 0 12px rgba(0,240,255,0.18)}
+.brand-name{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;line-height:1}
+.brand-name em{font-style:italic;color:var(--magenta);font-weight:700}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.topbar-right a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.12em;color:var(--text-muted);padding:6px 10px;border:1px solid transparent;border-radius:6px;text-transform:uppercase;text-decoration:none;transition:all 0.15s}
+.topbar-right a:hover{color:var(--accent);border-color:var(--border-2)}
+.topbar-right a.active{color:var(--accent);border-color:rgba(0,240,255,0.4)}
+@media (max-width:600px){.topbar-right a{display:none}.topbar-right a.active{display:inline-block}}
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 32px;position:relative;z-index:2}
+.module-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px}
+.hero h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,6vw,48px);color:var(--text);line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 strong{font-style:normal;color:var(--accent);text-shadow:0 0 20px rgba(0,240,255,0.4)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.65}
+.hero-meta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;padding:4px 11px;border:1px solid var(--accent);background:rgba(0,240,255,0.06);border-radius:12px}
+.meta-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.meta-tag.neutral{color:var(--text-muted);border-color:var(--border-2);background:var(--bg-2)}
+.objetivos{max-width:var(--max-width);margin:0 auto;padding:0 20px 30px;position:relative;z-index:2}
+.obj-card{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--accent);border-radius:10px;padding:22px 24px}
+.obj-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px}
+.obj-list{list-style:none;display:flex;flex-direction:column;gap:7px}
+.obj-list li{position:relative;padding-left:22px;color:var(--text-muted);font-size:14.5px;line-height:1.6}
+.obj-list li::before{content:'›';position:absolute;left:5px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content{max-width:var(--max-width);margin:0 auto;padding:10px 20px 50px;position:relative;z-index:2}
+.content section{margin-bottom:50px}
+.section-num{font-family:'Outfit',sans-serif;font-size:11px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px}
+.content h2{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(22px,3.4vw,28px);color:var(--text);margin-bottom:22px;letter-spacing:0.01em;line-height:1.25}
+.content h3{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(19px,2.6vw,22px);color:var(--text);margin:28px 0 14px;line-height:1.3}
+.content p{color:var(--text-muted);font-size:15.5px;line-height:1.78;margin-bottom:16px}
+.content p strong{color:var(--text);font-weight:600}
+.content em{font-style:italic;color:var(--text)}
+.content ul{list-style:none;margin-bottom:18px}
+.content ul li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--text-muted);font-size:15px;line-height:1.7}
+.content ul li::before{content:'›';position:absolute;left:6px;top:-1px;color:var(--accent);font-weight:700;font-size:16px}
+.content ul li strong{color:var(--text);font-weight:600}
+.key-concept{background:linear-gradient(135deg,rgba(0,240,255,0.08),rgba(0,240,255,0.04));border:1px solid var(--accent);border-left:3px solid var(--accent);border-radius:10px;padding:20px 22px;margin:22px 0 26px}
+.key-concept-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.key-concept-label::before{content:'◆';color:var(--accent);font-size:9px}
+.key-concept p{color:var(--text);font-family:'Fraunces',serif;font-size:16.5px;line-height:1.65;font-style:italic;margin:0}
+.key-concept p strong{font-style:normal;color:var(--accent)}
+.table-wrap{margin:22px 0 30px;overflow-x:auto;border-radius:10px;border:1px solid var(--border-2);background:var(--bg-2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:480px}
+table th{font-family:'Outfit',sans-serif;font-size:10px;color:var(--accent);letter-spacing:0.16em;text-transform:uppercase;padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-2);background:rgba(0,240,255,0.04);white-space:nowrap}
+table td{padding:12px 14px;color:var(--text-muted);font-size:14px;line-height:1.55;border-bottom:1px solid var(--border);vertical-align:top}
+table tr:last-child td{border-bottom:none}
+table td strong{color:var(--text);font-weight:600}
+.glosario{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.glosario-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:18px;letter-spacing:0.02em}
+.glosario-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.glosario-item:last-child{border-bottom:none}
+.glosario-term{font-family:'Outfit',sans-serif;font-size:12px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.glosario-def{color:var(--text-muted);font-size:14px;line-height:1.6}
+.ejercicios{background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid var(--magenta);border-radius:12px;padding:24px;margin:30px 0}
+.ejercicios-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.ejercicios ol{margin:0;padding-left:22px;counter-reset:item;list-style:none}
+.ejercicios ol li{position:relative;counter-increment:item;padding-left:14px;margin-bottom:14px;color:var(--text-muted);font-size:14.5px;line-height:1.65}
+.ejercicios ol li::before{content:counter(item,decimal-leading-zero);position:absolute;left:-22px;color:var(--magenta);font-family:'Outfit',sans-serif;font-size:11px;font-weight:700}
+.referencias{background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;padding:24px;margin:30px 0}
+.referencias-title{font-family:'Outfit',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:16px}
+.referencias ul li{padding-left:18px;margin-bottom:10px}
+.referencias ul li::before{content:'↗';color:var(--cyan);left:4px;top:0}
+.referencias a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,240,255,0.3)}
+.referencias a:hover{border-bottom-color:var(--cyan)}
+.siguiente{max-width:var(--max-width);margin:30px auto 50px;padding:0 20px;position:relative;z-index:2}
+.siguiente-card{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:12px;text-decoration:none;color:inherit;transition:all 0.2s;gap:14px}
+.siguiente-card:hover{border-color:var(--accent);background:rgba(0,240,255,0.04);transform:translateX(2px)}
+.siguiente-info{min-width:0}
+.siguiente-label{font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px}
+.siguiente-title{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:18px;color:var(--text);line-height:1.3}
+.siguiente-arrow{font-size:22px;color:var(--accent);flex-shrink:0;transition:transform 0.2s}
+.siguiente-card:hover .siguiente-arrow{transform:translateX(4px)}
+.footer{text-align:center;padding:30px 20px 40px;font-family:'Outfit',sans-serif;font-size:10px;color:var(--text-faint);letter-spacing:0.18em;text-transform:uppercase;border-top:1px solid var(--border);position:relative;z-index:2}
+.footer a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){.content p,.content ul li{font-size:14.5px}.obj-list li{font-size:14px}.key-concept p{font-size:15px}table th,table td{font-size:12.5px;padding:10px 12px}.siguiente-card{padding:18px 20px}.siguiente-title{font-size:16px}}
+</style>
+<script src="./js/i18n.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-logo">τ</div>
+    <div class="brand-name">Bittensor <em>Pro</em></div>
+  </a>
+  <div class="topbar-right">
+    <a href="aprende.html" data-i18n="nav.levels">Niveles</a>
+    <a href="aprende-intermedio.html" class="active" data-i18n="intermedio.level">Intermedio</a>
+    <a href="market.html" data-i18n="nav.market">Market</a>
+    <a href="herramientas.html" style="color:#ffb84d;border-color:rgba(255,184,77,0.4)" data-i18n="nav.tools">Herramientas</a>
+  </div>
+</header>
+
+<div class="back-bar">
+  <a href="aprende-intermedio.html" class="back-link" data-i18n="intermedio.back">← Volver al curso intermedio</a>
+</div>
+
+<section class="hero">
+  <div class="module-num">// MÓDULO I-01</div>
+  <h1>Subtensor: <strong>la blockchain</strong> de Bittensor</h1>
+  <p class="hero-sub">La capa más profunda de Bittensor es una blockchain construida sobre Substrate, el mismo framework que sustenta Polkadot. Entender cómo funciona Subtensor — sus bloques, sus cuentas, sus módulos — es la base para comprender todo lo demás.</p>
+  <div class="hero-meta">
+    <span class="meta-tag"><span class="dot"></span><span data-i18n="intermedio.level">Nivel Intermedio</span></span>
+    <span class="meta-tag neutral">5h</span>
+    <span class="meta-tag neutral">Prerrequisito: Nivel Básico completo</span>
+  </div>
+</section>
+
+<section class="objetivos">
+  <div class="obj-card">
+    <div class="obj-title" data-i18n="mod.objectives">// Objetivos del módulo</div>
+    <ul class="obj-list">
+      <li>Entender qué es Substrate y por qué Bittensor lo eligió como base tecnológica.</li>
+      <li>Distinguir la estructura de una cuenta on-chain: coldkey, hotkey, nonce y saldos.</li>
+      <li>Comprender qué son los pallets y cuáles son los más relevantes en Subtensor.</li>
+      <li>Saber qué es un extrinsic y cómo difiere de una transacción convencional.</li>
+      <li>Conocer los tipos de nodos de la red y cómo conectarse al RPC público.</li>
+      <li>Comparar Subtensor con Ethereum y Bitcoin para contextualizar sus diferencias técnicas.</li>
+    </ul>
+  </div>
+</section>
+
+<main class="content">
+
+  <section>
+    <div class="section-num">01 / 05</div>
+    <h2>¿Qué es Subtensor?</h2>
+
+    <p>Subtensor es la blockchain que actúa como capa base de toda la red Bittensor. Registra cada identidad, cada peso, cada transferencia de TAO y cada parámetro de gobernanza. Sin Subtensor no hay Bittensor: es el libro contable inmutable al que todos los participantes de la red se anclan.</p>
+
+    <p>Está construida usando <strong>Substrate</strong>, el mismo framework modular de código abierto que usa Polkadot. Substrate no es una blockchain en sí misma, sino un kit de herramientas que permite construir blockchains soberanas con componentes intercambiables. Esto significa que Bittensor no necesita "vivir dentro" de otra blockchain: tiene su propio conjunto de validadores, su propio consenso y sus propias reglas.</p>
+
+    <p>Cada bloque en Subtensor se produce aproximadamente <strong>cada 12 segundos</strong>. A diferencia de Bitcoin, que tarda entre 10 y 60 minutos en considerar una transacción "segura" mediante confirmaciones acumuladas, Subtensor ofrece <em>finality inmediata</em> (o casi inmediata): una vez que un bloque es finalizado por el mecanismo de consenso GRANDPA, no puede ser revertido. No existe incertidumbre probabilística sobre si una transacción pasará o no.</p>
+
+    <p>Esto importa mucho en la práctica. Cuando registras un UID en una subnet, o cuando tu validator envía pesos al chain, la operación se confirma de forma definitiva en cuestión de segundos, no de minutos u horas. Esa certeza es lo que permite a Bittensor coordinar miles de nodos distribuidos con cadencias de tempo ajustadas a 360 bloques.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Subtensor produce un bloque cada 12 segundos y ofrece <strong>finality determinista</strong>: una vez confirmado, un bloque no puede revertirse. Esto contrasta con Bitcoin (finality probabilística) y es posible gracias al protocolo de finalización GRANDPA de Substrate.</p>
+    </div>
+
+    <h3>¿Por qué Substrate y no Ethereum?</h3>
+
+    <p>Bittensor podría haberse construido como un smart contract sobre Ethereum. Pero los smart contracts imponen límites severos: gas caro, throughput limitado, latencia impredecible y dificultad para introducir lógica de red compleja a nivel de consenso. Con Substrate, Bittensor tiene control total sobre las reglas del protocolo. Puede modificar cómo se validan los bloques, cómo se distribuyen las recompensas o cómo funciona la gobernanza mediante actualizaciones en cadena, sin necesidad de hard forks coordinados manualmente.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Característica</th>
+            <th>Subtensor (Bittensor)</th>
+            <th>Ethereum</th>
+            <th>Bitcoin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Tiempo de bloque</strong></td>
+            <td>~12 segundos</td>
+            <td>~12 segundos</td>
+            <td>~10 minutos</td>
+          </tr>
+          <tr>
+            <td><strong>Finalidad</strong></td>
+            <td>Determinista (GRANDPA)</td>
+            <td>Probabilística / Casper FFG</td>
+            <td>Probabilística (6+ bloques)</td>
+          </tr>
+          <tr>
+            <td><strong>Consenso</strong></td>
+            <td>BABE + GRANDPA (PoS)</td>
+            <td>Gasper (PoS)</td>
+            <td>Nakamoto (PoW)</td>
+          </tr>
+          <tr>
+            <td><strong>Supply máximo</strong></td>
+            <td>21 millones TAO</td>
+            <td>Sin límite fijo</td>
+            <td>21 millones BTC</td>
+          </tr>
+          <tr>
+            <td><strong>Smart contracts nativos</strong></td>
+            <td>No (lógica en pallets)</td>
+            <td>Sí (EVM)</td>
+            <td>No (Script limitado)</td>
+          </tr>
+          <tr>
+            <td><strong>Lógica de red</strong></td>
+            <td>Módulos Substrate (pallets)</td>
+            <td>Contratos Solidity</td>
+            <td>Protocolo Bitcoin Core</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">02 / 05</div>
+    <h2>Estructura de datos on-chain</h2>
+
+    <p>Cada cuenta en Subtensor está representada por un objeto <strong>AccountInfo</strong> que el runtime de Substrate mantiene en el storage. Este objeto incluye cuatro campos esenciales:</p>
+
+    <ul>
+      <li><strong>Nonce:</strong> un contador de transacciones enviadas desde esa dirección. Evita que la misma transacción se replaye. Si el nonce de tu firma no coincide con el esperado, la transacción se rechaza.</li>
+      <li><strong>Free balance:</strong> TAO disponible para transferencias o staking. Es el saldo que "ves" en tu wallet.</li>
+      <li><strong>Reserved balance:</strong> TAO bloqueado por operaciones específicas del runtime (por ejemplo, depósitos de existencia de cuenta). No puede transferirse hasta que se libere.</li>
+      <li><strong>Frozen balance:</strong> TAO sobre el que se aplican bloqueos de gobernanza (voto en referéndums). Puede superponerse con el free balance.</li>
+    </ul>
+
+    <h3>Coldkey y Hotkey: el sistema de claves de Bittensor</h3>
+
+    <p>Bittensor introduce una distinción fundamental que no existe en Ethereum: cada participante relevante de la red tiene <strong>dos pares de claves</strong> distintos.</p>
+
+    <p>La <strong>coldkey</strong> es la clave maestra. Controla el saldo en TAO, puede crear subnets, puede retirar fondos y es la que debes guardar offline con el mismo cuidado que una seed de hardware wallet. Comprometer una coldkey significa perder control sobre todos los fondos asociados.</p>
+
+    <p>La <strong>hotkey</strong> es la clave operacional. Un miner o validator la usa para firmar operaciones frecuentes en cadena: enviar pesos, actualizar axones, hacer commit de pesos. Como está expuesta en un servidor activo, tiene permisos acotados. Si se comprometiera, los fondos en TAO seguirían seguros en la coldkey. Eso sí, los alpha tokens asociados al stake delegado sobre esa hotkey podrían verse afectados.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Las direcciones en Subtensor usan el formato <strong>SS58</strong>, una codificación base-58 con checksum específica de Substrate. Las direcciones de Bittensor comienzan siempre por el número <strong>5</strong> (por ejemplo: <em>5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY</em>). Este prefijo identifica la red Bittensor dentro del ecosistema Substrate.</p>
+    </div>
+
+    <p>A diferencia de Ethereum (donde una dirección es simplemente la parte final del hash de la clave pública), SS58 incorpora un prefijo de red en el cálculo. Esto impide que uses accidentalmente una dirección de Kusama en Bittensor o viceversa, incluso si la clave privada es la misma.</p>
+  </section>
+
+  <section>
+    <div class="section-num">03 / 05</div>
+    <h2>Pallets y módulos del runtime</h2>
+
+    <p>En Substrate, la lógica del protocolo no vive en smart contracts desplegados por usuarios, sino en <strong>pallets</strong>: módulos compilados dentro del propio runtime de la blockchain. Piénsalos como "departamentos" del protocolo, cada uno responsable de un conjunto de funciones.</p>
+
+    <p>Subtensor tiene varios pallets relevantes para cualquier participante de la red:</p>
+
+    <ul>
+      <li><strong>SubtensorModule:</strong> el pallet central. Define las reglas de las subnets: registro de UIDs, mecanismo de Yuma Consensus, distribución de emisiones, staking, actualización de pesos, parámetros de cada subred. Es el corazón lógico de Bittensor.</li>
+      <li><strong>Balances pallet:</strong> gestiona los saldos TAO de todas las cuentas. Maneja transferencias simples, depósitos de existencia y los distintos tipos de bloqueo (free, reserved, frozen).</li>
+      <li><strong>Gov pallet:</strong> implementa el sistema de gobernanza on-chain. Permite crear referéndums, votar con TAO bloqueado y ejecutar cambios de parámetros una vez aprobados.</li>
+      <li><strong>System pallet:</strong> pallet base de Substrate que gestiona el runtime en sí: número de bloque, hash de bloque padre, eventos del sistema y el AccountInfo de cada cuenta.</li>
+    </ul>
+
+    <h3>Qué es un extrinsic</h3>
+
+    <p>En Substrate, toda acción que modifica el estado de la cadena se llama <strong>extrinsic</strong>. El término engloba lo que en Ethereum llamaríamos "transacción", pero es más general: un extrinsic puede ser una transferencia de TAO, una llamada a <code>SubtensorModule::set_weights</code>, un voto de gobernanza o incluso una operación interna del runtime.</p>
+
+    <p>Los extrinsics firmados (signed extrinsics) son los que genera un usuario: incluyen la firma de la coldkey o hotkey, el nonce, el payload de la llamada y la comisión. Los extrinsics sin firmar (unsigned) los puede insertar el runtime bajo condiciones específicas — por ejemplo, reportar comportamientos en el protocolo de equidad.</p>
+
+    <p>Cuando ves en el explorer de Subtensor que tu validator "llamó a <code>set_weights</code>", lo que está viendo es un extrinsic firmado con la hotkey, dirigido al pallet SubtensorModule, con los pesos codificados como parámetros.</p>
+  </section>
+
+  <section>
+    <div class="section-num">04 / 05</div>
+    <h2>Transacciones y comisiones</h2>
+
+    <p>El flujo de una transacción en Subtensor sigue los mismos pasos que cualquier blockchain Substrate: el cliente firma el extrinsic con su clave privada, lo serializa en formato SCALE (el codec binario de Substrate) y lo envía al nodo RPC. Desde allí, el nodo lo propaga a sus pares y lo incluye en el siguiente bloque disponible.</p>
+
+    <p>Las <strong>comisiones en TAO</strong> son bajas comparadas con Ethereum en periodos de congestión. Esto es intencional: muchas operaciones de la red (enviar pesos, registrar axones) deben ejecutarse con cadencia regular por parte de miles de nodos. Si las comisiones fueran altas, el coste operacional de los miners y validators haría inviable la participación.</p>
+
+    <p>Una diferencia importante respecto a Ethereum: <strong>Subtensor no tiene un mempool visible públicamente</strong> al estilo de Ethereum. En Ethereum, las transacciones pendientes son visibles para cualquiera antes de confirmarse, lo que habilita estrategias como el MEV (Maximal Extractable Value). En Substrate, el pool de transacciones es local a cada nodo y la visibilidad es mucho más limitada, lo que reduce la superficie de explotación front-running.</p>
+
+    <div class="key-concept">
+      <div class="key-concept-label">Concepto clave</div>
+      <p>Una transacción en Subtensor incluye: <strong>payload</strong> (qué pallet y qué función llamar, con qué argumentos), <strong>nonce</strong> (para evitar replays), <strong>era</strong> (ventana de validez en bloques) y <strong>firma</strong> (con la clave privada del remitente). El codec SCALE convierte todo esto en bytes compactos antes de enviarlo a la red.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">05 / 05</div>
+    <h2>Nodos de la red</h2>
+
+    <p>La red Subtensor está compuesta por diferentes tipos de nodos, cada uno con un rol distinto:</p>
+
+    <ul>
+      <li><strong>Validators (block producers):</strong> los nodos que participan activamente en la producción y finalización de bloques. Requieren stake y están sujetos a slashing si se comportan maliciosamente. No confundir con los "validators" de subnets Bittensor — en el contexto del blockchain son los nodos que crean bloques.</li>
+      <li><strong>Full nodes:</strong> mantienen el estado completo de la cadena y validan todos los bloques, pero no producen bloques. Son la columna vertebral de la descentralización y suficientes para cualquier aplicación que solo necesite leer o enviar transacciones.</li>
+      <li><strong>Archive nodes:</strong> además del estado actual, conservan el historial completo de todos los estados pasados. Son imprescindibles para consultas históricas (por ejemplo, "¿cuál era el metagraph de la subnet 1 en el bloque 2.000.000?"). Requieren mucho más almacenamiento.</li>
+    </ul>
+
+    <h3>Conectarse al RPC público</h3>
+
+    <p>OpenTensor Foundation mantiene un endpoint RPC público que cualquiera puede usar sin levantar su propio nodo:</p>
+
+    <p><strong>wss://entrypoint-finney.opentensor.ai:443</strong></p>
+
+    <p>A través de este endpoint puedes hacer consultas usando la librería <code>bittensor</code> de Python (o directamente con llamadas JSON-RPC si prefieres). Entre las consultas más útiles están: obtener el saldo de una dirección, leer el metagraph completo de una subnet (UIDs, stakes, pesos, axones), consultar los hiperparámetros activos de una subred (tempo, kappa, max allowed weights) y ver los últimos eventos de registro.</p>
+
+    <p>Para operaciones en producción con alta disponibilidad —por ejemplo, si gestionas un validator— lo recomendable es operar tu propio full node para no depender de la disponibilidad del endpoint público.</p>
+
+    <div class="glosario">
+      <div class="glosario-title" data-i18n="mod.glossary">Glosario del módulo</div>
+      <div class="glosario-item">
+        <div class="glosario-term">Substrate</div>
+        <div class="glosario-def">Framework modular de código abierto desarrollado por Parity Technologies para construir blockchains soberanas. Bittensor lo usa como base de Subtensor.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Extrinsic</div>
+        <div class="glosario-def">Cualquier operación que modifica el estado de una blockchain Substrate. Puede ser firmado (transacción de usuario) o sin firmar (operación interna del runtime).</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Pallet</div>
+        <div class="glosario-def">Módulo del runtime de Substrate que encapsula lógica de negocio específica. Los pallets son componentes reutilizables compilados dentro del protocolo, no smart contracts externos.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">SS58</div>
+        <div class="glosario-def">Formato de codificación de direcciones público en el ecosistema Substrate. Incluye un prefijo de red en el hash, lo que hace que las direcciones de Bittensor comiencen siempre por el número 5.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Coldkey</div>
+        <div class="glosario-def">Clave maestra en Bittensor. Controla el saldo TAO y los fondos. Debe mantenerse offline. Comprometer la coldkey implica pérdida de control total sobre los fondos.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Hotkey</div>
+        <div class="glosario-def">Clave operacional utilizada por miners y validators para firmar operaciones frecuentes en cadena. Está expuesta en servidores activos pero tiene permisos acotados respecto a los fondos en TAO.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Nonce</div>
+        <div class="glosario-def">Contador de transacciones enviadas desde una cuenta. Cada extrinsic firmado debe incluir el nonce correcto para ser válido, evitando ataques de replay.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">Finality</div>
+        <div class="glosario-def">Propiedad de una blockchain que indica que un bloque confirmado no puede revertirse. Subtensor tiene finality determinista gracias al protocolo GRANDPA, frente a la finality probabilística de Bitcoin.</div>
+      </div>
+      <div class="glosario-item">
+        <div class="glosario-term">SCALE</div>
+        <div class="glosario-def">Codec de serialización binaria de Substrate. Convierte tipos de datos del runtime en bytes compactos y eficientes para almacenamiento y transmisión en red.</div>
+      </div>
+    </div>
+
+    <div class="ejercicios">
+      <div class="ejercicios-title" data-i18n="mod.exercises">// Ejercicios</div>
+      <ol>
+        <li>Copia una dirección SS58 de ejemplo (empieza por 5) y verifica su validez usando la herramienta de wallet en <strong>wallet.html</strong>. Observa qué información puedes obtener: saldo libre, reservado y congelado.</li>
+        <li>Explica con tus propias palabras la diferencia entre un extrinsic firmado y uno sin firmar. ¿Por qué un miner necesita un extrinsic firmado para enviar pesos al chain?</li>
+        <li>Compara la finality determinista de Subtensor con la probabilística de Bitcoin. ¿En cuántos bloques de Bitcoin se considera una transacción "irreversible" en la práctica? ¿Cuánto tiempo representa eso?</li>
+        <li>Identifica cuál pallet de Subtensor sería responsable de las siguientes operaciones: (a) transferir TAO entre dos wallets, (b) registrar un nuevo UID en una subnet, (c) votar en un referéndum de gobernanza.</li>
+        <li>Investiga qué es el "existential deposit" en Substrate. ¿Qué sucede con una cuenta en Subtensor si su saldo cae por debajo de ese umbral mínimo?</li>
+      </ol>
+    </div>
+
+    <div class="referencias">
+      <div class="referencias-title" data-i18n="mod.refs">// Vídeos y referencias</div>
+      <ul>
+        <li><a href="https://docs.bittensor.com/subtensor-nodes" target="_blank" rel="noopener">Documentación oficial: Subtensor Nodes — docs.bittensor.com</a></li>
+        <li><a href="https://docs.substrate.io/learn/accounts-addresses-keys/" target="_blank" rel="noopener">Substrate Docs: Accounts, Addresses and Keys — docs.substrate.io</a></li>
+        <li><a href="https://docs.bittensor.com/getting-started/coldkey-hotkey" target="_blank" rel="noopener">Documentación oficial: Coldkey y Hotkey en Bittensor — docs.bittensor.com</a></li>
+        <li><a href="https://polkadot.js.org/docs/keyring/start/ss58/" target="_blank" rel="noopener">Polkadot.js Docs: Formato SS58 explicado — polkadot.js.org</a></li>
+        <li><a href="https://github.com/opentensor/subtensor" target="_blank" rel="noopener">Repositorio de Subtensor en GitHub — github.com/opentensor/subtensor</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<section class="siguiente">
+  <a href="aprende-intermedio-modulo-02.html" class="siguiente-card">
+    <div class="siguiente-info">
+      <div class="siguiente-label">Siguiente · Módulo I-02</div>
+      <div class="siguiente-title">Dynamic TAO y el sistema de alpha tokens</div>
+    </div>
+    <span class="siguiente-arrow">→</span>
+  </a>
+</section>
+
+<div class="footer">
+  Bittensor Pro · <span data-i18n="intermedio.level">Nivel Intermedio</span> · Módulo I-01 · Mayo 2026 · <a href="aprende-intermedio.html"><span data-i18n="intermedio.back_course">Volver al curso</span></a>
+</div>
+
+<script>
+(function(){
+  function savePage(){
+    try {
+      const here = location.pathname.replace(/^\//, '') || 'index.html';
+      sessionStorage.setItem('lastPage', here);
+    } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'hidden') savePage();
+  });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+</body>
+</html>

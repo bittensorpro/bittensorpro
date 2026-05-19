@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Buscador de Wallet · Bittensor Pro — Consulta saldo y stakes por dirección SS58</title>
+<meta name="description" content="Consulta el saldo TAO y la distribución de stake de cualquier dirección SS58 de Bittensor. Datos en vivo, sin registro ni login." />
+<link rel="canonical" href="https://bittensor.pro/wallet.html" />
+<meta property="og:title" content="Buscador de Wallet · Bittensor Pro" />
+<meta property="og:description" content="Pega una dirección SS58 y consulta saldo, stakes por subnet y valor en USD." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:url" content="https://bittensor.pro/wallet.html" />
+<meta name="theme-color" content="#05060a" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='48' fill='%230a0817'/%3E%3Cg transform='translate(128,128)' fill='%23ffffff'%3E%3Crect x='-65' y='-58' width='130' height='18' rx='2'/%3E%3Crect x='-12' y='-40' width='24' height='108' rx='2'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Fraunces:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a;--bg-2:#0d0f17;--bg-3:#141826;
+  --border:rgba(0,240,255,0.10);--border-2:rgba(0,240,255,0.22);
+  --text:#e8f0f5;--text-muted:#a8b2c0;--text-dim:#6b7385;--text-faint:#4a5263;
+  --cyan:#00f0ff;--magenta:#ff2bd6;--green:#22d87a;--red:#ff4d5e;--amber:#ffb84d;
+  --max-width:960px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Outfit',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.6;
+  overflow-x:hidden;min-height:100vh;
+}
+body::before{
+  content:"";position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,184,77,0.05), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 50% 100%, rgba(0,240,255,0.03), transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:50;padding:10px 20px;padding-top:calc(10px + env(safe-area-inset-top));background:rgba(5,6,10,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,240,255,0.10);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex-shrink:0}
+.brand-mark{width:30px;height:30px;border:1px solid rgba(0,240,255,0.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;color:#00f0ff;font-size:14px;box-shadow:0 0 10px rgba(0,240,255,0.2)}
+.brand-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:#f4faff}
+.brand-title .pro{color:#ff2bd6;font-style:italic;margin-left:2px;text-shadow:0 0 8px rgba(255,43,214,.5)}
+.topbar-center{display:flex;align-items:center;justify-content:center;gap:4px}
+.topbar-center a{font-family:'Outfit',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-guide{color:#e8f0f5}.nav-guide:hover{border-color:rgba(232,240,245,.25)!important}
+.nav-learn{color:#22d87a;border-color:rgba(34,216,122,.18)!important}.nav-learn:hover{border-color:rgba(34,216,122,.45)!important}
+.nav-market{color:#ff2bd6;border-color:rgba(255,43,214,.18)!important}.nav-market:hover{border-color:rgba(255,43,214,.45)!important}
+.nav-tools{color:#ffb84d;border-color:rgba(255,184,77,.18)!important}.nav-tools:hover{border-color:rgba(255,184,77,.45)!important}
+.nav-tao{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;text-decoration:none;font-family:'Share Tech Mono','Courier New',monospace;background:rgba(0,240,255,.05);border:1px solid rgba(0,240,255,.25);border-radius:8px;padding:5px 10px;transition:all .15s}
+.nav-tao:hover{background:rgba(0,240,255,.10);border-color:rgba(0,240,255,.5)}
+.nt-symbol{font-size:10px;color:#00f0ff;letter-spacing:.08em;font-weight:700}
+.nt-price{font-size:12px;color:#e8f0f5;font-variant-numeric:tabular-nums;font-weight:500}
+.nt-change{font-size:10px;font-variant-numeric:tabular-nums}
+.nt-change.pos{color:#22d87a}.nt-change.neg{color:#ff4d5e}.nt-change.zero{color:#6b7385}
+.nt-arrow{color:#00f0ff;font-size:11px;transition:transform .2s}
+.nav-tao:hover .nt-arrow{transform:translateX(2px)}
+@media(max-width:640px){.topbar-center a{display:none}.nt-change{display:none}.nav-tao{padding:3px 8px}}
+
+.back-bar{max-width:var(--max-width);margin:0 auto;padding:18px 20px 0;position:relative;z-index:2}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--amber);letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;padding:6px 0}
+.back-link:hover{opacity:0.75}
+
+.hero{max-width:var(--max-width);margin:0 auto;padding:24px 20px 28px;position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-size:11px;letter-spacing:0.22em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;padding:5px 12px;border:1px solid var(--amber);background:rgba(255,184,77,0.06);border-radius:14px}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber)}
+h1{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(32px,5vw,44px);line-height:1.1;letter-spacing:-0.02em;margin-bottom:12px}
+h1 strong{font-style:normal;color:var(--amber);text-shadow:0 0 24px rgba(255,184,77,0.35)}
+.hero-sub{color:var(--text-muted);font-size:16px;line-height:1.6;max-width:660px}
+
+.content{max-width:var(--max-width);margin:0 auto;padding:6px 20px 60px;position:relative;z-index:2}
+
+/* SEARCH BOX */
+.search-box{
+  background:var(--bg-2);
+  border:1px solid var(--border-2);
+  border-radius:12px;
+  padding:20px 24px 22px;
+  margin-bottom:28px;
+}
+.search-label{
+  font-family:'Outfit',sans-serif;font-size:11px;
+  letter-spacing:0.18em;color:var(--amber);
+  text-transform:uppercase;margin-bottom:12px;
+  display:block;
+}
+.search-row{
+  display:flex;gap:8px;align-items:stretch;
+}
+.addr-input{
+  flex:1;min-width:0;
+  background:var(--bg-3);
+  border:1px solid var(--border-2);
+  border-radius:8px;
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  padding:12px 14px;
+  outline:none;
+  transition:border-color 0.15s;
+}
+.addr-input::placeholder{color:var(--text-faint);font-family:'Outfit',sans-serif;font-size:13px}
+.addr-input:focus{border-color:rgba(255,184,77,0.5)}
+.addr-input.invalid{border-color:rgba(255,77,94,0.6)}
+.paste-btn{
+  flex-shrink:0;
+  background:var(--bg-3);border:1px solid var(--border-2);
+  border-radius:8px;padding:0 14px;cursor:pointer;
+  color:var(--text-muted);transition:all 0.15s;
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;letter-spacing:0.10em;text-transform:uppercase;
+  font-family:'Outfit',sans-serif;
+}
+.paste-btn:hover{color:var(--amber);border-color:rgba(255,184,77,0.4)}
+.search-btn{
+  flex-shrink:0;
+  background:rgba(255,184,77,0.12);
+  border:1px solid rgba(255,184,77,0.5);
+  border-radius:8px;padding:12px 22px;
+  color:var(--amber);cursor:pointer;
+  font-family:'Outfit',sans-serif;font-size:13px;
+  font-weight:600;letter-spacing:0.06em;
+  transition:all 0.15s;
+}
+.search-btn:hover{background:rgba(255,184,77,0.20);border-color:var(--amber)}
+.search-btn:disabled{opacity:0.5;cursor:not-allowed}
+.search-hint{
+  font-size:12px;color:var(--text-faint);margin-top:10px;min-height:18px;
+  transition:color 0.15s;
+}
+.search-hint.error{color:var(--red)}
+@media (max-width:600px){
+  .search-row{flex-wrap:wrap}
+  .addr-input{flex-basis:100%}
+  .paste-btn{flex:1}
+  .search-btn{flex:2}
+}
+
+/* LOADING */
+.loading-state{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  padding:48px 20px;color:var(--text-muted);font-size:14px;
+}
+.spinner{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid rgba(255,184,77,0.2);
+  border-top-color:var(--amber);
+  animation:spin 0.8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ERROR CARD */
+.error-card{
+  background:rgba(255,77,94,0.05);
+  border:1px solid rgba(255,77,94,0.3);
+  border-left:3px solid var(--red);
+  border-radius:10px;padding:20px 24px;
+  margin-bottom:28px;
+}
+.error-card .error-title{
+  font-weight:600;color:var(--red);margin-bottom:6px;font-size:15px;
+}
+.error-card p{color:var(--text-muted);font-size:14px;line-height:1.6}
+
+/* STATS GRID */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+  gap:14px;
+  margin-bottom:28px;
+}
+.stat-card{
+  background:var(--bg-2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:20px 22px;
+  transition:border-color 0.2s;
+}
+.stat-card:hover{border-color:var(--border-2)}
+.stat-label{
+  font-family:'Outfit',sans-serif;font-size:10px;
+  letter-spacing:0.18em;color:var(--text-dim);
+  text-transform:uppercase;margin-bottom:10px;
+}
+.stat-value{
+  font-family:'Share Tech Mono',monospace;
+  font-size:22px;color:var(--text);line-height:1.2;
+  margin-bottom:4px;
+}
+.stat-value.amber{color:var(--amber)}
+.stat-sub{
+  font-size:12px;color:var(--text-faint);
+}
+
+/* ADDRESS DISPLAY */
+.addr-display{
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:10px;padding:14px 20px;
+  margin-bottom:20px;
+}
+.addr-display .addr-label{
+  font-family:'Outfit',sans-serif;font-size:10px;
+  letter-spacing:0.18em;color:var(--text-dim);
+  text-transform:uppercase;margin-bottom:4px;
+}
+.addr-display .addr-value{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--text-muted);word-break:break-all;
+}
+
+/* STAKES SECTION */
+.stakes-section{
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;margin-bottom:20px;
+}
+.section-title{
+  font-family:'Outfit',sans-serif;font-size:10px;
+  letter-spacing:0.22em;color:var(--text-dim);text-transform:uppercase;
+  padding:16px 20px 12px;
+  border-bottom:1px solid var(--border);
+}
+.stakes-table{
+  width:100%;border-collapse:collapse;font-size:13px;
+}
+.stakes-table thead th{
+  font-family:'Outfit',sans-serif;font-size:10px;
+  letter-spacing:0.14em;color:var(--text-dim);
+  text-transform:uppercase;text-align:left;
+  padding:10px 20px;border-bottom:1px solid var(--border);
+  font-weight:500;
+}
+.stakes-table thead th.right{text-align:right}
+.stakes-table tbody td{
+  padding:12px 20px;border-bottom:1px solid rgba(0,240,255,0.04);
+  vertical-align:middle;
+}
+.stakes-table tbody tr:last-child td{border-bottom:none}
+.stakes-table tbody tr:hover td{background:rgba(255,184,77,0.03)}
+.stakes-table td.right{text-align:right;font-family:'Share Tech Mono',monospace}
+.stakes-table .subnet-badge{
+  display:inline-flex;align-items:center;gap:6px;
+}
+.stakes-table .sn-num{
+  font-family:'Share Tech Mono',monospace;
+  font-size:11px;color:var(--amber);
+  background:rgba(255,184,77,0.08);
+  border:1px solid rgba(255,184,77,0.2);
+  border-radius:4px;padding:2px 7px;
+  min-width:38px;text-align:center;
+}
+.stakes-table .sn-root{
+  color:var(--cyan);
+  background:rgba(0,240,255,0.06);
+  border-color:rgba(0,240,255,0.25);
+}
+.stakes-table .hotkey-short{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--text-dim);
+}
+.bar-wrap{
+  display:flex;align-items:center;gap:8px;
+}
+.bar-bg{
+  width:80px;height:4px;background:var(--bg-3);
+  border-radius:2px;overflow:hidden;flex-shrink:0;
+}
+.bar-fill{
+  height:100%;background:var(--amber);border-radius:2px;
+  transition:width 0.4s;
+}
+.no-stakes{
+  padding:36px 20px;text-align:center;
+  color:var(--text-faint);font-size:14px;
+}
+
+/* DISCLAIMER */
+.disclaimer{
+  font-size:12px;color:var(--text-faint);
+  text-align:center;padding:12px 0 0;
+  line-height:1.6;
+}
+
+footer{
+  text-align:center;padding:24px 20px 32px;
+  font-size:12px;color:var(--text-faint);
+  border-top:1px solid var(--border);
+  position:relative;z-index:2;
+}
+footer a{color:var(--amber);text-decoration:none}
+</style>
+<script src="./js/i18n.js"></script>
+<script src="./js/api-cache.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <div class="brand-mark">τ</div>
+    <span class="brand-title">Bittensor<span class="pro">Pro</span></span>
+  </a>
+  <div class="topbar-center">
+    <div class="btp-lang-slot"></div>
+    <a href="que-es-bittensor.html" class="nav-guide" data-i18n="nav.guide">Guide</a>
+    <a href="aprende.html" class="nav-learn" data-i18n="nav.learn">Learn</a>
+    <a href="market.html" class="nav-market" data-i18n="nav.market">Market</a>
+  </div>
+  <a href="tao.html" class="nav-tao" id="nav-tao-link">
+    <span class="nt-symbol">TAO</span>
+    <span class="nt-price" id="nav-tao-price">—</span>
+    <span class="nt-change zero" id="nav-tao-change">—</span>
+    <span class="nt-arrow">→</span>
+  </a>
+</header>
+
+<div class="back-bar">
+  <a href="herramientas.html" class="back-link" data-i18n="tools.back">← Herramientas</a>
+</div>
+
+<section class="hero">
+  <div class="eyebrow"><span class="dot"></span><span data-i18n="wallet.eyebrow">Herramientas · Wallet</span></div>
+  <h1 data-i18n-html="wallet.title">Busca una <strong>wallet</strong></h1>
+  <p class="hero-sub" data-i18n="wallet.subtitle">Pega una dirección SS58 (coldkey) para ver el saldo libre, las posiciones de staking por subnet y el valor total en USD. Sin registro, sin login.</p>
+</section>
+
+<div class="content">
+
+  <!-- BUSCADOR -->
+  <div class="search-box">
+    <label class="search-label" for="addr-input" data-i18n="wallet.search.label">// Dirección SS58 (coldkey)</label>
+    <div class="search-row">
+      <input
+        type="text"
+        id="addr-input"
+        class="addr-input"
+        data-i18n="wallet.search.placeholder"
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="none"
+      />
+      <button class="paste-btn" id="paste-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span data-i18n="wallet.paste">Pegar</span>
+      </button>
+      <button class="search-btn" id="search-btn" data-i18n="wallet.search.btn">Consultar →</button>
+    </div>
+    <div class="search-hint" id="addr-hint" data-i18n="wallet.search.hint">Una dirección SS58 empieza por 5 y tiene 48 caracteres.</div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loading" class="loading-state" style="display:none">
+    <div class="spinner"></div>
+    <span data-i18n="wallet.loading">Consultando datos on-chain…</span>
+  </div>
+
+  <!-- ERROR -->
+  <div id="error-state" class="error-card" style="display:none">
+    <div class="error-title" id="error-title" data-i18n="wallet.error.title">Error al obtener los datos</div>
+    <p id="error-body" data-i18n="wallet.error.body">No se pudo conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.</p>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div id="results" style="display:none">
+
+    <!-- DIRECCIÓN -->
+    <div class="addr-display">
+      <div class="addr-label" data-i18n="wallet.col.coldkey">Coldkey</div>
+      <div class="addr-value" id="res-addr">—</div>
+    </div>
+
+    <!-- STATS GRID -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label" data-i18n="wallet.stat.balance">Saldo libre</div>
+        <div class="stat-value" id="res-balance">—</div>
+        <div class="stat-sub" id="res-balance-usd">— USD</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label" data-i18n="wallet.stat.staked">Total stakeado</div>
+        <div class="stat-value" id="res-staked">—</div>
+        <div class="stat-sub" id="res-staked-usd">— USD</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label" data-i18n="wallet.stat.total">Valor total</div>
+        <div class="stat-value amber" id="res-total">—</div>
+        <div class="stat-sub" id="res-total-usd" data-i18n="wallet.stat.total_sub">libre + SN0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label" data-i18n="wallet.stat.positions">Posiciones</div>
+        <div class="stat-value" id="res-positions">—</div>
+        <div class="stat-sub" data-i18n="wallet.stat.pos_sub">subnets con stake</div>
+      </div>
+    </div>
+
+    <!-- TABLA DE STAKES -->
+    <div class="stakes-section" id="stakes-section" style="display:none">
+      <div class="section-title" data-i18n="wallet.table.title">// Stakes por subnet</div>
+      <table class="stakes-table">
+        <thead>
+          <tr>
+            <th data-i18n="wallet.table.subnet">Subnet</th>
+            <th class="right" data-i18n="wallet.table.stake">Stake</th>
+            <th class="right" data-i18n="wallet.table.pct">% del total</th>
+            <th class="right" data-i18n="wallet.table.hotkey">Hotkey delegada</th>
+          </tr>
+        </thead>
+        <tbody id="stakes-body"></tbody>
+      </table>
+    </div>
+
+    <div class="disclaimer" data-i18n-html="wallet.disclaimer">
+      Datos 100% on-chain vía RPC de Bittensor — sin API key, sin cuota.
+      SN0 = TAO (raíz). Otras subnets = tokens alpha propios de cada subnet.
+      <strong>No es consejo financiero.</strong>
+    </div>
+
+  </div>
+
+</div>
+
+<footer data-i18n-html="wallet.footer">
+  <a href="index.html">Bittensor Pro</a> · 2026 · <a href="herramientas.html">Herramientas</a> · No es consejo financiero
+</footer>
+
+<script>
+const _t = window.t || (k => k);
+const API_BASE = 'https://tao360.qrchd889gj.workers.dev';
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function fmtAmount(rao) {
+  const v = rao / 1e9;
+  if (v >= 1000) return v.toLocaleString('es-ES', { maximumFractionDigits: 2 });
+  return v.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+}
+
+function fmtUsd(tao, price) {
+  if (!price || isNaN(tao) || isNaN(price)) return '— USD';
+  const usd = tao * price;
+  if (usd >= 1_000_000) return '$' + (usd / 1_000_000).toLocaleString('es-ES', { maximumFractionDigits: 2 }) + 'M';
+  if (usd >= 1000) return '$' + usd.toLocaleString('es-ES', { maximumFractionDigits: 0 });
+  return '$' + usd.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function shortAddr(addr) {
+  if (!addr || addr.length < 12) return addr;
+  return addr.slice(0, 6) + '…' + addr.slice(-4);
+}
+
+function isValidSS58(addr) {
+  if (!addr) return false;
+  const s = addr.trim();
+  if (s.length < 46 || s.length > 50) return false;
+  return /^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/.test(s);
+}
+
+// ── UI State ──────────────────────────────────────────────────────────────────
+
+function showState(state) {
+  document.getElementById('loading').style.display     = state === 'loading' ? 'flex' : 'none';
+  document.getElementById('error-state').style.display = state === 'error'   ? 'block' : 'none';
+  document.getElementById('results').style.display     = state === 'results' ? 'block' : 'none';
+}
+
+function showError(title, body) {
+  document.getElementById('error-title').textContent = title;
+  document.getElementById('error-body').textContent = body;
+  showState('error');
+}
+
+// ── Fetch helper ──────────────────────────────────────────────────────────────
+
+async function apiGet(path) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 15_000);
+  try {
+    const res = await fetch(API_BASE + path, { signal: ctrl.signal });
+    clearTimeout(t);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+// ── Main lookup ───────────────────────────────────────────────────────────────
+
+async function lookup(address) {
+  const addr = address.trim();
+  document.getElementById('search-btn').disabled = true;
+  document.getElementById('addr-hint').textContent = '';
+  document.getElementById('addr-hint').className = 'search-hint';
+  showState('loading');
+
+  const [priceResult, balanceResult, stakesResult] = await Promise.allSettled([
+    fetchTao('/api/price/latest/v1?asset=tao'),
+    apiGet(`/rpc/account-balance?address=${encodeURIComponent(addr)}`),
+    apiGet(`/rpc/account-stakes?address=${encodeURIComponent(addr)}`),
+  ]);
+
+  document.getElementById('search-btn').disabled = false;
+
+  const price   = priceResult.status === 'fulfilled'
+    ? parseFloat(priceResult.value?.data?.[0]?.price) : null;
+
+  const balanceOk = balanceResult.status === 'fulfilled';
+  const freeRao   = balanceOk ? parseFloat(balanceResult.value?.free_rao ?? '0') : null;
+  const freeTao   = freeRao != null ? freeRao / 1e9 : null;
+
+  const stakesOk = stakesResult.status === 'fulfilled';
+  const stakes   = stakesOk ? (stakesResult.value?.stakes ?? []) : [];
+
+  if (!balanceOk && !stakesOk) {
+    showError(_t('wallet.error.title'), _t('wallet.error.rpc'));
+    return;
+  }
+
+  // ── Cálculos ────────────────────────────────────────────────────────────────
+  const sn0Stake  = stakes.find(s => s.netuid === 0);
+  const sn0Tao    = sn0Stake ? sn0Stake.stake_alpha / 1e9 : 0;
+  const baseTao   = (freeTao ?? 0) + sn0Tao;
+  const maxAlpha  = stakes.length ? stakes[0].stake_alpha : 1;
+  const totalAlpha = stakes.reduce((s, r) => s + r.stake_alpha, 0) || 1;
+
+  // ── Dirección ────────────────────────────────────────────────────────────────
+  document.getElementById('res-addr').textContent = addr;
+
+  // ── Stats cards ──────────────────────────────────────────────────────────────
+  document.getElementById('res-balance').textContent =
+    balanceOk ? fmtAmount(freeRao) + ' τ' : '—';
+  document.getElementById('res-balance-usd').textContent =
+    (balanceOk && price) ? fmtUsd(freeTao, price) : '—';
+
+  document.getElementById('res-staked').textContent =
+    stakesOk ? fmtAmount(sn0Stake?.stake_alpha ?? 0) + ' τ' : '—';
+  document.getElementById('res-staked-usd').textContent =
+    (stakesOk && price) ? fmtUsd(sn0Tao, price) : (stakesOk ? _t('wallet.stat.sn0_sub') : '—');
+
+  document.getElementById('res-total').textContent =
+    (balanceOk || stakesOk) ? fmtAmount(baseTao * 1e9) + ' τ' : '—';
+  document.getElementById('res-total-usd').textContent =
+    ((balanceOk || stakesOk) && price) ? fmtUsd(baseTao, price) : _t('wallet.stat.total_sub');
+
+  document.getElementById('res-positions').textContent =
+    stakesOk ? stakes.length : '—';
+
+  // ── Tabla de stakes ──────────────────────────────────────────────────────────
+  const section = document.getElementById('stakes-section');
+  const tbody   = document.getElementById('stakes-body');
+  tbody.innerHTML = '';
+
+  if (stakesOk && stakes.length > 0) {
+    section.style.display = 'block';
+    stakes.forEach(row => {
+      const isRoot  = row.netuid === 0;
+      const symbol  = isRoot ? 'τ' : 'α';
+      const amount  = fmtAmount(row.stake_alpha);
+      const barPct  = Math.round(row.stake_alpha / maxAlpha * 100);
+      const pct     = (row.stake_alpha / totalAlpha * 100).toFixed(1);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="subnet-badge">
+            <span class="sn-num${isRoot ? ' sn-root' : ''}">${isRoot ? 'SN0 τ' : 'SN' + row.netuid}</span>
+            ${row.hotkey ? `<span class="hotkey-short">${shortAddr(row.hotkey)}</span>` : ''}
+          </div>
+        </td>
+        <td class="right">${amount} ${symbol}</td>
+        <td class="right">
+          <div class="bar-wrap" style="justify-content:flex-end">
+            <div class="bar-bg"><div class="bar-fill" style="width:${barPct}%"></div></div>
+            ${pct}%
+          </div>
+        </td>
+        <td class="right">
+          ${row.hotkey ? `<span class="hotkey-short">${shortAddr(row.hotkey)}</span>` : '—'}
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  } else if (stakesOk && stakes.length === 0) {
+    section.style.display = 'block';
+    tbody.innerHTML = `<tr><td colspan="4" class="no-stakes">${_t('wallet.no_stakes')}</td></tr>`;
+  } else {
+    section.style.display = 'none';
+  }
+
+  showState('results');
+}
+
+// ── UI Events ─────────────────────────────────────────────────────────────────
+
+const input = document.getElementById('addr-input');
+const hint  = document.getElementById('addr-hint');
+
+function validateInput() {
+  const v = input.value.trim();
+  if (!v) {
+    input.classList.remove('invalid');
+    hint.textContent = _t('wallet.search.hint');
+    hint.className = 'search-hint';
+    return false;
+  }
+  if (!isValidSS58(v)) {
+    input.classList.add('invalid');
+    hint.textContent = _t('wallet.search.invalid');
+    hint.className = 'search-hint error';
+    return false;
+  }
+  input.classList.remove('invalid');
+  hint.textContent = '';
+  return true;
+}
+
+input.addEventListener('input', () => {
+  if (input.value.trim().length > 5) validateInput();
+});
+
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (validateInput()) lookup(input.value);
+  }
+});
+
+document.getElementById('search-btn').addEventListener('click', () => {
+  if (validateInput()) lookup(input.value);
+});
+
+document.getElementById('paste-btn').addEventListener('click', async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text) {
+      input.value = text.trim();
+      input.dispatchEvent(new Event('input'));
+    }
+  } catch {
+    input.focus();
+  }
+});
+
+// Autorun si viene dirección en ?address= o #addr
+(function() {
+  const params = new URLSearchParams(location.search);
+  const addr = params.get('address') || params.get('addr') || location.hash.slice(1);
+  if (addr && isValidSS58(addr)) {
+    input.value = addr;
+    lookup(addr);
+  }
+})();
+
+// Smart back button
+(function(){
+  function savePage(){
+    try { sessionStorage.setItem('lastPage', location.pathname.replace(/^\//,'') || 'index.html'); } catch(e){}
+  }
+  window.addEventListener('beforeunload', savePage);
+  document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden') savePage(); });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if(a && a.href && a.host === location.host) savePage();
+  });
+})();
+</script>
+
+<script>
+(async function loadNavTao(){
+  const B='https://tao360.qrchd889gj.workers.dev';
+  function fU(n){if(!n&&n!==0)return'—';if(n<1)return'$'+n.toFixed(3);if(n<100)return'$'+n.toFixed(2);return'$'+Math.round(n).toLocaleString('en-US')}
+  function fP(v){if(v===null||v===undefined||isNaN(v))return'—';return(v>0?'+':'')+v.toFixed(1)+'%'}
+  function pC(v){if(v>0.001)return'pos';if(v<-0.001)return'neg';return'zero'}
+  try{
+    const r=await fetch(B+'/api/price/latest/v1?asset=tao'),j=await r.json();
+    if(j&&j.data&&j.data[0]){
+      const price=parseFloat(j.data[0].price)||0,ch=parseFloat(j.data[0].percent_change_24h)||0;
+      const pe=document.getElementById('nav-tao-price'),ce=document.getElementById('nav-tao-change');
+      if(pe)pe.textContent=fU(price);
+      if(ce){ce.textContent=fP(ch);ce.className='nt-change '+pC(ch)}
+    }
+  }catch(e){console.error('nav-tao load failed',e)}
+})();
+</script>
+
+</body>
+</html>
